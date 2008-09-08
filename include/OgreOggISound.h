@@ -25,12 +25,12 @@
 #include <Ogre.h>
 #include <al.h>
 #include <vorbis/vorbisfile.h>
+#include "OgreOggSoundCallback.h"
 
 #define BUFFER_SIZE (4096*4)
 
 namespace OgreOggSound
 {
-	
 	/**
 	 * Structure describing an ogg stream
 	 */
@@ -291,7 +291,30 @@ namespace OgreOggSound
 			Overridden function from MovableObject.
 		 */
 		virtual void visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables);
-		
+		/** Sets a callback for when sound finishes playing 
+		@remarks
+			Allows custom functions to be notified when this sound finishes playing.
+			@param
+				object pointer to this sound
+				function pointer to member function
+		*/
+		template<typename T>
+		void setFinishedCallback(T *object, void(T::*function)(OgreOggISound *sound))
+		{
+			mFinishedCB = new OSSCallbackPointer<T>(function, object);
+		}
+		/** Sets a callback for when sound loops
+		@remarks
+			Allows custom functions to be notified when this sound loops.
+			@param
+				object pointer to this sound
+				function pointer to member function
+		*/
+		template<typename T> void setLoopCallback(T *object, void(T::*function)(OgreOggISound *sound))
+		{
+			mLoopCB = new OSSCallbackPointer<T>(function, object);
+		}
+
 
 	private:
 	
@@ -339,6 +362,10 @@ namespace OgreOggSound
 		Ogre::DataStreamPtr mOgreOggStream;
 		ov_callbacks mOggCallbacks;
 
+		// Callbacks  
+		OOSCallback* mLoopCB;
+		OOSCallback* mFinishedCB;
+
 		/**
 		 * Sound properties 
 		 */
@@ -359,6 +386,7 @@ namespace OgreOggSound
 		Ogre::Real mOuterConeAngle;		// outer cone angle
 		Ogre::String mName;				// Sound name
 		bool mLoop;						// Loop status
+		bool mPlay;						// Play status
 		bool mStream;					// Stream flag
 		bool mSourceRelative;			// Relative position flag
 		bool mLocalTransformDirty;		// Transformation update flag

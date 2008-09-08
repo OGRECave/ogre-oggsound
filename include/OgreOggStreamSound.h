@@ -149,7 +149,6 @@ namespace OgreOggSound
 		ALuint mBuffers[NUM_BUFFERS];		// Sound data buffers
 		ALenum mFormat;						// OpenAL format
 		bool mStreamEOF;					// EOF flag
-		bool mPlay;							// Play flag
 
 		friend class OgreOggSoundManager;
 	};

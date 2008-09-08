@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\OgreOggSoundCallback.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\OgreOggSoundManager.h"
 				>
 			</File>

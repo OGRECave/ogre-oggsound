@@ -67,6 +67,7 @@ namespace OgreOggSound
 	mName(name),
 	mSource(0), 
 	mLoop(false), 
+	mPlay(false), 
 	mPosition(0,0,0), 
 	mReferenceDistance(1.0f), 
 	mDirection(0,0,0), 
@@ -87,6 +88,8 @@ namespace OgreOggSound
 	mFade(false),  
 	mStream(false), 
 	mPriority(0), 
+	mFinishedCB(0), 
+	mLoopCB(0), 
 	mLocalTransformDirty(false),
 	mSourceRelative(false)
 	{

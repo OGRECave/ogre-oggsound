@@ -32,7 +32,6 @@ namespace OgreOggSound
 	OgreOggStreamSound::OgreOggStreamSound(const Ogre::String& name) : OgreOggISound(name)
 	{
 		mStream=true;
-		mPlay=false;
 		mOggFile=0;						
 		mVorbisInfo=0;			
 		mVorbisComment=0;		
@@ -122,7 +121,10 @@ namespace OgreOggSound
 		{
 			if(mStreamEOF)
 			{
-				stop();			
+				stop();
+				// Finished callback
+				if ( mFinishedCB ) 
+					mFinishedCB->execute(dynamic_cast<OgreOggISound*>(this));
 				return;
 			}
 			else 
