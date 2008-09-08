@@ -124,7 +124,7 @@ namespace OgreOggSound
 				stop();
 				// Finished callback
 				if ( mFinishedCB && mFinCBEnabled ) 
-					mFinishedCB->execute(dynamic_cast<OgreOggISound*>(this));
+					mFinishedCB->execute(static_cast<OgreOggISound*>(this));
 				return;
 			}
 			else 
