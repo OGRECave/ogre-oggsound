@@ -1,0 +1,37 @@
+D/doc////
+D/examples////
+D/include////
+D/lib////
+D/macos////
+D/macosx////
+D/symbian////
+D/vq////
+D/win32////
+/AUTHORS/1.1/Tue Jul 20 00:24:28 2004//
+/CHANGES/1.1/Wed Jul 25 09:27:00 2007//
+/COPYING/1.1/Mon Sep 20 14:09:22 2004//
+/Makefile.am/1.1/Thu Jun 21 20:51:56 2007//
+/Makefile.in/1.1/Wed Jul 25 09:46:36 2007//
+/README/1.1/Mon Jul 23 17:09:48 2007//
+/acinclude.m4/1.1/Fri Jul 29 03:27:46 2005//
+/aclocal.m4/1.1/Wed Jul 25 09:46:34 2007//
+/autogen.sh/1.1/Thu Jun  7 15:19:18 2007//
+/config.guess/1.1/Tue Nov  7 23:44:58 2006//
+/config.h.in/1.1/Wed Jul 25 09:46:34 2007//
+/config.sub/1.1/Tue Nov  7 23:44:58 2006//
+/configure/1.1/Wed Jul 25 09:46:38 2007//
+/configure.in/1.1/Wed Jul 25 09:27:00 2007//
+/depcomp/1.1/Fri Nov 17 05:08:40 2006//
+/install-sh/1.1/Fri Nov 17 05:08:40 2006//
+/libvorbis.spec/1.1/Wed Jul 25 09:46:46 2007//
+/libvorbis.spec.in/1.1/Mon Jul 26 06:33:44 2004//
+/ltmain.sh/1.1/Mon Jun 19 12:29:20 2006//
+/missing/1.1/Fri Nov 17 05:08:40 2006//
+/todo.txt/1.1/Mon Sep 20 14:24:48 2004//
+/vorbis-uninstalled.pc.in/1.1/Mon Aug  2 02:35:44 2004//
+/vorbis.m4/1.1/Tue Jul 20 00:24:28 2004//
+/vorbis.pc.in/1.1/Tue Jul 20 00:24:28 2004//
+/vorbisenc-uninstalled.pc.in/1.1/Mon Aug  2 02:35:44 2004//
+/vorbisenc.pc.in/1.1/Tue Jul 20 00:24:28 2004//
+/vorbisfile-uninstalled.pc.in/1.1/Mon Aug  2 02:35:44 2004//
+/vorbisfile.pc.in/1.1/Tue Jul 20 00:24:28 2004//

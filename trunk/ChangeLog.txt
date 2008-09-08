@@ -1,0 +1,35 @@
+* version 0.85
+
+	* Fixed crash caused by non-SceneNode derived positioning in OgreOggISound / OgreOggListener.
+	* Fixed updating bug in fading where the volume would never stop being set once started. 
+          Also ammended startFade() to pick up current sound volume to fade in/out from.
+
+* version 0.84
+
+	* Added setMasterVolume()/getMasterVolume() for global attenuation of sounds.
+
+* Version 0.83
+
+	* Fixed bug with streaming sounds and DataStreamPointer causing open() to fail.
+
+* Version 0.82
+
+	* Added OGRE resource management support
+		Audio files must now be specified through OGRE's resource management system,
+		allows audio files to be stored and accessed within .zip files etc..
+
+* Version 0.8
+
+	* Fixed crash in shutdown when deleting unused thread.
+	
+	* Sound Constructor/Destructors made protected members, handled by OgreOggSoundManager.
+
+	* enumDevices() made private, it was an internally used function. renamed to: _enumDevices()
+
+	* _getDeviceList() made public, was used internally but is now a useful public 
+	  function for geting a human readable list of audio deivce strings.
+
+* Version 0.7
+
+	* Added ancillary OgreOggSoundManager functions for stopping/pausing/resuming
+	  ALL playing sounds.
