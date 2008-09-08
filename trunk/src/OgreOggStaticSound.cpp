@@ -144,14 +144,16 @@ namespace OgreOggSound
 				return;
 
 		alSourcePlay(mSource);	
+		mPlay=true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::stop()
 	{
-		if ( mSource!=AL_NONE ) return;
+		if ( mSource==AL_NONE ) return;
 
 		alSourceStop(mSource);
 		alSourceRewind(mSource);	
+		mPlay=false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::loop(bool loop)
@@ -166,13 +168,18 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::updateAudioBuffers()
 	{
-		if(mSource == AL_NONE)
+		if(mSource == AL_NONE || !mPlay)
 			return;
 
 		ALenum state;    
 		alGetSourcei(mSource, AL_SOURCE_STATE, &state);	
 
 		if (state == AL_STOPPED)
+		{
 			stop();
+			// Finished callback
+			if ( mFinishedCB ) 
+				mFinishedCB->execute(dynamic_cast<OgreOggISound*>(this));
+		}
 	}
 }
