@@ -1,0 +1,43 @@
+Release Notes:-
+
+OgreOggSound is a wrapper around OpenAL to quickly add 2D/3D .ogg audio to applications. 
+It is designed to seemlessly integrate into OGRE applications and handles static and streamed sounds with optional multi-threaded stream support via BOOST threads.
+
+Features List:
+
+* .ogg file format support
+
+* In memory and streaming support
+	* Load whole sound into memory
+	* Stream sound from a file
+
+* Optional multithreaded streaming 
+	* using BOOST Threads
+
+* Full 2D/3D audio support
+	* spatialized sound support using mono sound files
+	* 2D/multichannel support 
+
+* Full control over 3D parameters
+	* All 3D properties exposed for customisation
+	* Global attenuation model configurable
+	* Global sound speed configurable
+	* Global doppler effect configurable
+
+* Source management
+	* Sources are pooled 
+	* Sources are automatically re-used when a sound requests to play
+	* Sounds are re-activated if temporarily stopped.
+
+* OGRE integration support
+	* Sound objects are derived from MovableObject
+	* can be attached directly into scene graph via SceneNodes
+	* Automatically updates transformations
+
+* Volume control
+
+* Pitch control
+
+* Loop control
+
+* Fully Documented

@@ -1,0 +1,29 @@
+D/debian////
+D/doc////
+D/include////
+D/macos////
+D/macosx////
+D/src////
+D/win32////
+/AUTHORS/1.1/Sun Nov 27 20:26:08 2005//
+/CHANGES/1.1/Sun Nov 27 20:26:08 2005//
+/COPYING/1.1/Sun Nov 27 20:26:08 2005//
+/Makefile.am/1.1/Sun Nov 27 20:26:08 2005//
+/Makefile.in/1.1/Sun Nov 27 20:26:32 2005//
+/README/1.1/Tue Aug 19 14:52:39 2008//
+/aclocal.m4/1.1/Sun Nov 27 20:26:24 2005//
+/compile/1.1/Wed Apr 13 22:08:54 2005//
+/config.guess/1.1/Tue Apr 26 01:44:02 2005//
+/config.h.in/1.1/Sun Nov 27 20:26:26 2005//
+/config.sub/1.1/Tue Apr 26 01:44:02 2005//
+/configure/1.1/Sun Nov 27 20:26:32 2005//
+/configure.in/1.1/Sun Nov 27 20:26:08 2005//
+/depcomp/1.1/Wed Apr 13 22:08:54 2005//
+/install-sh/1.1/Wed Apr 13 22:08:54 2005//
+/libogg.spec/1.1/Sun Nov 27 20:26:46 2005//
+/libogg.spec.in/1.1/Sun Nov 27 20:26:08 2005//
+/ltmain.sh/1.1/Wed May 18 12:50:14 2005//
+/missing/1.1/Wed Apr 13 22:08:54 2005//
+/ogg-uninstalled.pc.in/1.1/Sun Nov 27 20:26:08 2005//
+/ogg.m4/1.1/Sun Nov 27 20:26:08 2005//
+/ogg.pc.in/1.1/Sun Nov 27 20:26:08 2005//
