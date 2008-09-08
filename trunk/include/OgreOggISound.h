@@ -299,9 +299,10 @@ namespace OgreOggSound
 				function pointer to member function
 		*/
 		template<typename T>
-		void setFinishedCallback(T *object, void(T::*function)(OgreOggISound *sound))
+		void setFinishedCallback(T *object, void(T::*function)(OgreOggISound *sound), bool enabled=true)
 		{
 			mFinishedCB = new OSSCallbackPointer<T>(function, object);
+			mFinCBEnabled = enabled;
 		}
 		/** Sets a callback for when sound loops
 		@remarks
@@ -310,11 +311,31 @@ namespace OgreOggSound
 				object pointer to this sound
 				function pointer to member function
 		*/
-		template<typename T> void setLoopCallback(T *object, void(T::*function)(OgreOggISound *sound))
+		template<typename T> void setLoopCallback(T *object, void(T::*function)(OgreOggISound *sound), bool enabled=true)
 		{
 			mLoopCB = new OSSCallbackPointer<T>(function, object);
+			mLoopCBEnabled = enabled;
 		}
-
+		/** Sets whether the loop callback is called, if defined.
+		@remarks
+			Allows users to enable/disable the callback feature as/when required.
+			@param
+				enable true=on
+		*/
+		void setLoopCallbackEnabled(bool enable)
+		{
+			mLoopCBEnabled = enable;
+		}
+		/** Sets whether the finished callback is called, if defined.
+		@remarks
+			Allows users to enable/disable the callback feature as/when required.
+			@param
+				enabled true=on
+		*/
+		void setFinishedCallbackEnabled(bool enable)
+		{
+			mFinCBEnabled = enable;
+		}
 
 	private:
 	
@@ -365,6 +386,8 @@ namespace OgreOggSound
 		// Callbacks  
 		OOSCallback* mLoopCB;
 		OOSCallback* mFinishedCB;
+		bool mFinCBEnabled;
+		bool mLoopCBEnabled;
 
 		/**
 		 * Sound properties 

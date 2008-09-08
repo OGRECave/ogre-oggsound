@@ -87,6 +87,8 @@ namespace OgreOggSound
 	mFadeEndVol(1), 
 	mFade(false),  
 	mStream(false), 
+	mFinCBEnabled(false), 
+	mLoopCBEnabled(false), 
 	mPriority(0), 
 	mFinishedCB(0), 
 	mLoopCB(0), 
