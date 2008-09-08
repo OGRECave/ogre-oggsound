@@ -2,6 +2,7 @@
 	
 	* Added callbacks for finished sounds
 	* Fixed bug in stop() for static sounds
+	* Added enable/disable of callbacks
 
 * version 0.85
 
