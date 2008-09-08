@@ -31,6 +31,10 @@
 Inheritance diagram for OgreOggSound::OgreOggISound:</div>
 <div class="dynsection">
 <center><font size="2">[<a target="top" href="graph_legend.html">legend</a>]</font></center></div>
+<div class="dynheader">
+Collaboration diagram for OgreOggSound::OgreOggISound:</div>
+<div class="dynsection">
+<center><font size="2">[<a target="top" href="graph_legend.html">legend</a>]</font></center></div>
 
 <p>
 <a href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
@@ -119,6 +123,12 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#9619a09920ca2f54e3bfbe70bed35145">visitRenderables</a> (Ogre::Renderable::Visitor *visitor, bool debugRenderables)</td></tr>
 
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename T&gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#bdf12d8d62ed7b29fcf6a4936f3ec324">setFinishedCallback</a> (T *object, void(T::*function)(<a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a> *sound))</td></tr>
+
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename T&gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#7fb7c0842a7ae4be911d230846edab3c">setLoopCallback</a> (T *object, void(T::*function)(<a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a> *sound))</td></tr>
+
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#7f41a7ea5d1baf0b73173946c029f027">OgreOggISound</a> (const Ogre::String &amp;name)</td></tr>
 
@@ -144,6 +154,10 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <tr><td class="memItemLeft" nowrap align="right" valign="top">Ogre::DataStreamPtr&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#b87843903074b4ae0e880c5ba5e0981e">mOgreOggStream</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ov_callbacks&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#faf91c643f156d13105a84271b1049b2">mOggCallbacks</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html">OOSCallback</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#982b17da305f5b0749305df6cb09c51a">mLoopCB</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html">OOSCallback</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#50c3e2827da9137fb9cc90d9c5ee43e6">mFinishedCB</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ALuint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#c5cfc34ada06cafafc0c6fe7983d1eac">mSource</a></td></tr>
 
@@ -178,6 +192,8 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <tr><td class="memItemLeft" nowrap align="right" valign="top">Ogre::String&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#0ca853bec786878368bfb7262b2737e0">mName</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ed3deb88b79e5579c5a66ad5d216c945">mLoop</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#5f2bfbad2bc45abd27819187eb9934be">mPlay</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#4f246c084f0ff5df0cff38bd23d30314">mStream</a></td></tr>
 
@@ -1264,6 +1280,80 @@ Renderable callback <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Overr
 
 </div>
 </div><p>
+<a class="anchor" name="bdf12d8d62ed7b29fcf6a4936f3ec324"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::setFinishedCallback" ref="bdf12d8d62ed7b29fcf6a4936f3ec324" args="(T *object, void(T::*function)(OgreOggISound *sound))" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggISound::setFinishedCallback           </td>
+          <td>(</td>
+          <td class="paramtype">T *&nbsp;</td>
+          <td class="paramname"> <em>object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(T::*)(<a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a> *sound)&nbsp;</td>
+          <td class="paramname"> <em>function</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets a callback for when sound finishes playing <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Allows custom functions to be notified when this sound finishes playing. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>object</em>&nbsp;</td><td>pointer to this sound function pointer to member function </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="7fb7c0842a7ae4be911d230846edab3c"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::setLoopCallback" ref="7fb7c0842a7ae4be911d230846edab3c" args="(T *object, void(T::*function)(OgreOggISound *sound))" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggISound::setLoopCallback           </td>
+          <td>(</td>
+          <td class="paramtype">T *&nbsp;</td>
+          <td class="paramname"> <em>object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(T::*)(<a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a> *sound)&nbsp;</td>
+          <td class="paramname"> <em>function</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets a callback for when sound loops <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Allows custom functions to be notified when this sound loops. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>object</em>&nbsp;</td><td>pointer to this sound function pointer to member function </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
 <a class="anchor" name="c0a9818a88866baa8ef4bef6a762891f"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::_release" ref="c0a9818a88866baa8ef4bef6a762891f" args="()=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -1462,6 +1552,36 @@ Variables used to fade sound
       <table class="memname">
         <tr>
           <td class="memname">ov_callbacks <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#faf91c643f156d13105a84271b1049b2">OgreOggSound::OgreOggISound::mOggCallbacks</a><code> [protected]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="982b17da305f5b0749305df6cb09c51a"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::mLoopCB" ref="982b17da305f5b0749305df6cb09c51a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html">OOSCallback</a>* <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#982b17da305f5b0749305df6cb09c51a">OgreOggSound::OgreOggISound::mLoopCB</a><code> [protected]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="50c3e2827da9137fb9cc90d9c5ee43e6"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::mFinishedCB" ref="50c3e2827da9137fb9cc90d9c5ee43e6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html">OOSCallback</a>* <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#50c3e2827da9137fb9cc90d9c5ee43e6">OgreOggSound::OgreOggISound::mFinishedCB</a><code> [protected]</code>          </td>
         </tr>
       </table>
 </div>
@@ -1726,6 +1846,21 @@ Sound properties
 
 </div>
 </div><p>
+<a class="anchor" name="5f2bfbad2bc45abd27819187eb9934be"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::mPlay" ref="5f2bfbad2bc45abd27819187eb9934be" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#5f2bfbad2bc45abd27819187eb9934be">OgreOggSound::OgreOggISound::mPlay</a><code> [protected]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
 <a class="anchor" name="4f246c084f0ff5df0cff38bd23d30314"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::mStream" ref="4f246c084f0ff5df0cff38bd23d30314" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -1774,7 +1909,7 @@ Sound properties
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_i_sound_8h.html">OgreOggISound.h</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Sep 8 10:09:35 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Sep 8 15:36:11 2008 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

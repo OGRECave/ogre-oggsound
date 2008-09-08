@@ -1,3 +1,8 @@
+* version 0.86
+	
+	* Added callbacks for finished sounds
+	* Fixed bug in stop() for static sounds
+
 * version 0.85
 
 	* Fixed crash caused by non-SceneNode derived positioning in OgreOggISound / OgreOggListener.
