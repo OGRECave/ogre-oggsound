@@ -50,7 +50,7 @@ namespace OgreOggSound
 			@param
 				vol master gain for all sounds. (MUST be positive)
 		 */
-		void setListenerVolume(ALfloat vol=1.0);
+		void setListenerVolume(ALfloat vol=1.0); 
 		/** Gets the listeners volume.
 		 */
 		ALfloat getListenerVolume();
