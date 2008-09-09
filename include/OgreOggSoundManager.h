@@ -47,6 +47,7 @@
 namespace OgreOggSound
 {
 	typedef std::map<std::string, OgreOggISound *> SoundMap;
+	typedef std::map<std::string, ALuint> EffectList;
 	typedef std::list<OgreOggISound*> ActiveList;
 	typedef std::list<ALuint> SourceList;
 
@@ -169,7 +170,7 @@ namespace OgreOggSound
 			@param
 				name Sound name to destroy.
 		 */
-		void destroySound(const Ogre::String& name="");
+		void destroySound(const std::string& name="");
 		/** Updates all sound buffers.
 		@remarks
 			Iterates all sounds and updates their buffers.
@@ -235,29 +236,45 @@ namespace OgreOggSound
 				fTime Elapsed frametime.
 		 */
 		void update(Ogre::Real fTime=0.f);
-		/** Creates a specified EFX filter
-		@remarks
-			Creates a specified EFX filter if hardware supports it, Options are:
-			AL_FILTER_LOWPASS, AL_FILTER_HIGHPASS, AL_FILTER_BANDPASS.
-			NOTE:- only AL_FILTER_LOWPASS is currently supported.
+		/** Gets a specified EFX filter
 		 */
-		bool createEFXFilter(ALint type, ALfloat gain=1, ALfloat hfGain=1);
-
-		/** Creates a specified EFX filter
-		@remarks
-			Creates a specified EFX filter if hardware supports it, Options are:
-			"LOWPASS", "HIGHPASS", "BANDPASS"
+		ALuint getEFXFilter(const std::string& fName);
+		/** Gets a specified EFX Effect slot
 		 */
-		bool createEFXEffect(ALint type);
+		ALuint getEFXEffectSlot(int slotID=0);
+		/** Gets a specified EFX Effect
+		 */
+		ALuint getEFXEffect(const std::string& eName);
 		/** Creates a specified EFX filter
 		@remarks
-			Creates a specified EFX filter if hardware supports it, Options are:
-			"LOWPASS", "HIGHPASS", "BANDPASS"
+			Creates a specified EFX filter if hardware supports it.
+			@param 
+				eName name for filter.
+				type see OpenAL docs for available filters.
+		 */
+		bool createEFXFilter(const std::string& eName, ALint type, ALfloat gain=1.0, ALfloat hfGain=1.0);
+		/** Creates a specified EFX effect
+		@remarks
+			Creates a specified EFX effect if hardware supports it.
+			@param 
+				eName name for effect.
+				type see OpenAL docs for available effects.
+		 */
+		bool createEFXEffect(const std::string& eName, ALint type);
+		/** Creates a specified EFX filter
+		@remarks
+			Creates a specified EFX filter if hardware supports it.
+			@param 
+				eName name for filter.
+				type see OpenAL docs for available filter types.
 		 */
 		bool createEFXSlot();
 		/** Attaches an effect to a sound
 		 */
-		bool attachEffectToSound(const Ogre::String& sName, ALuint& slot, ALuint& effect);
+		bool attachEffectToSound(const std::string& sName, ALuint& slot, ALuint& effect);
+		/** Attaches a filter to a sound
+		 */
+		bool attachFilterToSound(const std::string& sName, ALuint& filter);
 
 #if OGGSOUND_THREADED
 
@@ -400,8 +417,8 @@ namespace OgreOggSound
 		ALint mNumEffectSlots;					// Number of effect slots available
 		ALint mNumSendsPerSource;				// Number of aux sends per source
 
-		std::vector<ALuint>* mFilterList;		// List of EFX filters
-		std::vector<ALuint>* mEffectList;		// List of EFX effects
+		EffectList* mFilterList;				// List of EFX filters
+		EffectList* mEffectList;				// List of EFX effects
 		std::vector<ALuint>* mEffectSlotList;	// List of EFX effect slots
 
 		/**
