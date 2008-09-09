@@ -48,9 +48,53 @@ namespace OgreOggSound
 		mXRamAccessible(0),
 		mCurrentXRamMode(0),
 		mEAXVersion(0),
+		mFilterList(0),
+		mEffectList(0),
+		mEffectSlotList(0),
 		mDeviceStrings(0)
-	{
-	}
+		{
+			// Effect objects
+			alGenEffects = NULL;
+			alDeleteEffects = NULL;
+			alIsEffect = NULL;
+			alEffecti = NULL;
+			alEffectiv = NULL;
+			alEffectf = NULL;
+			alEffectfv = NULL;
+			alGetEffecti = NULL;
+			alGetEffectiv = NULL;
+			alGetEffectf = NULL;
+			alGetEffectfv = NULL;
+
+			//Filter objects
+			alGenFilters = NULL;
+			alDeleteFilters = NULL;
+			alIsFilter = NULL;
+			alFilteri = NULL;
+			alFilteriv = NULL;
+			alFilterf = NULL;
+			alFilterfv = NULL;
+			alGetFilteri = NULL;
+			alGetFilteriv = NULL;
+			alGetFilterf = NULL;
+			alGetFilterfv = NULL;
+
+			// Auxiliary slot object
+			alGenAuxiliaryEffectSlots = NULL;
+			alDeleteAuxiliaryEffectSlots = NULL;
+			alIsAuxiliaryEffectSlot = NULL;
+			alAuxiliaryEffectSloti = NULL;
+			alAuxiliaryEffectSlotiv = NULL;
+			alAuxiliaryEffectSlotf = NULL;
+			alAuxiliaryEffectSlotfv = NULL;
+			alGetAuxiliaryEffectSloti = NULL;
+			alGetAuxiliaryEffectSlotiv = NULL;
+			alGetAuxiliaryEffectSlotf = NULL;
+			alGetAuxiliaryEffectSlotfv = NULL;
+			
+			mNumEffectSlots = 0;
+			mNumSendsPerSource = 0;
+		}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::~OgreOggSoundManager()
 	{
@@ -169,6 +213,157 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::attachEffectToSound(const Ogre::String& sName, ALuint& slot, ALuint& effect)
+	{
+		if ( !hasEFXSupport() && sName.empty() ) return false;
+
+		_attachEffectToSlot(slot, effect);
+
+		OgreOggISound* sound = getSound(sName);
+
+		if ( sound )
+		{
+			ALuint src = sound->getSource();
+			if ( src!=AL_NONE )
+			{
+				alSource3i(src, AL_AUXILIARY_SEND_FILTER, effect, 0, NULL);
+				if (alGetError() != AL_NO_ERROR)
+				{
+					Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachEffectToSound() - Unable to attach effect to source!");
+					return false;
+				}
+			}
+			else
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachEffectToSound() - sound has no source!");
+				return false;
+			}
+		}
+		else
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachEffectToSound() - sound not found!");
+			return false;
+		}
+
+		return true;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::_attachEffectToSlot(ALuint& slot, ALuint& effect)
+	{
+		if ( !hasEFXSupport() ) return false;
+
+		/* Attach Effect to Auxiliary Effect Slot */
+		/* slot is the ID of an Aux Effect Slot */
+		/* effect is the ID of an Effect */
+		alAuxiliaryEffectSloti(slot, AL_EFFECTSLOT_EFFECT, effect);
+		if (alGetError() == AL_NO_ERROR)
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** Cannot attach effect to slot!");
+			return false;
+		}
+		return true;
+	}	
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::createEFXFilter(ALint type, ALfloat gain, ALfloat hfGain)
+	{
+		if ( !hasEFXSupport() ) return false;
+
+		ALuint filter;
+		
+		/* Try to create a Filter */
+		alGetError();
+		alGenFilters(1, &filter);
+		if (alGetError() == AL_NO_ERROR)
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** Generated a Filter\n");
+			return false;
+		}
+
+		// Validate filter type
+		if (alIsFilter(filter) && ( type==AL_FILTER_LOWPASS ) || ( type==AL_FILTER_HIGHPASS ) || ( type==AL_FILTER_BANDPASS ) )
+		{
+			/* Set Filter type to Low-Pass and set parameters */
+			alFilteri(filter, AL_FILTER_TYPE, type);
+			if (alGetError() != AL_NO_ERROR)
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** Low Pass Filter not supported!");
+				return false;
+			}
+			else
+			{
+				// Set optional gain values
+				if ( ( gain>=0 ) && ( gain<=1 ) && ( hfGain>=0 ) && ( hfGain<=1 ) )
+				{
+					alFilterf(filter, AL_LOWPASS_GAIN, gain);
+					alFilterf(filter, AL_LOWPASS_GAINHF, hfGain);
+				}
+		
+				if ( !mFilterList ) mFilterList = new std::vector<ALuint>;
+				mFilterList->push_back(filter);
+			}
+		}
+		else
+			Ogre::LogManager::getSingleton().logMessage("*** Filter type not recognised!");
+
+		// Error
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::createEFXEffect(ALint type)
+	{
+		if ( !hasEFXSupport() ) return false;
+
+		ALuint effect;
+
+		alGenEffects(1, &effect);
+		if (alGetError() != AL_NO_ERROR)
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** Cannot create EFX effect!");
+			return false;
+		}
+
+		if (alIsEffect(effect))
+		{
+			alEffecti(effect, AL_EFFECT_TYPE, type);
+			if (alGetError() != AL_NO_ERROR)
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** Effect not supported!");
+				return false;
+			}
+			else
+			{
+				if ( !mEffectList ) mEffectList = new std::vector<ALuint>;
+				mEffectList->push_back(effect);
+			}
+		}
+		return true;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::createEFXSlot()
+	{
+		if ( !hasEFXSupport() ) return false;
+
+		ALuint slot;
+
+		alGenAuxiliaryEffectSlots(1, &slot);
+		if (alGetError() != AL_NO_ERROR)
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** Cannot create Auxiliary effect slot!");
+			return false;
+		}
+		else
+		{
+			if ( !mEffectSlotList ) mEffectSlotList = new std::vector<ALuint>;
+			mEffectSlotList->push_back(slot);
+		}
+
+		return true;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
 	Ogre::StringVector OgreOggSoundManager::getDeviceList()
 	{
 		const ALCchar* deviceList = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
@@ -221,11 +416,159 @@ namespace OgreOggSound
 		return deviceVector;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_determineAuxEffectSlots()
+	{
+		ALuint		uiEffectSlots[128] = { 0 };
+		ALuint		uiEffects[1] = { 0 };
+		ALuint		uiFilters[1] = { 0 };
+		Ogre::String msg="";
+
+		// To determine how many Auxiliary Effects Slots are available, create as many as possible (up to 128)
+		// until the call fails.
+		for (mNumEffectSlots = 0; mNumEffectSlots < 128; mNumEffectSlots++)
+		{
+			alGenAuxiliaryEffectSlots(1, &uiEffectSlots[mNumEffectSlots]);
+			if (alGetError() != AL_NO_ERROR)
+				break;
+		}
+
+		msg="*** --- "+Ogre::StringConverter::toString(mNumEffectSlots)+ " Auxiliary Effect Slot(s)"; 
+		Ogre::LogManager::getSingleton().logMessage(msg);
+
+		// Retrieve the number of Auxiliary Effect Slots Sends available on each Source
+		alcGetIntegerv(mDevice, ALC_MAX_AUXILIARY_SENDS, 1, &mNumSendsPerSource);
+		msg="*** --- "+Ogre::StringConverter::toString(mNumSendsPerSource)+" Auxiliary Send(s) per Source";
+		Ogre::LogManager::getSingleton().logMessage(msg);
+
+		Ogre::LogManager::getSingleton().logMessage("*** --- EFFECTS SUPPORTED:");
+		alGenEffects(1, &uiEffects[0]);
+		if (alGetError() == AL_NO_ERROR)
+		{
+			// Try setting Effect Type to known Effects
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_REVERB);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Reverb' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Reverb' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'EAX Reverb' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'EAX Reverb' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_CHORUS);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Chorus' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Chorus' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Distortion' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Distortion' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_ECHO);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Echo' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Echo' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_FLANGER);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Flanger' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Flanger' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_FREQUENCY_SHIFTER);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Frequency shifter' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Frequency shifter' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_VOCAL_MORPHER);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Vocal Morpher' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Vocal Morpher' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_PITCH_SHIFTER);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Pitch shifter' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Pitch shifter' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_RING_MODULATOR);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Ring modulator' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Ring modulator' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_AUTOWAH);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Autowah' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Autowah' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_COMPRESSOR);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Compressor' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Compressor' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_EQUALIZER);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Equalizer' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Equalizer' Support: NO");
+		}
+
+		
+		// To determine which Filters are supported, generate a Filter Object, and try to set its type to
+		// the various Filter enum values
+		Ogre::LogManager::getSingleton().logMessage("*** --- FILTERS SUPPORTED: ");
+
+		// Generate a Filter to use to determine what Filter Types are supported
+		alGenFilters(1, &uiFilters[0]);
+		if (alGetError() == AL_NO_ERROR)
+		{
+			// Try setting the Filter type to known Filters
+			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_LOWPASS);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Low Pass' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Low Pass' Support: NO");
+
+			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_HIGHPASS);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'High Pass' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'High Pass' Support: NO");
+
+			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_BANDPASS);
+			if ( alGetError() == AL_NO_ERROR )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Band Pass' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Band Pass' Support: NO");
+		}
+
+		// Delete Filter
+		alDeleteFilters(1, &uiFilters[0]);
+
+		// Delete Effect
+		alDeleteEffects(1, &uiEffects[0]);
+
+		// Delete Auxiliary Effect Slots
+		alDeleteAuxiliaryEffectSlots(mNumEffectSlots, uiEffectSlots);
+	}
+	
+	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_checkEFXSupport()
 	{
 		if (alcIsExtensionPresent(mDevice, "ALC_EXT_EFX"))
 		{
-			/* Get function pointers
+			// Get function pointers
 			alGenEffects = (LPALGENEFFECTS)alGetProcAddress("alGenEffects");
 			alDeleteEffects = (LPALDELETEEFFECTS )alGetProcAddress("alDeleteEffects");
 			alIsEffect = (LPALISEFFECT )alGetProcAddress("alIsEffect");
@@ -268,7 +611,7 @@ namespace OgreOggSound
 				alAuxiliaryEffectSlotiv && alAuxiliaryEffectSlotf && alAuxiliaryEffectSlotfv &&
 				alGetAuxiliaryEffectSloti && alGetAuxiliaryEffectSlotiv && alGetAuxiliaryEffectSlotf &&
 				alGetAuxiliaryEffectSlotfv)
-				return true;*/
+				return true;
 		}
 
 		return false;
@@ -353,6 +696,7 @@ namespace OgreOggSound
 		if (mEFXSupport)
 		{
 			Ogre::LogManager::getSingleton().logMessage("*** --- EFX Detected");
+			_determineAuxEffectSlots();
 		}
 		else
 			Ogre::LogManager::getSingleton().logMessage("*** --- EFX NOT Detected");
@@ -618,11 +962,42 @@ namespace OgreOggSound
 		SourceList::iterator it = mSourcePool.begin();
 		while (it != mSourcePool.end())
 		{
+			if ( hasEFXSupport() )
+			{
+				// Remove filters/effects
+				alSourcei((*it), AL_DIRECT_FILTER, AL_FILTER_NULL);
+				alSource3i((*it), AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, AL_FILTER_NULL);
+ 			}
 			alDeleteSources(1,&(*it));
 			++it;
 		}
 
 		mSourcePool.clear();
+
+		// clear EFX effect lists
+		if ( mFilterList )
+		{
+			for ( std::vector<ALuint>::iterator iter=mFilterList->begin(); iter!=mFilterList->end(); ++iter )
+			    alDeleteEffects( 1, &(*iter));
+			delete mFilterList;
+			mFilterList=0;
+		}
+
+		if ( mEffectList )
+		{
+			for ( std::vector<ALuint>::iterator iter=mEffectList->begin(); iter!=mEffectList->end(); ++iter )
+			    alDeleteEffects( 1, &(*iter));
+			delete mEffectList;
+			mEffectList=0;
+		}
+
+		if ( mEffectSlotList )
+		{
+			for ( std::vector<ALuint>::iterator iter=mEffectSlotList->begin(); iter!=mEffectSlotList->end(); ++iter )
+			    alDeleteEffects( 1, &(*iter));
+			delete mEffectSlotList;
+			mEffectSlotList=0;
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	int OgreOggSoundManager::createSourcePool()

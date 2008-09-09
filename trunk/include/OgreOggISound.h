@@ -332,6 +332,7 @@ namespace OgreOggSound
 		{
 			mLoopCBEnabled = enable;
 		}
+
 	private:
 	
 		/** Release all OpenAL objects
@@ -413,6 +414,13 @@ namespace OgreOggSound
 		bool mStream;					// Stream flag
 		bool mSourceRelative;			// Relative position flag
 		bool mLocalTransformDirty;		// Transformation update flag
+
+		/**
+			EFX Effects
+		*/
+		std::vector<ALuint>* mFilterList;		// List of EFX filters
+		std::vector<ALuint>* mEffectList;		// List of EFX effects
+		std::vector<ALuint>* mEffectSlotList;	// List of EFX effect slots
 
 		friend class OgreOggSoundManager;
 	};

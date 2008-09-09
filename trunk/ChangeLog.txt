@@ -8,7 +8,7 @@
 * version 0.87
 
 	* Added loop callback triggers
-		Inaccurate for streaming sounds, should be more reliable for static sounds.
+		slightly inaccurate for streaming sounds, should be more reliable for static sounds.
 
 * version 0.86
 	

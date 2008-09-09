@@ -19,6 +19,7 @@
 \*---------------------------------------------------------------------------*/
 
 #include "OgreOggIsound.h"
+#include "OgreOggSoundManager.h"
 
 namespace OgreOggSound
 {
@@ -93,6 +94,9 @@ namespace OgreOggSound
 	mFinishedCB(0), 
 	mLoopCB(0), 
 	mLocalTransformDirty(false),
+	mFilterList(0),
+	mEffectList(0),
+	mEffectSlotList(0),
 	mSourceRelative(false)
 	{
 		// Init some oggVorbis callbacks

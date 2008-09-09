@@ -23,6 +23,8 @@
 #include "OgreOggSoundPrereqs.h"
 #include <al.h>
 #include <alc.h>
+#include "efx.h"
+#include "efx-creative.h"
 #include "XRam.h"
 
 #include <map>
@@ -233,8 +235,31 @@ namespace OgreOggSound
 				fTime Elapsed frametime.
 		 */
 		void update(Ogre::Real fTime=0.f);
+		/** Creates a specified EFX filter
+		@remarks
+			Creates a specified EFX filter if hardware supports it, Options are:
+			AL_FILTER_LOWPASS, AL_FILTER_HIGHPASS, AL_FILTER_BANDPASS.
+			NOTE:- only AL_FILTER_LOWPASS is currently supported.
+		 */
+		bool createEFXFilter(ALint type, ALfloat gain=1, ALfloat hfGain=1);
 
-	#if OGGSOUND_THREADED
+		/** Creates a specified EFX filter
+		@remarks
+			Creates a specified EFX filter if hardware supports it, Options are:
+			"LOWPASS", "HIGHPASS", "BANDPASS"
+		 */
+		bool createEFXEffect(ALint type);
+		/** Creates a specified EFX filter
+		@remarks
+			Creates a specified EFX filter if hardware supports it, Options are:
+			"LOWPASS", "HIGHPASS", "BANDPASS"
+		 */
+		bool createEFXSlot();
+		/** Attaches an effect to a sound
+		 */
+		bool attachEffectToSound(const Ogre::String& sName, ALuint& slot, ALuint& effect);
+
+#if OGGSOUND_THREADED
 
 		boost::recursive_mutex mMutex;
 
@@ -283,6 +308,12 @@ namespace OgreOggSound
 		/** Checks for XRAM hardware support
 		 */
 		bool _checkXRAMSupport();
+		/** Checks for EAX effect support
+		 */
+		void _determineAuxEffectSlots();
+		/** Attaches a created effect to an Auxiliary slot
+		 */
+		bool _attachEffectToSlot(ALuint& slot, ALuint& effect);
 		/** Re-activates any sounds which had their source stolen.
 		@remarks
 			When all sources are in use the sounds begin to give up 
@@ -323,15 +354,62 @@ namespace OgreOggSound
 		int mNumSources;						// Number of sources available for sounds
 
 		/**
-			EAX Support
-		*/
-		bool mEAXSupport;						// EAX present flag
-		int mEAXVersion;						// EAX version ID
-
-		/**
 			EFX Support
 		*/
 		bool mEFXSupport;						// EFX present flag
+
+		// Effect objects
+		LPALGENEFFECTS alGenEffects;
+		LPALDELETEEFFECTS alDeleteEffects;
+		LPALISEFFECT alIsEffect;
+		LPALEFFECTI alEffecti;
+		LPALEFFECTIV alEffectiv;
+		LPALEFFECTF alEffectf;
+		LPALEFFECTFV alEffectfv;
+		LPALGETEFFECTI alGetEffecti;
+		LPALGETEFFECTIV alGetEffectiv;
+		LPALGETEFFECTF alGetEffectf;
+		LPALGETEFFECTFV alGetEffectfv;
+
+		//Filter objects
+		LPALGENFILTERS alGenFilters;
+		LPALDELETEFILTERS alDeleteFilters;
+		LPALISFILTER alIsFilter;
+		LPALFILTERI alFilteri;
+		LPALFILTERIV alFilteriv;
+		LPALFILTERF alFilterf;
+		LPALFILTERFV alFilterfv;
+		LPALGETFILTERI alGetFilteri;
+		LPALGETFILTERIV alGetFilteriv;
+		LPALGETFILTERF alGetFilterf;
+		LPALGETFILTERFV alGetFilterfv;
+
+		// Auxiliary slot object
+		LPALGENAUXILIARYEFFECTSLOTS alGenAuxiliaryEffectSlots;
+		LPALDELETEAUXILIARYEFFECTSLOTS alDeleteAuxiliaryEffectSlots;
+		LPALISAUXILIARYEFFECTSLOT alIsAuxiliaryEffectSlot;
+		LPALAUXILIARYEFFECTSLOTI alAuxiliaryEffectSloti;
+		LPALAUXILIARYEFFECTSLOTIV alAuxiliaryEffectSlotiv;
+		LPALAUXILIARYEFFECTSLOTF alAuxiliaryEffectSlotf;
+		LPALAUXILIARYEFFECTSLOTFV alAuxiliaryEffectSlotfv;
+		LPALGETAUXILIARYEFFECTSLOTI alGetAuxiliaryEffectSloti;
+		LPALGETAUXILIARYEFFECTSLOTIV alGetAuxiliaryEffectSlotiv;
+		LPALGETAUXILIARYEFFECTSLOTF alGetAuxiliaryEffectSlotf;
+		LPALGETAUXILIARYEFFECTSLOTFV alGetAuxiliaryEffectSlotfv;
+
+		ALint mNumEffectSlots;					// Number of effect slots available
+		ALint mNumSendsPerSource;				// Number of aux sends per source
+
+		std::vector<ALuint>* mFilterList;		// List of EFX filters
+		std::vector<ALuint>* mEffectList;		// List of EFX effects
+		std::vector<ALuint>* mEffectSlotList;	// List of EFX effect slots
+
+		/**
+		EAX Support
+		*/
+
+		bool mEAXSupport;						// EAX present flag
+		int mEAXVersion;						// EAX version ID
 
 		/**
 			XRAM Support
