@@ -236,11 +236,6 @@ namespace OgreOggSound
 				fadeTime Time over which to fade (>0)
 		*/
 		void startFade(bool dir, Ogre::Real fadeTime);
-		/** Updates audio buffers
-		@remarks
-			Updates the sounds audio buffers, refilling if necessary.
-		*/
-		virtual void updateAudioBuffers();
 		/** Updates sund
 		@remarks
 			Updates sounds position, buffers and state
@@ -304,6 +299,17 @@ namespace OgreOggSound
 			mFinishedCB = new OSSCallbackPointer<T>(function, object);
 			mFinCBEnabled = enabled;
 		}
+		/** Sets whether the finished callback is called, if defined.
+		@remarks
+			Allows users to enable/disable the callback feature as/when required.
+			@param
+				enabled true=on
+		*/
+		void setFinishedCallbackEnabled(bool enable)
+		{
+			mFinCBEnabled = enable;
+		}
+
 		/** Sets a callback for when sound loops
 		@remarks
 			Allows custom functions to be notified when this sound loops.
@@ -326,17 +332,6 @@ namespace OgreOggSound
 		{
 			mLoopCBEnabled = enable;
 		}
-		/** Sets whether the finished callback is called, if defined.
-		@remarks
-			Allows users to enable/disable the callback feature as/when required.
-			@param
-				enabled true=on
-		*/
-		void setFinishedCallbackEnabled(bool enable)
-		{
-			mFinCBEnabled = enable;
-		}
-
 	private:
 	
 		/** Release all OpenAL objects
@@ -369,6 +364,11 @@ namespace OgreOggSound
 			Updates a fade action.
 		 */
 		void _updateFade(Ogre::Real fTime=0.f);
+		/** Updates audio buffers 
+		@remarks
+			Abstract function.
+		*/
+		virtual void updateAudioBuffers() = 0;
 
 		/**
 		 * Variables used to fade sound

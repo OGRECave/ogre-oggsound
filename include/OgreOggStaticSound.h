@@ -130,6 +130,7 @@ namespace OgreOggSound
 
 		ALuint mBuffer;						// OpenAL buffer index
 		ALenum mFormat;						// OpenAL buffer format
+		ALint mPreviousOffset;				// Current play position
 
 		friend class OgreOggSoundManager;	
 	};

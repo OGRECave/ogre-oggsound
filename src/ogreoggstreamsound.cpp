@@ -166,6 +166,18 @@ namespace OgreOggSound
 				if ( mLoop )
 				{
 					ov_time_seek(&mOggStream, 0);
+					/**	This is the closest we can get to a loop trigger.
+						If, whilst filling the buffers, we need to wrap the stream
+						pointer, trigger the loop callback if defined. 
+						NOTE:- The accuracy of this method will be affected by a number of
+						parameters, namely the buffer size, whether the sound has previously
+						given up its source (therefore it will be re-filling all buffers, which, 
+						if the sound was close to eof will likely get triggered), and the quality
+						of the sound, lower quality will hold a longer section of audio per buffer.
+						In ALL cases this trigger will happen BEFORE the audio audibly loops!!
+					*/
+					if ( mLoopCB && mLoopCBEnabled )
+						mLoopCB->execute(static_cast<OgreOggISound*>(this));
 				}
 				else
 				{
