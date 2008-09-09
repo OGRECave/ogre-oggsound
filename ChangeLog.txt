@@ -1,3 +1,10 @@
+* version 0.88
+
+	* Added XRAM support for hardware buffers
+		As suggested in the OpenAL specification this only applies to static sound buffers
+		not streaming buffers.
+	* Cleaned up and enhanced supported features checks.
+
 * version 0.87
 
 	* Added loop callback triggers

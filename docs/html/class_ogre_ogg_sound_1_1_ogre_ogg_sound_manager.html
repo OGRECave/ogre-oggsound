@@ -62,6 +62,16 @@ Collaboration diagram for OgreOggSound::OgreOggSoundManager:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#55336339533ca84d9c7af3180901ecfc">destroyAllSounds</a> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#3eeb7d285f28932ad840fcbcc9d81c92">hasXRamSupport</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9150a700af9821d95068702f5d35b8ec">hasEFXSupport</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#46201ad9e43b9a60524622855eb33d5b">hasEAXSupport</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1b26c54fc406d3ccba22e9434006c715">setXRamBuffer</a> (ALsizei numBuffers, ALuint *buffers)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#df8fa892e153974b9042d2415b451adf">setXRamBufferMode</a> (ALenum mode)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#855d4f71a63f8a8053527d20b67798ee">destroySound</a> (const Ogre::String &amp;name=&quot;&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7f0ab1761fbea41cedcc225525d35e39">updateBuffers</a> ()</td></tr>
@@ -99,10 +109,19 @@ Collaboration diagram for OgreOggSound::OgreOggSoundManager:</div>
 <tr><td colspan="2"><br><h2>Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1f19095ef8aaad6cdadb8e6a162aaa33">mShuttingDown</a> = false</td></tr>
 
+<tr><td colspan="2"><br><h2>Private Types</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef ALboolean(__cdecl *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#92d36184332524e44549e84c7ee6edd2">LPEAXSETBUFFERMODE</a> )(ALsizei n, ALuint *buffers, ALint value)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef ALenum(__cdecl *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#75b99617fc5c6633dbbf52c0db9332f1">LPEAXGETBUFFERMODE</a> )(ALuint buffer, ALint *value)</td></tr>
+
 <tr><td colspan="2"><br><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#b00499ca6ae2e1d187e97ea72c59b5e8">_release</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ecafa47da786311d34de95829f17e993">_checkFeatureSupport</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#c2c7fb57c706d39b6138df4e534ef646">_checkEFXSupport</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#54cb62a837353f54546ef99bf7d1d28f">_checkXRAMSupport</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cd449121db2af5f82313f42d5b88d5ea">_reactivateQueuedSounds</a> ()</td></tr>
 
@@ -127,6 +146,34 @@ Collaboration diagram for OgreOggSound::OgreOggSoundManager:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#027b4bdd069d4ab4218f2d14a9188e04">mNumSources</a></td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f93b38dd0ea25e75abe7ca20d014254c">mEAXSupport</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#842f9a9be3f3b75b504c127f3843bbc4">mEAXVersion</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cbcc7aeef656a8c99a5259d149fa6011">mEFXSupport</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#92d36184332524e44549e84c7ee6edd2">LPEAXSETBUFFERMODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#c6d36493fda948725b57da28f5c54414">mEAXSetBufferMode</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#75b99617fc5c6633dbbf52c0db9332f1">LPEAXGETBUFFERMODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4a2b6553406ca3b4d24e6a6a8b08399a">mEAXGetBufferMode</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#a2cfd6b5b1c0878f1aad74eda428ccba">mXRamSupport</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALenum&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7de8acb0614d4d387b69ffacf36da10b">mXRamSize</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALenum&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4d04f04cc9b6236d125c92c21fa8f467">mXRamFree</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALenum&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7cd10c523bf04d84f80e999e7536f24e">mXRamAuto</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALenum&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4e8413bdbaf21c78f280c41ddcf648c5">mXRamHardware</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALenum&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#b3f98b969d433edf5ca6f388485a179e">mXRamAccessible</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALenum&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#607e433c594f8ffd943ccdc84a0173f3">mCurrentXRamMode</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#3311af58b1077a969522dea08226cddc">mXRamSizeMB</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#2c0983f609e3b0810a63bb14b929d742">mXRamFreeMB</a></td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html">OgreOggListener</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#539d1467a060b2429bc2da3bee63c800">mListener</a></td></tr>
 
 <tr><td colspan="2"><br><h2>Static Private Attributes</h2></td></tr>
@@ -134,7 +181,38 @@ Collaboration diagram for OgreOggSound::OgreOggSoundManager:</div>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-Handles ALL sounds <hr><h2>Constructor &amp; Destructor Documentation</h2>
+Handles ALL sounds <hr><h2>Member Typedef Documentation</h2>
+<a class="anchor" name="92d36184332524e44549e84c7ee6edd2"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::LPEAXSETBUFFERMODE" ref="92d36184332524e44549e84c7ee6edd2" args=")(ALsizei n, ALuint *buffers, ALint value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef ALboolean(__cdecl * <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#92d36184332524e44549e84c7ee6edd2">OgreOggSound::OgreOggSoundManager::LPEAXSETBUFFERMODE</a>)(ALsizei n, ALuint *buffers, ALint value)<code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+XRAM Support 
+</div>
+</div><p>
+<a class="anchor" name="75b99617fc5c6633dbbf52c0db9332f1"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::LPEAXGETBUFFERMODE" ref="75b99617fc5c6633dbbf52c0db9332f1" args=")(ALuint buffer, ALint *value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef ALenum(__cdecl * <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#75b99617fc5c6633dbbf52c0db9332f1">OgreOggSound::OgreOggSoundManager::LPEAXGETBUFFERMODE</a>)(ALuint buffer, ALint *value)<code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<hr><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" name="7efb72495cbc19a1bce25c55ec90bddf"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::OgreOggSoundManager" ref="7efb72495cbc19a1bce25c55ec90bddf" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -484,6 +562,114 @@ Destroys all sounds within manager. <dl class="remark" compact><dt><b>Remarks:</
 
 </div>
 </div><p>
+<a class="anchor" name="3eeb7d285f28932ad840fcbcc9d81c92"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::hasXRamSupport" ref="3eeb7d285f28932ad840fcbcc9d81c92" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::hasXRamSupport           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Returns XRAM support status. 
+</div>
+</div><p>
+<a class="anchor" name="9150a700af9821d95068702f5d35b8ec"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::hasEFXSupport" ref="9150a700af9821d95068702f5d35b8ec" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::hasEFXSupport           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Returns EFX support status. 
+</div>
+</div><p>
+<a class="anchor" name="46201ad9e43b9a60524622855eb33d5b"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::hasEAXSupport" ref="46201ad9e43b9a60524622855eb33d5b" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::hasEAXSupport           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Returns EAX support status. 
+</div>
+</div><p>
+<a class="anchor" name="1b26c54fc406d3ccba22e9434006c715"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::setXRamBuffer" ref="1b26c54fc406d3ccba22e9434006c715" args="(ALsizei numBuffers, ALuint *buffers)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggSoundManager::setXRamBuffer           </td>
+          <td>(</td>
+          <td class="paramtype">ALsizei&nbsp;</td>
+          <td class="paramname"> <em>numBuffers</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALuint *&nbsp;</td>
+          <td class="paramname"> <em>buffers</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets XRam buffers. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Currently defaults to AL_STORAGE_AUTO. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="df8fa892e153974b9042d2415b451adf"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::setXRamBufferMode" ref="df8fa892e153974b9042d2415b451adf" args="(ALenum mode)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggSoundManager::setXRamBufferMode           </td>
+          <td>(</td>
+          <td class="paramtype">ALenum&nbsp;</td>
+          <td class="paramname"> <em>mode</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets XRam buffers storage mode. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Should be called before creating any sounds Options: AL_STORAGE_AUTOMATIC | AL_STORAGE_HARDWARE | AL_STORAGE_ACCESSIBLE </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="855d4f71a63f8a8053527d20b67798ee"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::destroySound" ref="855d4f71a63f8a8053527d20b67798ee" args="(const Ogre::String &amp;name=&quot;&quot;)" -->
 <div class="memitem">
 <div class="memproto">
@@ -775,8 +961,46 @@ Releases all sounds and buffers <dl class="remark" compact><dt><b>Remarks:</b></
 <div class="memdoc">
 
 <p>
-Logs a supported feature list <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Queries OpenAL for various supported features and lists them with the LogManager. </dd></dl>
+Checks and Logs a supported feature list <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Queries OpenAL for various supported features and lists them with the LogManager. </dd></dl>
 
+</div>
+</div><p>
+<a class="anchor" name="c2c7fb57c706d39b6138df4e534ef646"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::_checkEFXSupport" ref="c2c7fb57c706d39b6138df4e534ef646" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::_checkEFXSupport           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Checks for EFX hardware support 
+</div>
+</div><p>
+<a class="anchor" name="54cb62a837353f54546ef99bf7d1d28f"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::_checkXRAMSupport" ref="54cb62a837353f54546ef99bf7d1d28f" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::_checkXRAMSupport           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Checks for XRAM hardware support 
 </div>
 </div><p>
 <a class="anchor" name="cd449121db2af5f82313f42d5b88d5ea"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::_reactivateQueuedSounds" ref="cd449121db2af5f82313f42d5b88d5ea" args="()" -->
@@ -1015,6 +1239,216 @@ Manager instance
 
 </div>
 </div><p>
+<a class="anchor" name="f93b38dd0ea25e75abe7ca20d014254c"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEAXSupport" ref="f93b38dd0ea25e75abe7ca20d014254c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f93b38dd0ea25e75abe7ca20d014254c">OgreOggSound::OgreOggSoundManager::mEAXSupport</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+EAX Support 
+</div>
+</div><p>
+<a class="anchor" name="842f9a9be3f3b75b504c127f3843bbc4"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEAXVersion" ref="842f9a9be3f3b75b504c127f3843bbc4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#842f9a9be3f3b75b504c127f3843bbc4">OgreOggSound::OgreOggSoundManager::mEAXVersion</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="cbcc7aeef656a8c99a5259d149fa6011"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEFXSupport" ref="cbcc7aeef656a8c99a5259d149fa6011" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cbcc7aeef656a8c99a5259d149fa6011">OgreOggSound::OgreOggSoundManager::mEFXSupport</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+EFX Support 
+</div>
+</div><p>
+<a class="anchor" name="c6d36493fda948725b57da28f5c54414"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEAXSetBufferMode" ref="c6d36493fda948725b57da28f5c54414" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#92d36184332524e44549e84c7ee6edd2">LPEAXSETBUFFERMODE</a> <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#c6d36493fda948725b57da28f5c54414">OgreOggSound::OgreOggSoundManager::mEAXSetBufferMode</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="4a2b6553406ca3b4d24e6a6a8b08399a"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEAXGetBufferMode" ref="4a2b6553406ca3b4d24e6a6a8b08399a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#75b99617fc5c6633dbbf52c0db9332f1">LPEAXGETBUFFERMODE</a> <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4a2b6553406ca3b4d24e6a6a8b08399a">OgreOggSound::OgreOggSoundManager::mEAXGetBufferMode</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="a2cfd6b5b1c0878f1aad74eda428ccba"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mXRamSupport" ref="a2cfd6b5b1c0878f1aad74eda428ccba" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#a2cfd6b5b1c0878f1aad74eda428ccba">OgreOggSound::OgreOggSoundManager::mXRamSupport</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="7de8acb0614d4d387b69ffacf36da10b"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mXRamSize" ref="7de8acb0614d4d387b69ffacf36da10b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALenum <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7de8acb0614d4d387b69ffacf36da10b">OgreOggSound::OgreOggSoundManager::mXRamSize</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="4d04f04cc9b6236d125c92c21fa8f467"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mXRamFree" ref="4d04f04cc9b6236d125c92c21fa8f467" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALenum <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4d04f04cc9b6236d125c92c21fa8f467">OgreOggSound::OgreOggSoundManager::mXRamFree</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="7cd10c523bf04d84f80e999e7536f24e"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mXRamAuto" ref="7cd10c523bf04d84f80e999e7536f24e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALenum <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7cd10c523bf04d84f80e999e7536f24e">OgreOggSound::OgreOggSoundManager::mXRamAuto</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="4e8413bdbaf21c78f280c41ddcf648c5"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mXRamHardware" ref="4e8413bdbaf21c78f280c41ddcf648c5" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALenum <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4e8413bdbaf21c78f280c41ddcf648c5">OgreOggSound::OgreOggSoundManager::mXRamHardware</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="b3f98b969d433edf5ca6f388485a179e"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mXRamAccessible" ref="b3f98b969d433edf5ca6f388485a179e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALenum <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#b3f98b969d433edf5ca6f388485a179e">OgreOggSound::OgreOggSoundManager::mXRamAccessible</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="607e433c594f8ffd943ccdc84a0173f3"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mCurrentXRamMode" ref="607e433c594f8ffd943ccdc84a0173f3" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALenum <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#607e433c594f8ffd943ccdc84a0173f3">OgreOggSound::OgreOggSoundManager::mCurrentXRamMode</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="3311af58b1077a969522dea08226cddc"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mXRamSizeMB" ref="3311af58b1077a969522dea08226cddc" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALint <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#3311af58b1077a969522dea08226cddc">OgreOggSound::OgreOggSoundManager::mXRamSizeMB</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="2c0983f609e3b0810a63bb14b929d742"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mXRamFreeMB" ref="2c0983f609e3b0810a63bb14b929d742" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALint <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#2c0983f609e3b0810a63bb14b929d742">OgreOggSound::OgreOggSoundManager::mXRamFreeMB</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
 <a class="anchor" name="539d1467a060b2429bc2da3bee63c800"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mListener" ref="539d1467a060b2429bc2da3bee63c800" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -1031,9 +1465,9 @@ Listener pointer
 </div>
 </div><p>
 <hr>The documentation for this class was generated from the following files:<ul>
-<li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_sound_manager_8h.html">OgreOggSoundManager.h</a><li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="ogreoggsoundmanager_8cpp.html">ogreoggsoundmanager.cpp</a></ul>
+<li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_sound_manager_8h.html">OgreOggSoundManager.h</a><li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_sound_manager_8cpp.html">OgreOggSoundManager.cpp</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 9 12:28:32 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 9 15:00:48 2008 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

@@ -38,6 +38,16 @@ namespace OgreOggSound
 		mDevice(0), 
 		mContext(0), 
 		mListener(0),
+		mEAXSupport(false),
+		mEFXSupport(false),
+		mXRamSupport(false),
+		mXRamSize(0),
+		mXRamFree(0),
+		mXRamAuto(0),
+		mXRamHardware(0),
+		mXRamAccessible(0),
+		mCurrentXRamMode(0),
+		mEAXVersion(0),
 		mDeviceStrings(0)
 	{
 	}
@@ -211,6 +221,90 @@ namespace OgreOggSound
 		return deviceVector;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::_checkEFXSupport()
+	{
+		if (alcIsExtensionPresent(mDevice, "ALC_EXT_EFX"))
+		{
+			/* Get function pointers
+			alGenEffects = (LPALGENEFFECTS)alGetProcAddress("alGenEffects");
+			alDeleteEffects = (LPALDELETEEFFECTS )alGetProcAddress("alDeleteEffects");
+			alIsEffect = (LPALISEFFECT )alGetProcAddress("alIsEffect");
+			alEffecti = (LPALEFFECTI)alGetProcAddress("alEffecti");
+			alEffectiv = (LPALEFFECTIV)alGetProcAddress("alEffectiv");
+			alEffectf = (LPALEFFECTF)alGetProcAddress("alEffectf");
+			alEffectfv = (LPALEFFECTFV)alGetProcAddress("alEffectfv");
+			alGetEffecti = (LPALGETEFFECTI)alGetProcAddress("alGetEffecti");
+			alGetEffectiv = (LPALGETEFFECTIV)alGetProcAddress("alGetEffectiv");
+			alGetEffectf = (LPALGETEFFECTF)alGetProcAddress("alGetEffectf");
+			alGetEffectfv = (LPALGETEFFECTFV)alGetProcAddress("alGetEffectfv");
+			alGenFilters = (LPALGENFILTERS)alGetProcAddress("alGenFilters");
+			alDeleteFilters = (LPALDELETEFILTERS)alGetProcAddress("alDeleteFilters");
+			alIsFilter = (LPALISFILTER)alGetProcAddress("alIsFilter");
+			alFilteri = (LPALFILTERI)alGetProcAddress("alFilteri");
+			alFilteriv = (LPALFILTERIV)alGetProcAddress("alFilteriv");
+			alFilterf = (LPALFILTERF)alGetProcAddress("alFilterf");
+			alFilterfv = (LPALFILTERFV)alGetProcAddress("alFilterfv");
+			alGetFilteri = (LPALGETFILTERI )alGetProcAddress("alGetFilteri");
+			alGetFilteriv= (LPALGETFILTERIV )alGetProcAddress("alGetFilteriv");
+			alGetFilterf = (LPALGETFILTERF )alGetProcAddress("alGetFilterf");
+			alGetFilterfv= (LPALGETFILTERFV )alGetProcAddress("alGetFilterfv");
+			alGenAuxiliaryEffectSlots = (LPALGENAUXILIARYEFFECTSLOTS)alGetProcAddress("alGenAuxiliaryEffectSlots");
+			alDeleteAuxiliaryEffectSlots = (LPALDELETEAUXILIARYEFFECTSLOTS)alGetProcAddress("alDeleteAuxiliaryEffectSlots");
+			alIsAuxiliaryEffectSlot = (LPALISAUXILIARYEFFECTSLOT)alGetProcAddress("alIsAuxiliaryEffectSlot");
+			alAuxiliaryEffectSloti = (LPALAUXILIARYEFFECTSLOTI)alGetProcAddress("alAuxiliaryEffectSloti");
+			alAuxiliaryEffectSlotiv = (LPALAUXILIARYEFFECTSLOTIV)alGetProcAddress("alAuxiliaryEffectSlotiv");
+			alAuxiliaryEffectSlotf = (LPALAUXILIARYEFFECTSLOTF)alGetProcAddress("alAuxiliaryEffectSlotf");
+			alAuxiliaryEffectSlotfv = (LPALAUXILIARYEFFECTSLOTFV)alGetProcAddress("alAuxiliaryEffectSlotfv");
+			alGetAuxiliaryEffectSloti = (LPALGETAUXILIARYEFFECTSLOTI)alGetProcAddress("alGetAuxiliaryEffectSloti");
+			alGetAuxiliaryEffectSlotiv = (LPALGETAUXILIARYEFFECTSLOTIV)alGetProcAddress("alGetAuxiliaryEffectSlotiv");
+			alGetAuxiliaryEffectSlotf = (LPALGETAUXILIARYEFFECTSLOTF)alGetProcAddress("alGetAuxiliaryEffectSlotf");
+			alGetAuxiliaryEffectSlotfv = (LPALGETAUXILIARYEFFECTSLOTFV)alGetProcAddress("alGetAuxiliaryEffectSlotfv");
+
+			if (alGenEffects &&	alDeleteEffects && alIsEffect && alEffecti && alEffectiv &&	alEffectf &&
+				alEffectfv && alGetEffecti && alGetEffectiv && alGetEffectf && alGetEffectfv &&	alGenFilters &&
+				alDeleteFilters && alIsFilter && alFilteri && alFilteriv &&	alFilterf && alFilterfv &&
+				alGetFilteri &&	alGetFilteriv && alGetFilterf && alGetFilterfv && alGenAuxiliaryEffectSlots &&
+				alDeleteAuxiliaryEffectSlots &&	alIsAuxiliaryEffectSlot && alAuxiliaryEffectSloti &&
+				alAuxiliaryEffectSlotiv && alAuxiliaryEffectSlotf && alAuxiliaryEffectSlotfv &&
+				alGetAuxiliaryEffectSloti && alGetAuxiliaryEffectSlotiv && alGetAuxiliaryEffectSlotf &&
+				alGetAuxiliaryEffectSlotfv)
+				return true;*/
+		}
+
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::_checkXRAMSupport()
+	{
+		// Check for X-RAM extension
+		if(alIsExtensionPresent("EAX-RAM") == AL_TRUE)
+		{
+			// Get X-RAM Function pointers
+			mEAXSetBufferMode = (EAXSetBufferMode)alGetProcAddress("EAXSetBufferMode");
+			mEAXGetBufferMode = (EAXGetBufferMode)alGetProcAddress("EAXGetBufferMode");
+
+			if (mEAXSetBufferMode && mEAXGetBufferMode)
+			{
+				mXRamSize = alGetEnumValue("AL_EAX_RAM_SIZE");
+				mXRamFree = alGetEnumValue("AL_EAX_RAM_FREE");
+				mXRamAuto = alGetEnumValue("AL_STORAGE_AUTOMATIC");
+				mXRamHardware = alGetEnumValue("AL_STORAGE_HARDWARE");
+				mXRamAccessible = alGetEnumValue("AL_STORAGE_ACCESSIBLE");
+
+				if (mXRamSize && mXRamFree && mXRamAuto && mXRamHardware && mXRamAccessible)
+				{
+					// Support available
+					mXRamSizeMB = alGetInteger(mXRamSize) / (1024*1024);
+					mXRamFreeMB = alGetInteger(mXRamFree) / (1024*1024);
+					return true;
+				}
+			}
+		}	
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_checkFeatureSupport()
 	{
 		Ogre::String msg="";
@@ -254,18 +348,59 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 
-		// Check for EFX Support
-		if(alcIsExtensionPresent(mDevice, "ALC_EXT_EFX") == AL_TRUE)
-			Ogre::LogManager::getSingleton().logMessage("*** --- EFX Extension Found");
+		// EFX
+		mEFXSupport = _checkEFXSupport();
+		if (mEFXSupport)
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** --- EFX Detected");
+		}
+		else
+			Ogre::LogManager::getSingleton().logMessage("*** --- EFX NOT Detected");
 
-		// Check for X-RAM extension
-		if(alIsExtensionPresent("EAX-RAM") == AL_TRUE)
+		// XRAM
+		mXRamSupport = _checkXRAMSupport();
+		if (mXRamSupport)
+		{
+			// Log message
 			Ogre::LogManager::getSingleton().logMessage("*** --- X-RAM Detected");
+			Ogre::LogManager::getSingleton().logMessage("*** --- X-RAM Size(MB): " + Ogre::StringConverter::toString(mXRamSizeMB) +
+				" Free(MB):" + Ogre::StringConverter::toString(mXRamFreeMB));		
+		}
+		else
+			Ogre::LogManager::getSingleton().logMessage("*** --- XRAM NOT Detected");
+
+		// EAX 
+		for(int version = 5; version >= 2; version--)
+		{
+			Ogre::String eaxName="EAX"+Ogre::StringConverter::toString(version)+".0";
+			if(alIsExtensionPresent(eaxName.c_str()) == AL_TRUE)
+			{
+				mEAXSupport = true;
+				mEAXVersion = version;
+				eaxName="*** --- EAX "+Ogre::StringConverter::toString(version)+".0 Detected";
+				Ogre::LogManager::getSingleton().logMessage(eaxName);
+				break;
+			}
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_enumDevices()
 	{
 		mDeviceStrings = const_cast<ALCchar*>(alcGetString(0,ALC_DEVICE_SPECIFIER));
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::setXRamBuffer(ALsizei numBuffers, ALuint* buffer)
+	{
+		if ( buffer && mEAXSetBufferMode )
+			mEAXSetBufferMode(numBuffers, buffer, mCurrentXRamMode);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::setXRamBufferMode(ALenum mode)
+	{
+		mCurrentXRamMode = mXRamAuto;
+		if		( mode==mXRamAuto ) mCurrentXRamMode = mXRamAuto;
+		else if ( mode==mXRamHardware ) mCurrentXRamMode = mXRamHardware;
+		else if ( mode==mXRamAccessible ) mCurrentXRamMode = mXRamAccessible;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name,const std::string& file, bool stream, bool loop)

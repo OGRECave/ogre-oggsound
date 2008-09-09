@@ -71,7 +71,6 @@ namespace OgreOggSound
 
 		alGenBuffers(1, &mBuffer);
 
-
 		char data[BUFFER_SIZE];
 		int sizeRead = 0;
 		int bitStream;
@@ -82,7 +81,17 @@ namespace OgreOggSound
 		} 
 		while(sizeRead > 0);
 
+		// Upload to XRAM buffers if available
+		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
+			OgreOggSoundManager::getSingleton().setXRamBuffer(1, &mBuffer);
+
+		alGetError();
 		alBufferData(mBuffer, mFormat, &mBufferData[0], static_cast < ALsizei > (mBufferData.size()), mVorbisInfo->rate);
+		if ( alGetError()!=AL_NO_ERROR )
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticSound::open() - Unable to load audio data into buffer!!", Ogre::LML_CRITICAL);
+			throw std::string("Unable to load buffers with data!");
+		}
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
