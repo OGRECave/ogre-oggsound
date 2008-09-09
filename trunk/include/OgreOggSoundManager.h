@@ -23,8 +23,11 @@
 #include "OgreOggSoundPrereqs.h"
 #include <al.h>
 #include <alc.h>
+#include "XRam.h"
+
 #include <map>
 #include <string>
+
 #include <OgreSingleton.h>
 #include "OgreOggISound.h"
 #include "OgreOggStreamSound.h"
@@ -138,6 +141,26 @@ namespace OgreOggSound
 			Destroys all sound objects created by this manager.
 		 */
 		void destroyAllSounds();
+		/** Returns XRAM support status.
+		 */
+		bool hasXRamSupport() { return mXRamSupport; }
+		/** Returns EFX support status.
+		 */
+		bool hasEFXSupport() { return mEFXSupport; }
+		/** Returns EAX support status.
+		 */
+		bool hasEAXSupport() { return mEAXSupport; }
+		/** Sets XRam buffers.
+		@remarks
+			Currently defaults to AL_STORAGE_AUTO.
+		 */
+		void setXRamBuffer(ALsizei numBuffers, ALuint* buffers); 
+		/** Sets XRam buffers storage mode.
+		@remarks
+			Should be called before creating any sounds
+			Options: AL_STORAGE_AUTOMATIC | AL_STORAGE_HARDWARE | AL_STORAGE_ACCESSIBLE
+		 */
+		void setXRamBufferMode(ALenum mode); 
 		/** Destroys a single sound.
 		@remarks
 			Destroys a single sound object.
@@ -248,12 +271,18 @@ namespace OgreOggSound
 			from the system.
 		 */
 		void _release();
-		/** Logs a supported feature list
+		/** Checks and Logs a supported feature list
 		@remarks
 			Queries OpenAL for various supported features and lists 
 			them with the LogManager.
 		 */
 		void _checkFeatureSupport();
+		/** Checks for EFX hardware support
+		 */
+		bool _checkEFXSupport();
+		/** Checks for XRAM hardware support
+		 */
+		bool _checkXRAMSupport();
 		/** Re-activates any sounds which had their source stolen.
 		@remarks
 			When all sources are in use the sounds begin to give up 
@@ -292,6 +321,38 @@ namespace OgreOggSound
 		static OgreOggSoundManager *pInstance;	// OgreOggSoundManager instance pointer
 		ALCchar* mDeviceStrings;				// List of available devices strings
 		int mNumSources;						// Number of sources available for sounds
+
+		/**
+			EAX Support
+		*/
+		bool mEAXSupport;						// EAX present flag
+		int mEAXVersion;						// EAX version ID
+
+		/**
+			EFX Support
+		*/
+		bool mEFXSupport;						// EFX present flag
+
+		/**
+			XRAM Support
+		*/
+		typedef ALboolean (__cdecl *LPEAXSETBUFFERMODE)(ALsizei n, ALuint *buffers, ALint value);
+		typedef ALenum    (__cdecl *LPEAXGETBUFFERMODE)(ALuint buffer, ALint *value);
+
+		LPEAXSETBUFFERMODE mEAXSetBufferMode;
+		LPEAXGETBUFFERMODE mEAXGetBufferMode;
+		
+		bool mXRamSupport;
+
+		ALenum	mXRamSize, 
+				mXRamFree,
+				mXRamAuto, 
+				mXRamHardware, 
+				mXRamAccessible,
+				mCurrentXRamMode;
+		
+		ALint	mXRamSizeMB,
+				mXRamFreeMB;
 
 		/**
 		 * Listener pointer
