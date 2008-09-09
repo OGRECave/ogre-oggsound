@@ -297,7 +297,7 @@ Plays the sound. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Begins p
 <p>
 Updates the data buffers with sound information. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>This function refills processed buffers with audio data from the stream, it automatically handles looping if set. </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a9e76780e38cc3bfd659afe53d1ed248">OgreOggSound::OgreOggISound</a>.</p>
+<p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#6ab3ed655cbd0a8dbf5ee6a766fd0281">OgreOggSound::OgreOggISound</a>.</p>
 
 </div>
 </div><p>
@@ -345,6 +345,8 @@ Loads data from the stream into a buffer. <dl class="remark" compact><dt><b>Rema
   </table>
 </dl>
 
+<p>
+This is the closest we can get to a loop trigger. If, whilst filling the buffers, we need to wrap the stream pointer, trigger the loop callback if defined. NOTE:- The accuracy of this method will be affected by a number of parameters, namely the buffer size, whether the sound has previously given up its source (therefore it will be re-filling all buffers, which, if the sound was close to eof will likely get triggered), and the quality of the sound, lower quality will hold a longer section of audio per buffer. In ALL cases this trigger will happen BEFORE the audio audibly loops!! 
 </div>
 </div><p>
 <a class="anchor" name="b45e6db5af1bd4cc2fa0d7ebb1af1d40"></a><!-- doxytag: member="OgreOggSound::OgreOggStreamSound::_check" ref="b45e6db5af1bd4cc2fa0d7ebb1af1d40" args="()" -->
@@ -533,10 +535,10 @@ Ogg file variables
 
 </div>
 </div><p>
-<hr>The documentation for this class was generated from the following file:<ul>
-<li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_stream_sound_8h.html">OgreOggStreamSound.h</a></ul>
+<hr>The documentation for this class was generated from the following files:<ul>
+<li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_stream_sound_8h.html">OgreOggStreamSound.h</a><li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="ogreoggstreamsound_8cpp.html">ogreoggstreamsound.cpp</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Sep 8 16:03:19 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 9 12:28:32 2008 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
