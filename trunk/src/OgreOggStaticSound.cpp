@@ -35,7 +35,8 @@ namespace OgreOggSound
 		mOggFile=0;						
 		mVorbisInfo=0;			
 		mVorbisComment=0;		
-		mBufferData.clear();		
+		mBufferData.clear();	
+		mPreviousOffset=0;
 		mBuffer=0;						
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -154,6 +155,7 @@ namespace OgreOggSound
 		alSourceStop(mSource);
 		alSourceRewind(mSource);	
 		mPlay=false;
+		mPreviousOffset=0;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::loop(bool loop)
@@ -180,6 +182,23 @@ namespace OgreOggSound
 			// Finished callback
 			if ( mFinishedCB && mFinCBEnabled ) 
 				mFinishedCB->execute(static_cast<OgreOggISound*>(this));
+		}
+		else
+		{
+			ALint bytes=0;
+
+			// Use byte offset to work out current position
+			alGetSourcei(mSource, AL_BYTE_OFFSET, &bytes);
+			
+			// Has the audio looped?
+			if ( mPreviousOffset>bytes )
+			{
+				if ( mLoopCB && mLoopCBEnabled )
+					mLoopCB->execute(static_cast<OgreOggISound*>(this));
+			}
+
+			// Store current offset position			
+			mPreviousOffset=bytes;
 		}
 	}
 }
