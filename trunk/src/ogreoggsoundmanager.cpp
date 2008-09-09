@@ -213,7 +213,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::attachEffectToSound(const Ogre::String& sName, ALuint& slot, ALuint& effect)
+	bool OgreOggSoundManager::attachEffectToSound(const std::string& sName, ALuint& slot, ALuint& effect)
 	{
 		if ( !hasEFXSupport() && sName.empty() ) return false;
 
@@ -249,6 +249,40 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::attachFilterToSound(const std::string& sName, ALuint& filter)
+	{
+		if ( !hasEFXSupport() && sName.empty() ) return false;
+
+		OgreOggISound* sound = getSound(sName);
+
+		if ( sound )
+		{
+			ALuint src = sound->getSource();
+			if ( src!=AL_NONE )
+			{
+				alSourcei(src, AL_DIRECT_FILTER, filter);
+				if (alGetError() != AL_NO_ERROR)
+				{
+					Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachFilterToSound() - Unable to attach filter to source!");
+					return false;
+				}
+			}
+			else
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachFilterToSound() - sound has no source!");
+				return false;
+			}
+		}
+		else
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachFilterToSound() - sound not found!");
+			return false;
+		}
+
+		return true;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_attachEffectToSlot(ALuint& slot, ALuint& effect)
 	{
 		if ( !hasEFXSupport() ) return false;
@@ -265,55 +299,76 @@ namespace OgreOggSound
 		return true;
 	}	
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::createEFXFilter(ALint type, ALfloat gain, ALfloat hfGain)
+	ALuint OgreOggSoundManager::getEFXFilter(const std::string& fName)
 	{
-		if ( !hasEFXSupport() ) return false;
+		if ( !mFilterList || !hasEFXSupport() || fName.empty() ) return AL_NONE;
+
+		EffectList::iterator filter=mFilterList->find(fName);
+		if ( filter==mFilterList->end() ) 
+			return AL_NONE; 
+		else 
+			return filter->second;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	ALuint OgreOggSoundManager::getEFXEffect(const std::string& eName)
+	{
+		if ( !mEffectList || !hasEFXSupport() || eName.empty() ) return AL_NONE;
+
+		EffectList::iterator effect=mEffectList->find(eName);
+		if ( effect==mEffectList->end() ) 
+			return AL_NONE; 
+		else 
+			return effect->second;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	ALuint OgreOggSoundManager::getEFXEffectSlot(int slotID)
+	{
+		if ( !mEffectSlotList || !hasEFXSupport() || (slotID>=static_cast<int>(mEffectSlotList->size())) ) return AL_NONE;
+
+		return static_cast<ALuint>((*mEffectSlotList)[slotID]);
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::createEFXFilter(const std::string& fName, ALint type, ALfloat gain, ALfloat hfGain)
+	{
+		if ( !hasEFXSupport() || fName.empty() ) return false;
 
 		ALuint filter;
-		
-		/* Try to create a Filter */
-		alGetError();
+
 		alGenFilters(1, &filter);
-		if (alGetError() == AL_NO_ERROR)
+		if (alGetError() != AL_NO_ERROR)
 		{
-			Ogre::LogManager::getSingleton().logMessage("*** Generated a Filter\n");
+			Ogre::LogManager::getSingleton().logMessage("*** Cannot create EFX Filter!");
 			return false;
 		}
 
-		// Validate filter type
-		if (alIsFilter(filter) && ( type==AL_FILTER_LOWPASS ) || ( type==AL_FILTER_HIGHPASS ) || ( type==AL_FILTER_BANDPASS ) )
+		if (alIsFilter(filter) && ((type==AL_FILTER_LOWPASS) || (type==AL_FILTER_HIGHPASS) || (type==AL_FILTER_BANDPASS) ))
 		{
-			/* Set Filter type to Low-Pass and set parameters */
 			alFilteri(filter, AL_FILTER_TYPE, type);
 			if (alGetError() != AL_NO_ERROR)
 			{
-				Ogre::LogManager::getSingleton().logMessage("*** Low Pass Filter not supported!");
+				Ogre::LogManager::getSingleton().logMessage("*** Filter not supported!");
 				return false;
 			}
 			else
 			{
-				// Set optional gain values
-				if ( ( gain>=0 ) && ( gain<=1 ) && ( hfGain>=0 ) && ( hfGain<=1 ) )
-				{
-					alFilterf(filter, AL_LOWPASS_GAIN, gain);
-					alFilterf(filter, AL_LOWPASS_GAINHF, hfGain);
-				}
-		
-				if ( !mFilterList ) mFilterList = new std::vector<ALuint>;
-				mFilterList->push_back(filter);
+				// Set properties
+				alFilterf(filter, AL_LOWPASS_GAIN, gain);
+				alFilterf(filter, AL_LOWPASS_GAINHF, hfGain);
+
+				if ( !mFilterList ) mFilterList = new EffectList;
+				(*mFilterList)[fName]=filter;
 			}
 		}
-		else
-			Ogre::LogManager::getSingleton().logMessage("*** Filter type not recognised!");
-
-		// Error
-		return false;
+		return true;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::createEFXEffect(ALint type)
+	bool OgreOggSoundManager::createEFXEffect(const std::string& eName, ALint type)
 	{
-		if ( !hasEFXSupport() ) return false;
+		if ( !hasEFXSupport() || eName.empty() ) return false;
 
 		ALuint effect;
 
@@ -334,8 +389,8 @@ namespace OgreOggSound
 			}
 			else
 			{
-				if ( !mEffectList ) mEffectList = new std::vector<ALuint>;
-				mEffectList->push_back(effect);
+				if ( !mEffectList ) mEffectList = new EffectList;
+				(*mEffectList)[eName]=effect;
 			}
 		}
 		return true;
@@ -562,7 +617,6 @@ namespace OgreOggSound
 		// Delete Auxiliary Effect Slots
 		alDeleteAuxiliaryEffectSlots(mNumEffectSlots, uiEffectSlots);
 	}
-	
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_checkEFXSupport()
 	{
@@ -965,8 +1019,8 @@ namespace OgreOggSound
 			if ( hasEFXSupport() )
 			{
 				// Remove filters/effects
-				alSourcei((*it), AL_DIRECT_FILTER, AL_FILTER_NULL);
-				alSource3i((*it), AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, AL_FILTER_NULL);
+				alSourcei(static_cast<ALuint>((*it)), AL_DIRECT_FILTER, AL_FILTER_NULL);
+				alSource3i(static_cast<ALuint>((*it)), AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, AL_FILTER_NULL);
  			}
 			alDeleteSources(1,&(*it));
 			++it;
@@ -977,16 +1031,16 @@ namespace OgreOggSound
 		// clear EFX effect lists
 		if ( mFilterList )
 		{
-			for ( std::vector<ALuint>::iterator iter=mFilterList->begin(); iter!=mFilterList->end(); ++iter )
-			    alDeleteEffects( 1, &(*iter));
+			for ( EffectList::iterator iter=mFilterList->begin(); iter!=mFilterList->end(); ++iter )
+			    alDeleteEffects( 1, &iter->second);
 			delete mFilterList;
 			mFilterList=0;
 		}
 
 		if ( mEffectList )
 		{
-			for ( std::vector<ALuint>::iterator iter=mEffectList->begin(); iter!=mEffectList->end(); ++iter )
-			    alDeleteEffects( 1, &(*iter));
+			for ( EffectList::iterator iter=mEffectList->begin(); iter!=mEffectList->end(); ++iter )
+			    alDeleteEffects( 1, &iter->second);
 			delete mEffectList;
 			mEffectList=0;
 		}

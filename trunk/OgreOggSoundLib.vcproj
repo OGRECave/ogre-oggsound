@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./include;&quot;$(OPENAL_SDK)\include\&quot;;&quot;$(OGRE_HOME)\OgreMain\include\&quot;;&quot;$(OGRE_SRC)\Dependencies\include\&quot;;&quot;$(OGRE_HOME)\Dependencies\include\OIS&quot;;&quot;$(BOOST_ROOT)&quot;"
+				AdditionalIncludeDirectories="./include;&quot;$(OPENAL_SDK)\include\&quot;;&quot;$(OGRE_HOME)\OgreMain\include\&quot;;&quot;$(OGRE_HOME)\Dependencies\include\&quot;;&quot;$(OGRE_HOME)\Dependencies\include\OIS&quot;;&quot;$(BOOST_ROOT)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;OGGSOUND_EXPORT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -119,7 +119,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="./vorbis/include;./ogg/include;./include;&quot;$(OPENAL_SDK)\include&quot;;&quot;$(OGRE_HOME)\OgreMain\include&quot;;&quot;$(OGRE_HOME)\Dependencies\include\&quot;;&quot;$(OGRE_SRC)\Dependencies\include\OIS&quot;;&quot;$(BOOST_ROOT)&quot;"
+				AdditionalIncludeDirectories="./vorbis/include;./ogg/include;./include;&quot;$(OPENAL_SDK)\include&quot;;&quot;$(OGRE_HOME)\OgreMain\include&quot;;&quot;$(OGRE_HOME)\Dependencies\include\&quot;;&quot;$(OGRE_HOME)\Dependencies\include\OIS&quot;;&quot;$(BOOST_ROOT)&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;OGGSOUND_EXPORT"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
