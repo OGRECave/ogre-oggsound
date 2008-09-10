@@ -281,6 +281,11 @@ namespace OgreOggSound
 			Overridden from MovableObject.
 		 */
 		virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
+		/** Notifys object its been attached to a node
+		@remarks
+			Overridden from MovableObject.
+		 */
+		virtual void _notifyAttached(Ogre::Node* node, bool isTagPoint=false);
 		/** Renderable callback
 		@remarks
 			Overridden function from MovableObject.
