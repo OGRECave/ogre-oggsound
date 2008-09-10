@@ -34,6 +34,13 @@ Features List:
 	* can be attached directly into scene graph via SceneNodes
 	* Automatically updates transformations
 
+* XRAM hardware buffer support 
+	* Currently experimental
+
+* EFX effect support
+	* Support for attaching EFX filters/effects to sounds if hardware supported
+	* Support for EAX room reverb presets
+	
 * Volume control
 
 * Pitch control

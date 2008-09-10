@@ -1,3 +1,8 @@
+* version 0.89
+
+	* Added EFX effect/filter support
+	* Added EAX room reverb preset support
+
 * version 0.88
 
 	* Added XRAM support for hardware buffers

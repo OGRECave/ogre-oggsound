@@ -182,7 +182,9 @@ namespace OgreOggSound
 
 		Ogre::LogManager::getSingleton().logMessage("*** --- OpenAL Device successfully created");
 	
-		mContext = alcCreateContext(mDevice,0);
+		ALint attribs[2] = {ALC_MAX_AUXILIARY_SENDS, 4};
+
+		mContext = alcCreateContext(mDevice, attribs);
 		if (!mContext)
 			throw std::string("Unable to create OpenAL context");
 
@@ -213,11 +215,253 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::attachEffectToSound(const std::string& sName, ALuint& slot, ALuint& effect)
+	bool OgreOggSoundManager::setEFXEffectParameter(const std::string& eName, ALint effectType, ALenum attrib, ALfloat param)
 	{
+		if ( !hasEFXSupport() && eName.empty() ) return false;
+
+		ALuint effect;
+
+		// Get effect id's
+		if ( (effect = _getEFXEffect(eName) ) != AL_EFFECT_NULL )
+		{
+			alGetError();
+			alEffecti(effectType, attrib, param);
+			if ( alGetError()!=AL_NO_ERROR )
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXEffectParameter() - Unable to change effect parameter!");
+				return false;
+			}
+		}
+
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::setEFXEffectParameter(const std::string& eName, ALint effectType, ALenum attrib, ALfloat* params)
+	{
+		if ( !hasEFXSupport() && eName.empty() || !params ) return false;
+
+		ALuint effect;
+
+		// Get effect id's
+		if ( (effect = _getEFXEffect(eName) ) != AL_EFFECT_NULL )
+		{
+			alGetError();
+			alEffectfv(effectType, attrib, params);
+			if ( alGetError()!=AL_NO_ERROR )
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXEffectParameter() - Unable to change effect parameters!");
+				return false;
+			}
+		}
+
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::setEFXEffectParameter(const std::string& eName, ALint effectType, ALenum attrib, ALint param)
+	{
+		if ( !hasEFXSupport() && eName.empty() ) return false;
+
+		ALuint effect;
+
+		// Get effect id's
+		if ( (effect = _getEFXEffect(eName) ) != AL_EFFECT_NULL )
+		{
+			alGetError();
+			alEffecti(effectType, attrib, param);
+			if ( alGetError()!=AL_NO_ERROR )
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXEffectParameter() - Unable to change effect parameter!");
+				return false;
+			}
+		}
+
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::setEFXEffectParameter(const std::string& eName, ALint effectType, ALenum attrib, ALint* params)
+	{
+		if ( !hasEFXSupport() && eName.empty() || !params ) return false;
+
+		ALuint effect;
+
+		// Get effect id's
+		if ( (effect = _getEFXEffect(eName) ) != AL_EFFECT_NULL )
+		{
+			alGetError();
+			alEffectiv(effectType, attrib, params);
+			if ( alGetError()!=AL_NO_ERROR )
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXEffectParameter() - Unable to change effect parameters!");
+				return false;
+			}
+		}
+
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::attachEffectToSound(const std::string& sName, ALuint slotID, const Ogre::String& effectName, const Ogre::String& filterName)
+	{
+
+	#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+	#endif
+
 		if ( !hasEFXSupport() && sName.empty() ) return false;
 
-		_attachEffectToSlot(slot, effect);
+		ALuint effect;
+		ALuint filter;
+		ALuint slot;
+
+		// Get effect id's
+		slot	= _getEFXSlot(slotID);
+		effect	= _getEFXEffect(effectName);
+		filter	= _getEFXFilter(filterName);
+
+		// Attach effect and filter to slot
+		if ( _attachEffectToSlot(slot, effect) )
+		{
+			OgreOggISound* sound = getSound(sName);
+
+			if ( sound )
+			{
+				ALuint src = sound->getSource();
+				if ( src!=AL_NONE )
+				{
+					alSource3i(src, AL_AUXILIARY_SEND_FILTER, effect, slotID, filter);
+					if (alGetError() == AL_NO_ERROR)
+					{
+						return true;
+					}
+					else
+					{
+						Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachEffectToSound() - Unable to attach effect to source!");
+						return false;
+					}
+				}
+				else
+				{
+					Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachEffectToSound() - sound has no source!");
+					return false;
+				}
+			}
+			else
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachEffectToSound() - sound not found!");
+				return false;
+			}
+		}
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::attachFilterToSound(const std::string& sName, const Ogre::String& filterName)
+	{
+	#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+	#endif
+
+		if ( !hasEFXSupport() && sName.empty() ) return false;
+
+		ALuint filter = _getEFXFilter(filterName);
+
+		if ( filter!=AL_FILTER_NULL )
+		{
+			OgreOggISound* sound = getSound(sName);
+
+			if ( sound )
+			{
+				ALuint src = sound->getSource();
+				if ( src!=AL_NONE )
+				{
+					alSourcei(src, AL_DIRECT_FILTER, filter);
+					if (alGetError() == AL_NO_ERROR)
+					{
+						return true;
+					}
+					else
+					{
+						Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachFilterToSound() - Unable to attach filter to source!");
+						return false;
+					}
+				}
+				else
+				{
+					Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachFilterToSound() - sound has no source!");
+					return false;
+				}
+			}
+			else
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachFilterToSound() - sound not found!");
+				return false;
+			}
+
+		}
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::detachEffectFromSound(const std::string& sName, ALuint slotID)
+	{
+	#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+	#endif
+
+		if ( !hasEFXSupport() && sName.empty() ) return false;
+
+		ALuint slot;
+
+		// Get slot
+		slot = _getEFXSlot(slotID);
+
+		// Detach effect from sound
+		if ( slot!=AL_NONE )
+		{
+			OgreOggISound* sound = getSound(sName);
+
+			if ( sound )
+			{
+				ALuint src = sound->getSource();
+				if ( src!=AL_NONE )
+				{
+					alSource3i(src, AL_AUXILIARY_SEND_FILTER, AL_EFFECT_NULL, slot, AL_FILTER_NULL);
+					if (alGetError() == AL_NO_ERROR)
+					{
+						return true;
+					}
+					else
+					{
+						Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::detachEffectFromSound() - Unable to detach effect from source!");
+						return false;
+					}
+				}
+				else
+				{
+					Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::detachEffectFromSound() - sound has no source!");
+					return false;
+				}
+			}
+			else
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::detachEffectFromSound() - sound not found!");
+				return false;
+			}
+		}
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::detachFilterFromSound(const std::string& sName)
+	{
+	#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+	#endif
+
+		if ( !hasEFXSupport() && sName.empty() ) return false;
 
 		OgreOggISound* sound = getSound(sName);
 
@@ -226,22 +470,22 @@ namespace OgreOggSound
 			ALuint src = sound->getSource();
 			if ( src!=AL_NONE )
 			{
-				alSource3i(src, AL_AUXILIARY_SEND_FILTER, effect, 0, NULL);
+				alSourcei(src, AL_DIRECT_FILTER, AL_FILTER_NULL);
 				if (alGetError() != AL_NO_ERROR)
 				{
-					Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachEffectToSound() - Unable to attach effect to source!");
+					Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::dettachFilterToSound() - Unable to detach filter from source!");
 					return false;
 				}
 			}
 			else
 			{
-				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachEffectToSound() - sound has no source!");
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::detachFilterFromSound() - sound has no source!");
 				return false;
 			}
 		}
 		else
 		{
-			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachEffectToSound() - sound not found!");
+			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::detachFilterFromSound() - sound not found!");
 			return false;
 		}
 
@@ -249,49 +493,15 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::attachFilterToSound(const std::string& sName, ALuint& filter)
+	bool OgreOggSoundManager::_attachEffectToSlot(ALuint slot, ALuint effect)
 	{
-		if ( !hasEFXSupport() && sName.empty() ) return false;
-
-		OgreOggISound* sound = getSound(sName);
-
-		if ( sound )
-		{
-			ALuint src = sound->getSource();
-			if ( src!=AL_NONE )
-			{
-				alSourcei(src, AL_DIRECT_FILTER, filter);
-				if (alGetError() != AL_NO_ERROR)
-				{
-					Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachFilterToSound() - Unable to attach filter to source!");
-					return false;
-				}
-			}
-			else
-			{
-				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachFilterToSound() - sound has no source!");
-				return false;
-			}
-		}
-		else
-		{
-			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::attachFilterToSound() - sound not found!");
-			return false;
-		}
-
-		return true;
-	}
-
-	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::_attachEffectToSlot(ALuint& slot, ALuint& effect)
-	{
-		if ( !hasEFXSupport() ) return false;
+		if ( !hasEFXSupport() || slot==AL_NONE ) return false;
 
 		/* Attach Effect to Auxiliary Effect Slot */
 		/* slot is the ID of an Aux Effect Slot */
 		/* effect is the ID of an Effect */
 		alAuxiliaryEffectSloti(slot, AL_EFFECTSLOT_EFFECT, effect);
-		if (alGetError() == AL_NO_ERROR)
+		if (alGetError() != AL_NO_ERROR)
 		{
 			Ogre::LogManager::getSingleton().logMessage("*** Cannot attach effect to slot!");
 			return false;
@@ -299,31 +509,31 @@ namespace OgreOggSound
 		return true;
 	}	
 	/*/////////////////////////////////////////////////////////////////*/
-	ALuint OgreOggSoundManager::getEFXFilter(const std::string& fName)
+	ALuint OgreOggSoundManager::_getEFXFilter(const std::string& fName)
 	{
-		if ( !mFilterList || !hasEFXSupport() || fName.empty() ) return AL_NONE;
+		if ( !mFilterList || !hasEFXSupport() || fName.empty() ) return AL_FILTER_NULL;
 
 		EffectList::iterator filter=mFilterList->find(fName);
 		if ( filter==mFilterList->end() ) 
-			return AL_NONE; 
+			return AL_FILTER_NULL; 
 		else 
 			return filter->second;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	ALuint OgreOggSoundManager::getEFXEffect(const std::string& eName)
+	ALuint OgreOggSoundManager::_getEFXEffect(const std::string& eName)
 	{
-		if ( !mEffectList || !hasEFXSupport() || eName.empty() ) return AL_NONE;
+		if ( !mEffectList || !hasEFXSupport() || eName.empty() ) return AL_EFFECT_NULL;
 
 		EffectList::iterator effect=mEffectList->find(eName);
 		if ( effect==mEffectList->end() ) 
-			return AL_NONE; 
+			return AL_EFFECT_NULL; 
 		else 
 			return effect->second;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	ALuint OgreOggSoundManager::getEFXEffectSlot(int slotID)
+	ALuint OgreOggSoundManager::_getEFXSlot(int slotID)
 	{
 		if ( !mEffectSlotList || !hasEFXSupport() || (slotID>=static_cast<int>(mEffectSlotList->size())) ) return AL_NONE;
 
@@ -331,7 +541,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::createEFXFilter(const std::string& fName, ALint type, ALfloat gain, ALfloat hfGain)
+	bool OgreOggSoundManager::createEFXFilter(const std::string& fName, ALint filterType, ALfloat gain, ALfloat hfGain)
 	{
 		if ( !hasEFXSupport() || fName.empty() ) return false;
 
@@ -344,9 +554,9 @@ namespace OgreOggSound
 			return false;
 		}
 
-		if (alIsFilter(filter) && ((type==AL_FILTER_LOWPASS) || (type==AL_FILTER_HIGHPASS) || (type==AL_FILTER_BANDPASS) ))
+		if (alIsFilter(filter) && ((filterType==AL_FILTER_LOWPASS) || (filterType==AL_FILTER_HIGHPASS) || (filterType==AL_FILTER_BANDPASS) ))
 		{
-			alFilteri(filter, AL_FILTER_TYPE, type);
+			alFilteri(filter, AL_FILTER_TYPE, filterType);
 			if (alGetError() != AL_NO_ERROR)
 			{
 				Ogre::LogManager::getSingleton().logMessage("*** Filter not supported!");
@@ -366,7 +576,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::createEFXEffect(const std::string& eName, ALint type)
+	bool OgreOggSoundManager::createEFXEffect(const std::string& eName, ALint effectType, EAXREVERBPROPERTIES* props)
 	{
 		if ( !hasEFXSupport() || eName.empty() ) return false;
 
@@ -381,7 +591,7 @@ namespace OgreOggSound
 
 		if (alIsEffect(effect))
 		{
-			alEffecti(effect, AL_EFFECT_TYPE, type);
+			alEffecti(effect, AL_EFFECT_TYPE, effectType);
 			if (alGetError() != AL_NO_ERROR)
 			{
 				Ogre::LogManager::getSingleton().logMessage("*** Effect not supported!");
@@ -389,6 +599,15 @@ namespace OgreOggSound
 			}
 			else
 			{
+				// Apply some preset reverb properties
+				if ( effectType==AL_EFFECT_EAXREVERB  && props )
+				{
+					EFXEAXREVERBPROPERTIES eaxProps;
+					ConvertReverbParameters(props, &eaxProps);
+					_setEAXReverbProperties(&eaxProps, effect);
+				}
+
+				// Add to list
 				if ( !mEffectList ) mEffectList = new EffectList;
 				(*mEffectList)[eName]=effect;
 			}
@@ -416,6 +635,17 @@ namespace OgreOggSound
 		}
 
 		return true;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	int OgreOggSoundManager::getNumEffectSlots()
+	{
+		if ( !hasEFXSupport() ) return 0;
+		
+		ALint auxSends=0;
+		alcGetIntegerv(mDevice, ALC_MAX_AUXILIARY_SENDS, 1, &auxSends);
+
+		return auxSends;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -786,6 +1016,70 @@ namespace OgreOggSound
 	{
 		mDeviceStrings = const_cast<ALCchar*>(alcGetString(0,ALC_DEVICE_SPECIFIER));
 	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::_setEAXReverbProperties(EFXEAXREVERBPROPERTIES *pEFXEAXReverb, ALuint uiEffect)
+	{
+		if (pEFXEAXReverb)
+		{
+			// Clear AL Error code
+			alGetError();
+		
+			// Determine type of 'Reverb' effect and apply correct settings
+			ALint type;
+			alGetEffecti(uiEffect, AL_EFFECT_TYPE, &type);
+		
+			// Apply selected presets to normal reverb 
+			if ( type==AL_EFFECT_REVERB )
+			{
+				alEffectf(uiEffect, AL_REVERB_DENSITY, pEFXEAXReverb->flDensity);
+				alEffectf(uiEffect, AL_REVERB_DIFFUSION, pEFXEAXReverb->flDiffusion);
+				alEffectf(uiEffect, AL_REVERB_GAIN, pEFXEAXReverb->flGain);
+				alEffectf(uiEffect, AL_REVERB_GAINHF, pEFXEAXReverb->flGainHF);
+				alEffectf(uiEffect, AL_REVERB_DECAY_TIME, pEFXEAXReverb->flDecayTime);
+				alEffectf(uiEffect, AL_REVERB_DECAY_HFRATIO, pEFXEAXReverb->flDecayHFRatio);
+				alEffectf(uiEffect, AL_REVERB_REFLECTIONS_GAIN, pEFXEAXReverb->flReflectionsGain);
+				alEffectf(uiEffect, AL_REVERB_REFLECTIONS_DELAY, pEFXEAXReverb->flReflectionsDelay);
+				alEffectf(uiEffect, AL_REVERB_LATE_REVERB_GAIN, pEFXEAXReverb->flLateReverbGain);
+				alEffectf(uiEffect, AL_REVERB_LATE_REVERB_DELAY, pEFXEAXReverb->flLateReverbDelay);
+				alEffectf(uiEffect, AL_REVERB_AIR_ABSORPTION_GAINHF, pEFXEAXReverb->flAirAbsorptionGainHF);
+				alEffectf(uiEffect, AL_REVERB_ROOM_ROLLOFF_FACTOR, pEFXEAXReverb->flRoomRolloffFactor);
+				alEffecti(uiEffect, AL_REVERB_DECAY_HFLIMIT, pEFXEAXReverb->iDecayHFLimit);
+			}
+			// Apply full EAX reverb settings
+			else
+			{
+				alEffectf(uiEffect, AL_EAXREVERB_DENSITY, pEFXEAXReverb->flDensity);
+				alEffectf(uiEffect, AL_EAXREVERB_DIFFUSION, pEFXEAXReverb->flDiffusion);
+				alEffectf(uiEffect, AL_EAXREVERB_GAIN, pEFXEAXReverb->flGain);
+				alEffectf(uiEffect, AL_EAXREVERB_GAINHF, pEFXEAXReverb->flGainHF);
+				alEffectf(uiEffect, AL_EAXREVERB_GAINLF, pEFXEAXReverb->flGainLF);
+				alEffectf(uiEffect, AL_EAXREVERB_DECAY_TIME, pEFXEAXReverb->flDecayTime);
+				alEffectf(uiEffect, AL_EAXREVERB_DECAY_HFRATIO, pEFXEAXReverb->flDecayHFRatio);
+				alEffectf(uiEffect, AL_EAXREVERB_DECAY_LFRATIO, pEFXEAXReverb->flDecayLFRatio);
+				alEffectf(uiEffect, AL_EAXREVERB_REFLECTIONS_GAIN, pEFXEAXReverb->flReflectionsGain);
+				alEffectf(uiEffect, AL_EAXREVERB_REFLECTIONS_DELAY, pEFXEAXReverb->flReflectionsDelay);
+				alEffectfv(uiEffect, AL_EAXREVERB_REFLECTIONS_PAN, pEFXEAXReverb->flReflectionsPan);
+				alEffectf(uiEffect, AL_EAXREVERB_LATE_REVERB_GAIN, pEFXEAXReverb->flLateReverbGain);
+				alEffectf(uiEffect, AL_EAXREVERB_LATE_REVERB_DELAY, pEFXEAXReverb->flLateReverbDelay);
+				alEffectfv(uiEffect, AL_EAXREVERB_LATE_REVERB_PAN, pEFXEAXReverb->flLateReverbPan);
+				alEffectf(uiEffect, AL_EAXREVERB_ECHO_TIME, pEFXEAXReverb->flEchoTime);
+				alEffectf(uiEffect, AL_EAXREVERB_ECHO_DEPTH, pEFXEAXReverb->flEchoDepth);
+				alEffectf(uiEffect, AL_EAXREVERB_MODULATION_TIME, pEFXEAXReverb->flModulationTime);
+				alEffectf(uiEffect, AL_EAXREVERB_MODULATION_DEPTH, pEFXEAXReverb->flModulationDepth);
+				alEffectf(uiEffect, AL_EAXREVERB_AIR_ABSORPTION_GAINHF, pEFXEAXReverb->flAirAbsorptionGainHF);
+				alEffectf(uiEffect, AL_EAXREVERB_HFREFERENCE, pEFXEAXReverb->flHFReference);
+				alEffectf(uiEffect, AL_EAXREVERB_LFREFERENCE, pEFXEAXReverb->flLFReference);
+				alEffectf(uiEffect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, pEFXEAXReverb->flRoomRolloffFactor);
+				alEffecti(uiEffect, AL_EAXREVERB_DECAY_HFLIMIT, pEFXEAXReverb->iDecayHFLimit);
+			}
+			if (alGetError() == AL_NO_ERROR)
+				return true;
+		}
+
+		return false;
+	}
+	
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::setXRamBuffer(ALsizei numBuffers, ALuint* buffer)
 	{
@@ -803,9 +1097,9 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name,const std::string& file, bool stream, bool loop)
 	{
-	#if OGGSOUND_THREADED
+#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
+#endif
 
 		Ogre::ResourceGroupManager *groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
 		Ogre::String group = groupManager->findGroupContainingResource(file);
@@ -841,16 +1135,57 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggISound *OgreOggSoundManager::getSound(const std::string& name)
+	OgreOggISound* OgreOggSoundManager::getSound(const std::string& name)
 	{
 
-	#if OGGSOUND_THREADED
+#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
+#endif
 
 		SoundMap::iterator i = mSoundMap.find(name);
 		if(i == mSoundMap.end()) return 0;
 		return i->second;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::setEFXSoundProperties(const std::string& sName, Ogre::Real airAbsorption, Ogre::Real roomRolloff, Ogre::Real coneOuterHF)
+	{
+#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+#endif
+
+		OgreOggISound* sound = getSound(sName);
+
+		if ( sound )
+		{
+			ALuint src = sound->getSource();
+
+			if ( src!=AL_NONE )
+			{
+				alGetError();
+
+				alSourcef(src, AL_AIR_ABSORPTION_FACTOR, airAbsorption);
+				alSourcef(src, AL_ROOM_ROLLOFF_FACTOR, roomRolloff);
+				alSourcef(src, AL_CONE_OUTER_GAINHF, coneOuterHF);
+
+				if ( alGetError()==AL_NO_ERROR )
+				{
+					return true;
+				}
+				else
+				{
+					Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXSoundProperties() - Unable to set EFX sound properties!");
+					return false;
+				}
+			}
+			else
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXSoundProperties() - No source attached to sound!");
+				return false;
+			}
+		}
+
+		Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXSoundProperties() - Sound does not exist!");
+		return false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::hasSound(const std::string& name)
@@ -1268,6 +1603,13 @@ namespace OgreOggSound
 	void OgreOggSoundManager::setDopplerFactor(Ogre::Real factor)
 	{
 		alDopplerFactor(factor);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::setEFXDistanceUnits(Ogre::Real units)
+	{
+		if ( !hasEFXSupport() || units<=0 ) return;
+
+		alListenerf(AL_METERS_PER_UNIT, units);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::update(Ogre::Real fTime)
