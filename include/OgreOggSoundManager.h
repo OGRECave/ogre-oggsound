@@ -24,6 +24,7 @@
 #include <al.h>
 #include <alc.h>
 #include "efx.h"
+#include "efx-util.h"
 #include "efx-creative.h"
 #include "XRam.h"
 
@@ -190,7 +191,7 @@ namespace OgreOggSound
 		@remarks
 			Releases a specified sounds source object back to the system,
 			allowing it to be re-used by another sound.
-			@pama
+			@param
 				sound Sound pointer.
 		 */
 		bool releaseSoundSource(OgreOggISound* sound=0);
@@ -198,7 +199,7 @@ namespace OgreOggSound
 		@remarks
 			Sets the global distance attenuation algorithm used by all
 			sounds in the system.
-			@pama
+			@param
 				value ALenum value of distance model.
 		 */
 		void setDistanceModel(ALenum value);
@@ -206,7 +207,7 @@ namespace OgreOggSound
 		@remarks
 			Sets the global doppler factor which affects attenuation for
 			all sounds
-			@pama
+			@param
 				factor Factor scale (>0).
 		 */
 		void setDopplerFactor(Ogre::Real factor=1.f);
@@ -214,10 +215,16 @@ namespace OgreOggSound
 		@remarks
 			Sets the global speed of sound used in the attenuation algorithm,
 			affects all sounds.
-			@pama
+			@param
 				speed Speed (m/s).
 		 */
 		void setSpeedOfSound(Ogre::Real speed=363.f);
+		/** Sets the distance units of measurement for EFX effects.
+		@remarks
+			@param
+				speed Speed (m/s).
+		 */
+		void setEFXDistanceUnits(Ogre::Real unit=3.3f);
 		/** Gets a list of device strings
 		@remarks
 			Creates a list of available audio device strings
@@ -236,15 +243,6 @@ namespace OgreOggSound
 				fTime Elapsed frametime.
 		 */
 		void update(Ogre::Real fTime=0.f);
-		/** Gets a specified EFX filter
-		 */
-		ALuint getEFXFilter(const std::string& fName);
-		/** Gets a specified EFX Effect slot
-		 */
-		ALuint getEFXEffectSlot(int slotID=0);
-		/** Gets a specified EFX Effect
-		 */
-		ALuint getEFXEffect(const std::string& eName);
 		/** Creates a specified EFX filter
 		@remarks
 			Creates a specified EFX filter if hardware supports it.
@@ -255,12 +253,71 @@ namespace OgreOggSound
 		bool createEFXFilter(const std::string& eName, ALint type, ALfloat gain=1.0, ALfloat hfGain=1.0);
 		/** Creates a specified EFX effect
 		@remarks
-			Creates a specified EFX effect if hardware supports it.
+			Creates a specified EFX effect if hardware supports it. Optional reverb 
+			preset structure can be passed which will be applied to the effect. See
+			eax-util.h for list of presets.
 			@param 
 				eName name for effect.
 				type see OpenAL docs for available effects.
+				props legacy structure describing a preset reverb effect.
 		 */
-		bool createEFXEffect(const std::string& eName, ALint type);
+		bool createEFXEffect(const std::string& eName, ALint type, EAXREVERBPROPERTIES* props=0);
+		/** Sets extended properties on a specified sounds source
+		@remarks
+			Tries to set EFX extended source properties.
+			@param 
+				sName name of sound.
+				airAbsorption absorption factor for air.
+				roomRolloff room rolloff factor.
+				coneOuterHF cone outer gain factor for High frequencies.
+		 */
+		bool setEFXSoundProperties(const std::string& eName, Ogre::Real airAbsorption=0.f, Ogre::Real roomRolloff=0.f, Ogre::Real coneOuterHF=0.f);
+		/** Sets a specified paremeter on an effect
+		@remarks
+			Tries to set a parameter value on a specified effect. Returns true/false.
+			@param 
+				eName name of effect.
+				effectType see OpenAL docs for available effects.
+				attrib parameter value to alter.
+				param float value to set.
+		 */
+		bool setEFXEffectParameter(const std::string& eName, ALint effectType, ALenum attrib, ALfloat param);
+		/** Sets a specified paremeter on an effect
+		@remarks
+			Tries to set a parameter value on a specified effect. Returns true/false.
+			@param 
+				eName name of effect.
+				effectType see OpenAL docs for available effects.
+				attrib parameter value to alter.
+				param vector pointer of float values to set.
+		 */
+		bool setEFXEffectParameter(const std::string& eName, ALint type, ALenum attrib, ALfloat* params=0);
+		/** Sets a specified paremeter on an effect
+		@remarks
+			Tries to set a parameter value on a specified effect. Returns true/false.
+			@param 
+				eName name of effect.
+				effectType see OpenAL docs for available effects.
+				attrib parameter value to alter.
+				param integer value to set.
+		 */
+		bool setEFXEffectParameter(const std::string& eName, ALint type, ALenum attrib, ALint param);
+		/** Sets a specified paremeter on an effect
+		@remarks
+			Tries to set a parameter value on a specified effect. Returns true/false.
+			@param 
+				eName name of effect.
+				effectType see OpenAL docs for available effects.
+				attrib parameter value to alter.
+				params vector pointer of integer values to set.
+		 */
+		bool setEFXEffectParameter(const std::string& eName, ALint type, ALenum attrib, ALint* params=0);
+		/** Gets the maximum number of Auxiliary Effect slots per source
+		@remarks
+			Determines how many simultaneous effects can be applied to 
+			any one source object
+		 */
+		int getNumEffectSlots();
 		/** Creates a specified EFX filter
 		@remarks
 			Creates a specified EFX filter if hardware supports it.
@@ -270,11 +327,25 @@ namespace OgreOggSound
 		 */
 		bool createEFXSlot();
 		/** Attaches an effect to a sound
+		@remarks
+			Currently sound must have a source attached prior to this call.
 		 */
-		bool attachEffectToSound(const std::string& sName, ALuint& slot, ALuint& effect);
+		bool attachEffectToSound(const std::string& sName, ALuint slot, const Ogre::String& effect, const Ogre::String& filter);
 		/** Attaches a filter to a sound
+		@remarks
+			Currently sound must have a source attached prior to this call.
 		 */
-		bool attachFilterToSound(const std::string& sName, ALuint& filter);
+		bool attachFilterToSound(const std::string& sName, const Ogre::String& filter);
+		/** Detaches all effects from a sound
+		@remarks
+			Currently sound must have a source attached prior to this call.
+		 */
+		bool detachEffectFromSound(const std::string& sName, ALuint slotID);
+		/** Detaches all filters from a sound
+		@remarks
+			Currently sound must have a source attached prior to this call.
+		 */
+		bool detachFilterFromSound(const std::string& sName);
 
 #if OGGSOUND_THREADED
 
@@ -330,7 +401,7 @@ namespace OgreOggSound
 		void _determineAuxEffectSlots();
 		/** Attaches a created effect to an Auxiliary slot
 		 */
-		bool _attachEffectToSlot(ALuint& slot, ALuint& effect);
+		bool _attachEffectToSlot(ALuint slot, ALuint effect);
 		/** Re-activates any sounds which had their source stolen.
 		@remarks
 			When all sources are in use the sounds begin to give up 
@@ -342,6 +413,18 @@ namespace OgreOggSound
 			their source object.
 		 */
 		void _reactivateQueuedSounds();
+		/** Gets a specified EFX filter
+		 */
+		ALuint _getEFXFilter(const std::string& fName);
+		/** Gets a specified EFX Effect
+		 */
+		ALuint _getEFXEffect(const std::string& eName);
+		/** Gets a specified EFX Effect slot
+		 */
+		ALuint _getEFXSlot(int slotID=0);
+		/** Sets EAX reverb properties using a specified present
+		 */
+		bool _setEAXReverbProperties(EFXEAXREVERBPROPERTIES *pEFXEAXReverb, ALuint uiEffect);
 		/** Enumerates audio devices.
 		@remarks
 			Gets a list of audio device available.
@@ -354,8 +437,7 @@ namespace OgreOggSound
 		ALCdevice* mDevice;						// OpenAL device
 		ALCcontext* mContext;					// OpenAL context
 
-		/**
-		 * Sound lists
+		/** Sound lists
 		 */
 		SoundMap mSoundMap;						// Map of all sounds
 		ActiveList mActiveSounds;				// list of sounds currently active 
@@ -363,15 +445,13 @@ namespace OgreOggSound
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		SourceList mSourcePool;					// List of available sources
 
-		/**
-		 * Manager instance
+		/** Manager instance
 		 */
 		static OgreOggSoundManager *pInstance;	// OgreOggSoundManager instance pointer
 		ALCchar* mDeviceStrings;				// List of available devices strings
 		int mNumSources;						// Number of sources available for sounds
 
-		/**
-			EFX Support
+		/**	EFX Support
 		*/
 		bool mEFXSupport;						// EFX present flag
 
@@ -421,15 +501,13 @@ namespace OgreOggSound
 		EffectList* mEffectList;				// List of EFX effects
 		std::vector<ALuint>* mEffectSlotList;	// List of EFX effect slots
 
-		/**
-		EAX Support
+		/**	EAX Support
 		*/
 
 		bool mEAXSupport;						// EAX present flag
 		int mEAXVersion;						// EAX version ID
 
-		/**
-			XRAM Support
+		/**	XRAM Support
 		*/
 		typedef ALboolean (__cdecl *LPEAXSETBUFFERMODE)(ALsizei n, ALuint *buffers, ALint value);
 		typedef ALenum    (__cdecl *LPEAXGETBUFFERMODE)(ALuint buffer, ALint *value);
@@ -449,8 +527,7 @@ namespace OgreOggSound
 		ALint	mXRamSizeMB,
 				mXRamFreeMB;
 
-		/**
-		 * Listener pointer
+		/**	Listener pointer
 		 */
 		OgreOggListener *mListener;				// Listener object
 	};

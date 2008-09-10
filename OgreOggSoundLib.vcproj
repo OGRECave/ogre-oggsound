@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenAL32.lib vorbis_static_d.lib vorbisfile_static_d.lib ogg_static_d.lib OgreMain_d.lib "
+				AdditionalDependencies="efx-util.lib OpenAL32.lib vorbis_static_d.lib vorbisfile_static_d.lib ogg_static_d.lib OgreMain_d.lib "
 				OutputFile="$(OutDir)\$(ProjectName)_d.dll"
 				AdditionalLibraryDirectories="&quot;$(OPENAL_SDK)\libs\Win32&quot;;.\ogg\win32\Static_Debug;.\vorbis\win32\Vorbis_Static_Debug;.\vorbis\win32\VorbisFile_Static_Debug;&quot;$(OGRE_HOME)\lib&quot;;&quot;$(BOOST_ROOT)/lib&quot;"
 				IgnoreDefaultLibraryNames="LIBCMTD.lib"
@@ -138,7 +138,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenAL32.lib vorbis_static.lib vorbisfile_static.lib ogg_static.lib OgreMain.lib "
+				AdditionalDependencies="efx-util.lib OpenAL32.lib vorbis_static.lib vorbisfile_static.lib ogg_static.lib OgreMain.lib "
 				LinkIncremental="0"
 				AdditionalLibraryDirectories="&quot;$(OPENAL_SDK)\libs\Win32&quot;;.\ogg\win32\Static_Release;.\vorbis\win32\Vorbis_Static_Release;.\vorbis\win32\VorbisFile_Static_Release;&quot;$(OGRE_HOME)\lib&quot;;&quot;$(BOOST_ROOT)/lib&quot;"
 				IgnoreDefaultLibraryNames="LIBCMT.lib"
