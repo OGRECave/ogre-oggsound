@@ -119,15 +119,17 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#4af460504fcf8942f993a0f6ccb3bced">_updateRenderQueue</a> (Ogre::RenderQueue *queue)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#152aba8b5ad03bfcb6d99ad2346e73ec">_notifyAttached</a> (Ogre::Node *node, bool isTagPoint=false)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#9619a09920ca2f54e3bfbe70bed35145">visitRenderables</a> (Ogre::Renderable::Visitor *visitor, bool debugRenderables)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename T&gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#eda37160ea61a8128fb0d2effb2b7307">setFinishedCallback</a> (T *object, void(T::*function)(<a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a> *sound), bool enabled=<a class="el" href="_ogre_ogg_stream_sound_8cpp.html#930920b2bc42824a5c03be681830f4b2">true</a>)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#eda37160ea61a8128fb0d2effb2b7307">setFinishedCallback</a> (T *object, void(T::*function)(<a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a> *sound), bool enabled=<a class="el" href="ogreoggstreamsound_8cpp.html#930920b2bc42824a5c03be681830f4b2">true</a>)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ffa5b625f437cf1e7510cd81348e0f96">setFinishedCallbackEnabled</a> (bool enable)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename T&gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#440071c3b9f0ae46ac01544e50d6a758">setLoopCallback</a> (T *object, void(T::*function)(<a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a> *sound), bool enabled=<a class="el" href="_ogre_ogg_stream_sound_8cpp.html#930920b2bc42824a5c03be681830f4b2">true</a>)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#440071c3b9f0ae46ac01544e50d6a758">setLoopCallback</a> (T *object, void(T::*function)(<a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a> *sound), bool enabled=<a class="el" href="ogreoggstreamsound_8cpp.html#930920b2bc42824a5c03be681830f4b2">true</a>)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#34ef56fa58469ec58148a06cac11e3fb">setLoopCallbackEnabled</a> (bool enable)</td></tr>
 
@@ -208,6 +210,12 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#fbe38a0d8d8212d34ac0cb19e19294f7">mSourceRelative</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#fbd70cc73bf1cdba7b0197be944b3441">mLocalTransformDirty</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::vector&lt; ALuint &gt; *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ef7c78aeed1498dd2689c076bd5f03d6">mFilterList</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::vector&lt; ALuint &gt; *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#c6ee9a44a12c25fc865bd633b8adb4ab">mEffectList</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::vector&lt; ALuint &gt; *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#033927b7bfa4007186cf7ee996b20fd7">mEffectSlotList</a></td></tr>
 
 <tr><td colspan="2"><br><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#c0a9818a88866baa8ef4bef6a762891f">_release</a> ()=0</td></tr>
@@ -1236,6 +1244,36 @@ Updates RenderQueue <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Overr
 
 </div>
 </div><p>
+<a class="anchor" name="152aba8b5ad03bfcb6d99ad2346e73ec"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::_notifyAttached" ref="152aba8b5ad03bfcb6d99ad2346e73ec" args="(Ogre::Node *node, bool isTagPoint=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void OgreOggSound::OgreOggISound::_notifyAttached           </td>
+          <td>(</td>
+          <td class="paramtype">Ogre::Node *&nbsp;</td>
+          <td class="paramname"> <em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>isTagPoint</em> = <code>false</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Notifys object its been attached to a node <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Overridden from MovableObject. </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="9619a09920ca2f54e3bfbe70bed35145"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::visitRenderables" ref="9619a09920ca2f54e3bfbe70bed35145" args="(Ogre::Renderable::Visitor *visitor, bool debugRenderables)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1288,7 +1326,7 @@ template&lt;typename T&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>enabled</em> = <code><a class="el" href="_ogre_ogg_stream_sound_8cpp.html#930920b2bc42824a5c03be681830f4b2">true</a></code></td><td>&nbsp;</td>
+          <td class="paramname"> <em>enabled</em> = <code><a class="el" href="ogreoggstreamsound_8cpp.html#930920b2bc42824a5c03be681830f4b2">true</a></code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -1357,7 +1395,7 @@ template&lt;typename T&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>enabled</em> = <code><a class="el" href="_ogre_ogg_stream_sound_8cpp.html#930920b2bc42824a5c03be681830f4b2">true</a></code></td><td>&nbsp;</td>
+          <td class="paramname"> <em>enabled</em> = <code><a class="el" href="ogreoggstreamsound_8cpp.html#930920b2bc42824a5c03be681830f4b2">true</a></code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -2008,10 +2046,55 @@ Sound properties
 
 </div>
 </div><p>
+<a class="anchor" name="ef7c78aeed1498dd2689c076bd5f03d6"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::mFilterList" ref="ef7c78aeed1498dd2689c076bd5f03d6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;ALuint&gt;* <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ef7c78aeed1498dd2689c076bd5f03d6">OgreOggSound::OgreOggISound::mFilterList</a><code> [protected]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+EFX Effects 
+</div>
+</div><p>
+<a class="anchor" name="c6ee9a44a12c25fc865bd633b8adb4ab"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::mEffectList" ref="c6ee9a44a12c25fc865bd633b8adb4ab" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;ALuint&gt;* <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#c6ee9a44a12c25fc865bd633b8adb4ab">OgreOggSound::OgreOggISound::mEffectList</a><code> [protected]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="033927b7bfa4007186cf7ee996b20fd7"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::mEffectSlotList" ref="033927b7bfa4007186cf7ee996b20fd7" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;ALuint&gt;* <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#033927b7bfa4007186cf7ee996b20fd7">OgreOggSound::OgreOggISound::mEffectSlotList</a><code> [protected]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_i_sound_8h.html">OgreOggISound.h</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 9 15:00:48 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 10 15:04:06 2008 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
