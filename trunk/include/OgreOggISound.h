@@ -383,7 +383,13 @@ namespace OgreOggSound
 		@remarks
 			Abstract function.
 		*/
-		virtual void updateAudioBuffers() = 0;
+		virtual void _updateAudioBuffers() = 0;
+		/** Prefills buffers with audio data.
+		@remarks
+			Loads audio data from the stream into the predefined data
+			buffers and queues them onto the source ready for playback.
+		 */
+		virtual void _prebuffer() = 0;		
 
 		/**
 		 * Variables used to fade sound
@@ -404,8 +410,7 @@ namespace OgreOggSound
 		bool mFinCBEnabled;
 		bool mLoopCBEnabled;
 
-		/**
-		 * Sound properties 
+		/** Sound properties 
 		 */
 		ALuint mSource;					// OpenAL Source
 		Ogre::uint8 mPriority;			// Priority assigned to source 
@@ -429,13 +434,6 @@ namespace OgreOggSound
 		bool mStream;					// Stream flag
 		bool mSourceRelative;			// Relative position flag
 		bool mLocalTransformDirty;		// Transformation update flag
-
-		/**
-			EFX Effects
-		*/
-		std::vector<ALuint>* mFilterList;		// List of EFX filters
-		std::vector<ALuint>* mEffectList;		// List of EFX effects
-		std::vector<ALuint>* mEffectSlotList;	// List of EFX effect slots
 
 		friend class OgreOggSoundManager;
 	};

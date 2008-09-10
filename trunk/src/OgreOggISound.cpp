@@ -95,9 +95,6 @@ namespace OgreOggSound
 	mFinishedCB(0), 
 	mLoopCB(0), 
 	mLocalTransformDirty(false),
-	mFilterList(0),
-	mEffectList(0),
-	mEffectSlotList(0),
 	mSourceRelative(false)
 	{
 		// Init some oggVorbis callbacks
@@ -368,10 +365,6 @@ namespace OgreOggSound
 		{
 			alSourcei(mSource,AL_SOURCE_RELATIVE,mSourceRelative);
 		}
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::updateAudioBuffers()
-	{
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::update(Ogre::Real fTime)

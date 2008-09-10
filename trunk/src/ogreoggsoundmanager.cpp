@@ -1101,7 +1101,6 @@ namespace OgreOggSound
 
 		return false;
 	}
-	
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::setXRamBuffer(ALsizei numBuffers, ALuint* buffer)
 	{
@@ -1117,7 +1116,7 @@ namespace OgreOggSound
 		else if ( mode==mXRamAccessible ) mCurrentXRamMode = mXRamAccessible;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name,const std::string& file, bool stream, bool loop)
+	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name,const std::string& file, bool stream, bool loop, bool preBuffer)
 	{
 #if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
@@ -1146,12 +1145,22 @@ namespace OgreOggSound
 			mSoundMap[name]->open(soundData);
 			// Set loop flag
 			mSoundMap[name]->loop(loop);
+			// If requested to preBuffer - grab free source and init
+			if (preBuffer)
+			{
+				if ( !requestSoundSource(mSoundMap[name]) )
+				{
+					Ogre::String msg="*** OgreOggSoundManager::createSound() - Failed to preBuffer sound: "+name;
+					Ogre::LogManager::getSingleton().logMessage(msg);
+				}
+			}
 
 			return mSoundMap[name];
 		}
 		else
 		{
-			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::createSound() - Sound name not ogg");
+			Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound does not have .ogg extension: "+name;
+			Ogre::LogManager::getSingleton().logMessage(msg);
 			return NULL;
 		}
 	}
@@ -1345,7 +1354,7 @@ namespace OgreOggSound
 		#if OGGSOUND_THREADED
 			boost::recursive_mutex::scoped_lock l(mMutex);
 		#endif
-			(*i)->updateAudioBuffers();
+			(*i)->_updateAudioBuffers();
 			++i;
 		}	
 

@@ -103,6 +103,15 @@ namespace OgreOggSound
 		ov_clear(&mOggStream);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggStaticSound::_prebuffer()
+	{
+		if (mSource==AL_NONE) return;
+
+		// Queue buffer
+		alSourcei(mSource, AL_BUFFER, mBuffer);
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::setSource(ALuint& src)
 	{
 		if (src!=AL_NONE)
@@ -110,9 +119,9 @@ namespace OgreOggSound
 			// Attach new source
 			mSource=src;
 			
-			// Queue buffer
-			alSourcei(mSource, AL_BUFFER, mBuffer);
-			
+			// Load audio data onto source
+			_prebuffer();
+
 			// Init source properties
 			_initSource();
 		}
@@ -128,14 +137,6 @@ namespace OgreOggSound
 			mSource=src;
 		}
 	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStaticSound::check()
-	{
-		int error = alGetError();
-
-		if(error != AL_NO_ERROR)
-			throw string("OpenAL error was raised.");
-	}	
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::pause()
 	{		
@@ -180,7 +181,7 @@ namespace OgreOggSound
 		}
 	}	
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStaticSound::updateAudioBuffers()
+	void OgreOggStaticSound::_updateAudioBuffers()
 	{
 		if(mSource == AL_NONE || !mPlay)
 			return;

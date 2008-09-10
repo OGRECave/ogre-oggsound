@@ -79,12 +79,6 @@ namespace OgreOggSound
 			within this call.
 		 */
 		void play();	
-		/** Updates the data buffers with sound information.
-		@remarks
-			This function refills processed buffers with audio data from
-			the stream, it automatically handles looping if set.
-		 */
-		void updateAudioBuffers();
 		/** Sets the loop status.
 		@remarks
 			Immediately sets the loop status if a source is associated
@@ -103,11 +97,17 @@ namespace OgreOggSound
 		 * Destructor
 		 */
 		~OgreOggStaticSound();
-		/** Checks for OpenAL errors.
+		/** Updates the data buffers with sound information.
 		@remarks
-			Checks for an OpenAL error after an audio operation.
+			This function refills processed buffers with audio data from
+			the stream, it automatically handles looping if set.
 		 */
-		void check();
+		void _updateAudioBuffers();
+		/** Prefills buffer with audio data.
+		@remarks
+			Loads audio data onto the source ready for playback.
+		 */
+		void _prebuffer();		
 
 	private:
 
