@@ -650,7 +650,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	int OgreOggSoundManager::getNumEffectSlots()
+	int OgreOggSoundManager::getNumberOfSupportedEffectSlots()
 	{
 		if ( !hasEFXSupport() ) return 0;
 		
@@ -658,6 +658,14 @@ namespace OgreOggSound
 		alcGetIntegerv(mDevice, ALC_MAX_AUXILIARY_SENDS, 1, &auxSends);
 
 		return auxSends;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	int OgreOggSoundManager::getNumberOfCreatedEffectSlots()
+	{
+		if ( !mEffectSlotList ) return 0;
+
+		return static_cast<int>(mEffectSlotList->size());
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
