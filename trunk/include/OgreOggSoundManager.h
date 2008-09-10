@@ -242,7 +242,7 @@ namespace OgreOggSound
 		/** Updates system.
 		@remarks
 			Iterates all sounds and updates them.
-			@pama
+			@param
 				fTime Elapsed frametime.
 		 */
 		void update(Ogre::Real fTime=0.f);
@@ -338,7 +338,12 @@ namespace OgreOggSound
 			Determines how many simultaneous effects can be applied to 
 			any one source object
 		 */
-		int getNumEffectSlots();
+		int getNumberOfSupportedEffectSlots();
+		/** Gets the number of currently created Auxiliary Effect slots 
+		@remarks
+			Returns number of slots craeted and available for effects/filters.
+		 */
+		int getNumberOfCreatedEffectSlots();
 		/** Creates a specified EFX filter
 		@remarks
 			Creates a specified EFX filter if hardware supports it.
