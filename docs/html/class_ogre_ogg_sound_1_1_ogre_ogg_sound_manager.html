@@ -72,7 +72,7 @@ Collaboration diagram for OgreOggSound::OgreOggSoundManager:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#df8fa892e153974b9042d2415b451adf">setXRamBufferMode</a> (ALenum mode)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#855d4f71a63f8a8053527d20b67798ee">destroySound</a> (const Ogre::String &amp;name=&quot;&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bdfa6c2415ceec30fab2bab74d8a7922">destroySound</a> (const std::string &amp;name=&quot;&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7f0ab1761fbea41cedcc225525d35e39">updateBuffers</a> ()</td></tr>
 
@@ -86,6 +86,8 @@ Collaboration diagram for OgreOggSound::OgreOggSoundManager:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#5d613df002e218cb7967635819db0fd2">setSpeedOfSound</a> (Ogre::Real speed=363.f)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#022a7b54e54b74f6e15eb2f1d6b2f2c0">setEFXDistanceUnits</a> (Ogre::Real unit=3.3f)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">Ogre::StringVector&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#557437083ebfb4546b75a6a65c08f837">getDeviceList</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html">OgreOggListener</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4b8c586619808e4478d9d792a87e5627">getListener</a> ()</td></tr>
@@ -93,6 +95,34 @@ Collaboration diagram for OgreOggSound::OgreOggSoundManager:</div>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4e2cbfa8e0edc7c18f527a97a3b0e55e">getNumSources</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#c08b2e20ca43821eaa3ac2460391ab46">update</a> (Ogre::Real fTime=0.f)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ec97b72689d932ff67606b3c6a6db91b">createEFXFilter</a> (const std::string &amp;eName, ALint type, ALfloat gain=1.0, ALfloat hfGain=1.0)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#b3b499618390146b13a6f6dea2b1fbd0">createEFXEffect</a> (const std::string &amp;eName, ALint type, EAXREVERBPROPERTIES *props=0)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#de11cc4b9cb9f7b8d68ff1303f80383e">setEFXSoundProperties</a> (const std::string &amp;eName, Ogre::Real airAbsorption=0.f, Ogre::Real roomRolloff=0.f, Ogre::Real coneOuterHF=0.f)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f575154e6fec0d1e17c82ea911e587b9">setEFXEffectParameter</a> (const std::string &amp;eName, ALint effectType, ALenum attrib, ALfloat param)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#52adf4b6922887c9e55e01ffea4483ce">setEFXEffectParameter</a> (const std::string &amp;eName, ALint type, ALenum attrib, ALfloat *params=0)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#b140abf7913690ad4a5636d1f30b7959">setEFXEffectParameter</a> (const std::string &amp;eName, ALint type, ALenum attrib, ALint param)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#20f70184cd88e85b7d74b4d45a16cf42">setEFXEffectParameter</a> (const std::string &amp;eName, ALint type, ALenum attrib, ALint *params=0)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#44c0fa3b384335b0cee3594f92dadd52">getNumEffectSlots</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#646595e6fe159a37a60d7e68ba1c21fa">createEFXSlot</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#470bd06196f35ad8fe0e1e78dedb4abb">attachEffectToSound</a> (const std::string &amp;sName, ALuint slot, const Ogre::String &amp;effect=&quot;&quot;, const Ogre::String &amp;filter=&quot;&quot;)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#376b06fe882454ffe4dafa9f07a7c0d5">attachFilterToSound</a> (const std::string &amp;sName, const Ogre::String &amp;filter=&quot;&quot;)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#2d953f7264344d210b706959feafd395">detachEffectFromSound</a> (const std::string &amp;sName, ALuint slotID)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#eb09b9afbf4a112b23fcbca41230f667">detachFilterFromSound</a> (const std::string &amp;sName)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#8bd10f244dc78c4f64830ca29c72d4a1">isEffectSupported</a> (ALint effectID)</td></tr>
 
 <tr><td colspan="2"><br><h2>Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">static <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html">OgreOggSoundManager</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bff07cdc655d7c5dc0c5964d2616c36a">getSingleton</a> (void)</td></tr>
@@ -123,7 +153,19 @@ Collaboration diagram for OgreOggSound::OgreOggSoundManager:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#54cb62a837353f54546ef99bf7d1d28f">_checkXRAMSupport</a> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9db034b996c09291e8f780259670174b">_determineAuxEffectSlots</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#414979f4ec66c1a37d977c2784706c45">_attachEffectToSlot</a> (ALuint slot, ALuint effect)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cd449121db2af5f82313f42d5b88d5ea">_reactivateQueuedSounds</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALuint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#b152b8d47354245c69be2b9bc8c3d29e">_getEFXFilter</a> (const std::string &amp;fName)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALuint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#0f9b56fcd163816dda7d05024d8c8c49">_getEFXEffect</a> (const std::string &amp;eName)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALuint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#31f27184a203efbbe16f17f8ced844f2">_getEFXSlot</a> (int slotID=0)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9dd7d586e3c49f14ffe72e600cefb6a9">_setEAXReverbProperties</a> (EFXEAXREVERBPROPERTIES *pEFXEAXReverb, ALuint uiEffect)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#31dfb504e33a2c9adc58537187e8c1a5">_enumDevices</a> ()</td></tr>
 
@@ -142,15 +184,93 @@ Collaboration diagram for OgreOggSound::OgreOggSoundManager:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="namespace_ogre_ogg_sound.html#99386ba7dd732de84106b456d9f9ca41">SourceList</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#07ee917dd1caa631bd51a93d8bedf16b">mSourcePool</a></td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="namespace_ogre_ogg_sound.html#6423f182d5d3792463165288d3468550">FeatureList</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9aeba436ff2ec38424bd25ab77e40914">mEFXSupportList</a></td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ALCchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#014eef5dfd5014e0c7d96e17a96caacd">mDeviceStrings</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#027b4bdd069d4ab4218f2d14a9188e04">mNumSources</a></td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cbcc7aeef656a8c99a5259d149fa6011">mEFXSupport</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGENEFFECTS&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74b210634f22925c662516d7f7bb3263">alGenEffects</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALDELETEEFFECTS&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#c28d37fe26e9dc092f4f033467578f18">alDeleteEffects</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALISEFFECT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#3796f08de6171614d1c78399618dbbc6">alIsEffect</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALEFFECTI&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f562ef9afb814f2d95168db89f7c0d5f">alEffecti</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALEFFECTIV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9308ee49938f28e5b519beef4522db96">alEffectiv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALEFFECTF&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#941932060122d2317da53247af1220fe">alEffectf</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALEFFECTFV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1190a99248346c1600aae4998302a246">alEffectfv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETEFFECTI&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#86cdc9a18aaaa9c2def16761918b8635">alGetEffecti</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETEFFECTIV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#44ec7197e3dff4fbc84c51ca896ef137">alGetEffectiv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETEFFECTF&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#fee2aa7b5e135f4c501c5ac61504e5c1">alGetEffectf</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETEFFECTFV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4dc0626b81a1cfcce1b3b864ba294ae2">alGetEffectfv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGENFILTERS&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#591abc1025085d1c0e9158830971b3a4">alGenFilters</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALDELETEFILTERS&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#0b2aa37fe9a3546af7f7b40e9884d858">alDeleteFilters</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALISFILTER&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#efbd42e9892b2067f3b8f9931b9f45c7">alIsFilter</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALFILTERI&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cd269d4af58673ed2739d2ed93b2ab2e">alFilteri</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALFILTERIV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#8b5b1f90d23a4a6cc5c94b7c3f03bd94">alFilteriv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALFILTERF&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#d37cc8532a9806ff3edf6e5edd3120dd">alFilterf</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALFILTERFV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#e981fc89b07089a2937a0a49e1fd9fb2">alFilterfv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETFILTERI&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#0c98c97be572344620529e55632877ce">alGetFilteri</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETFILTERIV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#98423aeafbca17ebf822a1ba6bc2dbc9">alGetFilteriv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETFILTERF&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bdcd1b22664562994f388f2c875da84f">alGetFilterf</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETFILTERFV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7f387fd2ba72cfceda7c729482b76aaa">alGetFilterfv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGENAUXILIARYEFFECTSLOTS&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74a7c0eccd15efb5170cd9e85609fff4">alGenAuxiliaryEffectSlots</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALDELETEAUXILIARYEFFECTSLOTS&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#31a75cfb4258c76fe8bebf7f03bd2289">alDeleteAuxiliaryEffectSlots</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALISAUXILIARYEFFECTSLOT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f9b9427236998ef5a34ce5274e723614">alIsAuxiliaryEffectSlot</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALAUXILIARYEFFECTSLOTI&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#98368e23019f2e2eea2968d1e606af01">alAuxiliaryEffectSloti</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALAUXILIARYEFFECTSLOTIV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#e4196d9381c9ff569334132f5bc41aa5">alAuxiliaryEffectSlotiv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALAUXILIARYEFFECTSLOTF&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac1876049da0e7ea42bf02ab542ef842">alAuxiliaryEffectSlotf</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALAUXILIARYEFFECTSLOTFV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bb048e53b98adb4dacf7848aa5155263">alAuxiliaryEffectSlotfv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETAUXILIARYEFFECTSLOTI&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1807531c534a49759b129d100bff48db">alGetAuxiliaryEffectSloti</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETAUXILIARYEFFECTSLOTIV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74c1c2791c47888909765ac2f03911c6">alGetAuxiliaryEffectSlotiv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETAUXILIARYEFFECTSLOTF&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#6a8f436863bf6ada14f0ac7542b5a2aa">alGetAuxiliaryEffectSlotf</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LPALGETAUXILIARYEFFECTSLOTFV&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#978bf9525f11ebb1fc067c99a5c71baf">alGetAuxiliaryEffectSlotfv</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f90b4770bccecd68a546cc4a969ec41f">mNumEffectSlots</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ALint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#362acf64ed85e9546bf10d28c5bd2ca6">mNumSendsPerSource</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="namespace_ogre_ogg_sound.html#daedc172c3e871304a6bc73b4f3220d4">EffectList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#655696078335197a2abdd3201313bd2e">mFilterList</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="namespace_ogre_ogg_sound.html#daedc172c3e871304a6bc73b4f3220d4">EffectList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#35c39b4807634f27540532f45e945091">mEffectList</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::vector&lt; ALuint &gt; *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#6ca2c2f5d26cd3df53a8de8ec0bcda40">mEffectSlotList</a></td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f93b38dd0ea25e75abe7ca20d014254c">mEAXSupport</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#842f9a9be3f3b75b504c127f3843bbc4">mEAXVersion</a></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cbcc7aeef656a8c99a5259d149fa6011">mEFXSupport</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#92d36184332524e44549e84c7ee6edd2">LPEAXSETBUFFERMODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#c6d36493fda948725b57da28f5c54414">mEAXSetBufferMode</a></td></tr>
 
@@ -670,14 +790,14 @@ Sets XRam buffers storage mode. <dl class="remark" compact><dt><b>Remarks:</b></
 
 </div>
 </div><p>
-<a class="anchor" name="855d4f71a63f8a8053527d20b67798ee"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::destroySound" ref="855d4f71a63f8a8053527d20b67798ee" args="(const Ogre::String &amp;name=&quot;&quot;)" -->
+<a class="anchor" name="bdfa6c2415ceec30fab2bab74d8a7922"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::destroySound" ref="bdfa6c2415ceec30fab2bab74d8a7922" args="(const std::string &amp;name=&quot;&quot;)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void OgreOggSound::OgreOggSoundManager::destroySound           </td>
           <td>(</td>
-          <td class="paramtype">const Ogre::String &amp;&nbsp;</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
           <td class="paramname"> <em>name</em> = <code>&quot;&quot;</code>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td></td>
@@ -759,7 +879,12 @@ Requests a free source object. <dl class="remark" compact><dt><b>Remarks:</b></d
 <div class="memdoc">
 
 <p>
-Release a sounds source. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Releases a specified sounds source object back to the system, allowing it to be re-used by another sound.  sound Sound pointer. </dd></dl>
+Release a sounds source. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Releases a specified sounds source object back to the system, allowing it to be re-used by another sound. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>sound</em>&nbsp;</td><td>Sound pointer. </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -780,7 +905,12 @@ Release a sounds source. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>
 <div class="memdoc">
 
 <p>
-Sets distance model. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Sets the global distance attenuation algorithm used by all sounds in the system.  value ALenum value of distance model. </dd></dl>
+Sets distance model. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Sets the global distance attenuation algorithm used by all sounds in the system. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td>ALenum value of distance model. </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -801,7 +931,12 @@ Sets distance model. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Sets
 <div class="memdoc">
 
 <p>
-Sets doppler factor. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Sets the global doppler factor which affects attenuation for all sounds  factor Factor scale (&gt;0). </dd></dl>
+Sets doppler factor. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Sets the global doppler factor which affects attenuation for all sounds </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>factor</em>&nbsp;</td><td>Factor scale (&gt;0). </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -822,7 +957,38 @@ Sets doppler factor. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Sets
 <div class="memdoc">
 
 <p>
-Sets speed of sound. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Sets the global speed of sound used in the attenuation algorithm, affects all sounds.  speed Speed (m/s). </dd></dl>
+Sets speed of sound. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Sets the global speed of sound used in the attenuation algorithm, affects all sounds. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>speed</em>&nbsp;</td><td>Speed (m/s). </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="022a7b54e54b74f6e15eb2f1d6b2f2c0"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::setEFXDistanceUnits" ref="022a7b54e54b74f6e15eb2f1d6b2f2c0" args="(Ogre::Real unit=3.3f)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggSoundManager::setEFXDistanceUnits           </td>
+          <td>(</td>
+          <td class="paramtype">Ogre::Real&nbsp;</td>
+          <td class="paramname"> <em>unit</em> = <code>3.3f</code>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets the distance units of measurement for EFX effects. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd></dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>speed</em>&nbsp;</td><td>Speed (m/s). </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -902,6 +1068,522 @@ Returns number of sources created.
 
 <p>
 Updates system. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Iterates all sounds and updates them.  fTime Elapsed frametime. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="ec97b72689d932ff67606b3c6a6db91b"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::createEFXFilter" ref="ec97b72689d932ff67606b3c6a6db91b" args="(const std::string &amp;eName, ALint type, ALfloat gain=1.0, ALfloat hfGain=1.0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::createEFXFilter           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>eName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALint&nbsp;</td>
+          <td class="paramname"> <em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALfloat&nbsp;</td>
+          <td class="paramname"> <em>gain</em> = <code>1.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALfloat&nbsp;</td>
+          <td class="paramname"> <em>hfGain</em> = <code>1.0</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Creates a specified EFX filter <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Creates a specified EFX filter if hardware supports it. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>eName</em>&nbsp;</td><td>name for filter. type see OpenAL docs for available filters. </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="b3b499618390146b13a6f6dea2b1fbd0"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::createEFXEffect" ref="b3b499618390146b13a6f6dea2b1fbd0" args="(const std::string &amp;eName, ALint type, EAXREVERBPROPERTIES *props=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::createEFXEffect           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>eName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALint&nbsp;</td>
+          <td class="paramname"> <em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EAXREVERBPROPERTIES *&nbsp;</td>
+          <td class="paramname"> <em>props</em> = <code>0</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Creates a specified EFX effect <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Creates a specified EFX effect if hardware supports it. Optional reverb preset structure can be passed which will be applied to the effect. See eax-util.h for list of presets. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>eName</em>&nbsp;</td><td>name for effect. type see OpenAL docs for available effects. props legacy structure describing a preset reverb effect. </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="de11cc4b9cb9f7b8d68ff1303f80383e"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::setEFXSoundProperties" ref="de11cc4b9cb9f7b8d68ff1303f80383e" args="(const std::string &amp;eName, Ogre::Real airAbsorption=0.f, Ogre::Real roomRolloff=0.f, Ogre::Real coneOuterHF=0.f)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::setEFXSoundProperties           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>eName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Ogre::Real&nbsp;</td>
+          <td class="paramname"> <em>airAbsorption</em> = <code>0.f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Ogre::Real&nbsp;</td>
+          <td class="paramname"> <em>roomRolloff</em> = <code>0.f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Ogre::Real&nbsp;</td>
+          <td class="paramname"> <em>coneOuterHF</em> = <code>0.f</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets extended properties on a specified sounds source <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Tries to set EFX extended source properties. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>sName</em>&nbsp;</td><td>name of sound. airAbsorption absorption factor for air. roomRolloff room rolloff factor. coneOuterHF cone outer gain factor for High frequencies. </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="f575154e6fec0d1e17c82ea911e587b9"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::setEFXEffectParameter" ref="f575154e6fec0d1e17c82ea911e587b9" args="(const std::string &amp;eName, ALint effectType, ALenum attrib, ALfloat param)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::setEFXEffectParameter           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>eName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALint&nbsp;</td>
+          <td class="paramname"> <em>effectType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALenum&nbsp;</td>
+          <td class="paramname"> <em>attrib</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALfloat&nbsp;</td>
+          <td class="paramname"> <em>param</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets a specified paremeter on an effect <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Tries to set a parameter value on a specified effect. Returns true/false. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>eName</em>&nbsp;</td><td>name of effect. effectType see OpenAL docs for available effects. attrib parameter value to alter. param float value to set. </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="52adf4b6922887c9e55e01ffea4483ce"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::setEFXEffectParameter" ref="52adf4b6922887c9e55e01ffea4483ce" args="(const std::string &amp;eName, ALint type, ALenum attrib, ALfloat *params=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::setEFXEffectParameter           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>eName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALint&nbsp;</td>
+          <td class="paramname"> <em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALenum&nbsp;</td>
+          <td class="paramname"> <em>attrib</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALfloat *&nbsp;</td>
+          <td class="paramname"> <em>params</em> = <code>0</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets a specified paremeter on an effect <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Tries to set a parameter value on a specified effect. Returns true/false. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>eName</em>&nbsp;</td><td>name of effect. effectType see OpenAL docs for available effects. attrib parameter value to alter. param vector pointer of float values to set. </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="b140abf7913690ad4a5636d1f30b7959"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::setEFXEffectParameter" ref="b140abf7913690ad4a5636d1f30b7959" args="(const std::string &amp;eName, ALint type, ALenum attrib, ALint param)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::setEFXEffectParameter           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>eName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALint&nbsp;</td>
+          <td class="paramname"> <em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALenum&nbsp;</td>
+          <td class="paramname"> <em>attrib</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALint&nbsp;</td>
+          <td class="paramname"> <em>param</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets a specified paremeter on an effect <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Tries to set a parameter value on a specified effect. Returns true/false. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>eName</em>&nbsp;</td><td>name of effect. effectType see OpenAL docs for available effects. attrib parameter value to alter. param integer value to set. </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="20f70184cd88e85b7d74b4d45a16cf42"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::setEFXEffectParameter" ref="20f70184cd88e85b7d74b4d45a16cf42" args="(const std::string &amp;eName, ALint type, ALenum attrib, ALint *params=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::setEFXEffectParameter           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>eName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALint&nbsp;</td>
+          <td class="paramname"> <em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALenum&nbsp;</td>
+          <td class="paramname"> <em>attrib</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALint *&nbsp;</td>
+          <td class="paramname"> <em>params</em> = <code>0</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets a specified paremeter on an effect <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Tries to set a parameter value on a specified effect. Returns true/false. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>eName</em>&nbsp;</td><td>name of effect. effectType see OpenAL docs for available effects. attrib parameter value to alter. params vector pointer of integer values to set. </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="44c0fa3b384335b0cee3594f92dadd52"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::getNumEffectSlots" ref="44c0fa3b384335b0cee3594f92dadd52" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int OgreOggSound::OgreOggSoundManager::getNumEffectSlots           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Gets the maximum number of Auxiliary Effect slots per source <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Determines how many simultaneous effects can be applied to any one source object </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="646595e6fe159a37a60d7e68ba1c21fa"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::createEFXSlot" ref="646595e6fe159a37a60d7e68ba1c21fa" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::createEFXSlot           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Creates a specified EFX filter <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Creates a specified EFX filter if hardware supports it. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>eName</em>&nbsp;</td><td>name for filter. type see OpenAL docs for available filter types. </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="470bd06196f35ad8fe0e1e78dedb4abb"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::attachEffectToSound" ref="470bd06196f35ad8fe0e1e78dedb4abb" args="(const std::string &amp;sName, ALuint slot, const Ogre::String &amp;effect=&quot;&quot;, const Ogre::String &amp;filter=&quot;&quot;)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::attachEffectToSound           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>sName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALuint&nbsp;</td>
+          <td class="paramname"> <em>slot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Ogre::String &amp;&nbsp;</td>
+          <td class="paramname"> <em>effect</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Ogre::String &amp;&nbsp;</td>
+          <td class="paramname"> <em>filter</em> = <code>&quot;&quot;</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Attaches an effect to a sound <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Currently sound must have a source attached prior to this call. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="376b06fe882454ffe4dafa9f07a7c0d5"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::attachFilterToSound" ref="376b06fe882454ffe4dafa9f07a7c0d5" args="(const std::string &amp;sName, const Ogre::String &amp;filter=&quot;&quot;)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::attachFilterToSound           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>sName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Ogre::String &amp;&nbsp;</td>
+          <td class="paramname"> <em>filter</em> = <code>&quot;&quot;</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Attaches a filter to a sound <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Currently sound must have a source attached prior to this call. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="2d953f7264344d210b706959feafd395"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::detachEffectFromSound" ref="2d953f7264344d210b706959feafd395" args="(const std::string &amp;sName, ALuint slotID)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::detachEffectFromSound           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>sName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALuint&nbsp;</td>
+          <td class="paramname"> <em>slotID</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Detaches all effects from a sound <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Currently sound must have a source attached prior to this call. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="eb09b9afbf4a112b23fcbca41230f667"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::detachFilterFromSound" ref="eb09b9afbf4a112b23fcbca41230f667" args="(const std::string &amp;sName)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::detachFilterFromSound           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>sName</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Detaches all filters from a sound <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Currently sound must have a source attached prior to this call. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="8bd10f244dc78c4f64830ca29c72d4a1"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::isEffectSupported" ref="8bd10f244dc78c4f64830ca29c72d4a1" args="(ALint effectID)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::isEffectSupported           </td>
+          <td>(</td>
+          <td class="paramtype">ALint&nbsp;</td>
+          <td class="paramname"> <em>effectID</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Returns whether a specified effect is supported <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>effectID</em>&nbsp;</td><td>OpenAL effect/filter id. (AL_EFFECT... | AL_FILTER...) </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -1003,6 +1685,54 @@ Checks for EFX hardware support
 Checks for XRAM hardware support 
 </div>
 </div><p>
+<a class="anchor" name="9db034b996c09291e8f780259670174b"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::_determineAuxEffectSlots" ref="9db034b996c09291e8f780259670174b" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggSoundManager::_determineAuxEffectSlots           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Checks for EAX effect support 
+</div>
+</div><p>
+<a class="anchor" name="414979f4ec66c1a37d977c2784706c45"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::_attachEffectToSlot" ref="414979f4ec66c1a37d977c2784706c45" args="(ALuint slot, ALuint effect)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::_attachEffectToSlot           </td>
+          <td>(</td>
+          <td class="paramtype">ALuint&nbsp;</td>
+          <td class="paramname"> <em>slot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALuint&nbsp;</td>
+          <td class="paramname"> <em>effect</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Attaches a created effect to an Auxiliary slot 
+</div>
+</div><p>
 <a class="anchor" name="cd449121db2af5f82313f42d5b88d5ea"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::_reactivateQueuedSounds" ref="cd449121db2af5f82313f42d5b88d5ea" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -1021,6 +1751,95 @@ Checks for XRAM hardware support
 <p>
 Re-activates any sounds which had their source stolen. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>When all sources are in use the sounds begin to give up their source objects to higher priority sounds. When this happens the lower priority sound is queued ready to re-play when a source becomes available again, this function checks this queue and tries to re-play those sounds. Only affects sounds which were originally playing when forced to give up their source object. </dd></dl>
 
+</div>
+</div><p>
+<a class="anchor" name="b152b8d47354245c69be2b9bc8c3d29e"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::_getEFXFilter" ref="b152b8d47354245c69be2b9bc8c3d29e" args="(const std::string &amp;fName)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALuint OgreOggSound::OgreOggSoundManager::_getEFXFilter           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>fName</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Gets a specified EFX filter 
+</div>
+</div><p>
+<a class="anchor" name="0f9b56fcd163816dda7d05024d8c8c49"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::_getEFXEffect" ref="0f9b56fcd163816dda7d05024d8c8c49" args="(const std::string &amp;eName)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALuint OgreOggSound::OgreOggSoundManager::_getEFXEffect           </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&nbsp;</td>
+          <td class="paramname"> <em>eName</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Gets a specified EFX Effect 
+</div>
+</div><p>
+<a class="anchor" name="31f27184a203efbbe16f17f8ced844f2"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::_getEFXSlot" ref="31f27184a203efbbe16f17f8ced844f2" args="(int slotID=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALuint OgreOggSound::OgreOggSoundManager::_getEFXSlot           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>slotID</em> = <code>0</code>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Gets a specified EFX Effect slot 
+</div>
+</div><p>
+<a class="anchor" name="9dd7d586e3c49f14ffe72e600cefb6a9"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::_setEAXReverbProperties" ref="9dd7d586e3c49f14ffe72e600cefb6a9" args="(EFXEAXREVERBPROPERTIES *pEFXEAXReverb, ALuint uiEffect)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OgreOggSound::OgreOggSoundManager::_setEAXReverbProperties           </td>
+          <td>(</td>
+          <td class="paramtype">EFXEAXREVERBPROPERTIES *&nbsp;</td>
+          <td class="paramname"> <em>pEFXEAXReverb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ALuint&nbsp;</td>
+          <td class="paramname"> <em>uiEffect</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [private]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets EAX reverb properties using a specified present 
 </div>
 </div><p>
 <a class="anchor" name="31dfb504e33a2c9adc58537187e8c1a5"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::_enumDevices" ref="31dfb504e33a2c9adc58537187e8c1a5" args="()" -->
@@ -1194,6 +2013,21 @@ Sound lists
 
 </div>
 </div><p>
+<a class="anchor" name="9aeba436ff2ec38424bd25ab77e40914"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEFXSupportList" ref="9aeba436ff2ec38424bd25ab77e40914" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_ogre_ogg_sound.html#6423f182d5d3792463165288d3468550">FeatureList</a> <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9aeba436ff2ec38424bd25ab77e40914">OgreOggSound::OgreOggSoundManager::mEFXSupportList</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
 <a class="anchor" name="1d40332ae4814c9a2fd266e87fe4e2ea"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::pInstance" ref="1d40332ae4814c9a2fd266e87fe4e2ea" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -1239,6 +2073,591 @@ Manager instance
 
 </div>
 </div><p>
+<a class="anchor" name="cbcc7aeef656a8c99a5259d149fa6011"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEFXSupport" ref="cbcc7aeef656a8c99a5259d149fa6011" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cbcc7aeef656a8c99a5259d149fa6011">OgreOggSound::OgreOggSoundManager::mEFXSupport</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+EFX Support 
+</div>
+</div><p>
+<a class="anchor" name="74b210634f22925c662516d7f7bb3263"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGenEffects" ref="74b210634f22925c662516d7f7bb3263" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGENEFFECTS <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74b210634f22925c662516d7f7bb3263">OgreOggSound::OgreOggSoundManager::alGenEffects</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="c28d37fe26e9dc092f4f033467578f18"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alDeleteEffects" ref="c28d37fe26e9dc092f4f033467578f18" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALDELETEEFFECTS <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#c28d37fe26e9dc092f4f033467578f18">OgreOggSound::OgreOggSoundManager::alDeleteEffects</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="3796f08de6171614d1c78399618dbbc6"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alIsEffect" ref="3796f08de6171614d1c78399618dbbc6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALISEFFECT <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#3796f08de6171614d1c78399618dbbc6">OgreOggSound::OgreOggSoundManager::alIsEffect</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="f562ef9afb814f2d95168db89f7c0d5f"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alEffecti" ref="f562ef9afb814f2d95168db89f7c0d5f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALEFFECTI <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f562ef9afb814f2d95168db89f7c0d5f">OgreOggSound::OgreOggSoundManager::alEffecti</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="9308ee49938f28e5b519beef4522db96"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alEffectiv" ref="9308ee49938f28e5b519beef4522db96" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALEFFECTIV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9308ee49938f28e5b519beef4522db96">OgreOggSound::OgreOggSoundManager::alEffectiv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="941932060122d2317da53247af1220fe"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alEffectf" ref="941932060122d2317da53247af1220fe" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALEFFECTF <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#941932060122d2317da53247af1220fe">OgreOggSound::OgreOggSoundManager::alEffectf</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="1190a99248346c1600aae4998302a246"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alEffectfv" ref="1190a99248346c1600aae4998302a246" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALEFFECTFV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1190a99248346c1600aae4998302a246">OgreOggSound::OgreOggSoundManager::alEffectfv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="86cdc9a18aaaa9c2def16761918b8635"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetEffecti" ref="86cdc9a18aaaa9c2def16761918b8635" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETEFFECTI <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#86cdc9a18aaaa9c2def16761918b8635">OgreOggSound::OgreOggSoundManager::alGetEffecti</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="44ec7197e3dff4fbc84c51ca896ef137"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetEffectiv" ref="44ec7197e3dff4fbc84c51ca896ef137" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETEFFECTIV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#44ec7197e3dff4fbc84c51ca896ef137">OgreOggSound::OgreOggSoundManager::alGetEffectiv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="fee2aa7b5e135f4c501c5ac61504e5c1"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetEffectf" ref="fee2aa7b5e135f4c501c5ac61504e5c1" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETEFFECTF <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#fee2aa7b5e135f4c501c5ac61504e5c1">OgreOggSound::OgreOggSoundManager::alGetEffectf</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="4dc0626b81a1cfcce1b3b864ba294ae2"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetEffectfv" ref="4dc0626b81a1cfcce1b3b864ba294ae2" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETEFFECTFV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4dc0626b81a1cfcce1b3b864ba294ae2">OgreOggSound::OgreOggSoundManager::alGetEffectfv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="591abc1025085d1c0e9158830971b3a4"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGenFilters" ref="591abc1025085d1c0e9158830971b3a4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGENFILTERS <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#591abc1025085d1c0e9158830971b3a4">OgreOggSound::OgreOggSoundManager::alGenFilters</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="0b2aa37fe9a3546af7f7b40e9884d858"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alDeleteFilters" ref="0b2aa37fe9a3546af7f7b40e9884d858" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALDELETEFILTERS <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#0b2aa37fe9a3546af7f7b40e9884d858">OgreOggSound::OgreOggSoundManager::alDeleteFilters</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="efbd42e9892b2067f3b8f9931b9f45c7"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alIsFilter" ref="efbd42e9892b2067f3b8f9931b9f45c7" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALISFILTER <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#efbd42e9892b2067f3b8f9931b9f45c7">OgreOggSound::OgreOggSoundManager::alIsFilter</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="cd269d4af58673ed2739d2ed93b2ab2e"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alFilteri" ref="cd269d4af58673ed2739d2ed93b2ab2e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALFILTERI <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cd269d4af58673ed2739d2ed93b2ab2e">OgreOggSound::OgreOggSoundManager::alFilteri</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="8b5b1f90d23a4a6cc5c94b7c3f03bd94"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alFilteriv" ref="8b5b1f90d23a4a6cc5c94b7c3f03bd94" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALFILTERIV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#8b5b1f90d23a4a6cc5c94b7c3f03bd94">OgreOggSound::OgreOggSoundManager::alFilteriv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="d37cc8532a9806ff3edf6e5edd3120dd"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alFilterf" ref="d37cc8532a9806ff3edf6e5edd3120dd" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALFILTERF <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#d37cc8532a9806ff3edf6e5edd3120dd">OgreOggSound::OgreOggSoundManager::alFilterf</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="e981fc89b07089a2937a0a49e1fd9fb2"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alFilterfv" ref="e981fc89b07089a2937a0a49e1fd9fb2" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALFILTERFV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#e981fc89b07089a2937a0a49e1fd9fb2">OgreOggSound::OgreOggSoundManager::alFilterfv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="0c98c97be572344620529e55632877ce"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetFilteri" ref="0c98c97be572344620529e55632877ce" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETFILTERI <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#0c98c97be572344620529e55632877ce">OgreOggSound::OgreOggSoundManager::alGetFilteri</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="98423aeafbca17ebf822a1ba6bc2dbc9"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetFilteriv" ref="98423aeafbca17ebf822a1ba6bc2dbc9" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETFILTERIV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#98423aeafbca17ebf822a1ba6bc2dbc9">OgreOggSound::OgreOggSoundManager::alGetFilteriv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="bdcd1b22664562994f388f2c875da84f"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetFilterf" ref="bdcd1b22664562994f388f2c875da84f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETFILTERF <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bdcd1b22664562994f388f2c875da84f">OgreOggSound::OgreOggSoundManager::alGetFilterf</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="7f387fd2ba72cfceda7c729482b76aaa"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetFilterfv" ref="7f387fd2ba72cfceda7c729482b76aaa" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETFILTERFV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7f387fd2ba72cfceda7c729482b76aaa">OgreOggSound::OgreOggSoundManager::alGetFilterfv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="74a7c0eccd15efb5170cd9e85609fff4"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGenAuxiliaryEffectSlots" ref="74a7c0eccd15efb5170cd9e85609fff4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGENAUXILIARYEFFECTSLOTS <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74a7c0eccd15efb5170cd9e85609fff4">OgreOggSound::OgreOggSoundManager::alGenAuxiliaryEffectSlots</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="31a75cfb4258c76fe8bebf7f03bd2289"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alDeleteAuxiliaryEffectSlots" ref="31a75cfb4258c76fe8bebf7f03bd2289" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALDELETEAUXILIARYEFFECTSLOTS <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#31a75cfb4258c76fe8bebf7f03bd2289">OgreOggSound::OgreOggSoundManager::alDeleteAuxiliaryEffectSlots</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="f9b9427236998ef5a34ce5274e723614"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alIsAuxiliaryEffectSlot" ref="f9b9427236998ef5a34ce5274e723614" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALISAUXILIARYEFFECTSLOT <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f9b9427236998ef5a34ce5274e723614">OgreOggSound::OgreOggSoundManager::alIsAuxiliaryEffectSlot</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="98368e23019f2e2eea2968d1e606af01"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alAuxiliaryEffectSloti" ref="98368e23019f2e2eea2968d1e606af01" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALAUXILIARYEFFECTSLOTI <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#98368e23019f2e2eea2968d1e606af01">OgreOggSound::OgreOggSoundManager::alAuxiliaryEffectSloti</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="e4196d9381c9ff569334132f5bc41aa5"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alAuxiliaryEffectSlotiv" ref="e4196d9381c9ff569334132f5bc41aa5" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALAUXILIARYEFFECTSLOTIV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#e4196d9381c9ff569334132f5bc41aa5">OgreOggSound::OgreOggSoundManager::alAuxiliaryEffectSlotiv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="ac1876049da0e7ea42bf02ab542ef842"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alAuxiliaryEffectSlotf" ref="ac1876049da0e7ea42bf02ab542ef842" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALAUXILIARYEFFECTSLOTF <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac1876049da0e7ea42bf02ab542ef842">OgreOggSound::OgreOggSoundManager::alAuxiliaryEffectSlotf</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="bb048e53b98adb4dacf7848aa5155263"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alAuxiliaryEffectSlotfv" ref="bb048e53b98adb4dacf7848aa5155263" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALAUXILIARYEFFECTSLOTFV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bb048e53b98adb4dacf7848aa5155263">OgreOggSound::OgreOggSoundManager::alAuxiliaryEffectSlotfv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="1807531c534a49759b129d100bff48db"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetAuxiliaryEffectSloti" ref="1807531c534a49759b129d100bff48db" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETAUXILIARYEFFECTSLOTI <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1807531c534a49759b129d100bff48db">OgreOggSound::OgreOggSoundManager::alGetAuxiliaryEffectSloti</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="74c1c2791c47888909765ac2f03911c6"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetAuxiliaryEffectSlotiv" ref="74c1c2791c47888909765ac2f03911c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETAUXILIARYEFFECTSLOTIV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74c1c2791c47888909765ac2f03911c6">OgreOggSound::OgreOggSoundManager::alGetAuxiliaryEffectSlotiv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="6a8f436863bf6ada14f0ac7542b5a2aa"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetAuxiliaryEffectSlotf" ref="6a8f436863bf6ada14f0ac7542b5a2aa" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETAUXILIARYEFFECTSLOTF <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#6a8f436863bf6ada14f0ac7542b5a2aa">OgreOggSound::OgreOggSoundManager::alGetAuxiliaryEffectSlotf</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="978bf9525f11ebb1fc067c99a5c71baf"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::alGetAuxiliaryEffectSlotfv" ref="978bf9525f11ebb1fc067c99a5c71baf" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LPALGETAUXILIARYEFFECTSLOTFV <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#978bf9525f11ebb1fc067c99a5c71baf">OgreOggSound::OgreOggSoundManager::alGetAuxiliaryEffectSlotfv</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="f90b4770bccecd68a546cc4a969ec41f"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mNumEffectSlots" ref="f90b4770bccecd68a546cc4a969ec41f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALint <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f90b4770bccecd68a546cc4a969ec41f">OgreOggSound::OgreOggSoundManager::mNumEffectSlots</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="362acf64ed85e9546bf10d28c5bd2ca6"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mNumSendsPerSource" ref="362acf64ed85e9546bf10d28c5bd2ca6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALint <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#362acf64ed85e9546bf10d28c5bd2ca6">OgreOggSound::OgreOggSoundManager::mNumSendsPerSource</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="655696078335197a2abdd3201313bd2e"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mFilterList" ref="655696078335197a2abdd3201313bd2e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_ogre_ogg_sound.html#daedc172c3e871304a6bc73b4f3220d4">EffectList</a>* <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#655696078335197a2abdd3201313bd2e">OgreOggSound::OgreOggSoundManager::mFilterList</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="35c39b4807634f27540532f45e945091"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEffectList" ref="35c39b4807634f27540532f45e945091" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_ogre_ogg_sound.html#daedc172c3e871304a6bc73b4f3220d4">EffectList</a>* <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#35c39b4807634f27540532f45e945091">OgreOggSound::OgreOggSoundManager::mEffectList</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="6ca2c2f5d26cd3df53a8de8ec0bcda40"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEffectSlotList" ref="6ca2c2f5d26cd3df53a8de8ec0bcda40" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;ALuint&gt;* <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#6ca2c2f5d26cd3df53a8de8ec0bcda40">OgreOggSound::OgreOggSoundManager::mEffectSlotList</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
 <a class="anchor" name="f93b38dd0ea25e75abe7ca20d014254c"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEAXSupport" ref="f93b38dd0ea25e75abe7ca20d014254c" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -1267,21 +2686,6 @@ EAX Support
 
 <p>
 
-</div>
-</div><p>
-<a class="anchor" name="cbcc7aeef656a8c99a5259d149fa6011"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEFXSupport" ref="cbcc7aeef656a8c99a5259d149fa6011" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cbcc7aeef656a8c99a5259d149fa6011">OgreOggSound::OgreOggSoundManager::mEFXSupport</a><code> [private]</code>          </td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-EFX Support 
 </div>
 </div><p>
 <a class="anchor" name="c6d36493fda948725b57da28f5c54414"></a><!-- doxytag: member="OgreOggSound::OgreOggSoundManager::mEAXSetBufferMode" ref="c6d36493fda948725b57da28f5c54414" args="" -->
@@ -1465,9 +2869,9 @@ Listener pointer
 </div>
 </div><p>
 <hr>The documentation for this class was generated from the following files:<ul>
-<li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_sound_manager_8h.html">OgreOggSoundManager.h</a><li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_sound_manager_8cpp.html">OgreOggSoundManager.cpp</a></ul>
+<li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_sound_manager_8h.html">OgreOggSoundManager.h</a><li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="ogreoggsoundmanager_8cpp.html">ogreoggsoundmanager.cpp</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 9 15:00:48 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 10 15:04:06 2008 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
