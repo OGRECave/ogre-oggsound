@@ -165,6 +165,9 @@ namespace OgreOggSound
 		alSourceRewind(mSource);	
 		mPlay=false;
 		mPreviousOffset=0;
+
+		// Give up source immediately if specfied
+		if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::loop(bool loop)

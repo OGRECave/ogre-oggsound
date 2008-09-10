@@ -90,6 +90,7 @@ namespace OgreOggSound
 	mStream(false), 
 	mFinCBEnabled(false), 
 	mLoopCBEnabled(false), 
+	mGiveUpSource(false), 
 	mPriority(0), 
 	mFinishedCB(0), 
 	mLoopCB(0), 

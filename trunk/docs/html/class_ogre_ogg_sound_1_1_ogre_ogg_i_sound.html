@@ -58,6 +58,8 @@ Collaboration diagram for OgreOggSound::OgreOggISound:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ae181a474f1f98aacfbc04da6046a763">isStopped</a> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a54d0f5ee59b4554ceb3dc4101412375">setGiveUpSourceOnStop</a> (bool giveup=false)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a0551ada6a4e827722d33f2d7f81ef83">setPosition</a> (float posx, float posy, float posz)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#7bb7270ffd542d8c1c57ac70bc9cad1e">setPosition</a> (const Ogre::Vector3 &amp;pos)</td></tr>
@@ -204,6 +206,8 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ed3deb88b79e5579c5a66ad5d216c945">mLoop</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#5f2bfbad2bc45abd27819187eb9934be">mPlay</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a9108889b46052d2b10e96052cfd6336">mGiveUpSource</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#4f246c084f0ff5df0cff38bd23d30314">mStream</a></td></tr>
 
@@ -463,6 +467,32 @@ Returns pause status. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Che
 
 <p>
 Returns stop status. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Checks source state for AL_STOPPED </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="a54d0f5ee59b4554ceb3dc4101412375"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::setGiveUpSourceOnStop" ref="a54d0f5ee59b4554ceb3dc4101412375" args="(bool giveup=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggISound::setGiveUpSourceOnStop           </td>
+          <td>(</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>giveup</em> = <code>false</code>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets whether source is given up when stopped. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>This flag indicates that the sound should immediately give up its source if finished playing or manually stopped. Useful for infrequent sounds or sounds which only play once. Allows other sounds immediate access to a playable source object. </dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>giveup</em>&nbsp;</td><td>true - release source immediately </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -2001,6 +2031,21 @@ Sound properties
 
 </div>
 </div><p>
+<a class="anchor" name="a9108889b46052d2b10e96052cfd6336"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::mGiveUpSource" ref="a9108889b46052d2b10e96052cfd6336" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a9108889b46052d2b10e96052cfd6336">OgreOggSound::OgreOggISound::mGiveUpSource</a><code> [protected]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
 <a class="anchor" name="4f246c084f0ff5df0cff38bd23d30314"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::mStream" ref="4f246c084f0ff5df0cff38bd23d30314" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -2094,7 +2139,7 @@ EFX Effects
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_i_sound_8h.html">OgreOggISound.h</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 10 15:04:06 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 10 16:31:18 2008 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
