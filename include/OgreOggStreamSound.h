@@ -83,18 +83,6 @@ namespace OgreOggSound
 			within this call.
 		 */
 		void play();	
-		/** Updates the data buffers with sound information.
-		@remarks
-			This function refills processed buffers with audio data from
-			the stream, it automatically handles looping if set.
-		 */
-		void updateAudioBuffers();
-		/** Prefills buffers with audio data.
-		@remarks
-			Loads audio data from the stream into the predefined data
-			buffers and queues them onto the source ready for playback.
-		 */
-		void prebuffer();		
 
 	protected:
 
@@ -118,17 +106,24 @@ namespace OgreOggSound
 				buffer id to load data into.
 		 */
 		bool _stream(ALuint buffer);
-		/** Checks for OpenAL errors.
+		/** Updates the data buffers with sound information.
 		@remarks
-			Checks for an OpenAL error after an audio operation.
+			This function refills processed buffers with audio data from
+			the stream, it automatically handles looping if set.
 		 */
-		void _check();
+		void _updateAudioBuffers();
 		/** Unqueues buffers from the source.
 		@remarks
 			Unqueues all data buffers currently queued on the associated
 			source object.
 		 */
 		void _dequeue();
+		/** Prefills buffers with audio data.
+		@remarks
+			Loads audio data from the stream into the predefined data
+			buffers and queues them onto the source ready for playback.
+		 */
+		void _prebuffer();		
 
 	private:
 

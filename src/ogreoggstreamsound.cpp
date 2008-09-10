@@ -79,7 +79,7 @@ namespace OgreOggSound
 		ov_clear(&mOggStream);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamSound::prebuffer()
+	void OgreOggStreamSound::_prebuffer()
 	{	
 		if (mSource==AL_NONE) return;
 
@@ -99,6 +99,12 @@ namespace OgreOggSound
 		{
 			// Set source
 			mSource=src;
+
+			// Fill data buffers
+			_prebuffer();
+
+			// Init source
+			_initSource();
 		}
 		else
 		{			
@@ -110,7 +116,7 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamSound::updateAudioBuffers()
+	void OgreOggStreamSound::_updateAudioBuffers()
 	{	
 		if(mSource == AL_NONE || !mPlay) return;	
 
@@ -202,20 +208,14 @@ namespace OgreOggSound
 		return true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamSound::_check()
-	{
-		int error = alGetError();
-
-		if(error != AL_NO_ERROR)
-			throw string("OpenAL error was raised.");
-	}
-	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_dequeue()
 	{		
 		if(mSource == AL_NONE)
 			return;
 		
 		int queued=0;
+
+		alGetError();
 
 		// Stop source to allow unqueuing
 		alSourceStop(mSource);
@@ -244,15 +244,9 @@ namespace OgreOggSound
 
 		// Grab a source if not already attached
 		if (mSource == AL_NONE)
-			if ( OgreOggSoundManager::getSingleton().requestSoundSource(this) )
-			{
-				// Fill data buffers
-				prebuffer();
-
-				// Init source
-				_initSource();
-			}
-
+			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
+				return;
+	
 		// Set play flag
 		mPlay = true;
 

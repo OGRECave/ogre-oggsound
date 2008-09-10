@@ -25,7 +25,7 @@
   </div>
 </div>
 <div class="contents">
-<h1>OgreOggSound::OgreOggStaticSound Class Reference</h1><!-- doxytag: class="OgreOggSound::OgreOggStaticSound" --><!-- doxytag: inherits="OgreOggSound::OgreOggISound" --><code>#include &lt;OgreOggStaticSound.h&gt;</code>
+<h1>OgreOggSound::OgreOggStaticSound Class Reference</h1><!-- doxytag: class="OgreOggSound::OgreOggStaticSound" --><!-- doxytag: inherits="OgreOggSound::OgreOggISound" --><code>#include &lt;<a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a>&gt;</code>
 <p>
 <div class="dynheader">
 Inheritance diagram for OgreOggSound::OgreOggStaticSound:</div>
@@ -52,8 +52,6 @@ Collaboration diagram for OgreOggSound::OgreOggStaticSound:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#8a3feea753cccf52682a6815fc53e47c">play</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#fe578a427b52150919ced960eba9be0e">updateAudioBuffers</a> ()</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#9842c1a6a91e799f0f4c77dbfff2cd13">loop</a> (bool loop)</td></tr>
 
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
@@ -61,7 +59,9 @@ Collaboration diagram for OgreOggSound::OgreOggStaticSound:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#417761a0196312adff2253ac40779463">~OgreOggStaticSound</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#7b6ed4bf166491631e5601a6883de1a3">check</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#49947048453d7e596e76cb195dff70f5">_updateAudioBuffers</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#f7e4d398449fe79cd948f3361192b894">_prebuffer</a> ()</td></tr>
 
 <tr><td colspan="2"><br><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#aa77c0d68b4df4ef8db00e26ece64475">_release</a> ()</td></tr>
@@ -88,7 +88,9 @@ Collaboration diagram for OgreOggSound::OgreOggStaticSound:</div>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-Super class for a static buffer sound. Handles playing a sound from memory. <hr><h2>Constructor &amp; Destructor Documentation</h2>
+Super class for a static buffer sound. Handles playing a sound from memory. 
+<p>Definition at line <a class="el" href="_ogre_ogg_static_sound_8h-source.html#l00038">38</a> of file <a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a>.</p>
+<hr><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" name="69e98f5dd4ebacab392405d84018d7b8"></a><!-- doxytag: member="OgreOggSound::OgreOggStaticSound::OgreOggStaticSound" ref="69e98f5dd4ebacab392405d84018d7b8" args="(const Ogre::String &amp;name)" -->
 <div class="memitem">
 <div class="memproto">
@@ -271,28 +273,6 @@ Plays the sound. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Begins p
 
 </div>
 </div><p>
-<a class="anchor" name="fe578a427b52150919ced960eba9be0e"></a><!-- doxytag: member="OgreOggSound::OgreOggStaticSound::updateAudioBuffers" ref="fe578a427b52150919ced960eba9be0e" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void OgreOggSound::OgreOggStaticSound::updateAudioBuffers           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td><code> [virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Updates the data buffers with sound information. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>This function refills processed buffers with audio data from the stream, it automatically handles looping if set. </dd></dl>
-
-<p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#6ab3ed655cbd0a8dbf5ee6a766fd0281">OgreOggSound::OgreOggISound</a>.</p>
-
-</div>
-</div><p>
 <a class="anchor" name="9842c1a6a91e799f0f4c77dbfff2cd13"></a><!-- doxytag: member="OgreOggSound::OgreOggStaticSound::loop" ref="9842c1a6a91e799f0f4c77dbfff2cd13" args="(bool loop)" -->
 <div class="memitem">
 <div class="memproto">
@@ -321,23 +301,47 @@ Sets the loop status. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Imm
 
 </div>
 </div><p>
-<a class="anchor" name="7b6ed4bf166491631e5601a6883de1a3"></a><!-- doxytag: member="OgreOggSound::OgreOggStaticSound::check" ref="7b6ed4bf166491631e5601a6883de1a3" args="()" -->
+<a class="anchor" name="49947048453d7e596e76cb195dff70f5"></a><!-- doxytag: member="OgreOggSound::OgreOggStaticSound::_updateAudioBuffers" ref="49947048453d7e596e76cb195dff70f5" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void OgreOggSound::OgreOggStaticSound::check           </td>
+          <td class="memname">void OgreOggSound::OgreOggStaticSound::_updateAudioBuffers           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [protected]</code></td>
+          <td><code> [protected, virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
 <p>
-Checks for OpenAL errors. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Checks for an OpenAL error after an audio operation. </dd></dl>
+Updates the data buffers with sound information. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>This function refills processed buffers with audio data from the stream, it automatically handles looping if set. </dd></dl>
+
+<p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#50159a211c5ba5ec257863836e5c2719">OgreOggSound::OgreOggISound</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="f7e4d398449fe79cd948f3361192b894"></a><!-- doxytag: member="OgreOggSound::OgreOggStaticSound::_prebuffer" ref="f7e4d398449fe79cd948f3361192b894" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggStaticSound::_prebuffer           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Prefills buffer with audio data. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Loads audio data onto the source ready for playback. </dd></dl>
+
+<p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#d2be7bd2ddec21507143bcec73839bfd">OgreOggSound::OgreOggISound</a>.</p>
 
 </div>
 </div><p>
@@ -379,6 +383,8 @@ Releases buffers and OpenAL objects. <dl class="remark" compact><dt><b>Remarks:<
 
 <p>Reimplemented from <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#7cfed535deaa9c3b1c335b122135c474">OgreOggSound::OgreOggISound</a>.</p>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_static_sound_8h-source.html#l00135">135</a> of file <a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a>.</p>
+
 </div>
 </div><p>
 <hr><h2>Member Data Documentation</h2>
@@ -395,6 +401,8 @@ Releases buffers and OpenAL objects. <dl class="remark" compact><dt><b>Remarks:<
 
 <p>
 Ogg file variables 
+<p>Definition at line <a class="el" href="_ogre_ogg_static_sound_8h-source.html#l00124">124</a> of file <a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="5d0a3dda14b47aec65f724d60a266329"></a><!-- doxytag: member="OgreOggSound::OgreOggStaticSound::mOggStream" ref="5d0a3dda14b47aec65f724d60a266329" args="" -->
@@ -409,6 +417,8 @@ Ogg file variables
 <div class="memdoc">
 
 <p>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_static_sound_8h-source.html#l00125">125</a> of file <a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a>.</p>
 
 </div>
 </div><p>
@@ -425,6 +435,8 @@ Ogg file variables
 
 <p>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_static_sound_8h-source.html#l00126">126</a> of file <a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="aae902124eb2fa366fdf305ad8c1b6c8"></a><!-- doxytag: member="OgreOggSound::OgreOggStaticSound::mVorbisComment" ref="aae902124eb2fa366fdf305ad8c1b6c8" args="" -->
@@ -439,6 +451,8 @@ Ogg file variables
 <div class="memdoc">
 
 <p>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_static_sound_8h-source.html#l00127">127</a> of file <a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a>.</p>
 
 </div>
 </div><p>
@@ -455,6 +469,8 @@ Ogg file variables
 
 <p>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_static_sound_8h-source.html#l00129">129</a> of file <a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="1468bcb7b9e4f37dcb21028d0bdb6333"></a><!-- doxytag: member="OgreOggSound::OgreOggStaticSound::mBuffer" ref="1468bcb7b9e4f37dcb21028d0bdb6333" args="" -->
@@ -469,6 +485,8 @@ Ogg file variables
 <div class="memdoc">
 
 <p>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_static_sound_8h-source.html#l00131">131</a> of file <a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a>.</p>
 
 </div>
 </div><p>
@@ -485,6 +503,8 @@ Ogg file variables
 
 <p>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_static_sound_8h-source.html#l00132">132</a> of file <a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="a4185a1e573b81536d3175292c5d2ffa"></a><!-- doxytag: member="OgreOggSound::OgreOggStaticSound::mPreviousOffset" ref="a4185a1e573b81536d3175292c5d2ffa" args="" -->
@@ -500,12 +520,14 @@ Ogg file variables
 
 <p>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_static_sound_8h-source.html#l00133">133</a> of file <a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a>.</p>
+
 </div>
 </div><p>
 <hr>The documentation for this class was generated from the following file:<ul>
-<li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_static_sound_8h.html">OgreOggStaticSound.h</a></ul>
+<li>C:/Current Projects/Audio Library/OgreOggSound/docs/<a class="el" href="_ogre_ogg_static_sound_8h-source.html">OgreOggStaticSound.h</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 10 16:31:18 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 10 17:36:44 2008 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

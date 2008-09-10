@@ -116,8 +116,10 @@ namespace OgreOggSound
 				stream Flag indicating if the sound sound be streamed.
 			@param
 				loop Flag indicating if the file should loop.
+			@param
+				preBuffer Flag indicating if a source should be attached at creation.
 		 */
-		OgreOggISound* createSound(const std::string& name,const std::string& file, bool stream = false, bool loop = false);	
+		OgreOggISound* createSound(const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);	
 		/** Gets a named sound.
 		@remarks
 			Returns a named sound object if defined, NULL otherwise.
@@ -223,7 +225,7 @@ namespace OgreOggSound
 		/** Sets the distance units of measurement for EFX effects.
 		@remarks
 			@param
-				speed Speed (m/s).
+				unit units(meters).
 		 */
 		void setEFXDistanceUnits(Ogre::Real unit=3.3f);
 		/** Gets a list of device strings
@@ -249,6 +251,7 @@ namespace OgreOggSound
 			Creates a specified EFX filter if hardware supports it.
 			@param 
 				eName name for filter.
+			@param 
 				type see OpenAL docs for available filters.
 		 */
 		bool createEFXFilter(const std::string& eName, ALint type, ALfloat gain=1.0, ALfloat hfGain=1.0);
@@ -259,7 +262,9 @@ namespace OgreOggSound
 			eax-util.h for list of presets.
 			@param 
 				eName name for effect.
+			@param 
 				type see OpenAL docs for available effects.
+			@param 
 				props legacy structure describing a preset reverb effect.
 		 */
 		bool createEFXEffect(const std::string& eName, ALint type, EAXREVERBPROPERTIES* props=0);
@@ -268,8 +273,11 @@ namespace OgreOggSound
 			Tries to set EFX extended source properties.
 			@param 
 				sName name of sound.
+			@param 
 				airAbsorption absorption factor for air.
+			@param 
 				roomRolloff room rolloff factor.
+			@param 
 				coneOuterHF cone outer gain factor for High frequencies.
 		 */
 		bool setEFXSoundProperties(const std::string& eName, Ogre::Real airAbsorption=0.f, Ogre::Real roomRolloff=0.f, Ogre::Real coneOuterHF=0.f);
@@ -278,8 +286,11 @@ namespace OgreOggSound
 			Tries to set a parameter value on a specified effect. Returns true/false.
 			@param 
 				eName name of effect.
+			@param 
 				effectType see OpenAL docs for available effects.
+			@param 
 				attrib parameter value to alter.
+			@param 
 				param float value to set.
 		 */
 		bool setEFXEffectParameter(const std::string& eName, ALint effectType, ALenum attrib, ALfloat param);
@@ -288,8 +299,11 @@ namespace OgreOggSound
 			Tries to set a parameter value on a specified effect. Returns true/false.
 			@param 
 				eName name of effect.
+			@param 
 				effectType see OpenAL docs for available effects.
+			@param 
 				attrib parameter value to alter.
+			@param 
 				param vector pointer of float values to set.
 		 */
 		bool setEFXEffectParameter(const std::string& eName, ALint type, ALenum attrib, ALfloat* params=0);
@@ -298,8 +312,11 @@ namespace OgreOggSound
 			Tries to set a parameter value on a specified effect. Returns true/false.
 			@param 
 				eName name of effect.
+			@param 
 				effectType see OpenAL docs for available effects.
+			@param 
 				attrib parameter value to alter.
+			@param 
 				param integer value to set.
 		 */
 		bool setEFXEffectParameter(const std::string& eName, ALint type, ALenum attrib, ALint param);
@@ -308,8 +325,11 @@ namespace OgreOggSound
 			Tries to set a parameter value on a specified effect. Returns true/false.
 			@param 
 				eName name of effect.
+			@param 
 				effectType see OpenAL docs for available effects.
+			@param 
 				attrib parameter value to alter.
+			@param 
 				params vector pointer of integer values to set.
 		 */
 		bool setEFXEffectParameter(const std::string& eName, ALint type, ALenum attrib, ALint* params=0);
@@ -330,21 +350,39 @@ namespace OgreOggSound
 		/** Attaches an effect to a sound
 		@remarks
 			Currently sound must have a source attached prior to this call.
+			@param 
+				sName name of sound
+			@param
+				slot slot ID
+			@param
+				effect name of effect as defined when created
+			@param
+				filter name of filter as defined when created
 		 */
 		bool attachEffectToSound(const std::string& sName, ALuint slot, const Ogre::String& effect="", const Ogre::String& filter="");
 		/** Attaches a filter to a sound
 		@remarks
 			Currently sound must have a source attached prior to this call.
+			@param 
+				sName name of sound
+			@param
+				filter name of filter as defined when created
 		 */
 		bool attachFilterToSound(const std::string& sName, const Ogre::String& filter="");
 		/** Detaches all effects from a sound
 		@remarks
 			Currently sound must have a source attached prior to this call.
+			@param 
+				sName name of sound
+			@param
+				slot slot ID
 		 */
 		bool detachEffectFromSound(const std::string& sName, ALuint slotID);
 		/** Detaches all filters from a sound
 		@remarks
 			Currently sound must have a source attached prior to this call.
+			@param 
+				sName name of sound
 		 */
 		bool detachFilterFromSound(const std::string& sName);
 		/** Returns whether a specified effect is supported
@@ -406,6 +444,10 @@ namespace OgreOggSound
 		 */
 		void _determineAuxEffectSlots();
 		/** Attaches a created effect to an Auxiliary slot
+		@param
+			slot slot ID
+		@param
+			effect effect ID
 		 */
 		bool _attachEffectToSlot(ALuint slot, ALuint effect);
 		/** Re-activates any sounds which had their source stolen.
@@ -420,15 +462,25 @@ namespace OgreOggSound
 		 */
 		void _reactivateQueuedSounds();
 		/** Gets a specified EFX filter
+		@param
+			fName name of filter as defined when created.
 		 */
 		ALuint _getEFXFilter(const std::string& fName);
 		/** Gets a specified EFX Effect
+		@param
+			eName name of effect as defined when created.
 		 */
 		ALuint _getEFXEffect(const std::string& eName);
 		/** Gets a specified EFX Effect slot
+		@param
+			slotID index of auxiliary effect slot
 		 */
 		ALuint _getEFXSlot(int slotID=0);
 		/** Sets EAX reverb properties using a specified present
+		@param
+			pEFXEAXReverb pointer to converted EFXEAXREVERBPROPERTIES structure object
+		@param
+			uiEffect effect ID
 		 */
 		bool _setEAXReverbProperties(EFXEAXREVERBPROPERTIES *pEFXEAXReverb, ALuint uiEffect);
 		/** Enumerates audio devices.
