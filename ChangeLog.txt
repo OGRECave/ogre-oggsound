@@ -1,7 +1,11 @@
 * version 0.89
 
 	* Added EFX effect/filter support
-	* Added EAX room reverb preset support	* Fixed sound position bug 
+	* Added EAX room reverb preset support	
+	* Fixed sound position bug 
+	* Added flag in OgreOggISound for indicating source management per sound
+		Can be used to keep a good level of source objects available, by forcing infrequent
+		or single play sounds to immediately give up their source objects when stopped.
 
 
 * version 0.88

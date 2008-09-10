@@ -269,6 +269,9 @@ namespace OgreOggSound
 			alSourceRewind(mSource);
 			ov_time_seek(&mOggStream,0);	
 			mPlay=false;
+
+			// Give up source immediately if specfied
+			if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);
 		}
 	}
 }

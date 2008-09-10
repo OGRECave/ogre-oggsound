@@ -97,6 +97,15 @@ namespace OgreOggSound
 			Checks source state for AL_STOPPED
 		 */
 		bool isStopped();
+		/** Sets whether source is given up when stopped.
+		@remarks
+			This flag indicates that the sound should immediately give up its source if finished playing
+			or manually stopped. Useful for infrequent sounds or sounds which only play once. Allows other
+			sounds immediate access to a playable source object.
+			@param
+				giveup true - release source immediately
+		 */
+		void setGiveUpSourceOnStop(bool giveup=false) { mGiveUpSource=giveup; }
 		/** Sets sounds position.
 		@param
 			pos x/y/z 3D position
@@ -416,6 +425,7 @@ namespace OgreOggSound
 		Ogre::String mName;				// Sound name
 		bool mLoop;						// Loop status
 		bool mPlay;						// Play status
+		bool mGiveUpSource;				// Flag to indicate whether sound should release its source when stopped
 		bool mStream;					// Stream flag
 		bool mSourceRelative;			// Relative position flag
 		bool mLocalTransformDirty;		// Transformation update flag
