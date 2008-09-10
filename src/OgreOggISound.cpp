@@ -375,9 +375,9 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::update(Ogre::Real fTime)
 	{
-		if (_needUpdate() || mLocalTransformDirty)
+		if (mLocalTransformDirty || _needUpdate())
 		{
-			if ( mParentNode )
+			if (mParentNode)
 			{
 				mPosition = mParentNode->_getDerivedPosition();
 				mDirection = -mParentNode->_getDerivedOrientation().zAxis();
@@ -427,6 +427,28 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::_updateRenderQueue(Ogre::RenderQueue *queue)
 	{
+		return;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::_notifyAttached(Ogre::Node* node, bool isTagPoint)
+	{
+		// Set parent node
+		mParentNode = node;
+
+		// Immediately set position/orientation when attached
+		if (mParentNode)
+		{
+			mPosition = mParentNode->_getDerivedPosition();
+			mDirection = -mParentNode->_getDerivedOrientation().zAxis();
+		}
+
+		// Set tarnsform immediately if possible
+		if(mSource != AL_NONE)
+		{
+			alSource3f(mSource, AL_POSITION, mPosition.x, mPosition.y, mPosition.z);
+			alSource3f(mSource, AL_DIRECTION, mDirection.x, mDirection.y, mDirection.z);
+		}
+
 		return;
 	}
 	/*/////////////////////////////////////////////////////////////////*/

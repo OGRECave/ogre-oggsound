@@ -543,7 +543,11 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::createEFXFilter(const std::string& fName, ALint filterType, ALfloat gain, ALfloat hfGain)
 	{
-		if ( !hasEFXSupport() || fName.empty() ) return false;
+		if ( !hasEFXSupport() || fName.empty() || !isEffectSupported(filterType) ) 
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::createEFXFilter() - Unsupported filter!");
+			return false;
+		}
 
 		ALuint filter;
 
@@ -578,7 +582,11 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::createEFXEffect(const std::string& eName, ALint effectType, EAXREVERBPROPERTIES* props)
 	{
-		if ( !hasEFXSupport() || eName.empty() ) return false;
+		if ( !hasEFXSupport() || eName.empty() || !isEffectSupported(effectType) ) 		
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::createEFXEffect() - Unsupported effect!");
+			return false;
+		}
 
 		ALuint effect;
 
@@ -618,7 +626,11 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::createEFXSlot()
 	{
-		if ( !hasEFXSupport() ) return false;
+		if ( !hasEFXSupport() ) 
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::createEFXFilter() - No EFX support!");
+			return false;
+		}
 
 		ALuint slot;
 
@@ -701,6 +713,16 @@ namespace OgreOggSound
 		return deviceVector;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::isEffectSupported(ALint effectID)
+	{
+		if ( mEFXSupportList.find(effectID)!=mEFXSupportList.end() )
+			return mEFXSupportList[effectID];
+		else
+			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::isEffectSupported() - Invalid effectID!");
+
+		return false;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_determineAuxEffectSlots()
 	{
 		ALuint		uiEffectSlots[128] = { 0 };
@@ -731,79 +753,79 @@ namespace OgreOggSound
 		{
 			// Try setting Effect Type to known Effects
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_REVERB);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_REVERB] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Reverb' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Reverb' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_EAXREVERB] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'EAX Reverb' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'EAX Reverb' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_CHORUS);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_CHORUS] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Chorus' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Chorus' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_DISTORTION] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Distortion' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Distortion' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_ECHO);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_ECHO] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Echo' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Echo' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_FLANGER);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_FLANGER] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Flanger' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Flanger' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_FREQUENCY_SHIFTER);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_FREQUENCY_SHIFTER] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Frequency shifter' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Frequency shifter' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_VOCAL_MORPHER);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_VOCAL_MORPHER] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Vocal Morpher' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Vocal Morpher' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_PITCH_SHIFTER);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_PITCH_SHIFTER] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Pitch shifter' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Pitch shifter' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_RING_MODULATOR);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_RING_MODULATOR] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Ring modulator' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Ring modulator' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_AUTOWAH);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_AUTOWAH] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Autowah' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Autowah' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_COMPRESSOR);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_COMPRESSOR] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Compressor' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Compressor' Support: NO");
 
 			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_EQUALIZER);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_EFFECT_EQUALIZER] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Equalizer' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Equalizer' Support: NO");
@@ -820,19 +842,19 @@ namespace OgreOggSound
 		{
 			// Try setting the Filter type to known Filters
 			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_LOWPASS);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_FILTER_LOWPASS] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Low Pass' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Low Pass' Support: NO");
 
 			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_HIGHPASS);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_FILTER_HIGHPASS] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'High Pass' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'High Pass' Support: NO");
 
 			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_BANDPASS);
-			if ( alGetError() == AL_NO_ERROR )
+			if ( mEFXSupportList[AL_FILTER_BANDPASS] = (alGetError() == AL_NO_ERROR) )
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Band Pass' Support: YES");
 			else
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Band Pass' Support: NO");

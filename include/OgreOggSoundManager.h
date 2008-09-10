@@ -49,6 +49,7 @@ namespace OgreOggSound
 {
 	typedef std::map<std::string, OgreOggISound *> SoundMap;
 	typedef std::map<std::string, ALuint> EffectList;
+	typedef std::map<ALenum, bool> FeatureList;
 	typedef std::list<OgreOggISound*> ActiveList;
 	typedef std::list<ALuint> SourceList;
 
@@ -330,12 +331,12 @@ namespace OgreOggSound
 		@remarks
 			Currently sound must have a source attached prior to this call.
 		 */
-		bool attachEffectToSound(const std::string& sName, ALuint slot, const Ogre::String& effect, const Ogre::String& filter);
+		bool attachEffectToSound(const std::string& sName, ALuint slot, const Ogre::String& effect="", const Ogre::String& filter="");
 		/** Attaches a filter to a sound
 		@remarks
 			Currently sound must have a source attached prior to this call.
 		 */
-		bool attachFilterToSound(const std::string& sName, const Ogre::String& filter);
+		bool attachFilterToSound(const std::string& sName, const Ogre::String& filter="");
 		/** Detaches all effects from a sound
 		@remarks
 			Currently sound must have a source attached prior to this call.
@@ -346,6 +347,11 @@ namespace OgreOggSound
 			Currently sound must have a source attached prior to this call.
 		 */
 		bool detachFilterFromSound(const std::string& sName);
+		/** Returns whether a specified effect is supported
+			@param
+				effectID OpenAL effect/filter id. (AL_EFFECT... | AL_FILTER...)
+		 */
+		bool isEffectSupported(ALint effectID);
 
 #if OGGSOUND_THREADED
 
@@ -444,6 +450,7 @@ namespace OgreOggSound
 		ActiveList mPausedSounds;				// list of sounds currently paused
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		SourceList mSourcePool;					// List of available sources
+		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
 
 		/** Manager instance
 		 */

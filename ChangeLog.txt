@@ -1,7 +1,8 @@
 * version 0.89
 
 	* Added EFX effect/filter support
-	* Added EAX room reverb preset support
+	* Added EAX room reverb preset support	* Fixed sound position bug 
+
 
 * version 0.88
 
