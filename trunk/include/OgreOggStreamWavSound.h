@@ -22,7 +22,6 @@
 
 #include "OgreOggSoundPrereqs.h"
 #include <string>
-#include <vector>
 #include "ogg/ogg.h"
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
@@ -30,12 +29,17 @@
 
 #include "OgreOggISound.h"
 
+/**
+ * Number of buffers to use for streaming
+ */
+#define NUM_BUFFERS 3
+
 namespace OgreOggSound
 {
-	/**
-	 * Super class for a static buffer sound. Handles playing a sound from memory.
+	/** 
+		Subclass for a streaming sound.
 	 */
-	class _OGGSOUND_EXPORT OgreOggStaticWavSound : public OgreOggISound
+	class _OGGSOUND_EXPORT OgreOggStreamWavSound : public OgreOggISound
 	{
 
 	public:	
@@ -55,8 +59,8 @@ namespace OgreOggSound
 		void release();	
 		/** Stops playing sound.
 		@remarks
-			Stops playing audio immediately. If specified to do so its source
-			will be released also.
+			Stops playing audio immediately and resets playback. 
+			If specified to do so its source will be released also.
 		*/
 		void stop();
 		/** Sets the source to use for playback.
@@ -79,33 +83,45 @@ namespace OgreOggSound
 			within this call.
 		 */
 		void play();	
-		/** Sets the loop status.
+
+	protected:
+
+		/** Constructor
 		@remarks
-			Immediately sets the loop status if a source is associated
+			Creates a streamed sound object for playing audio directly from
+			a file stream.
 			@param
-				loop true=loop
+				name Unique name for sound.	
 		 */
-		void loop(bool loop);
-
-	protected:	
-
-		/**
-		 * Constructor
-		 */
-		OgreOggStaticWavSound(const Ogre::String& name);
+		OgreOggStreamWavSound(const Ogre::String& name);
 		/**
 		 * Destructor
 		 */
-		~OgreOggStaticWavSound();
+		~OgreOggStreamWavSound();
+		/** Loads data from the stream into a buffer.
+		@remarks
+			Reads a specified chunk of data from the file stream into a
+			designated buffer object.
+			@param
+				buffer id to load data into.
+		 */
+		bool _stream(ALuint buffer);
 		/** Updates the data buffers with sound information.
 		@remarks
 			This function refills processed buffers with audio data from
 			the stream, it automatically handles looping if set.
 		 */
 		void _updateAudioBuffers();
-		/** Prefills buffer with audio data.
+		/** Unqueues buffers from the source.
 		@remarks
-			Loads audio data onto the source ready for playback.
+			Unqueues all data buffers currently queued on the associated
+			source object.
+		 */
+		void _dequeue();
+		/** Prefills buffers with audio data.
+		@remarks
+			Loads audio data from the stream into the predefined data
+			buffers and queues them onto the source ready for playback.
 		 */
 		void _prebuffer();		
 
@@ -121,19 +137,11 @@ namespace OgreOggSound
 		/**
 		 * Ogg file variables
 		 */
-		FILE*			mOggFile;			// Ogg file pointer
-		OggVorbis_File	mOggStream;			// OggVorbis file structure
-		vorbis_info*	mVorbisInfo;		// Vorbis info 
-		vorbis_comment* mVorbisComment;		// Vorbis comments
-
-		std::vector<char> mBufferData;		// Sound data buffer
-
-		ALuint mBuffer;						// OpenAL buffer index
-		ALenum mFormat;						// OpenAL buffer format
-		ALint mPreviousOffset;				// Current play position
-
+		ALuint mBuffers[NUM_BUFFERS];		// Sound data buffers
+		ALenum mFormat;						// OpenAL format
+		bool mStreamEOF;					// EOF flag
 		WavFormatData mFormatData;			// WAVE format structure
 
-		friend class OgreOggSoundManager;	
+		friend class OgreOggSoundManager;
 	};
 }

@@ -58,65 +58,68 @@ namespace OgreOggSound
 		DWORD	size; 
 		int		bytesRead=0;
 
+		// Store stream pointer
+		mAudioStream = fileStream;
+
 		// Read in "RIFF" chunk descriptor (4 bytes)
-		fileStream->read(id, 4); 
+		mAudioStream->read(id, 4); 
 
 		// Valid RIFF?
 		if (!strcmp(id, "RIFF"))
 		{ 
 			// Read in chunk size (4 bytes)
-			fileStream->read(&size, 4);					
+			mAudioStream->read(&size, 4);					
 
 			// Read in "WAVE" format descriptor (4 bytes)
-			fileStream->read(id, 4);						
+			mAudioStream->read(id, 4);						
 
 			// Valid wav?
 			if (!strcmp(id,"WAVE"))
 			{ 
 				// Read in "fmt" id ( 4 bytes ) 
-				fileStream->read(id, 4);					
+				mAudioStream->read(id, 4);					
 
 				// Read in "fmt" chunk size ( 4 bytes ) 
-				fileStream->read(&mFormatData.mFormatChunkSize, 4);
+				mAudioStream->read(&mFormatData.mFormatChunkSize, 4);
 
 				// Should be 16 unless compressed ( compressed NOT supported )
 				if ( mFormatData.mFormatChunkSize==16 )
 				{
 					// Read in audio format  ( 2 bytes ) 
-					fileStream->read(&format_tag, 2);		
+					mAudioStream->read(&format_tag, 2);		
 
 					// Read in num channels ( 2 bytes ) 
-					fileStream->read(&mFormatData.mNumChannels, 2);			
+					mAudioStream->read(&mFormatData.mNumChannels, 2);			
 
 					// Read in sample rate ( 4 bytes ) 
-					fileStream->read(&mFormatData.mSampleRate, 4);		
+					mAudioStream->read(&mFormatData.mSampleRate, 4);		
 
 					// Read in byte rate ( 4 bytes ) 
-					fileStream->read(&mFormatData.mAvgBytesPerSec, 4);	
+					mAudioStream->read(&mFormatData.mAvgBytesPerSec, 4);	
 
 					// Read in byte align ( 2 bytes ) 
-					fileStream->read(&mFormatData.mBlockAlign, 2);		
+					mAudioStream->read(&mFormatData.mBlockAlign, 2);		
 
 					// Read in bits per sample ( 2 bytes ) 
-					fileStream->read(&mFormatData.mBitsPerSample, 2);	
+					mAudioStream->read(&mFormatData.mBitsPerSample, 2);	
 
 					// Read in "data" chunk id ( 4 bytes ) 
-					fileStream->read(id, 4);					
+					mAudioStream->read(id, 4);					
 
 					// Check for 'data ' or 'fact ' chunk
 					if ( !strcmp(id, "data") )
 					{
 						// Read in size of audio data ( 4 bytes ) 
-						fileStream->read(&mFormatData.mDataSize, 4);		
+						mAudioStream->read(&mFormatData.mDataSize, 4);		
 
 						// Store byte offset of start of audio data
-						mFormatData.mAudioOffset = static_cast<DWORD>(fileStream->tell());
+						mFormatData.mAudioOffset = static_cast<DWORD>(mAudioStream->tell());
 
 						// Allocate array
 						sound_buffer = new char[mFormatData.mDataSize];
 
-						// Read up to a buffer's worth of decoded sound data
-						bytesRead = fileStream->read(sound_buffer, mFormatData.mDataSize);
+						// Read entire sound data
+						bytesRead = static_cast<int>(mAudioStream->read(sound_buffer, mFormatData.mDataSize));
 					}
 					else
 					{
