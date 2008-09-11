@@ -201,11 +201,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\OgreOggStaticWavSound.cpp"
+				RelativePath=".\src\OgreOggStaticWavSound.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\OgreOggStreamSound.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\OgreOggStreamWavSound.cpp"
 				>
 			</File>
 		</Filter>
@@ -248,6 +252,10 @@
 			</File>
 			<File
 				RelativePath=".\include\OgreOggStreamSound.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\OgreOggStreamWavSound.h"
 				>
 			</File>
 		</Filter>

@@ -34,6 +34,7 @@
 #include <OgreSingleton.h>
 #include "OgreOggISound.h"
 #include "OgreOggStreamSound.h"
+#include "OgreOggStreamWavSound.h"
 #include "OgreOggStaticSound.h"
 #include "OgreOggStaticWavSound.h"
 #include "OgreOggListener.h"

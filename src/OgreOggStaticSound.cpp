@@ -53,9 +53,10 @@ namespace OgreOggSound
 	{
 		int result;
 
-		mOgreOggStream = fileStream;
+		// Store stream pointer
+		mAudioStream = fileStream;
 
-		if((result = ov_open_callbacks(&mOgreOggStream, &mOggStream, NULL, 0, mOggCallbacks)) < 0)
+		if((result = ov_open_callbacks(&mAudioStream, &mOggStream, NULL, 0, mOggCallbacks)) < 0)
 		{
 			throw string("Could not open Ogg stream. ");
 			return;
@@ -64,6 +65,7 @@ namespace OgreOggSound
 		mVorbisInfo = ov_info(&mOggStream, -1);
 		mVorbisComment = ov_comment(&mOggStream, -1);
 
+		// Assumed to be 16 bit samples
 		if(mVorbisInfo->channels == 1)
 			mFormat = AL_FORMAT_MONO16;
 		else

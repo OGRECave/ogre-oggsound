@@ -32,6 +32,22 @@
 namespace OgreOggSound
 {
 	/**
+	 * Structure defining a WAVE sounds format.
+	 */
+	typedef struct
+	{
+		DWORD	mFormatChunkSize,
+				mDataSize,
+				mSampleRate,
+				mAvgBytesPerSec,
+				mAudioOffset;
+
+		short	mNumChannels,
+				mBlockAlign,
+				mBitsPerSample;
+	} WavFormatData;
+
+	/**
 	 * Structure describing an ogg stream
 	 */
 	struct SOggFile
@@ -401,7 +417,7 @@ namespace OgreOggSound
 		bool mFade;
 
 		// Ogre resource stream pointer
-		Ogre::DataStreamPtr mOgreOggStream;
+		Ogre::DataStreamPtr mAudioStream;
 		ov_callbacks mOggCallbacks;
 
 		// Callbacks  

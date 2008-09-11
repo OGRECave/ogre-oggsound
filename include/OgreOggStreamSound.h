@@ -59,8 +59,8 @@ namespace OgreOggSound
 		void release();	
 		/** Stops playing sound.
 		@remarks
-			Stops playing audio immediately. If specified to do so its source
-			will be released also.
+			Stops playing audio immediately and resets playback. 
+			If specified to do so its source will be released also.
 		*/
 		void stop();
 		/** Sets the source to use for playback.

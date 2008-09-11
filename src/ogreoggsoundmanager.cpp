@@ -1175,9 +1175,9 @@ namespace OgreOggSound
 				return 0;
 			}
 
-//			if(stream)
-//				mSoundMap[name] = new OgreOggStreamSound(name);
-//			else 
+			if(stream)
+				mSoundMap[name] = new OgreOggStreamWavSound(name);
+			else 
 				mSoundMap[name] = new OgreOggStaticWavSound(name);
 
 			// Read audio file
