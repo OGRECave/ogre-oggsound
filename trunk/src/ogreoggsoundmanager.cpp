@@ -1165,6 +1165,37 @@ namespace OgreOggSound
 
 			return mSoundMap[name];
 		}
+		else if(file.find(".wav") != std::string::npos || file.find(".WAV") != std::string::npos)
+		{
+			// MUST be unique
+			if ( mSoundMap.find(name)!=mSoundMap.end() ) 
+			{
+				Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound with name: "+name+" already exists!";
+				Ogre::LogManager::getSingleton().logMessage(msg);
+				return 0;
+			}
+
+//			if(stream)
+//				mSoundMap[name] = new OgreOggStreamSound(name);
+//			else 
+				mSoundMap[name] = new OgreOggStaticWavSound(name);
+
+			// Read audio file
+			mSoundMap[name]->open(soundData);
+			// Set loop flag
+			mSoundMap[name]->loop(loop);
+			// If requested to preBuffer - grab free source and init
+			if (preBuffer)
+			{
+				if ( !requestSoundSource(mSoundMap[name]) )
+				{
+					Ogre::String msg="*** OgreOggSoundManager::createSound() - Failed to preBuffer sound: "+name;
+					Ogre::LogManager::getSingleton().logMessage(msg);
+				}
+			}
+
+			return mSoundMap[name];
+		}
 		else
 		{
 			Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound does not have .ogg extension: "+name;

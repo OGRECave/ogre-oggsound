@@ -24,4 +24,5 @@
 #include "OgreOggSoundManager.h"
 #include "OgreOggIsound.h"
 #include "OgreOggStaticSound.h"
+#include "OgreOggStaticWavSound.h"
 #include "OgreOggStreamSound.h"

@@ -62,7 +62,7 @@ namespace OgreOggSound
 		Ogre::DataStreamPtr dataStream = *reinterpret_cast<Ogre::DataStreamPtr*>(datasource);
 		return static_cast<long>(dataStream->tell());
 	}
-	
+
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound::OgreOggISound(const Ogre::String& name) : 
 	mName(name),

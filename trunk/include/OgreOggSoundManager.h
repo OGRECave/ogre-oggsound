@@ -35,6 +35,7 @@
 #include "OgreOggISound.h"
 #include "OgreOggStreamSound.h"
 #include "OgreOggStaticSound.h"
+#include "OgreOggStaticWavSound.h"
 #include "OgreOggListener.h"
 
 #if OGGSOUND_THREADED
@@ -47,7 +48,7 @@
 
 namespace OgreOggSound
 {
-	typedef std::map<std::string, OgreOggISound *> SoundMap;
+	typedef std::map<std::string, OgreOggISound*> SoundMap;
 	typedef std::map<std::string, ALuint> EffectList;
 	typedef std::map<ALenum, bool> FeatureList;
 	typedef std::list<OgreOggISound*> ActiveList;
