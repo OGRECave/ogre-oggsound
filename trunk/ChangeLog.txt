@@ -6,6 +6,7 @@
 	* Added flag in OgreOggISound for indicating source management per sound
 		Can be used to keep a good level of source objects available, by forcing infrequent
 		or single play sounds to immediately give up their source objects when stopped.
+	* Added 'TestDemo' project as a playpen.
 
 
 * version 0.88

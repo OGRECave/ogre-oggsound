@@ -64,7 +64,7 @@
 				AdditionalDependencies="efx-util.lib OpenAL32.lib vorbis_static_d.lib vorbisfile_static_d.lib ogg_static_d.lib OgreMain_d.lib "
 				OutputFile="$(OutDir)\$(ProjectName)_d.dll"
 				AdditionalLibraryDirectories="&quot;$(OPENAL_SDK)\libs\Win32&quot;;.\ogg\win32\Static_Debug;.\vorbis\win32\Vorbis_Static_Debug;.\vorbis\win32\VorbisFile_Static_Debug;&quot;$(OGRE_HOME)\lib&quot;;&quot;$(BOOST_ROOT)/lib&quot;"
-				IgnoreDefaultLibraryNames="LIBCMTD.lib"
+				IgnoreDefaultLibraryNames="LIBCMTD"
 				GenerateDebugInformation="true"
 				ImportLibrary="$(TargetDir)$(TargetName).lib"
 			/>
@@ -91,6 +91,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy &quot;$(OutDir)\$(TargetFileName)&quot; &quot;$(SolutionDir)TestDemo\Debug\$(TargetFileName)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -171,6 +172,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy &quot;$(OutDir)\$(TargetFileName)&quot; &quot;$(SolutionDir)TestDemo\Release\$(TargetFileName)&quot;"
 			/>
 		</Configuration>
 	</Configurations>
