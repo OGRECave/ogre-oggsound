@@ -20,6 +20,7 @@ private:
 	Ogre::Real mYawAngleCamera;
 
 	OgreOggSound::OgreOggSoundManager *mSoundManager;
+	
 public:
 	MainApp();
 	~MainApp();

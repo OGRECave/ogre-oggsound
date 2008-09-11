@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\OgreOggStaticWavSound.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\OgreOggStreamSound.cpp"
 				>
 			</File>
@@ -236,6 +240,10 @@
 			</File>
 			<File
 				RelativePath=".\include\OgreOggStaticSound.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\OgreOggStaticWavSound.h"
 				>
 			</File>
 			<File
