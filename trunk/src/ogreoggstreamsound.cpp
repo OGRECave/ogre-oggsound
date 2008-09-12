@@ -64,11 +64,16 @@ namespace OgreOggSound
 		mVorbisInfo = ov_info(&mOggStream, -1);
 		mVorbisComment = ov_comment(&mOggStream, -1);
 
+		// Generate audio buffers
+		alGenBuffers(NUM_BUFFERS, mBuffers);
+
 		// Work out required buffer size and format
 		_calculateBufferInfo();
 
-		// Generate audio buffers
-		alGenBuffers(NUM_BUFFERS, mBuffers);
+		// Upload to XRAM buffers if available
+		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
+			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
+
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_release()
@@ -151,7 +156,6 @@ namespace OgreOggSound
 			break;
 		}
 	}
-	
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_prebuffer()
 	{	
@@ -344,14 +348,14 @@ namespace OgreOggSound
 			// Remove audio data from source
 			_dequeue();
 
+			// Stop playback
+			mPlay=false;
+
 			// Reset stream pointer
 			ov_time_seek(&mOggStream,0);	
 
 			// Reload data
 			_prebuffer();
-
-			// Stop playback
-			mPlay=false;
 
 			// Give up source immediately if specfied
 			if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);
