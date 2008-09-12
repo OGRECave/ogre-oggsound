@@ -34,12 +34,14 @@ namespace OgreOggSound
 		mStream=true;
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;		
 		mStreamEOF=false;	
+		mFormatData=0;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamWavSound::~OgreOggStreamWavSound()
 	{
 		_release();
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;		
+		if (mFormatData) delete mFormatData;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::open(Ogre::DataStreamPtr& fileStream)
@@ -66,32 +68,35 @@ namespace OgreOggSound
 			// Valid wav?
 			if (!strcmp(id,"WAVE"))
 			{ 
+				// Create format struct
+				if (!mFormatData) mFormatData = new WavFormatData;
+
 				// Read in "fmt" id ( 4 bytes ) 
 				mAudioStream->read(id, 4);					
 
 				// Read in "fmt" chunk size ( 4 bytes ) 
-				mAudioStream->read(&mFormatData.mFormatChunkSize, 4);
+				mAudioStream->read(&mFormatData->mFormatChunkSize, 4);
 
 				// Should be 16 unless compressed ( compressed NOT supported )
-				if ( mFormatData.mFormatChunkSize==16 )
+				if ( mFormatData->mFormatChunkSize==16 )
 				{
 					// Read in audio format  ( 2 bytes ) 
 					mAudioStream->read(&format_tag, 2);		
 
 					// Read in num channels ( 2 bytes ) 
-					mAudioStream->read(&mFormatData.mNumChannels, 2);			
+					mAudioStream->read(&mFormatData->mNumChannels, 2);			
 
 					// Read in sample rate ( 4 bytes ) 
-					mAudioStream->read(&mFormatData.mSampleRate, 4);		
+					mAudioStream->read(&mFormatData->mSampleRate, 4);		
 
 					// Read in byte rate ( 4 bytes ) 
-					mAudioStream->read(&mFormatData.mAvgBytesPerSec, 4);	
+					mAudioStream->read(&mFormatData->mAvgBytesPerSec, 4);	
 
 					// Read in byte align ( 2 bytes ) 
-					mAudioStream->read(&mFormatData.mBlockAlign, 2);		
+					mAudioStream->read(&mFormatData->mBlockAlign, 2);		
 
 					// Read in bits per sample ( 2 bytes ) 
-					mAudioStream->read(&mFormatData.mBitsPerSample, 2);	
+					mAudioStream->read(&mFormatData->mBitsPerSample, 2);	
 
 					// Read in "data" chunk id ( 4 bytes ) 
 					mAudioStream->read(id, 4);					
@@ -100,10 +105,10 @@ namespace OgreOggSound
 					if ( !strcmp(id, "data") )
 					{
 						// Read in size of audio data ( 4 bytes ) 
-						mAudioStream->read(&mFormatData.mDataSize, 4);		
+						mAudioStream->read(&mFormatData->mDataSize, 4);		
 
 						// Store byte offset of start of audio data
-						mFormatData.mAudioOffset = static_cast<DWORD>(mAudioStream->tell());
+						mFormatData->mAudioOffset = static_cast<DWORD>(mAudioStream->tell());
 					}
 					else
 					{
@@ -134,23 +139,96 @@ namespace OgreOggSound
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
 
-		// Set format
-		if(mFormatData.mNumChannels==1)
-		{
-			if(mFormatData.mBitsPerSample==16)
-				mFormat = AL_FORMAT_MONO16;
-			else
-				mFormat = AL_FORMAT_MONO8;
-		}
-		else
-		{
-			if(mFormatData.mBitsPerSample==16)
-				mFormat = AL_FORMAT_STEREO16;
-			else
-				mFormat = AL_FORMAT_STEREO8;
-		}
+		// Work out required buffer size and format
+		_calculateBufferInfo();
 
+		// Generate audio buffers
 		alGenBuffers(NUM_BUFFERS, mBuffers);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggStreamWavSound::_calculateBufferInfo()
+	{
+		if (!mFormatData) return;
+
+		switch(mFormatData->mNumChannels)
+		{
+		case 1:
+			{
+				if ( mFormatData->mBitsPerSample==8 )
+				{
+					// 8-bit mono
+					mFormat = AL_FORMAT_MONO8;
+
+					// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+					mBufferSize = mFormatData->mSampleRate/4;
+				}
+				else
+				{
+					// 16-bit mono
+					mFormat = AL_FORMAT_MONO16;
+
+					// Queue 250ms of audio data
+					mBufferSize = mFormatData->mAvgBytesPerSec >> 2;
+		
+					// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+					mBufferSize -= (mBufferSize % mFormatData->mBlockAlign);
+				}
+			}
+			break;
+		case 2:
+			{
+				if ( mFormatData->mBitsPerSample==8 )
+				{
+					// 8-bit stereo
+					mFormat = AL_FORMAT_STEREO8;
+
+					// Set BufferSize to 250ms (Frequency * 2 (8bit stereo) divided by 4 (quarter of a second))
+					mBufferSize = mFormatData->mSampleRate >> 1;
+
+					// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+					mBufferSize -= (mBufferSize % 2);
+				}
+				else
+				{
+					// 16-bit stereo
+					mFormat = AL_FORMAT_STEREO16;
+
+					// Queue 250ms of audio data
+					mBufferSize = mFormatData->mAvgBytesPerSec >> 2;
+
+					// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+					mBufferSize -= (mBufferSize % mFormatData->mBlockAlign);
+				}
+			}
+			break;
+		case 6:
+			{
+				// 16-bit 5.1 surround
+				mFormat = alGetEnumValue("AL_FORMAT_51CHN16");
+
+				// Queue 250ms of audio data
+				mBufferSize = mFormatData->mAvgBytesPerSec >> 2;
+
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % mFormatData->mBlockAlign);
+			}
+			break;
+		default:
+			{
+				// Error message
+				Ogre::LogManager::getSingleton().logMessage("*** --- Unable to determine number of channels: defaulting to 16-bit mono");
+
+				// 16-bit stereo
+				mFormat = AL_FORMAT_STEREO16;
+
+				// Queue 250ms of audio data
+				mBufferSize = mFormatData->mAvgBytesPerSec >> 2;
+
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % mFormatData->mBlockAlign);
+			}
+			break;
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_release()
@@ -236,22 +314,25 @@ namespace OgreOggSound
 	bool OgreOggStreamWavSound::_stream(ALuint buffer)
 	{
 		std::vector<char> audioData;
-		char data[BUFFER_SIZE];		
+		char* data;		
 		int  bytes = 0;
 		int  result = 0;	
 
+		// Create buffer
+		data = new char[mBufferSize];
+
 		// Read only what was asked for
-		while(static_cast<int>(audioData.size()) < BUFFER_SIZE)
+		while(static_cast<int>(audioData.size()) < mBufferSize)
 		{
 			// Read up to a buffer's worth of data
-			bytes = static_cast<int>(mAudioStream->read(data, BUFFER_SIZE));
+			bytes = static_cast<int>(mAudioStream->read(data, mBufferSize));
 			// EOF check
 			if (mAudioStream->eof()) 
 			{
 				// If set to loop wrap to start of stream
 				if ( mLoop )
 				{
-					mAudioStream->seek(mFormatData.mAudioOffset);
+					mAudioStream->seek(mFormatData->mAudioOffset);
 					/**	This is the closest we can get to a loop trigger.
 						If, whilst filling the buffers, we need to wrap the stream
 						pointer, trigger the loop callback if defined. 
@@ -283,7 +364,10 @@ namespace OgreOggSound
 
 		alGetError();
 		// Copy buffer data
-		alBufferData(buffer, mFormat, &audioData[0], static_cast<ALsizei>(audioData.size()), mFormatData.mSampleRate);
+		alBufferData(buffer, mFormat, &audioData[0], static_cast<ALsizei>(audioData.size()), mFormatData->mSampleRate);
+
+		// Cleanup
+		delete [] data;
 
 		return true;
 	}
@@ -346,7 +430,7 @@ namespace OgreOggSound
 			_dequeue();
 
 			// Reset stream pointer
-			mAudioStream->seek(mFormatData.mAudioOffset);
+			mAudioStream->seek(mFormatData->mAudioOffset);
 
 			// Reload audio data
 			_prebuffer();

@@ -64,12 +64,10 @@ namespace OgreOggSound
 		mVorbisInfo = ov_info(&mOggStream, -1);
 		mVorbisComment = ov_comment(&mOggStream, -1);
 
-		// Assumed to be 16 bit samples
-		if(mVorbisInfo->channels == 1)
-			mFormat = AL_FORMAT_MONO16;
-		else
-			mFormat = AL_FORMAT_STEREO16;
+		// Work out required buffer size and format
+		_calculateBufferInfo();
 
+		// Generate audio buffers
 		alGenBuffers(NUM_BUFFERS, mBuffers);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -80,6 +78,80 @@ namespace OgreOggSound
 		alDeleteBuffers(NUM_BUFFERS,mBuffers);
 		ov_clear(&mOggStream);
 	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggStreamSound::_calculateBufferInfo()
+	{
+		if (!mVorbisInfo) return;
+
+		switch(mVorbisInfo->channels)
+		{
+		case 1:
+			{
+				mFormat = AL_FORMAT_MONO16;
+				// Set BufferSize to 250ms (Frequency * 2 (16bit) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate >> 1;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 2);
+			}
+			break;
+		case 2:
+			{
+				mFormat = AL_FORMAT_STEREO16;
+				// Set BufferSize to 250ms (Frequency * 4 (16bit stereo) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 4);
+			}
+			break;
+		case 4:
+			{
+				mFormat = alGetEnumValue("AL_FORMAT_QUAD16");
+				// Set BufferSize to 250ms (Frequency * 8 (16bit 4-channel) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate * 2;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 8);
+			}
+			break;
+		case 6:
+			{
+				mFormat = alGetEnumValue("AL_FORMAT_51CHN16");
+				// Set BufferSize to 250ms (Frequency * 12 (16bit 6-channel) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate * 3;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 12);
+			}
+			break;
+		case 7:
+			{
+				mFormat = alGetEnumValue("AL_FORMAT_61CHN16");
+				// Set BufferSize to 250ms (Frequency * 16 (16bit 7-channel) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate * 4;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 16);
+			}
+			break;
+		case 8:
+			{
+				mFormat = alGetEnumValue("AL_FORMAT_71CHN16");
+				// Set BufferSize to 250ms (Frequency * 20 (16bit 8-channel) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate * 5;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 20);
+			}
+			break;
+		default:
+			// Couldn't determine buffer format so log the error and default to mono
+			Ogre::LogManager::getSingleton().logMessage("!!WARNING!! Could not determine buffer format!  Defaulting to MONO");
+
+			mFormat = AL_FORMAT_MONO16;
+			// Set BufferSize to 250ms (Frequency * 2 (16bit) divided by 4 (quarter of a second))
+			mBufferSize = mVorbisInfo->rate >> 1;
+			// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+			mBufferSize -= (mBufferSize % 2);
+			break;
+		}
+	}
+	
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_prebuffer()
 	{	
@@ -157,16 +229,19 @@ namespace OgreOggSound
 	bool OgreOggStreamSound::_stream(ALuint buffer)
 	{
 		std::vector<char> audioData;
-		char data[BUFFER_SIZE];		
+		char* data;		
 		int  bytes = 0;
 		int  section = 0;
 		int  result = 0;	
 
+		// Create buffer
+		data = new char[mBufferSize];
+
 		// Read only what was asked for
-		while(static_cast<int>(audioData.size()) < BUFFER_SIZE)
+		while(static_cast<int>(audioData.size()) < mBufferSize)
 		{
 			// Read up to a buffer's worth of data
-			bytes = ov_read(&mOggStream, data, BUFFER_SIZE, 0, 2, 1, &section);
+			bytes = ov_read(&mOggStream, data, static_cast<int>(mBufferSize), 0, 2, 1, &section);
 			// EOF check
 			if (bytes == 0) 
 			{
@@ -207,6 +282,9 @@ namespace OgreOggSound
 		// Copy buffer data
 		alBufferData(buffer, mFormat, &audioData[0], static_cast<ALsizei>(audioData.size()), mVorbisInfo->rate);
 
+		// Cleanup
+		delete [] data;
+
 		return true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -215,14 +293,13 @@ namespace OgreOggSound
 		if(mSource == AL_NONE)
 			return;
 		
-		int queued=0;
-
-		alGetError();
-
 		// Stop source to allow unqueuing
 		alSourceStop(mSource);
 
+		int queued=0;
+
 		// Get number of buffers queued on source
+		alGetError();
 		alGetSourcei(mSource, AL_BUFFERS_PROCESSED, &queued);
 
 		if (queued)

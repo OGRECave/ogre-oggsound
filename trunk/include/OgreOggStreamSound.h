@@ -29,10 +29,6 @@
 
 #include "OgreOggISound.h"
 
-/**
- * Number of buffers to use for streaming
- */
-#define NUM_BUFFERS 3
 
 namespace OgreOggSound
 {
@@ -124,6 +120,12 @@ namespace OgreOggSound
 			buffers and queues them onto the source ready for playback.
 		 */
 		void _prebuffer();		
+		/** Calculates buffer size and format.
+		@remarks
+			Calculates a block aligned buffer size of 250ms using
+			sounds properties
+		 */
+		void _calculateBufferInfo();		
 
 	private:
 
@@ -139,8 +141,8 @@ namespace OgreOggSound
 		 */
 		FILE* mOggFile;						// Ogg file pointer
 		OggVorbis_File mOggStream;			// OggVorbis file structure
-		vorbis_info *mVorbisInfo;			// Vorbis info
-		vorbis_comment *mVorbisComment;		// Vorbis comments
+		vorbis_info* mVorbisInfo;			// Vorbis info
+		vorbis_comment* mVorbisComment;		// Vorbis comments
 		ALuint mBuffers[NUM_BUFFERS];		// Sound data buffers
 		ALenum mFormat;						// OpenAL format
 		bool mStreamEOF;					// EOF flag

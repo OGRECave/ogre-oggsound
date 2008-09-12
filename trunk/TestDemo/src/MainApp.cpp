@@ -126,7 +126,7 @@ void MainApp::createScene()
 		mSoundManager->createEFXEffect("Auditorium", AL_EFFECT_EAXREVERB, &props);
 		mSoundManager->attachEffectToSound("Two", 0, "Auditorium");
 	}
-//	mSoundManager->getSound("Two")->play();
+	mSoundManager->getSound("Two")->play();
 	
 	/** Sound one - streamed, looping, EFX Direct filter */
 	mSoundManager->createSound("background", "background.ogg", true, true, true);
@@ -137,7 +137,7 @@ void MainApp::createScene()
 		mSoundManager->createEFXFilter("LowPassTest", AL_FILTER_LOWPASS, 0.1, 0.5);
 		mSoundManager->attachFilterToSound("background", "LowPassTest");
 	}
-//	mSoundManager->getSound("background")->play();
+	mSoundManager->getSound("background")->play();
 }
 //-----------------------------------------------------------------------
 void MainApp::finishedCB(OgreOggISound* sound)

@@ -29,11 +29,6 @@
 
 #include "OgreOggISound.h"
 
-/**
- * Number of buffers to use for streaming
- */
-#define NUM_BUFFERS 3
-
 namespace OgreOggSound
 {
 	/** 
@@ -124,6 +119,12 @@ namespace OgreOggSound
 			buffers and queues them onto the source ready for playback.
 		 */
 		void _prebuffer();		
+		/** Calculates buffer size and format.
+		@remarks
+			Calculates a block aligned buffer size of 250ms using
+			sound properties.
+		 */
+		void _calculateBufferInfo();		
 
 	private:
 
@@ -140,7 +141,7 @@ namespace OgreOggSound
 		ALuint mBuffers[NUM_BUFFERS];		// Sound data buffers
 		ALenum mFormat;						// OpenAL format
 		bool mStreamEOF;					// EOF flag
-		WavFormatData mFormatData;			// WAVE format structure
+		WavFormatData* mFormatData;			// WAVE format structure
 
 		friend class OgreOggSoundManager;
 	};
