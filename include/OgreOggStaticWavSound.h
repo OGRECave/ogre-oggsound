@@ -108,6 +108,12 @@ namespace OgreOggSound
 			Loads audio data onto the source ready for playback.
 		 */
 		void _prebuffer();		
+		/** Calculates buffer size and format.
+		@remarks
+			Calculates a block aligned buffer size of 250ms using
+			sound properties.
+		 */
+		void _calculateBufferInfo();		
 
 	private:
 
@@ -132,7 +138,7 @@ namespace OgreOggSound
 		ALenum mFormat;						// OpenAL buffer format
 		ALint mPreviousOffset;				// Current play position
 
-		WavFormatData mFormatData;			// WAVE format structure
+		WavFormatData* mFormatData;			// WAVE format structure
 
 		friend class OgreOggSoundManager;	
 	};

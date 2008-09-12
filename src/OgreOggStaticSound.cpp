@@ -65,23 +65,22 @@ namespace OgreOggSound
 		mVorbisInfo = ov_info(&mOggStream, -1);
 		mVorbisComment = ov_comment(&mOggStream, -1);
 
-		// Assumed to be 16 bit samples
-		if(mVorbisInfo->channels == 1)
-			mFormat = AL_FORMAT_MONO16;
-		else
-			mFormat = AL_FORMAT_STEREO16;	
+		_calculateBufferInfo();
 
 		alGenBuffers(1, &mBuffer);
 
-		char data[BUFFER_SIZE];
+		char* data;
 		int sizeRead = 0;
 		int bitStream;
+
+		data = new char[mBufferSize];
 		do
 		{
-			sizeRead = ov_read(&mOggStream, data, BUFFER_SIZE, 0, 2, 1, &bitStream);
+			sizeRead = ov_read(&mOggStream, data, static_cast<int>(mBufferSize), 0, 2, 1, &bitStream);
 			mBufferData.insert(mBufferData.end(), data, data + sizeRead);
 		} 
 		while(sizeRead > 0);
+		delete [] data;
 
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
@@ -113,6 +112,80 @@ namespace OgreOggSound
 		alSourcei(mSource, AL_BUFFER, mBuffer);
 	}
 
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggStaticSound::_calculateBufferInfo()
+	{
+		if (!mVorbisInfo) return;
+
+		switch(mVorbisInfo->channels)
+		{
+		case 1:
+			{
+				mFormat = AL_FORMAT_MONO16;
+				// Set BufferSize to 250ms (Frequency * 2 (16bit) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate >> 1;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 2);
+			}
+			break;
+		case 2:
+			{
+				mFormat = AL_FORMAT_STEREO16;
+				// Set BufferSize to 250ms (Frequency * 4 (16bit stereo) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 4);
+			}
+			break;
+		case 4:
+			{
+				mFormat = alGetEnumValue("AL_FORMAT_QUAD16");
+				// Set BufferSize to 250ms (Frequency * 8 (16bit 4-channel) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate * 2;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 8);
+			}
+			break;
+		case 6:
+			{
+				mFormat = alGetEnumValue("AL_FORMAT_51CHN16");
+				// Set BufferSize to 250ms (Frequency * 12 (16bit 6-channel) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate * 3;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 12);
+			}
+			break;
+		case 7:
+			{
+				mFormat = alGetEnumValue("AL_FORMAT_61CHN16");
+				// Set BufferSize to 250ms (Frequency * 16 (16bit 7-channel) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate * 4;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 16);
+			}
+			break;
+		case 8:
+			{
+				mFormat = alGetEnumValue("AL_FORMAT_71CHN16");
+				// Set BufferSize to 250ms (Frequency * 20 (16bit 8-channel) divided by 4 (quarter of a second))
+				mBufferSize = mVorbisInfo->rate * 5;
+				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+				mBufferSize -= (mBufferSize % 20);
+			}
+			break;
+		default:
+			// Couldn't determine buffer format so log the error and default to mono
+			Ogre::LogManager::getSingleton().logMessage("!!WARNING!! Could not determine buffer format!  Defaulting to MONO");
+
+			mFormat = AL_FORMAT_MONO16;
+			// Set BufferSize to 250ms (Frequency * 2 (16bit) divided by 4 (quarter of a second))
+			mBufferSize = mVorbisInfo->rate >> 1;
+			// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
+			mBufferSize -= (mBufferSize % 2);
+			break;
+		}
+	}
+	
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::setSource(ALuint& src)
 	{

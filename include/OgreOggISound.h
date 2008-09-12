@@ -27,7 +27,10 @@
 #include <vorbis/vorbisfile.h>
 #include "OgreOggSoundCallback.h"
 
-#define BUFFER_SIZE (4096*4)
+/**
+ * Number of buffers to use for streaming
+ */
+#define NUM_BUFFERS 4
 
 namespace OgreOggSound
 {
@@ -370,7 +373,7 @@ namespace OgreOggSound
 			Cleans up buffers and prepares sound for destruction.
 		 */
 		virtual void _release() = 0;
-	
+
 	protected:
 
 		/** Superclass describing a single sound object.
@@ -406,6 +409,12 @@ namespace OgreOggSound
 			buffers and queues them onto the source ready for playback.
 		 */
 		virtual void _prebuffer() = 0;		
+		/** Calculates buffer size and format.
+		@remarks
+			Calculates a block aligned buffer size of 250ms using
+			sound properties.
+		 */
+		virtual void _calculateBufferInfo()=0;		
 
 		/**
 		 * Variables used to fade sound
@@ -425,6 +434,8 @@ namespace OgreOggSound
 		OOSCallback* mFinishedCB;
 		bool mFinCBEnabled;
 		bool mLoopCBEnabled;
+
+		size_t mBufferSize;				// Size of audio buffer (250ms)
 
 		/** Sound properties 
 		 */
