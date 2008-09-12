@@ -129,6 +129,21 @@ namespace OgreOggSound
 	{
 		return;
 	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggListener::_notifyAttached(Ogre::Node* node, bool isTagPoint)
+	{
+		// Call base class notify
+		Ogre::MovableObject::_notifyAttached(node, isTagPoint);
+
+		// Immediately set position/orientation when attached
+		if (mParentNode)
+		{
+			setPosition(mParentNode->_getDerivedPosition());
+			setOrientation(mParentNode->_getDerivedOrientation());
+		}
+
+		return;
+	}
 }
 
 	

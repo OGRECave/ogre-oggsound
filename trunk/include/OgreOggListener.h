@@ -127,6 +127,11 @@ namespace OgreOggSound
 			Overridden function from MovableObject.
 		 */
 		virtual void visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables);
+		/** Attach callback
+		@remarks
+			Overridden function from MovableObject.
+		 */
+		virtual void _notifyAttached(Ogre::Node* node, bool isTagPoint=false);
 		
 	private:
 
