@@ -193,7 +193,7 @@ namespace OgreOggSound
 				else
 				{
 					// 16-bit mono
-					mFormat = AL_FORMAT_MONO8;
+					mFormat = AL_FORMAT_MONO16;
 
 					// Queue 250ms of audio data
 					mBufferSize = mFormatData->mAvgBytesPerSec >> 2;

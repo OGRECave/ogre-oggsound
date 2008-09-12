@@ -102,19 +102,18 @@ void MainApp::createScene()
 	light->setSpecularColour(1.0f,1.0f,1.0f);
 
 
-	mSoundManager->init("Generic Software");
+	mSoundManager->init("");
 	mSoundManager->setDistanceModel(AL_LINEAR_DISTANCE);
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
 	/** Sound one - non streamed, looping, moving */
-	mSoundManager->createSound("One", "four.wav", true, true);	
+	mSoundManager->createSound("One", "6chan.ogg", false, true);	
 	mSoundManager->getSound("One")->setMaxDistance(200);
 	mSoundManager->getSound("One")->setReferenceDistance(50);
 	mSoundManager->getSound("One")->play();
 	nOgreHead->attachObject(mSoundManager->getSound("One"));
 	
-
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
 	mSoundManager->createSound("Two", "two.ogg", true, true, true);	
@@ -236,7 +235,7 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 	if (arg.key == OIS::KC_F3)
 	{
 		if(mSoundManager->getSound("background")->isPlaying())
-			mSoundManager->getSound("background")->pause();
+			mSoundManager->getSound("background")->stop();
 		else mSoundManager->getSound("background")->play();
 	}
 

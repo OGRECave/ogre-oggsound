@@ -134,6 +134,8 @@ namespace OgreOggSound
 			throw std::string("WAVE load fail!");
 		}
 
+		// Generate audio buffers
+		alGenBuffers(NUM_BUFFERS, mBuffers);
 
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
@@ -142,8 +144,6 @@ namespace OgreOggSound
 		// Work out required buffer size and format
 		_calculateBufferInfo();
 
-		// Generate audio buffers
-		alGenBuffers(NUM_BUFFERS, mBuffers);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_calculateBufferInfo()
@@ -429,14 +429,14 @@ namespace OgreOggSound
 			// Remove audio data from source
 			_dequeue();
 
+			// Stop playback
+			mPlay=false;
+
 			// Reset stream pointer
 			mAudioStream->seek(mFormatData->mAudioOffset);
 
 			// Reload audio data
 			_prebuffer();
-
-			// Stop playback
-			mPlay=false;
 
 			// Give up source immediately if specfied
 			if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);
