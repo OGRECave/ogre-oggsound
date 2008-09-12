@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>OgreOggSound: OgreOggSound::OgreOggStreamSound Class Reference</title>
+<title>OgreOggSound::OgreOggStreamSound Class Reference</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -8,7 +8,7 @@
 <div class="navigation" id="top">
   <div class="tabs">
     <ul>
-      <li><a href="main.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -66,6 +66,8 @@ Inheritance diagram for OgreOggSound::OgreOggStreamSound:</div>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#3ff9cb3bd30f42e5fa04d8a17670963c">_prebuffer</a> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#e7f37adf466ff16ebe07c2824c7f6b4e">_calculateBufferInfo</a> ()</td></tr>
+
 <tr><td colspan="2"><br><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#96758b18a9894215330991288ace285f">_release</a> ()</td></tr>
 
@@ -90,7 +92,7 @@ Inheritance diagram for OgreOggSound::OgreOggStreamSound:</div>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Subclass for a streaming sound. 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00042">42</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00038">38</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
 <hr><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" name="23e2a3824433f1c7d2afe30411a16181"></a><!-- doxytag: member="OgreOggSound::OgreOggStreamSound::OgreOggStreamSound" ref="23e2a3824433f1c7d2afe30411a16181" args="(const Ogre::String &amp;name)" -->
 <div class="memitem">
@@ -240,7 +242,7 @@ Sets the source to use for playback. <dl class="remark" compact><dt><b>Remarks:<
 
 <p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#41d229354a371e74f87059fc474fd811">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="ogreoggstreamsound_8cpp-source.html#l00098">98</a> of file <a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggstreamsound_8cpp-source.html#l00174">174</a> of file <a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -314,7 +316,7 @@ Loads data from the stream into a buffer. <dl class="remark" compact><dt><b>Rema
 
 <p>
 This is the closest we can get to a loop trigger. If, whilst filling the buffers, we need to wrap the stream pointer, trigger the loop callback if defined. NOTE:- The accuracy of this method will be affected by a number of parameters, namely the buffer size, whether the sound has previously given up its source (therefore it will be re-filling all buffers, which, if the sound was close to eof will likely get triggered), and the quality of the sound, lower quality will hold a longer section of audio per buffer. In ALL cases this trigger will happen BEFORE the audio audibly loops!! 
-<p>Definition at line <a class="el" href="ogreoggstreamsound_8cpp-source.html#l00157">157</a> of file <a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggstreamsound_8cpp-source.html#l00233">233</a> of file <a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -338,7 +340,7 @@ Updates the data buffers with sound information. <dl class="remark" compact><dt>
 
 <p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#50159a211c5ba5ec257863836e5c2719">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="ogreoggstreamsound_8cpp-source.html#l00121">121</a> of file <a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggstreamsound_8cpp-source.html#l00197">197</a> of file <a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -382,7 +384,31 @@ Prefills buffers with audio data. <dl class="remark" compact><dt><b>Remarks:</b>
 
 <p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#d2be7bd2ddec21507143bcec73839bfd">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="ogreoggstreamsound_8cpp-source.html#l00084">84</a> of file <a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggstreamsound_8cpp-source.html#l00160">160</a> of file <a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="e7f37adf466ff16ebe07c2824c7f6b4e"></a><!-- doxytag: member="OgreOggSound::OgreOggStreamSound::_calculateBufferInfo" ref="e7f37adf466ff16ebe07c2824c7f6b4e" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggStreamSound::_calculateBufferInfo           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Calculates buffer size and format. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Calculates a block aligned buffer size of 250ms using sounds properties </dd></dl>
+
+<p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#2bb5ceaa3dacd6b0e63b02410ad6014f">OgreOggSound::OgreOggISound</a>.</p>
+
+<p>Definition at line <a class="el" href="ogreoggstreamsound_8cpp-source.html#l00087">87</a> of file <a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -406,7 +432,7 @@ Releases buffers and OpenAL objects. <dl class="remark" compact><dt><b>Remarks:<
 
 <p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#c0a9818a88866baa8ef4bef6a762891f">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="ogreoggstreamsound_8cpp-source.html#l00076">76</a> of file <a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggstreamsound_8cpp-source.html#l00079">79</a> of file <a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -426,7 +452,7 @@ Releases buffers and OpenAL objects. <dl class="remark" compact><dt><b>Remarks:<
 
 <p>Reimplemented from <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#7cfed535deaa9c3b1c335b122135c474">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00148">148</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00150">150</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
 
 </div>
 </div><p>
@@ -444,7 +470,7 @@ Releases buffers and OpenAL objects. <dl class="remark" compact><dt><b>Remarks:<
 
 <p>
 Ogg file variables 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00140">140</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00142">142</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
 
 </div>
 </div><p>
@@ -461,7 +487,7 @@ Ogg file variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00141">141</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00143">143</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
 
 </div>
 </div><p>
@@ -478,7 +504,7 @@ Ogg file variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00142">142</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00144">144</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
 
 </div>
 </div><p>
@@ -495,7 +521,7 @@ Ogg file variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00143">143</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00145">145</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
 
 </div>
 </div><p>
@@ -512,7 +538,7 @@ Ogg file variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00144">144</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00146">146</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
 
 </div>
 </div><p>
@@ -529,7 +555,7 @@ Ogg file variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00145">145</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00147">147</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
 
 </div>
 </div><p>
@@ -546,14 +572,14 @@ Ogg file variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00146">146</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_sound_8h-source.html#l00148">148</a> of file <a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a>.</p>
 
 </div>
 </div><p>
 <hr>The documentation for this class was generated from the following files:<ul>
-<li>C:/current projects/audio library/ogreoggsound/include/<a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a><li>C:/current projects/audio library/ogreoggsound/src/<a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a></ul>
+<li>K:/work/OgreOggSound/include/<a class="el" href="_ogre_ogg_stream_sound_8h-source.html">OgreOggStreamSound.h</a><li>K:/Work/OgreOggSound/src/<a class="el" href="ogreoggstreamsound_8cpp-source.html">ogreoggstreamsound.cpp</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Fri Sep 12 09:35:35 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Sep 12 20:15:26 2008 by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

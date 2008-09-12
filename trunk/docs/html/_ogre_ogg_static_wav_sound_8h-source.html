@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>OgreOggSound: C:/current projects/audio library/ogreoggsound/include/OgreOggStaticWavSound.h Source File</title>
+<title>K:/work/OgreOggSound/include/OgreOggStaticWavSound.h Source File</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -8,13 +8,13 @@
 <div class="navigation" id="top">
   <div class="tabs">
     <ul>
-      <li><a href="main.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
     </ul>
   </div>
-<h1>C:/current projects/audio library/ogreoggsound/include/OgreOggStaticWavSound.h</h1><a href="_ogre_ogg_static_wav_sound_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*---------------------------------------------------------------------------*\</span>
+<h1>K:/work/OgreOggSound/include/OgreOggStaticWavSound.h</h1><a href="_ogre_ogg_static_wav_sound_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*---------------------------------------------------------------------------*\</span>
 <a name="l00002"></a>00002 <span class="comment">** This source file is part of OgreOggSound, an OpenAL wrapper library for   **</span>
 <a name="l00003"></a>00003 <span class="comment">** use with the Ogre Rendering Engine.                                                                           **</span>
 <a name="l00004"></a>00004 <span class="comment">**                                                                           **</span>
@@ -67,29 +67,30 @@
 <a name="l00099"></a>00099                 ~<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html">OgreOggStaticWavSound</a>();
 <a name="l00105"></a>00105                 <span class="keywordtype">void</span> _updateAudioBuffers();
 <a name="l00110"></a>00110                 <span class="keywordtype">void</span> _prebuffer();              
-<a name="l00111"></a>00111 
-<a name="l00112"></a>00112         <span class="keyword">private</span>:
-<a name="l00113"></a>00113 
-<a name="l00119"></a>00119                 <span class="keywordtype">void</span> _release();        
-<a name="l00120"></a>00120 
-<a name="l00124"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#3d8205e8db72a7bc6c0787ac8546a109">00124</a>                 FILE*                   mOggFile;                       <span class="comment">// Ogg file pointer</span>
-<a name="l00125"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#99551d3ec92d7042e20df87e8c1ac0dd">00125</a>                 OggVorbis_File  mOggStream;                     <span class="comment">// OggVorbis file structure</span>
-<a name="l00126"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#e1bfaca9da6779820d7c5f3c2b1830cc">00126</a>                 vorbis_info*    mVorbisInfo;            <span class="comment">// Vorbis info </span>
-<a name="l00127"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#d619fab3e29d67a08257d069733c28a2">00127</a>                 vorbis_comment* mVorbisComment;         <span class="comment">// Vorbis comments</span>
-<a name="l00128"></a>00128 
-<a name="l00129"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#fdc33a1cdb9e7bbcaffc9746c98c4dd5">00129</a>                 std::vector&lt;char&gt; mBufferData;          <span class="comment">// Sound data buffer</span>
-<a name="l00130"></a>00130 
-<a name="l00131"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#29b34452a58605bbb6b15017408b8075">00131</a>                 ALuint mBuffer;                                         <span class="comment">// OpenAL buffer index</span>
-<a name="l00132"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#fe73f7c1d213a015545963f1c08ad755">00132</a>                 ALenum mFormat;                                         <span class="comment">// OpenAL buffer format</span>
-<a name="l00133"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#eacda1e3fa2a8b227783d8f3ba0cb847">00133</a>                 ALint mPreviousOffset;                          <span class="comment">// Current play position</span>
+<a name="l00116"></a>00116                 <span class="keywordtype">void</span> _calculateBufferInfo();            
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118         <span class="keyword">private</span>:
+<a name="l00119"></a>00119 
+<a name="l00125"></a>00125                 <span class="keywordtype">void</span> _release();        
+<a name="l00126"></a>00126 
+<a name="l00130"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#3d8205e8db72a7bc6c0787ac8546a109">00130</a>                 FILE*                   mOggFile;                       <span class="comment">// Ogg file pointer</span>
+<a name="l00131"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#99551d3ec92d7042e20df87e8c1ac0dd">00131</a>                 OggVorbis_File  mOggStream;                     <span class="comment">// OggVorbis file structure</span>
+<a name="l00132"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#e1bfaca9da6779820d7c5f3c2b1830cc">00132</a>                 vorbis_info*    mVorbisInfo;            <span class="comment">// Vorbis info </span>
+<a name="l00133"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#d619fab3e29d67a08257d069733c28a2">00133</a>                 vorbis_comment* mVorbisComment;         <span class="comment">// Vorbis comments</span>
 <a name="l00134"></a>00134 
-<a name="l00135"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#dc58f16322a62b70db534577347c3861">00135</a>                 <a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html">WavFormatData</a> mFormatData;                      <span class="comment">// WAVE format structure</span>
+<a name="l00135"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#fdc33a1cdb9e7bbcaffc9746c98c4dd5">00135</a>                 std::vector&lt;char&gt; mBufferData;          <span class="comment">// Sound data buffer</span>
 <a name="l00136"></a>00136 
-<a name="l00137"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#7cfed535deaa9c3b1c335b122135c474">00137</a>                 <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html">OgreOggSoundManager</a>;       
-<a name="l00138"></a>00138         };
-<a name="l00139"></a>00139 }
+<a name="l00137"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#29b34452a58605bbb6b15017408b8075">00137</a>                 ALuint mBuffer;                                         <span class="comment">// OpenAL buffer index</span>
+<a name="l00138"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#fe73f7c1d213a015545963f1c08ad755">00138</a>                 ALenum mFormat;                                         <span class="comment">// OpenAL buffer format</span>
+<a name="l00139"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#eacda1e3fa2a8b227783d8f3ba0cb847">00139</a>                 ALint mPreviousOffset;                          <span class="comment">// Current play position</span>
+<a name="l00140"></a>00140 
+<a name="l00141"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#88b13996f872359ba2ccd3dcefce9a3e">00141</a>                 <a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html">WavFormatData</a>* mFormatData;                     <span class="comment">// WAVE format structure</span>
+<a name="l00142"></a>00142 
+<a name="l00143"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#7cfed535deaa9c3b1c335b122135c474">00143</a>                 <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html">OgreOggSoundManager</a>;       
+<a name="l00144"></a>00144         };
+<a name="l00145"></a>00145 }
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Fri Sep 12 09:35:34 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Sep 12 20:15:26 2008 by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
