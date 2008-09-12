@@ -22,6 +22,7 @@
 #include <string>
 #include <iostream>
 #include "OgreOggSoundManager.h"
+#include "mmreg.h"
 
 using namespace std;
 
@@ -77,12 +78,12 @@ namespace OgreOggSound
 				// Read in "fmt" chunk size ( 4 bytes ) 
 				mAudioStream->read(&mFormatData->mFormatChunkSize, 4);
 
-				// Should be 16 unless compressed ( compressed NOT supported )
-				if ( mFormatData->mFormatChunkSize==16 )
+				// Standard WAVE file?
+				if (mFormatData->mFormatChunkSize==16)
 				{
 					// Read in audio format  ( 2 bytes ) 
 					mAudioStream->read(&format_tag, 2);		
-
+				
 					// Read in num channels ( 2 bytes ) 
 					mAudioStream->read(&mFormatData->mNumChannels, 2);			
 

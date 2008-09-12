@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>OgreOggSound: OgreOggSound::OgreOggListener Class Reference</title>
+<title>OgreOggSound::OgreOggListener Class Reference</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -8,7 +8,7 @@
 <div class="navigation" id="top">
   <div class="tabs">
     <ul>
-      <li><a href="main.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -58,6 +58,8 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#6007a8256afb6f422a9f77091b6f5c21">_updateRenderQueue</a> (Ogre::RenderQueue *queue)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#7e6a0f5eb9087b8de951bdeca8971860">visitRenderables</a> (Ogre::Renderable::Visitor *visitor, bool debugRenderables)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#972bc53647a87a731ed9de94cd5b3cc3">_notifyAttached</a> (Ogre::Node *node, bool isTagPoint=false)</td></tr>
 
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#4fbba18e03acb68caf5591c6c4826e5f">_needUpdate</a> ()</td></tr>
@@ -429,6 +431,36 @@ Renderable callback <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Overr
 
 </div>
 </div><p>
+<a class="anchor" name="972bc53647a87a731ed9de94cd5b3cc3"></a><!-- doxytag: member="OgreOggSound::OgreOggListener::_notifyAttached" ref="972bc53647a87a731ed9de94cd5b3cc3" args="(Ogre::Node *node, bool isTagPoint=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void OgreOggSound::OgreOggListener::_notifyAttached           </td>
+          <td>(</td>
+          <td class="paramtype">Ogre::Node *&nbsp;</td>
+          <td class="paramname"> <em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>isTagPoint</em> = <code>false</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Attach callback <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Overridden function from MovableObject. </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="4fbba18e03acb68caf5591c6c4826e5f"></a><!-- doxytag: member="OgreOggSound::OgreOggListener::_needUpdate" ref="4fbba18e03acb68caf5591c6c4826e5f" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -463,7 +495,7 @@ Returns whether a transformation update is required. <dl class="remark" compact>
 
 <p>
 Positional variables 
-<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00136">136</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00141">141</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
 
 </div>
 </div><p>
@@ -480,7 +512,7 @@ Positional variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00137">137</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00142">142</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
 
 </div>
 </div><p>
@@ -497,14 +529,14 @@ Positional variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00138">138</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00143">143</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
 
 </div>
 </div><p>
 <hr>The documentation for this class was generated from the following file:<ul>
-<li>C:/current projects/audio library/ogreoggsound/include/<a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a></ul>
+<li>K:/work/OgreOggSound/include/<a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Fri Sep 12 09:35:34 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Sep 12 20:15:26 2008 by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
