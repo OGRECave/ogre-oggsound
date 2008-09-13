@@ -67,8 +67,9 @@ namespace OgreOggSound
 		// Generate audio buffers
 		alGenBuffers(NUM_BUFFERS, mBuffers);
 
-		// Work out required buffer size and format
-		_calculateBufferInfo();
+			// Check format support
+		if (!_queryBufferInfo()) 
+			throw std::string("Format NOT supported!");
 
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
@@ -84,9 +85,13 @@ namespace OgreOggSound
 		ov_clear(&mOggStream);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamSound::_calculateBufferInfo()
+	bool OgreOggStreamSound::_queryBufferInfo()
 	{
-		if (!mVorbisInfo) return;
+		if (!mVorbisInfo) 
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** --- No vorbis info!");
+			return false;
+		}
 
 		switch(mVorbisInfo->channels)
 		{
@@ -111,6 +116,7 @@ namespace OgreOggSound
 		case 4:
 			{
 				mFormat = alGetEnumValue("AL_FORMAT_QUAD16");
+				if (!mFormat) return false;
 				// Set BufferSize to 250ms (Frequency * 8 (16bit 4-channel) divided by 4 (quarter of a second))
 				mBufferSize = mVorbisInfo->rate * 2;
 				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
@@ -120,6 +126,7 @@ namespace OgreOggSound
 		case 6:
 			{
 				mFormat = alGetEnumValue("AL_FORMAT_51CHN16");
+				if (!mFormat) return false;
 				// Set BufferSize to 250ms (Frequency * 12 (16bit 6-channel) divided by 4 (quarter of a second))
 				mBufferSize = mVorbisInfo->rate * 3;
 				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
@@ -129,6 +136,7 @@ namespace OgreOggSound
 		case 7:
 			{
 				mFormat = alGetEnumValue("AL_FORMAT_61CHN16");
+				if (!mFormat) return false;
 				// Set BufferSize to 250ms (Frequency * 16 (16bit 7-channel) divided by 4 (quarter of a second))
 				mBufferSize = mVorbisInfo->rate * 4;
 				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
@@ -138,6 +146,7 @@ namespace OgreOggSound
 		case 8:
 			{
 				mFormat = alGetEnumValue("AL_FORMAT_71CHN16");
+				if (!mFormat) return false;
 				// Set BufferSize to 250ms (Frequency * 20 (16bit 8-channel) divided by 4 (quarter of a second))
 				mBufferSize = mVorbisInfo->rate * 5;
 				// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
@@ -155,6 +164,7 @@ namespace OgreOggSound
 			mBufferSize -= (mBufferSize % 2);
 			break;
 		}
+		return true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_prebuffer()
