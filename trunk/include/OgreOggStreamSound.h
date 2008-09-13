@@ -125,7 +125,7 @@ namespace OgreOggSound
 			Calculates a block aligned buffer size of 250ms using
 			sounds properties
 		 */
-		void _calculateBufferInfo();		
+		bool _queryBufferInfo();		
 
 	private:
 

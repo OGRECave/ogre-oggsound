@@ -39,15 +39,19 @@ namespace OgreOggSound
 	 */
 	typedef struct
 	{
-		DWORD	mFormatChunkSize,
-				mDataSize,
-				mSampleRate,
-				mAvgBytesPerSec,
-				mAudioOffset;
+		DWORD			mFormatChunkSize,
+						mDataSize,
+						mSampleRate,
+						mAvgBytesPerSec,
+						mAudioOffset;
 
-		short	mNumChannels,
-				mBlockAlign,
-				mBitsPerSample;
+		unsigned short	mNumChannels,
+						mBlockAlign,
+						mBitsPerSample;	
+
+		WORD			mSamples;
+		DWORD			mChannelMask;
+		GUID			mSubFormat;	
 	} WavFormatData;
 
 	/**
@@ -414,7 +418,7 @@ namespace OgreOggSound
 			Calculates a block aligned buffer size of 250ms using
 			sound properties.
 		 */
-		virtual void _calculateBufferInfo()=0;		
+		virtual bool _queryBufferInfo()=0;		
 
 		/**
 		 * Variables used to fade sound
