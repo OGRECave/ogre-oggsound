@@ -212,7 +212,10 @@ namespace OgreOggSound
 
 		// Check format support
 		if (!_queryBufferInfo()) 
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** --- Format NOT supported");
 			throw std::string("Format NOT supported!");
+		}
 
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -299,8 +302,8 @@ namespace OgreOggSound
 			break;
 		case 7:
 			{
-				// 16-bit 7.1 surround
-				mFormat = alGetEnumValue("AL_FORMAT_71CHN16");
+				// 16-bit 6.1 surround
+				mFormat = alGetEnumValue("AL_FORMAT_61CHN16");
 				if (!mFormat) return false; 
 
 				// Queue 250ms of audio data
@@ -312,8 +315,8 @@ namespace OgreOggSound
 			break;
 		case 8:
 			{
-				// 16-bit 8.1 surround
-				mFormat = alGetEnumValue("AL_FORMAT_81CHN16");
+				// 16-bit 7.1 surround
+				mFormat = alGetEnumValue("AL_FORMAT_71CHN16");
 				if (!mFormat) return false; 
 
 				// Queue 250ms of audio data

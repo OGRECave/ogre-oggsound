@@ -35,7 +35,7 @@
  * 1 - BOOST multithreaded 
  */
 #ifndef OGGSOUND_THREADED
-#	define OGGSOUND_THREADED 1
+#	define OGGSOUND_THREADED 0
 #endif
 
 

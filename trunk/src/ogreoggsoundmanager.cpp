@@ -1689,7 +1689,7 @@ namespace OgreOggSound
 		{
 			(*i)->update(fTime);
 	#if ( OGGSOUND_THREADED==0 )
-			(*i)->updateAudioBuffers();
+			(*i)->_updateAudioBuffers();
 	#endif
 			i++;
 		}
