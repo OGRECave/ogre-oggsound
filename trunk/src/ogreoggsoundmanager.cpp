@@ -1130,11 +1130,22 @@ namespace OgreOggSound
 		boost::recursive_mutex::scoped_lock l(mMutex);
 #endif
 
-		Ogre::ResourceGroupManager *groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
-		Ogre::String group = groupManager->findGroupContainingResource(file);
-		Ogre::DataStreamPtr soundData = groupManager->openResource(file, group);
+		Ogre::ResourceGroupManager* groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
+		Ogre::String group;
+		Ogre::DataStreamPtr soundData;
+		try
+		{
+			group = groupManager->findGroupContainingResource(file);
+			soundData = groupManager->openResource(file, group);
+		}
+		catch (...)
+		{
+			// Cannot find sound file
+			Ogre::LogManager::getSingleton().logMessage("***--- OgreOggSoundManager::createSound() - Unable to find sound file! have you specified a resource location?", Ogre::LML_CRITICAL);
+			return (0);
+		}
 
-		if(file.find(".ogg") != std::string::npos || file.find(".OGG") != std::string::npos)
+		if		(file.find(".ogg") != std::string::npos || file.find(".OGG") != std::string::npos)
 		{
 			// MUST be unique
 			if ( mSoundMap.find(name)!=mSoundMap.end() ) 
@@ -1165,7 +1176,7 @@ namespace OgreOggSound
 
 			return mSoundMap[name];
 		}
-		else if(file.find(".wav") != std::string::npos || file.find(".WAV") != std::string::npos)
+		else if	(file.find(".wav") != std::string::npos || file.find(".WAV") != std::string::npos)
 		{
 			// MUST be unique
 			if ( mSoundMap.find(name)!=mSoundMap.end() ) 
