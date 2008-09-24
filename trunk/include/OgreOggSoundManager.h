@@ -45,15 +45,15 @@
 #	include <boost/thread/xtime.hpp>
 #endif
 
-#define MAX_SOURCES 100
+#define MAX_SOURCES 2
 
 namespace OgreOggSound
 {
 	typedef std::map<std::string, OgreOggISound*> SoundMap;
 	typedef std::map<std::string, ALuint> EffectList;
 	typedef std::map<ALenum, bool> FeatureList;
-	typedef std::list<OgreOggISound*> ActiveList;
-	typedef std::list<ALuint> SourceList;
+	typedef std::vector<OgreOggISound*> ActiveList;
+	typedef std::vector<ALuint> SourceList;
 
 	/** Handles ALL sounds 
 	 */

@@ -96,6 +96,13 @@ void MainApp::createScene()
 	nOgreMonster->attachObject(eOgreMonster);
 	nOgreMonster->setPosition(0,10,-300);
 
+	Ogre::Entity *eOgreMonster2 = mSceneMgr->createEntity("OgreMonster2","ogre bodyShapednew.mesh");
+	Ogre::SceneNode *mOgreMonsterAxis = mSceneMgr->getRootSceneNode()->createChildSceneNode("OgreMonsterAxis2");
+	Ogre::SceneNode *mOgreMonster = nOgreMonsterAxis->createChildSceneNode("OgreMonster2");
+	mOgreMonster->setScale(0.5f,0.5f,0.5f);
+	mOgreMonster->attachObject(eOgreMonster2);
+	mOgreMonster->setPosition(0,10,-300);
+
 	Ogre::Light *light = mSceneMgr->createLight("MainLight");
 	light->setType(Ogre::Light::LT_POINT);
 	light->setPosition(0,200,-250);
@@ -108,7 +115,7 @@ void MainApp::createScene()
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
 	/** Sound one - non streamed, looping, moving */
-	mSoundManager->createSound("One", "four.wav", true, true);	
+	mSoundManager->createSound("One", "one.ogg", true, true);	
 	mSoundManager->getSound("One")->setMaxDistance(200);
 	mSoundManager->getSound("One")->setReferenceDistance(50);
 	mSoundManager->getSound("One")->play();
@@ -127,10 +134,17 @@ void MainApp::createScene()
 	}
 	mSoundManager->getSound("Two")->play();
 	
+	/** Sound one - non streamed, looping, moving */
+	mSoundManager->createSound("Three", "three.ogg", true, true);	
+	mSoundManager->getSound("Three")->setMaxDistance(200);
+	mSoundManager->getSound("Three")->setReferenceDistance(50);
+	mOgreMonster->attachObject(mSoundManager->getSound("Three"));
+	
 	/** Sound one - streamed, looping, EFX Direct filter */
 	mSoundManager->createSound("background", "background.ogg", true, true, true);
 	mSoundManager->getSound("background")->setRelativeToListener(true);
 	mSoundManager->getSound("background")->setVolume(0.2f);
+	mSoundManager->getSound("background")->setPriority(1);
 	if ( mSoundManager->hasEFXSupport() )
 	{
 		mSoundManager->createEFXFilter("LowPassTest", AL_FILTER_LOWPASS, 0.1, 0.5);
@@ -233,6 +247,13 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 	}
 
 	if (arg.key == OIS::KC_F3)
+	{
+		if(mSoundManager->getSound("Three")->isPlaying())
+			mSoundManager->getSound("Three")->stop();
+		else mSoundManager->getSound("Three")->play();
+	}
+
+	if (arg.key == OIS::KC_F4)
 	{
 		if(mSoundManager->getSound("background")->isPlaying())
 			mSoundManager->getSound("background")->stop();
