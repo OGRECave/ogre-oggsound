@@ -1398,12 +1398,12 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::updateBuffers()
 	{
+	#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+	#endif
 		ActiveList::iterator i = mActiveSounds.begin();
 		while( i != mActiveSounds.end())
 		{
-		#if OGGSOUND_THREADED
-			boost::recursive_mutex::scoped_lock l(mMutex);
-		#endif
 			(*i)->_updateAudioBuffers();
 			++i;
 		}	
@@ -1503,63 +1503,17 @@ namespace OgreOggSound
 		// Any sounds to re-activate?
 		if (mSoundsToReactivate.empty()) return;
 
-		ActiveList::iterator iter=mSoundsToReactivate.begin(); 
+		OgreOggISound* snd = mSoundsToReactivate.front(); 
 
-		// Loop through all queued sounds
-		while ( iter!=mSoundsToReactivate.end() )
+		// Release sounds source
+		if (requestSoundSource(snd))
 		{
-			bool needIncrement=true;
+			LogManager::getSingleton().logMessage("***--- Reactivating sound ---***");
+			// Request new source for reactivated sound
+			snd->play();
 
-			// If there are sources available
-			// Use immediately
-			if ( !mSourcePool.empty() ) 
-			{
-				// Get next available source
-				ALuint src = static_cast<ALuint>(mSourcePool.back());
-
-				// Remove from available list
-				mSourcePool.pop_back();
-
-				// Set sounds source
-				(*iter)->setSource(src);
-
-				// Add to active list
-				mActiveSounds.push_back((*iter));
-
-				// Remove from queued list
-				iter = mSoundsToReactivate.erase(iter);
-
-				// Cancel increment
-				needIncrement=false;
-			}
-			// All sources in use 
-			// Re-use an active source
-			// Use either a non-playing source or a lower priority source
-			else
-			{
-				// Search for a stopped active sound
-				for ( ActiveList::iterator aIter=mActiveSounds.begin(); aIter!=mActiveSounds.end(); ++aIter )
-				{
-					// Find a stopped sound - reuse its source
-					if ( (*aIter)->isStopped() )
-					{
-						// Release sounds source
-						if (releaseSoundSource((*aIter)))
-						{
-							// Request new source for reactivated sound
-							(*iter)->play();
-							
-							// sound playing - remove from reactivate list 
-							iter = mSoundsToReactivate.erase(iter);				
-
-							// Cancel increment
-							needIncrement=false;
-						}
-					}
-				}
-				// Increment to next reactivated sound
-				if (needIncrement) ++iter;
-			}
+			// sound playing - remove from reactivate list 
+			mSoundsToReactivate.erase(mSoundsToReactivate.begin());				
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1570,7 +1524,9 @@ namespace OgreOggSound
 	#endif
 
 		// Does sound need a source?
-		if (!sound || sound->getSource()!=AL_NONE) return false;
+		if (!sound) return false;
+		
+		if (sound->getSource()!=AL_NONE) return true;
 
 		ALuint src = AL_NONE;
 
@@ -1611,7 +1567,7 @@ namespace OgreOggSound
 			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter )
 			{
 				// Find a similar/lesser prioritised sound and re-use source
-				if ( (*iter)->getPriority() <= priority )
+				if ( (*iter)->getPriority() < priority )
 				{
 					// Queue sound to re-activate itself when possible
 					mSoundsToReactivate.push_back((*iter));
@@ -1629,16 +1585,14 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::releaseSoundSource(OgreOggISound* sound)
 	{
-
 	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
 
-		if (!sound || sound->getSource()==AL_NONE)
-		{
-			return false;
-		}
-	
+		if (!sound) return false;
+		
+		if (sound->getSource()==AL_NONE) return true;
+			
 		// Get source
 		ALuint src = sound->getSource();
 
@@ -1695,6 +1649,10 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::update(Ogre::Real fTime)
 	{		
+	#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+	#endif
+
 		ActiveList::iterator i = mActiveSounds.begin();
 		while( i != mActiveSounds.end())
 		{
