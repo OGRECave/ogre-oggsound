@@ -1652,7 +1652,9 @@ namespace OgreOggSound
 	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
+		static Real rTime=0.f;
 
+		// Update ALL active sounds
 		ActiveList::iterator i = mActiveSounds.begin();
 		while( i != mActiveSounds.end())
 		{
@@ -1663,8 +1665,17 @@ namespace OgreOggSound
 			i++;
 		}
 
-		_reactivateQueuedSounds();
+		// Limit check 
+		if ( (rTime+=fTime) > 0.1 )
+		{
+			// try to reactivate any 
+			_reactivateQueuedSounds();
 
+			// Reset timer
+			rTime=0.f;
+		}
+
+		// Update listener
 		mListener->update();
 	}
 }

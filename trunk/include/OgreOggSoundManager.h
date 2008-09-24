@@ -88,7 +88,7 @@ namespace OgreOggSound
 				Audio device string to open, will use default device if not
 				found.
 		 */
-		bool init(const std::string &deviceName);
+		bool init(const std::string &deviceName = "");
 		/** Creates a pool of OpenAL sources for playback.
 		@remarks
 			Attempts to create a pool of source objects which allow

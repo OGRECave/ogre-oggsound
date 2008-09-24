@@ -109,7 +109,7 @@ void MainApp::createScene()
 	light->setSpecularColour(1.0f,1.0f,1.0f);
 
 
-	mSoundManager->init("");
+	mSoundManager->init();
 	mSoundManager->setDistanceModel(AL_LINEAR_DISTANCE);
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
