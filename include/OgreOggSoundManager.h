@@ -45,7 +45,7 @@
 #	include <boost/thread/xtime.hpp>
 #endif
 
-#define MAX_SOURCES 2
+#define MAX_SOURCES 100
 
 namespace OgreOggSound
 {

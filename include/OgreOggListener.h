@@ -95,6 +95,9 @@ namespace OgreOggSound
 				q Orientation quaternion.
 		 */
 		void setOrientation(const Ogre::Quaternion &q);
+		/** Gets the orientation of the listener.
+		*/
+		Ogre::Vector3 getOrientation() { return Ogre::Vector3(mOrientation[0],mOrientation[1],mOrientation[2]); }
 		/** Updates the listener.
 		@remarks
 			Handles positional updates to the listener either automatically

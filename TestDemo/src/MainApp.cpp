@@ -94,14 +94,14 @@ void MainApp::createScene()
 	Ogre::SceneNode *nOgreMonster = nOgreMonsterAxis->createChildSceneNode("OgreMonster");
 	nOgreMonster->setScale(0.5f,0.5f,0.5f);
 	nOgreMonster->attachObject(eOgreMonster);
-	nOgreMonster->setPosition(0,10,-300);
+	nOgreMonster->setPosition(0,10,-100);
 
 	Ogre::Entity *eOgreMonster2 = mSceneMgr->createEntity("OgreMonster2","ogre bodyShapednew.mesh");
 	Ogre::SceneNode *mOgreMonsterAxis = mSceneMgr->getRootSceneNode()->createChildSceneNode("OgreMonsterAxis2");
 	Ogre::SceneNode *mOgreMonster = nOgreMonsterAxis->createChildSceneNode("OgreMonster2");
 	mOgreMonster->setScale(0.5f,0.5f,0.5f);
 	mOgreMonster->attachObject(eOgreMonster2);
-	mOgreMonster->setPosition(0,10,-300);
+	mOgreMonster->setPosition(0,10,-200);
 
 	Ogre::Light *light = mSceneMgr->createLight("MainLight");
 	light->setType(Ogre::Light::LT_POINT);
@@ -116,16 +116,16 @@ void MainApp::createScene()
 
 	/** Sound one - non streamed, looping, moving */
 	mSoundManager->createSound("One", "one.ogg", true, true);	
-	mSoundManager->getSound("One")->setMaxDistance(200);
+	mSoundManager->getSound("One")->setMaxDistance(250);
 	mSoundManager->getSound("One")->setReferenceDistance(50);
-	mSoundManager->getSound("One")->play();
 	nOgreHead->attachObject(mSoundManager->getSound("One"));
+	mSoundManager->getSound("One")->play();
 	
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
 	mSoundManager->createSound("Two", "two.ogg", true, true, true);	
-	mSoundManager->getSound("Two")->setMaxDistance(400);
-	mSoundManager->getSound("Two")->setReferenceDistance(30);
+	mSoundManager->getSound("Two")->setMaxDistance(50);
+	mSoundManager->getSound("Two")->setReferenceDistance(5);
 	if ( mSoundManager->hasEFXSupport() )
 	{
 		mSoundManager->createEFXSlot();
@@ -136,9 +136,10 @@ void MainApp::createScene()
 	
 	/** Sound one - non streamed, looping, moving */
 	mSoundManager->createSound("Three", "three.ogg", true, true);	
-	mSoundManager->getSound("Three")->setMaxDistance(200);
-	mSoundManager->getSound("Three")->setReferenceDistance(50);
+	mSoundManager->getSound("Three")->setMaxDistance(50);
+	mSoundManager->getSound("Three")->setReferenceDistance(5);
 	mOgreMonster->attachObject(mSoundManager->getSound("Three"));
+	mSoundManager->getSound("Three")->play();
 	
 	/** Sound one - streamed, looping, EFX Direct filter */
 	mSoundManager->createSound("background", "background.ogg", true, true, true);
@@ -150,7 +151,7 @@ void MainApp::createScene()
 		mSoundManager->createEFXFilter("LowPassTest", AL_FILTER_LOWPASS, 0.1, 0.5);
 		mSoundManager->attachFilterToSound("background", "LowPassTest");
 	}
-	mSoundManager->getSound("background")->play();
+//	mSoundManager->getSound("background")->play();
 }
 //-----------------------------------------------------------------------
 void MainApp::finishedCB(OgreOggISound* sound)
@@ -176,7 +177,7 @@ bool MainApp::frameStarted( const Ogre::FrameEvent& evt )
 
 	Ogre::SceneNode *nMonsterAxis = mSceneMgr->getSceneNode("OgreMonsterAxis");
 
-	mSoundManager->update();
+	mSoundManager->update(evt.timeSinceLastFrame);
 	
 	if (mQuit) return false;	
 
