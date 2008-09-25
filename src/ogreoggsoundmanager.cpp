@@ -1494,21 +1494,73 @@ namespace OgreOggSound
 		return static_cast<int>(mSourcePool.size());
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	struct OgreOggSoundManager::_sortNearToFar
+	{
+		bool operator()(OgreOggISound* sound1, OgreOggISound* sound2)
+		{
+			Real	d1=0.f,
+					d2=0.f;
+			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
+
+			if ( sound1->isRelativeToListener() )
+				d1 = sound1->getPosition().length();
+			else
+				d1 = sound1->getPosition().distance(lPos);
+
+			if ( sound2->isRelativeToListener() )
+				d2 = sound2->getPosition().length();
+			else
+				d2 = sound2->getPosition().distance(lPos);
+
+			// Check sort order
+			if ( d1<d2 )	return true;
+			if ( d1>d2 )	return false;
+
+			// Equal - don't sort 
+			return false;
+		}
+	};
+	/*/////////////////////////////////////////////////////////////////*/
+	struct OgreOggSoundManager::_sortFarToNear
+	{
+		bool operator()(OgreOggISound* sound1, OgreOggISound* sound2)
+		{
+			Real	d1=0.f,
+					d2=0.f;
+			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
+
+			if ( sound1->isRelativeToListener() )
+				d1 = sound1->getPosition().length();
+			else
+				d1 = sound1->getPosition().distance(lPos);
+
+			if ( sound2->isRelativeToListener() )
+				d2 = sound2->getPosition().length();
+			else
+				d2 = sound2->getPosition().distance(lPos);
+
+			// Check sort order
+			if ( d1>d2 )	return true;
+			if ( d1<d2 )	return false;
+
+			// Equal - don't sort 
+			return false;
+		}
+	};
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_reactivateQueuedSounds()
 	{
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-
 		// Any sounds to re-activate?
 		if (mSoundsToReactivate.empty()) return;
+
+		// Sort list by distance
+//		std::sort(mSoundsToReactivate.begin, mSoundsToReactivate.end, _sortNearToFar());
 
 		OgreOggISound* snd = mSoundsToReactivate.front(); 
 
 		// Release sounds source
 		if (requestSoundSource(snd))
 		{
-			LogManager::getSingleton().logMessage("***--- Reactivating sound ---***");
 			// Request new source for reactivated sound
 			snd->play();
 
@@ -1519,13 +1571,13 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::requestSoundSource(OgreOggISound* sound)
 	{
+		// Does sound need a source?
+		if (!sound) return false;
+		
 	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
 
-		// Does sound need a source?
-		if (!sound) return false;
-		
 		if (sound->getSource()!=AL_NONE) return true;
 
 		ALuint src = AL_NONE;
@@ -1585,11 +1637,11 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::releaseSoundSource(OgreOggISound* sound)
 	{
+		if (!sound) return false;
+
 	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
-
-		if (!sound) return false;
 		
 		if (sound->getSource()==AL_NONE) return true;
 			

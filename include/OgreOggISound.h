@@ -120,6 +120,11 @@ namespace OgreOggSound
 			Checks source state for AL_STOPPED
 		 */
 		bool isStopped();
+		/** Returns position status.
+		@remarks
+			Returns whether position is local to listener or in world-space
+		 */
+		bool isRelativeToListener() { return mSourceRelative; }
 		/** Sets whether source is given up when stopped.
 		@remarks
 			This flag indicates that the sound should immediately give up its source if finished playing
