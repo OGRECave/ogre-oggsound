@@ -517,6 +517,11 @@ namespace OgreOggSound
 		ALCchar* mDeviceStrings;				// List of available devices strings
 		int mNumSources;						// Number of sources available for sounds
 
+		/** sort algorithms
+		*/
+		struct _sortNearToFar;
+		struct _sortFarToNear;
+
 		/**	EFX Support
 		*/
 		bool mEFXSupport;						// EFX present flag

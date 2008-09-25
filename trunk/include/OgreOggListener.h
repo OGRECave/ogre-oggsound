@@ -61,7 +61,7 @@ namespace OgreOggSound
 			for you.
 			@param
 				x/y/z position.
-		 */
+		*/
 		void setPosition(ALfloat x,ALfloat y, ALfloat z);
 		/** Sets the position of the listener.
 		@remarks
@@ -70,8 +70,11 @@ namespace OgreOggSound
 			for you.
 			@param
 				pos Vector position.
-		 */
+		*/
 		void setPosition(const Ogre::Vector3 &pos);
+		/** Gets the position of the listener.
+		*/
+		const Ogre::Vector3& getPosition() { return mPosition; }
 		/** Sets the orientation of the listener.
 		@remarks
 			Sets the 3D orientation of the listener. This is a manual method,
