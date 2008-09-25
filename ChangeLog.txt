@@ -1,3 +1,14 @@
+* version 0.91
+	
+	* Added extra query funtions to listener and sound classes
+	* Re-wrote requestSoundSource() to eliminate list invalidation
+	* Added sort by distance for reactivated sounds or when playing a new sound
+	* Added mutex lock in SoundManager::update()
+	* Optimised reactivate function() - periodically checks
+	* Added solution file to fix working directory problem in test demo
+	* Added default parameter in SoundManager::init(), an empty parameter list will pick default device
+	* Updated docs
+
 * version 0.9
 	
 	* Added multichannel support for ogg/wav files.
