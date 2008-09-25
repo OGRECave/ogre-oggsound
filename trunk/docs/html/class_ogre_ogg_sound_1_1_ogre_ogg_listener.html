@@ -8,7 +8,7 @@
 <div class="navigation" id="top">
   <div class="tabs">
     <ul>
-      <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="main.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -42,9 +42,13 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#3840a2d197d5cadda6122069fad99486">setPosition</a> (const Ogre::Vector3 &amp;pos)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const Ogre::Vector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#2e5a61763a7924d25bd6e12d45414bbd">getPosition</a> ()</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#607ecbef949ab7cd8e0a5965387b33ff">setOrientation</a> (ALfloat x, ALfloat y, ALfloat z, ALfloat upx, ALfloat upy, ALfloat upz)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#40e2cca3485483b4a9e83d5cbd5cd353">setOrientation</a> (const Ogre::Quaternion &amp;q)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">Ogre::Vector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#b5691db202bffb2388c5c99c3db2bf9c">getOrientation</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#65d7c3761c07578920995852f489a340">update</a> ()</td></tr>
 
@@ -211,6 +215,27 @@ Sets the position of the listener. <dl class="remark" compact><dt><b>Remarks:</b
 
 </div>
 </div><p>
+<a class="anchor" name="2e5a61763a7924d25bd6e12d45414bbd"></a><!-- doxytag: member="OgreOggSound::OgreOggListener::getPosition" ref="2e5a61763a7924d25bd6e12d45414bbd" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Ogre::Vector3&amp; OgreOggSound::OgreOggListener::getPosition           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Gets the position of the listener. 
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00077">77</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
+
+</div>
+</div><p>
 <a class="anchor" name="607ecbef949ab7cd8e0a5965387b33ff"></a><!-- doxytag: member="OgreOggSound::OgreOggListener::setOrientation" ref="607ecbef949ab7cd8e0a5965387b33ff" args="(ALfloat x, ALfloat y, ALfloat z, ALfloat upx, ALfloat upy, ALfloat upz)" -->
 <div class="memitem">
 <div class="memproto">
@@ -294,6 +319,27 @@ Sets the orientation of the listener. <dl class="remark" compact><dt><b>Remarks:
     <tr><td valign="top"></td><td valign="top"><em>q</em>&nbsp;</td><td>Orientation quaternion. </td></tr>
   </table>
 </dl>
+
+</div>
+</div><p>
+<a class="anchor" name="b5691db202bffb2388c5c99c3db2bf9c"></a><!-- doxytag: member="OgreOggSound::OgreOggListener::getOrientation" ref="b5691db202bffb2388c5c99c3db2bf9c" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Ogre::Vector3 OgreOggSound::OgreOggListener::getOrientation           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Gets the orientation of the listener. 
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00100">100</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
 
 </div>
 </div><p>
@@ -495,7 +541,7 @@ Returns whether a transformation update is required. <dl class="remark" compact>
 
 <p>
 Positional variables 
-<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00141">141</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00147">147</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
 
 </div>
 </div><p>
@@ -512,7 +558,7 @@ Positional variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00142">142</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00148">148</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
 
 </div>
 </div><p>
@@ -529,14 +575,14 @@ Positional variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00143">143</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00149">149</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
 
 </div>
 </div><p>
 <hr>The documentation for this class was generated from the following file:<ul>
-<li>K:/work/OgreOggSound/include/<a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a></ul>
+<li>C:/current projects/audio library/ogreoggsound/include/<a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sat Sep 13 13:52:40 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Sep 25 11:35:14 2008 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

@@ -1554,18 +1554,16 @@ namespace OgreOggSound
 		if (mSoundsToReactivate.empty()) return;
 
 		// Sort list by distance
-//		std::sort(mSoundsToReactivate.begin, mSoundsToReactivate.end, _sortNearToFar());
+		std::sort(mSoundsToReactivate.begin(), mSoundsToReactivate.end(), _sortNearToFar());
 
+		// Get sound object from front of list
 		OgreOggISound* snd = mSoundsToReactivate.front(); 
 
-		// Release sounds source
+		// Try to request a source for sound
 		if (requestSoundSource(snd))
 		{
 			// Request new source for reactivated sound
 			snd->play();
-
-			// sound playing - remove from reactivate list 
-			mSoundsToReactivate.erase(mSoundsToReactivate.begin());				
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1595,6 +1593,13 @@ namespace OgreOggSound
 			sound->setSource(src);
 			// Add to active list
 			mActiveSounds.push_back(sound);
+			// Remove from reactivate list if reactivating..
+			if ( !mSoundsToReactivate.empty() )
+			{
+				for ( ActiveList::iterator rIter=mSoundsToReactivate.begin(); rIter!=mSoundsToReactivate.end(); ++rIter )
+					if ( (*rIter)==sound ) 
+						mSoundsToReactivate.erase(rIter);
+			}
 			return true;
 		}
 		// All sources in use 
@@ -1602,32 +1607,107 @@ namespace OgreOggSound
 		// Use either a non-playing source or a lower priority source
 		else
 		{
+			// Get iterator for list
+			ActiveList::iterator iter = mActiveSounds.begin();
+
 			// Search for a stopped sound
-			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter )
+			while ( iter!=mActiveSounds.end() )
 			{
 				// Find a stopped sound - reuse its source
 				if ( (*iter)->isStopped() )
 				{
-					// Release lower priority sounds source
-					if (releaseSoundSource((*iter))) 
-						return requestSoundSource(sound);
+					ALuint src = (*iter)->getSource();
+					ALuint nullSrc = AL_NONE;
+					// Pause sounds
+					(*iter)->pause();
+					// Remove source
+					(*iter)->setSource(nullSrc);
+					// Attach source to new sound
+					sound->setSource(src);
+					// Add to reactivate list
+					mSoundsToReactivate.push_back((*iter));
+					// Remove relinquished sound from active list
+					mActiveSounds.erase(iter);
+					// Add new sound to active list
+					mActiveSounds.push_back(sound);
+					// Return success
+					return true;
 				}
+				else
+					++iter;
 			}
 
 			// Check priority...
 			Ogre::uint8 priority = sound->getPriority();
-			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter )
-			{
-				// Find a similar/lesser prioritised sound and re-use source
-				if ( (*iter)->getPriority() < priority )
-				{
-					// Queue sound to re-activate itself when possible
-					mSoundsToReactivate.push_back((*iter));
+			iter = mActiveSounds.begin();
 
-					// Release lower priority sounds source
-					if (releaseSoundSource((*iter))) 
-						return requestSoundSource(sound);
+			// Search for a stopped sound
+			while ( iter!=mActiveSounds.end() )
+			{
+				// Find a stopped sound - reuse its source
+				if ( (*iter)->getPriority()<sound->getPriority() )
+				{
+					ALuint src = (*iter)->getSource();
+					ALuint nullSrc = AL_NONE;
+					// Pause sounds
+					(*iter)->pause();
+					// Remove source
+					(*iter)->setSource(nullSrc);
+					// Attach source to new sound
+					sound->setSource(src);
+					// Add to reactivate list
+					mSoundsToReactivate.push_back((*iter));
+					// Remove relinquished sound from active list
+					mActiveSounds.erase(iter);
+					// Add new sound to active list
+					mActiveSounds.push_back(sound);
+					// Return success
+					return true;
 				}
+				else
+					++iter;
+			}
+			
+			// Sort by distance
+			Real	d1 = 0.f,
+					d2 = 0.f;
+
+			// Sort list by distance
+			std::sort(mActiveSounds.begin(), mActiveSounds.end(), _sortFarToNear());
+
+			// Lists should be sorted:	Active-->furthest to Nearest
+			//							Reactivate-->Nearest to furthest
+			OgreOggISound* snd1 = mActiveSounds.front();
+
+			if ( snd1->isRelativeToListener() )
+				d1 = snd1->getPosition().length();
+			else
+				d1 = snd1->getPosition().distance(mListener->getPosition());
+
+			if ( sound->isRelativeToListener() )
+				d1 = sound->getPosition().length();
+			else
+				d1 = sound->getPosition().distance(mListener->getPosition());
+
+			// Needs swapping?
+			if ( d1>d2 )
+			{
+				ALuint src = snd1->getSource();
+				ALuint nullSrc = AL_NONE;
+				// Pause sounds
+				snd1->pause();
+				// Remove source
+				snd1->setSource(nullSrc);
+				// Attach source to new sound
+				sound->setSource(src);
+				// Add to reactivate list
+				mSoundsToReactivate.push_back(snd1);
+				// Remove relinquished sound from active list
+				mActiveSounds.erase(mActiveSounds.begin());
+				// Add new sound to active list
+				mActiveSounds.push_back(sound);
+				// Return success
+				return true;
 			}
 		}
 		// Uh oh - won't be played
@@ -1717,7 +1797,7 @@ namespace OgreOggSound
 			i++;
 		}
 
-		// Limit check 
+		// Limit re-activation 
 		if ( (rTime+=fTime) > 0.1 )
 		{
 			// try to reactivate any 
