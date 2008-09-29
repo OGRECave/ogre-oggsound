@@ -1553,6 +1553,10 @@ namespace OgreOggSound
 		// Any sounds to re-activate?
 		if (mSoundsToReactivate.empty()) return;
 
+	#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+	#endif
+
 		// Sort list by distance
 		std::sort(mSoundsToReactivate.begin(), mSoundsToReactivate.end(), _sortNearToFar());
 
@@ -1781,9 +1785,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::update(Ogre::Real fTime)
 	{		
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
 		static Real rTime=0.f;
 
 		// Update ALL active sounds
