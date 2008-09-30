@@ -428,7 +428,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticWavSound::pause()
 	{		
-		if ( mSource!=AL_NONE ) return;
+		if ( mSource==AL_NONE ) return;
 
 		alSourcePause(mSource);
 	}

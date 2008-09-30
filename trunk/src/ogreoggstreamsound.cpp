@@ -328,10 +328,9 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::pause()
 	{		
-		if(mSource != AL_NONE)
-		{
-			alSourcePause(mSource);
-		}
+		if(mSource == AL_NONE)
+
+		alSourcePause(mSource);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::play()
