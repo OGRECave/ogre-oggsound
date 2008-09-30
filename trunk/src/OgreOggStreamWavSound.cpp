@@ -111,19 +111,19 @@ namespace OgreOggSound
 							WORD sigBitsPerSample;
 							WORD extraInfoSize;
 
-							// Read in samples ( 2 bytes ) 
+							// Read in significant bits per sample ( 2 bytes ) 
 							mAudioStream->read(&sigBitsPerSample, 2);	
 							
-							// Read in samples ( 2 bytes ) 
+							// Read in extra info size ( 2 bytes ) 
 							mAudioStream->read(&extraInfoSize, 2);	
 
 							// Read in samples ( 2 bytes ) 
 							mAudioStream->read(&mFormatData->mSamples, 2);	
 
-							// Read in samples ( 2 bytes ) 
+							// Read in channel mask ( 2 bytes ) 
 							mAudioStream->read(&mFormatData->mChannelMask, 2);	
 							
-							// Read in samples ( 16 bytes ) 
+							// Read in sub format ( 16 bytes ) 
 							mAudioStream->read(&mFormatData->mSubFormat, sizeof(GUID));	
 						}
 
