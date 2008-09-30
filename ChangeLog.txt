@@ -1,3 +1,7 @@
+* version 0.92
+
+	* Moved MUTEX from update function into reactivateSounds() - caused major performance issues.
+
 * version 0.91
 	
 	* Added extra query funtions to listener and sound classes
