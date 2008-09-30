@@ -513,10 +513,9 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::pause()
 	{		
-		if(mSource != AL_NONE)
-		{
-			alSourcePause(mSource);
-		}
+		if(mSource == AL_NONE) return;
+
+		alSourcePause(mSource);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::play()
