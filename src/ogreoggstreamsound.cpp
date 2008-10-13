@@ -290,7 +290,11 @@ namespace OgreOggSound
 		}
 
 		// EOF
-		if(result == 0)	return false;
+		if(result == 0)	
+		{
+			delete [] data;
+			return false;
+		}
 
 		alGetError();
 		// Copy buffer data
