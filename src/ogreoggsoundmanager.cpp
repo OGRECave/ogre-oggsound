@@ -1318,8 +1318,6 @@ namespace OgreOggSound
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
 
-		if (mActiveSounds.empty()) return;
-
 		OgreOggISound* sound = 0;
 		
 		if ( sound = getSound(sName) )
