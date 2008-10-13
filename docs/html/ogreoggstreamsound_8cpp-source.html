@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>OgreOggSound: C:/current projects/audio library/ogreoggsound/src/ogreoggstreamsound.cpp Source File</title>
+<title>OgreOggSound: K:/Work/OgreOggSound/src/ogreoggstreamsound.cpp Source File</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -14,7 +14,7 @@
       <li class="current"><a href="files.html"><span>Files</span></a></li>
     </ul>
   </div>
-<h1>C:/current projects/audio library/ogreoggsound/src/ogreoggstreamsound.cpp</h1><a href="ogreoggstreamsound_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*---------------------------------------------------------------------------*\</span>
+<h1>K:/Work/OgreOggSound/src/ogreoggstreamsound.cpp</h1><a href="ogreoggstreamsound_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*---------------------------------------------------------------------------*\</span>
 <a name="l00002"></a>00002 <span class="comment">** This source file is part of OgreOggSound, an OpenAL wrapper library for   **</span>
 <a name="l00003"></a>00003 <span class="comment">** use with the Ogre Rendering Engine.                                                                           **</span>
 <a name="l00004"></a>00004 <span class="comment">**                                                                           **</span>
@@ -296,90 +296,93 @@
 <a name="l00290"></a>00290 <span class="comment">                }</span>
 <a name="l00291"></a>00291 <span class="comment"></span>
 <a name="l00292"></a>00292 <span class="comment">                // EOF</span>
-<a name="l00293"></a>00293 <span class="comment">                if(result == 0) return false;</span>
-<a name="l00294"></a>00294 <span class="comment"></span>
-<a name="l00295"></a>00295 <span class="comment">                alGetError();</span>
-<a name="l00296"></a>00296 <span class="comment">                // Copy buffer data</span>
-<a name="l00297"></a>00297 <span class="comment">                alBufferData(buffer, mFormat, &amp;audioData[0], static_cast&lt;ALsizei&gt;(audioData.size()), mVorbisInfo-&gt;rate);</span>
+<a name="l00293"></a><a class="code" href="ogreoggstreamsound_8cpp.html#aa9a2bbb6e06930157e48db0627975ff">00293</a> <span class="comment">                if(result == 0) </span>
+<a name="l00294"></a>00294 <span class="comment">                {</span>
+<a name="l00295"></a>00295 <span class="comment">                        delete [] data;</span>
+<a name="l00296"></a>00296 <span class="comment">                        return false;</span>
+<a name="l00297"></a>00297 <span class="comment">                }</span>
 <a name="l00298"></a>00298 <span class="comment"></span>
-<a name="l00299"></a>00299 <span class="comment">                // Cleanup</span>
-<a name="l00300"></a><a class="code" href="ogreoggstreamsound_8cpp.html#0b93784311071f71f9f44b7b5395737b">00300</a> <span class="comment">                delete [] data;</span>
-<a name="l00301"></a>00301 <span class="comment"></span>
-<a name="l00302"></a><a class="code" href="ogreoggstreamsound_8cpp.html#930920b2bc42824a5c03be681830f4b2">00302</a> <span class="comment">                return true;</span>
-<a name="l00303"></a>00303 <span class="comment">        }</span>
-<a name="l00304"></a>00304 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l00305"></a>00305 <span class="comment">        void OgreOggStreamSound::_dequeue()</span>
-<a name="l00306"></a>00306 <span class="comment">        {               </span>
-<a name="l00307"></a>00307 <span class="comment">                if(mSource == AL_NONE)</span>
-<a name="l00308"></a>00308 <span class="comment">                        return;</span>
-<a name="l00309"></a>00309 <span class="comment">                </span>
-<a name="l00310"></a>00310 <span class="comment">                // Stop source to allow unqueuing</span>
-<a name="l00311"></a>00311 <span class="comment">                alSourceStop(mSource);</span>
-<a name="l00312"></a>00312 <span class="comment"></span>
-<a name="l00313"></a>00313 <span class="comment">                int queued=0;</span>
-<a name="l00314"></a>00314 <span class="comment"></span>
-<a name="l00315"></a>00315 <span class="comment">                // Get number of buffers queued on source</span>
-<a name="l00316"></a>00316 <span class="comment">                alGetError();</span>
-<a name="l00317"></a>00317 <span class="comment">                alGetSourcei(mSource, AL_BUFFERS_PROCESSED, &amp;queued);</span>
+<a name="l00299"></a>00299 <span class="comment">                alGetError();</span>
+<a name="l00300"></a>00300 <span class="comment">                // Copy buffer data</span>
+<a name="l00301"></a>00301 <span class="comment">                alBufferData(buffer, mFormat, &amp;audioData[0], static_cast&lt;ALsizei&gt;(audioData.size()), mVorbisInfo-&gt;rate);</span>
+<a name="l00302"></a>00302 <span class="comment"></span>
+<a name="l00303"></a>00303 <span class="comment">                // Cleanup</span>
+<a name="l00304"></a><a class="code" href="ogreoggstreamsound_8cpp.html#0b93784311071f71f9f44b7b5395737b">00304</a> <span class="comment">                delete [] data;</span>
+<a name="l00305"></a>00305 <span class="comment"></span>
+<a name="l00306"></a><a class="code" href="ogreoggstreamsound_8cpp.html#930920b2bc42824a5c03be681830f4b2">00306</a> <span class="comment">                return true;</span>
+<a name="l00307"></a>00307 <span class="comment">        }</span>
+<a name="l00308"></a>00308 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l00309"></a>00309 <span class="comment">        void OgreOggStreamSound::_dequeue()</span>
+<a name="l00310"></a>00310 <span class="comment">        {               </span>
+<a name="l00311"></a>00311 <span class="comment">                if(mSource == AL_NONE)</span>
+<a name="l00312"></a>00312 <span class="comment">                        return;</span>
+<a name="l00313"></a>00313 <span class="comment">                </span>
+<a name="l00314"></a>00314 <span class="comment">                // Stop source to allow unqueuing</span>
+<a name="l00315"></a>00315 <span class="comment">                alSourceStop(mSource);</span>
+<a name="l00316"></a>00316 <span class="comment"></span>
+<a name="l00317"></a>00317 <span class="comment">                int queued=0;</span>
 <a name="l00318"></a>00318 <span class="comment"></span>
-<a name="l00319"></a>00319 <span class="comment">                if (queued)</span>
-<a name="l00320"></a>00320 <span class="comment">                {</span>
-<a name="l00321"></a>00321 <span class="comment">                        // Remove number of buffers from source</span>
-<a name="l00322"></a>00322 <span class="comment">                        alSourceUnqueueBuffers(mSource, queued, mBuffers);</span>
-<a name="l00323"></a>00323 <span class="comment"></span>
-<a name="l00324"></a>00324 <span class="comment">                        // Any problems?</span>
-<a name="l00325"></a>00325 <span class="comment">                        if ( alGetError()!=AL_NO_ERROR ) Ogre::LogManager::getSingleton().logMessage("*** Unable to unqueue buffers");</span>
-<a name="l00326"></a>00326 <span class="comment">                }</span>
-<a name="l00327"></a>00327 <span class="comment">        }</span>
-<a name="l00328"></a>00328 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l00329"></a>00329 <span class="comment">        void OgreOggStreamSound::pause()</span>
-<a name="l00330"></a>00330 <span class="comment">        {               </span>
-<a name="l00331"></a>00331 <span class="comment">                if(mSource != AL_NONE)</span>
-<a name="l00332"></a>00332 <span class="comment">                {</span>
-<a name="l00333"></a>00333 <span class="comment">                        alSourcePause(mSource);</span>
-<a name="l00334"></a>00334 <span class="comment">                }</span>
-<a name="l00335"></a>00335 <span class="comment">        }</span>
-<a name="l00336"></a>00336 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l00337"></a>00337 <span class="comment">        void OgreOggStreamSound::play()</span>
-<a name="l00338"></a>00338 <span class="comment">        {       </span>
-<a name="l00339"></a>00339 <span class="comment">                if(isPlaying()) return;</span>
-<a name="l00340"></a>00340 <span class="comment"></span>
-<a name="l00341"></a>00341 <span class="comment">                // Grab a source if not already attached</span>
-<a name="l00342"></a>00342 <span class="comment">                if (mSource == AL_NONE)</span>
-<a name="l00343"></a>00343 <span class="comment">                        if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )</span>
-<a name="l00344"></a>00344 <span class="comment">                                return;</span>
-<a name="l00345"></a>00345 <span class="comment">        </span>
-<a name="l00346"></a>00346 <span class="comment">                // Set play flag</span>
-<a name="l00347"></a>00347 <span class="comment">                mPlay = true;</span>
-<a name="l00348"></a>00348 <span class="comment"></span>
-<a name="l00349"></a>00349 <span class="comment">                // Play source</span>
-<a name="l00350"></a>00350 <span class="comment">                alSourcePlay(mSource);  </span>
-<a name="l00351"></a>00351 <span class="comment">                if ( alGetError() ) Ogre::LogManager::getSingleton().logMessage("Unable to play sound");</span>
-<a name="l00352"></a>00352 <span class="comment">        }</span>
-<a name="l00353"></a>00353 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l00354"></a>00354 <span class="comment">        void OgreOggStreamSound::stop()</span>
-<a name="l00355"></a>00355 <span class="comment">        {</span>
-<a name="l00356"></a>00356 <span class="comment">                if(mSource != AL_NONE)</span>
-<a name="l00357"></a>00357 <span class="comment">                {</span>
-<a name="l00358"></a>00358 <span class="comment">                        // Remove audio data from source</span>
-<a name="l00359"></a>00359 <span class="comment">                        _dequeue();</span>
-<a name="l00360"></a>00360 <span class="comment"></span>
-<a name="l00361"></a>00361 <span class="comment">                        // Stop playback</span>
-<a name="l00362"></a>00362 <span class="comment">                        mPlay=false;</span>
+<a name="l00319"></a>00319 <span class="comment">                // Get number of buffers queued on source</span>
+<a name="l00320"></a>00320 <span class="comment">                alGetError();</span>
+<a name="l00321"></a>00321 <span class="comment">                alGetSourcei(mSource, AL_BUFFERS_PROCESSED, &amp;queued);</span>
+<a name="l00322"></a>00322 <span class="comment"></span>
+<a name="l00323"></a>00323 <span class="comment">                if (queued)</span>
+<a name="l00324"></a>00324 <span class="comment">                {</span>
+<a name="l00325"></a>00325 <span class="comment">                        // Remove number of buffers from source</span>
+<a name="l00326"></a>00326 <span class="comment">                        alSourceUnqueueBuffers(mSource, queued, mBuffers);</span>
+<a name="l00327"></a>00327 <span class="comment"></span>
+<a name="l00328"></a>00328 <span class="comment">                        // Any problems?</span>
+<a name="l00329"></a>00329 <span class="comment">                        if ( alGetError()!=AL_NO_ERROR ) Ogre::LogManager::getSingleton().logMessage("*** Unable to unqueue buffers");</span>
+<a name="l00330"></a>00330 <span class="comment">                }</span>
+<a name="l00331"></a>00331 <span class="comment">        }</span>
+<a name="l00332"></a>00332 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l00333"></a>00333 <span class="comment">        void OgreOggStreamSound::pause()</span>
+<a name="l00334"></a>00334 <span class="comment">        {               </span>
+<a name="l00335"></a>00335 <span class="comment">                if(mSource == AL_NONE)</span>
+<a name="l00336"></a>00336 <span class="comment"></span>
+<a name="l00337"></a>00337 <span class="comment">                alSourcePause(mSource);</span>
+<a name="l00338"></a>00338 <span class="comment">        }</span>
+<a name="l00339"></a>00339 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l00340"></a>00340 <span class="comment">        void OgreOggStreamSound::play()</span>
+<a name="l00341"></a>00341 <span class="comment">        {       </span>
+<a name="l00342"></a>00342 <span class="comment">                if(isPlaying()) return;</span>
+<a name="l00343"></a>00343 <span class="comment"></span>
+<a name="l00344"></a>00344 <span class="comment">                // Grab a source if not already attached</span>
+<a name="l00345"></a>00345 <span class="comment">                if (mSource == AL_NONE)</span>
+<a name="l00346"></a>00346 <span class="comment">                        if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )</span>
+<a name="l00347"></a>00347 <span class="comment">                                return;</span>
+<a name="l00348"></a>00348 <span class="comment">        </span>
+<a name="l00349"></a>00349 <span class="comment">                // Set play flag</span>
+<a name="l00350"></a>00350 <span class="comment">                mPlay = true;</span>
+<a name="l00351"></a>00351 <span class="comment"></span>
+<a name="l00352"></a>00352 <span class="comment">                // Play source</span>
+<a name="l00353"></a>00353 <span class="comment">                alSourcePlay(mSource);  </span>
+<a name="l00354"></a>00354 <span class="comment">                if ( alGetError() ) Ogre::LogManager::getSingleton().logMessage("Unable to play sound");</span>
+<a name="l00355"></a>00355 <span class="comment">        }</span>
+<a name="l00356"></a>00356 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l00357"></a>00357 <span class="comment">        void OgreOggStreamSound::stop()</span>
+<a name="l00358"></a>00358 <span class="comment">        {</span>
+<a name="l00359"></a>00359 <span class="comment">                if(mSource != AL_NONE)</span>
+<a name="l00360"></a>00360 <span class="comment">                {</span>
+<a name="l00361"></a>00361 <span class="comment">                        // Remove audio data from source</span>
+<a name="l00362"></a>00362 <span class="comment">                        _dequeue();</span>
 <a name="l00363"></a>00363 <span class="comment"></span>
-<a name="l00364"></a>00364 <span class="comment">                        // Reset stream pointer</span>
-<a name="l00365"></a>00365 <span class="comment">                        ov_time_seek(&amp;mOggStream,0);    </span>
+<a name="l00364"></a>00364 <span class="comment">                        // Stop playback</span>
+<a name="l00365"></a>00365 <span class="comment">                        mPlay=false;</span>
 <a name="l00366"></a>00366 <span class="comment"></span>
-<a name="l00367"></a>00367 <span class="comment">                        // Reload data</span>
-<a name="l00368"></a>00368 <span class="comment">                        _prebuffer();</span>
+<a name="l00367"></a>00367 <span class="comment">                        // Reset stream pointer</span>
+<a name="l00368"></a>00368 <span class="comment">                        ov_time_seek(&amp;mOggStream,0);    </span>
 <a name="l00369"></a>00369 <span class="comment"></span>
-<a name="l00370"></a>00370 <span class="comment">                        // Give up source immediately if specfied</span>
-<a name="l00371"></a>00371 <span class="comment">                        if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);</span>
-<a name="l00372"></a>00372 <span class="comment">                }</span>
-<a name="l00373"></a>00373 <span class="comment">        }</span>
-<a name="l00374"></a>00374 <span class="comment">}</span>
+<a name="l00370"></a>00370 <span class="comment">                        // Reload data</span>
+<a name="l00371"></a>00371 <span class="comment">                        _prebuffer();</span>
+<a name="l00372"></a>00372 <span class="comment"></span>
+<a name="l00373"></a>00373 <span class="comment">                        // Give up source immediately if specfied</span>
+<a name="l00374"></a>00374 <span class="comment">                        if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);</span>
+<a name="l00375"></a>00375 <span class="comment">                }</span>
+<a name="l00376"></a>00376 <span class="comment">        }</span>
+<a name="l00377"></a>00377 <span class="comment">}</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 30 14:34:45 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Oct 13 22:49:20 2008 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
