@@ -1312,6 +1312,48 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::playSound(const String& sName)
+	{
+	#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+	#endif
+
+		if (mActiveSounds.empty()) return;
+
+		OgreOggISound* sound = 0;
+		
+		if ( sound = getSound(sName) )
+			sound->play();
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::stopSound(const String& sName)
+	{
+	#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+	#endif
+
+		if (mActiveSounds.empty()) return;
+
+		OgreOggISound* sound = 0;
+		
+		if ( sound = getSound(sName) )
+			sound->stop();
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::pauseSound(const String& sName)
+	{
+	#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+	#endif
+
+		if (mActiveSounds.empty()) return;
+
+		OgreOggISound* sound = 0;
+		
+		if ( sound = getSound(sName) )
+			sound->pause();
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::stopAllSounds()
 	{
 	#if OGGSOUND_THREADED

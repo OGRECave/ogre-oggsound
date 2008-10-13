@@ -123,9 +123,10 @@ void MainApp::createScene()
 	
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
-	mSoundManager->createSound("Two", "two.ogg", true, true, true);	
+	mSoundManager->createSound("Two", "one.ogg", false, false, true);	
 	mSoundManager->getSound("Two")->setMaxDistance(50);
 	mSoundManager->getSound("Two")->setReferenceDistance(5);
+	nOgreMonster->attachObject(mSoundManager->getSound("Two"));
 	if ( mSoundManager->hasEFXSupport() )
 	{
 		mSoundManager->createEFXSlot();
@@ -135,7 +136,7 @@ void MainApp::createScene()
 	mSoundManager->getSound("Two")->play();
 	
 	/** Sound one - non streamed, looping, moving */
-	mSoundManager->createSound("Three", "three.ogg", true, true);	
+	mSoundManager->createSound("Three", "one.ogg", false, true);	
 	mSoundManager->getSound("Three")->setMaxDistance(50);
 	mSoundManager->getSound("Three")->setReferenceDistance(5);
 	mOgreMonster->attachObject(mSoundManager->getSound("Three"));
@@ -235,9 +236,7 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 
 	if (arg.key == OIS::KC_F1)
 	{
-		if(mSoundManager->getSound("One")->isPlaying())
-			mSoundManager->getSound("One")->stop();
-		else mSoundManager->getSound("One")->play();
+		mSoundManager->stopSound("One");
 	}
 
 	if (arg.key == OIS::KC_F2)

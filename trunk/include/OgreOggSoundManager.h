@@ -136,6 +136,27 @@ namespace OgreOggSound
 				name Sound name.
 		 */
 		bool hasSound(const std::string& name);
+		/** Plays a sound.
+		@remarks
+			NOTE:- it is essential this function is used to play a sound when using BOOST Threads.
+			Accessing a sound directly and calling its functions by-passes the thread mutex and causes
+			audio artefacts and memory curruption. (Non multi-threaded does not have this problem.)
+		 */
+		void playSound(const Ogre::String& sName);
+		/** Pauses a sound.
+		@remarks
+			NOTE:- it is essential this function is used to play a sound when using BOOST Threads.
+			Accessing a sound directly and calling its functions by-passes the thread mutex and causes
+			audio artefacts and memory curruption. (Non multi-threaded does not have this problem.)
+		 */
+		void pauseSound(const Ogre::String& sName);
+		/** Stops a sound.
+		@remarks
+			NOTE:- it is essential this function is used to play a sound when using BOOST Threads.
+			Accessing a sound directly and calling its functions by-passes the thread mutex and causes
+			audio artefacts and memory curruption. (Non multi-threaded does not have this problem.)
+		 */
+		void stopSound(const Ogre::String& sName);
 		/** Stops all currently playing sounds.
 		 */
 		void stopAllSounds();
