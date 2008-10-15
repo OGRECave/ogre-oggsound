@@ -236,7 +236,7 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 
 	if (arg.key == OIS::KC_F1)
 	{
-		mSoundManager->stopSound("One");
+		mSoundManager->getSound("One")->startFade(false, 2.f, OgreOggSound::STOP);
 	}
 
 	if (arg.key == OIS::KC_F2)

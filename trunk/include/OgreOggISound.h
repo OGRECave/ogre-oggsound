@@ -54,6 +54,17 @@ namespace OgreOggSound
 		GUID			mSubFormat;	
 	} WavFormatData;
 
+	/** Action enumeration after a fade has completed.
+	@remarks
+		Use this to specify what to do on a sound after it has finished fading.	i.e. after fading out pause.
+	*/
+	enum FadeControl
+	{
+		NONE	= 0x00,
+		PAUSE	= 0x01,
+		STOP	= 0x02
+	};
+
 	/**
 	 * Structure describing an ogg stream
 	 */
@@ -271,8 +282,13 @@ namespace OgreOggSound
 				dir Direction to fade. (true=in | false=out)
 			@param
 				fadeTime Time over which to fade (>0)
+			@param
+				actionOnCompletion Optional action to perform when fading has finished (default: NONE)
 		*/
-		void startFade(bool dir, Ogre::Real fadeTime, bool pauseOnCompletion=false);
+		void startFade(bool dir, Ogre::Real fadeTime, FadeControl actionOnCompletion=OgreOggSound::NONE);
+		/** Returns fade status.
+		 */
+		bool isFading() { return mFade; }
 		/** Updates sund
 		@remarks
 			Updates sounds position, buffers and state
@@ -433,7 +449,7 @@ namespace OgreOggSound
 		Ogre::Real mFadeInitVol;
 		Ogre::Real mFadeEndVol;
 		bool mFade;
-		bool mFadeEndPause;
+		FadeControl mFadeEndAction;
 
 		// Ogre resource stream pointer
 		Ogre::DataStreamPtr mAudioStream;
