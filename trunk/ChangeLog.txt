@@ -1,3 +1,10 @@
+* version 0.93
+
+	* Added automatic pause/restart on fade
+	* Fixed potential memory leak in _stream() functions
+	* Added OgreOggSoundManager functions for stopping/playing/pausing sounds.
+		* Prevents by-passing thread mutex and casuing memory corruption/audio artefacts.
+
 * version 0.92
 
 	* Moved MUTEX from update function into reactivateSounds() - caused major performance issues.
