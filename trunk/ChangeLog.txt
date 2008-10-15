@@ -8,6 +8,7 @@
 		* Pass an enumerated value to allow stopping/pausing of the sound when fading is
 		  complete, useful when fading out to stop/pause a sound to save cpu time.
 		  default: NONE.
+	* Fixed crash at maximum sources.
 
 * version 0.92
 

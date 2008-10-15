@@ -152,7 +152,7 @@ void MainApp::createScene()
 		mSoundManager->createEFXFilter("LowPassTest", AL_FILTER_LOWPASS, 0.1, 0.5);
 		mSoundManager->attachFilterToSound("background", "LowPassTest");
 	}
-//	mSoundManager->getSound("background")->play();
+	mSoundManager->getSound("background")->play();
 }
 //-----------------------------------------------------------------------
 void MainApp::finishedCB(OgreOggISound* sound)
