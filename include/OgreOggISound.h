@@ -406,7 +406,7 @@ namespace OgreOggSound
 		OgreOggISound(const Ogre::String& name);
 		/** Superclass destructor.
 		 */
-		virtual ~OgreOggISound(){};
+		virtual ~OgreOggISound();
 		/** Inits source object
 		@remarks
 			Initialises all the source objects states ready for playback.

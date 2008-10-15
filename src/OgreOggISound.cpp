@@ -105,6 +105,10 @@ namespace OgreOggSound
 		mOggCallbacks.tell_func	= OOSStreamTell;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	OgreOggISound::~OgreOggISound() 
+	{
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setPosition(float posx,float posy, float posz)
 	{
 		mPosition.x = posx;

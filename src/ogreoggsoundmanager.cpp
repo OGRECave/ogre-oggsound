@@ -1406,7 +1406,7 @@ namespace OgreOggSound
 		SoundMap::iterator i = mSoundMap.find(sName);
 		if (i != mSoundMap.end())
 		{
-			// Remove from active sounds list
+			/* Remove from active sounds list
 			if ( !mActiveSounds.empty() )
 			{
 				for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter )
@@ -1416,7 +1416,7 @@ namespace OgreOggSound
 						break;
 					}
 			}
-
+*/
 			// Remove from reactivate list
 			if ( !mSoundsToReactivate.empty() )
 			{
@@ -1429,6 +1429,8 @@ namespace OgreOggSound
 			}
 
 			// Delete sound
+			ALuint src = i->second->getSource();
+			if ( src!=AL_NONE ) releaseSoundSource(i->second);
 			delete i->second;
 			// Remove from main list
 			mSoundMap.erase(i);
