@@ -272,7 +272,7 @@ namespace OgreOggSound
 			@param
 				fadeTime Time over which to fade (>0)
 		*/
-		void startFade(bool dir, Ogre::Real fadeTime);
+		void startFade(bool dir, Ogre::Real fadeTime, bool pauseOnCompletion=false);
 		/** Updates sund
 		@remarks
 			Updates sounds position, buffers and state
@@ -433,6 +433,7 @@ namespace OgreOggSound
 		Ogre::Real mFadeInitVol;
 		Ogre::Real mFadeEndVol;
 		bool mFade;
+		bool mFadeEndPause;
 
 		// Ogre resource stream pointer
 		Ogre::DataStreamPtr mAudioStream;

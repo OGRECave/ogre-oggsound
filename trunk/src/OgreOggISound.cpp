@@ -87,6 +87,7 @@ namespace OgreOggSound
 	mFadeInitVol(0), 
 	mFadeEndVol(1), 
 	mFade(false),  
+	mFadeEndPause(false),  
 	mStream(false), 
 	mFinCBEnabled(false), 
 	mLoopCBEnabled(false), 
@@ -290,13 +291,22 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::startFade(bool fDir, Ogre::Real fadeTime)
+	void OgreOggISound::startFade(bool fDir, Ogre::Real fadeTime, bool pauseOnComplete)
 	{
 		mFade=true;
 	    mFadeInitVol=fDir? 0.f : getVolume();
 		mFadeEndVol=fDir?1.f:0.f;
 		mFadeTimer=0.f;
-		mFadeTime = fadeTime; 
+		mFadeEndPause=pauseOnComplete;
+		mFadeTime = fadeTime;
+		// Automatically start if not currently playing
+		if ( mFadeEndVol==1 )
+			if ( !isPlaying() )
+#if OGGSOUND_THREADED==0
+				this->play();
+#else
+				OgreOggSoundManager::getSingleton().playSound(this->getName());
+#endif
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -308,6 +318,11 @@ namespace OgreOggSound
 			{
 				setVolume(mFadeEndVol);
 				mFade = false;
+#if OGGSOUND_THREADED==0
+				if ( mFadeEndPause ) pause();
+#else
+				OgreOggSoundManager::getSingleton().pauseSound(this->getName());
+#endif
 			}
 			else
 			{
