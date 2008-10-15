@@ -87,7 +87,7 @@ namespace OgreOggSound
 	mFadeInitVol(0), 
 	mFadeEndVol(1), 
 	mFade(false),  
-	mFadeEndPause(false),  
+	mFadeEndAction(OgreOggSound::NONE),  
 	mStream(false), 
 	mFinCBEnabled(false), 
 	mLoopCBEnabled(false), 
@@ -291,13 +291,13 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::startFade(bool fDir, Ogre::Real fadeTime, bool pauseOnComplete)
+	void OgreOggISound::startFade(bool fDir, Ogre::Real fadeTime, FadeControl actionOnComplete)
 	{
 		mFade=true;
 	    mFadeInitVol=fDir? 0.f : getVolume();
 		mFadeEndVol=fDir?1.f:0.f;
 		mFadeTimer=0.f;
-		mFadeEndPause=pauseOnComplete;
+		mFadeEndAction=actionOnComplete;
 		mFadeTime = fadeTime;
 		// Automatically start if not currently playing
 		if ( mFadeEndVol==1 )
@@ -318,11 +318,27 @@ namespace OgreOggSound
 			{
 				setVolume(mFadeEndVol);
 				mFade = false;
+				// Perform requested action on completion
+				// NOTE:- Must go through SoundManager when using threads to avoid any corruption/mutex issues.
+				switch ( mFadeEndAction ) 
+				{
+				case PAUSE: 
+					{ 
 #if OGGSOUND_THREADED==0
-				if ( mFadeEndPause ) pause();
+						pause(); 
 #else
-				OgreOggSoundManager::getSingleton().pauseSound(this->getName());
+						OgreOggSoundManager::getSingleton().pauseSound(getName());
 #endif
+					} break;
+				case STOP: 
+					{ 
+#if OGGSOUND_THREADED==0
+						stop(); 
+#else
+						OgreOggSoundManager::getSingleton().stopSound(getName());
+#endif
+					} break;
+				}
 			}
 			else
 			{
