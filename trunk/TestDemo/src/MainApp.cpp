@@ -115,7 +115,7 @@ void MainApp::createScene()
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
 	/** Sound one - non streamed, looping, moving */
-	mSoundManager->createSound("One", "one.ogg", true, true);	
+	mSoundManager->createSound("One", "one.ogg", false, true);	
 	mSoundManager->getSound("One")->setMaxDistance(250);
 	mSoundManager->getSound("One")->setReferenceDistance(50);
 	nOgreHead->attachObject(mSoundManager->getSound("One"));
