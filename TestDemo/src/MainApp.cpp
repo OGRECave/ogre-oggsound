@@ -164,6 +164,8 @@ void MainApp::finishedCB(OgreOggISound* sound)
 bool MainApp::frameStarted( const Ogre::FrameEvent& evt )
 {
 	mFrameTime = evt.timeSinceLastFrame;
+	static int count=0;
+	static Ogre::Real cTime=0.f;
 
 	mInputManager->capture();	
 
@@ -178,6 +180,13 @@ bool MainApp::frameStarted( const Ogre::FrameEvent& evt )
 
 	Ogre::SceneNode *nMonsterAxis = mSceneMgr->getSceneNode("OgreMonsterAxis");
 
+	if ( (cTime+=evt.timeSinceLastFrame) > 1.f )
+	{
+		Ogre::String name="sound"+Ogre::StringConverter::toString(count++);
+		OgreOggISound* sound = mSoundManager->createSound(name, "background.ogg", true, true, true);
+		sound->play();
+		cTime=0.f;
+	}
 	mSoundManager->update(evt.timeSinceLastFrame);
 	
 	if (mQuit) return false;	

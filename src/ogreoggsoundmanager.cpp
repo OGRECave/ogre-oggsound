@@ -1463,6 +1463,7 @@ namespace OgreOggSound
 			if ((*i)->mPrebuffer ) requestSoundSource((*i)->mSound);
 
 			// Remove from queue
+			delete (*i);
 			i=mQueuedSounds.erase(i);
 		}	
 	}
