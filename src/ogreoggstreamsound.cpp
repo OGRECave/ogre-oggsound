@@ -30,13 +30,14 @@ namespace OgreOggSound
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamSound::OgreOggStreamSound(const Ogre::String& name) : OgreOggISound(name)
+	,mOggFile(0)						
+	,mVorbisInfo(0)			
+	,mVorbisComment(0)		
+	,mStreamEOF(false)	
+	,mPlayDelayed(false)	
 	{
 		mStream=true;
-		mOggFile=0;						
-		mVorbisInfo=0;			
-		mVorbisComment=0;		
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;		
-		mStreamEOF=false;	
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamSound::~OgreOggStreamSound()
@@ -74,7 +75,8 @@ namespace OgreOggSound
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
-
+		
+		mFileOpened = true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_release()
@@ -206,7 +208,10 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_updateAudioBuffers()
 	{	
-		if(mSource == AL_NONE || !mPlay) return;	
+		if (mSource == AL_NONE || !mPlay) return;	
+
+		// Automatically play if ready.
+		if (mPlayDelayed) play();
 
 		ALenum state;    
 		alGetSourcei(mSource, AL_SOURCE_STATE, &state);	
@@ -339,19 +344,32 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::play()
 	{	
-		if(isPlaying())	return;
+		if (isPlaying())
+			return;
+		
+		if (!mFileOpened)	
+		{
+			mPlayDelayed = true;
+			mPlay = true;
+			return;
+		}
 
 		// Grab a source if not already attached
 		if (mSource == AL_NONE)
 			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
 				return;
 	
-		// Set play flag
-		mPlay = true;
-
+		alGetError();
 		// Play source
 		alSourcePlay(mSource);	
-		if ( alGetError() ) Ogre::LogManager::getSingleton().logMessage("Unable to play sound");
+		if ( alGetError() ) 
+		{
+			Ogre::LogManager::getSingleton().logMessage("Unable to play sound");
+			return;
+		}
+		// Set play flag
+		mPlay = true;
+		mPlayDelayed = false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::stop()
@@ -362,7 +380,8 @@ namespace OgreOggSound
 			_dequeue();
 
 			// Stop playback
-			mPlay=false;
+			mPlay = false;
+			mPlayDelayed = false;
 
 			// Reset stream pointer
 			ov_time_seek(&mOggStream,0);	
