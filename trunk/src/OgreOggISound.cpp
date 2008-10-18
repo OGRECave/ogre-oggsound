@@ -108,6 +108,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound::~OgreOggISound() 
 	{
+		mAudioStream.setNull();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setPosition(float posx,float posy, float posz)
