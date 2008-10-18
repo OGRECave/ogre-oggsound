@@ -30,14 +30,14 @@ namespace OgreOggSound
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStaticSound::OgreOggStaticSound(const Ogre::String& name) : OgreOggISound(name)
+	,mOggFile(0)						
+	,mVorbisInfo(0)			
+	,mVorbisComment(0)		
+	,mPreviousOffset(0)
+	,mBuffer(0)	
+	,mPlayDelayed(false)	
 	{
 		mStream=false;
-		mOggFile=0;						
-		mVorbisInfo=0;			
-		mVorbisComment=0;		
-		mBufferData.clear();	
-		mPreviousOffset=0;
-		mBuffer=0;			
 		// Disable seeking
 		mOggCallbacks.seek_func=NULL;
 		mOggCallbacks.tell_func=NULL;
@@ -98,6 +98,8 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticSound::open() - Unable to load audio data into buffer!!", Ogre::LML_CRITICAL);
 			throw std::string("Unable to load buffers with data!");
 		}
+
+		mFileOpened = true;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -235,15 +237,26 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::play()
 	{	
-		if(isPlaying())
+		if(isPlaying()) 
 			return;
+
+		// If threaded it may be possible that a sound is trying to be played
+		// before its actually been opened by the thread, if so mark it so
+		// that it can be automatically played when ready.
+		if (!mFileOpened)
+		{
+			mPlayDelayed = true;
+			mPlay = true;
+			return;
+		}
 
 		if (mSource == AL_NONE)
 			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
 				return;
 
 		alSourcePlay(mSource);	
-		mPlay=true;
+		mPlay = true;
+		mPlayDelayed = false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::stop()
@@ -254,6 +267,7 @@ namespace OgreOggSound
 		alSourceRewind(mSource);	
 		mPlay=false;
 		mPreviousOffset=0;
+		mPlayDelayed=false;
 
 		// Give up source immediately if specfied
 		if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);
@@ -273,6 +287,9 @@ namespace OgreOggSound
 	{
 		if(mSource == AL_NONE || !mPlay)
 			return;
+
+		// Automatically play if ready.
+		if (mPlayDelayed) play();
 
 		ALenum state;    
 		alGetSourcei(mSource, AL_SOURCE_STATE, &state);	

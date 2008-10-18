@@ -391,6 +391,14 @@ namespace OgreOggSound
 			mLoopCBEnabled = enable;
 		}
 
+		/** Returns whether file stream is ready for access
+		@remarks
+			To prevent ov_open_callbacks() stalling the calling thread, the file opening is farmed 
+			out to the extra thread to be handled synchronously. This functions returns the status of 
+			that operation.
+		*/
+		bool _isFileReady() { return mFileOpened; }
+
 	private:
 	
 		/** Release all OpenAL objects
@@ -485,6 +493,7 @@ namespace OgreOggSound
 		bool mPlay;						// Play status
 		bool mGiveUpSource;				// Flag to indicate whether sound should release its source when stopped
 		bool mStream;					// Stream flag
+		bool mFileOpened;				// File status flag (multi-threaded ONLY)
 		bool mSourceRelative;			// Relative position flag
 		bool mLocalTransformDirty;		// Transformation update flag
 

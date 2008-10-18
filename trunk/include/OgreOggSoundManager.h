@@ -55,6 +55,17 @@ namespace OgreOggSound
 	typedef std::vector<OgreOggISound*> ActiveList;
 	typedef std::vector<ALuint> SourceList;
 
+	/** Structure holding information for a threaded file open operation.
+	*/
+	struct delayedFileOpen
+	{
+		bool mPrebuffer;
+		Ogre::DataStreamPtr mFile;
+		OgreOggISound* mSound;
+	};
+
+	typedef std::vector<delayedFileOpen*> FileOpenList;
+
 	/** Handles ALL sounds 
 	 */
 	class _OGGSOUND_EXPORT OgreOggSoundManager : public Ogre::Singleton<OgreOggSoundManager>
@@ -262,6 +273,13 @@ namespace OgreOggSound
 		/** Returns number of sources created.
 		 */
 		int getNumSources() { return mNumSources; }
+		/** Opens all queued sounds.
+		@remarks
+			To prevent calling thread blocking when using ov_open_callbacks() we offload this call
+			onto the update thread. This function basically opens an ogg file for reading and notifys
+			its parent sound that its ready to be used.
+		 */
+		void processQueuedSounds(void);
 		/** Updates system.
 		@remarks
 			Iterates all sounds and updates them.
@@ -441,12 +459,13 @@ namespace OgreOggSound
 		{
 			while(!mShuttingDown)
 			{
+				OgreOggSoundManager::getSingleton().processQueuedSounds();
 				OgreOggSoundManager::getSingleton().updateBuffers();
 				mUpdateThread->yield();
 			}
 		}
 
-	#endif
+#endif
 
 	private:
 
@@ -527,6 +546,7 @@ namespace OgreOggSound
 		 */
 		SoundMap mSoundMap;						// Map of all sounds
 		ActiveList mActiveSounds;				// list of sounds currently active 
+		FileOpenList mQueuedSounds;				// list of sounds queued to be opened (multi-threaded ONLY)
 		ActiveList mPausedSounds;				// list of sounds currently paused
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		SourceList mSourcePool;					// List of available sources

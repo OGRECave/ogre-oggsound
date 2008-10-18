@@ -1160,10 +1160,12 @@ namespace OgreOggSound
 			else 
 				mSoundMap[name] = new OgreOggStaticSound(name);
 
-			// Read audio file
-			mSoundMap[name]->open(soundData);
 			// Set loop flag
 			mSoundMap[name]->loop(loop);
+
+#if OGGSOUND_THREADED==0
+			// Read audio file
+			mSoundMap[name]->open(soundData);
 			// If requested to preBuffer - grab free source and init
 			if (preBuffer)
 			{
@@ -1173,7 +1175,13 @@ namespace OgreOggSound
 					Ogre::LogManager::getSingleton().logMessage(msg);
 				}
 			}
-
+#else
+			delayedFileOpen* fo = new delayedFileOpen;
+			fo->mPrebuffer = preBuffer;
+			fo->mFile = soundData;
+			fo->mSound = mSoundMap[name];
+			mQueuedSounds.push_back(fo);
+#endif
 			return mSoundMap[name];
 		}
 		else if	(file.find(".wav") != std::string::npos || file.find(".WAV") != std::string::npos)
@@ -1436,6 +1444,27 @@ namespace OgreOggSound
 			mSoundMap.erase(i);
 		}
 
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::processQueuedSounds()
+	{
+	#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+	#endif
+		if (mQueuedSounds.empty()) return;
+
+		FileOpenList::iterator i = mQueuedSounds.begin();
+		while( i != mQueuedSounds.end())
+		{
+			// Open file for reading
+			(*i)->mSound->open((*i)->mFile);
+
+			// Prebuffer if requested
+			if ((*i)->mPrebuffer ) requestSoundSource((*i)->mSound);
+
+			// Remove from queue
+			i=mQueuedSounds.erase(i);
+		}	
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::updateBuffers()
