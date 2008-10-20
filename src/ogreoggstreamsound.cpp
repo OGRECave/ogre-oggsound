@@ -344,16 +344,19 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::play()
 	{	
-		if (isPlaying())
-			return;
-		
-		if (!mFileOpened)	
+		// If threaded it may be possible that a sound is trying to be played
+		// before its actually been opened by the thread, if so mark it so
+		// that it can be automatically played when ready.
+		if (!mFileOpened)
 		{
 			mPlayDelayed = true;
 			mPlay = true;
 			return;
 		}
 
+		if (isPlaying())
+			return;
+		
 		// Grab a source if not already attached
 		if (mSource == AL_NONE)
 			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )

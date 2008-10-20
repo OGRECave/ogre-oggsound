@@ -119,7 +119,7 @@ void MainApp::createScene()
 	mSoundManager->getSound("One")->setMaxDistance(250);
 	mSoundManager->getSound("One")->setReferenceDistance(50);
 	nOgreHead->attachObject(mSoundManager->getSound("One"));
-	mSoundManager->getSound("One")->play();
+	mSoundManager->playSound("One");
 	
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
@@ -133,14 +133,14 @@ void MainApp::createScene()
 		mSoundManager->createEFXEffect("Auditorium", AL_EFFECT_EAXREVERB, &props);
 		mSoundManager->attachEffectToSound("Two", 0, "Auditorium");
 	}
-	mSoundManager->getSound("Two")->play();
+	mSoundManager->playSound("Two");
 	
 	/** Sound one - non streamed, looping, moving */
 	mSoundManager->createSound("Three", "one.ogg", false, true);	
 	mSoundManager->getSound("Three")->setMaxDistance(50);
 	mSoundManager->getSound("Three")->setReferenceDistance(5);
 	mOgreMonster->attachObject(mSoundManager->getSound("Three"));
-	mSoundManager->getSound("Three")->play();
+	mSoundManager->playSound("Three");
 	
 	/** Sound one - streamed, looping, EFX Direct filter */
 	mSoundManager->createSound("background", "background.ogg", true, true, true);
