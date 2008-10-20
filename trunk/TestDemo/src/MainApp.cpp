@@ -123,7 +123,7 @@ void MainApp::createScene()
 	
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
-	mSoundManager->createSound("Two", "one.ogg", false, false, true);	
+	mSoundManager->createSound("Two", "one.ogg", false, false);	
 	mSoundManager->getSound("Two")->setMaxDistance(50);
 	mSoundManager->getSound("Two")->setReferenceDistance(5);
 	nOgreMonster->attachObject(mSoundManager->getSound("Two"));
@@ -164,8 +164,6 @@ void MainApp::finishedCB(OgreOggISound* sound)
 bool MainApp::frameStarted( const Ogre::FrameEvent& evt )
 {
 	mFrameTime = evt.timeSinceLastFrame;
-	static int count=0;
-	static Ogre::Real cTime=0.f;
 
 	mInputManager->capture();	
 
@@ -179,14 +177,6 @@ bool MainApp::frameStarted( const Ogre::FrameEvent& evt )
 	nHeadAxis->rotate(Ogre::Quaternion(Ogre::Degree(20.0f * evt.timeSinceLastFrame),Ogre::Vector3::UNIT_Y));
 
 	Ogre::SceneNode *nMonsterAxis = mSceneMgr->getSceneNode("OgreMonsterAxis");
-
-	if ( (cTime+=evt.timeSinceLastFrame) > 1.f )
-	{
-		Ogre::String name="sound"+Ogre::StringConverter::toString(count++);
-		OgreOggISound* sound = mSoundManager->createSound(name, "background.ogg", true, true, true);
-		sound->play();
-		cTime=0.f;
-	}
 	mSoundManager->update(evt.timeSinceLastFrame);
 	
 	if (mQuit) return false;	

@@ -1199,6 +1199,7 @@ namespace OgreOggSound
 			else 
 				mSoundMap[name] = new OgreOggStaticWavSound(name);
 
+#if OGGSOUND_THREADED==0
 			// Read audio file
 			mSoundMap[name]->open(soundData);
 			// Set loop flag
@@ -1212,7 +1213,13 @@ namespace OgreOggSound
 					Ogre::LogManager::getSingleton().logMessage(msg);
 				}
 			}
-
+#else
+			delayedFileOpen* fo = new delayedFileOpen;
+			fo->mPrebuffer = preBuffer;
+			fo->mFile = soundData;
+			fo->mSound = mSoundMap[name];
+			mQueuedSounds.push_back(fo);
+#endif
 			return mSoundMap[name];
 		}
 		else

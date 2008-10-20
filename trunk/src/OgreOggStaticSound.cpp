@@ -35,7 +35,6 @@ namespace OgreOggSound
 	,mVorbisComment(0)		
 	,mPreviousOffset(0)
 	,mBuffer(0)	
-	,mPlayDelayed(false)	
 	{
 		mStream=false;
 		// Disable seeking

@@ -34,7 +34,6 @@ namespace OgreOggSound
 	,mVorbisInfo(0)			
 	,mVorbisComment(0)		
 	,mStreamEOF(false)	
-	,mPlayDelayed(false)	
 	{
 		mStream=true;
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;		

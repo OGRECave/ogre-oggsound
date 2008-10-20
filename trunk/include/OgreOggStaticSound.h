@@ -138,8 +138,6 @@ namespace OgreOggSound
 		ALenum mFormat;						// OpenAL buffer format
 		ALint mPreviousOffset;				// Current play position
 
-		bool mPlayDelayed;					// Flag to signal sound needs playing when ready
-
 		friend class OgreOggSoundManager;	
 	};
 }

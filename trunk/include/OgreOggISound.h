@@ -495,6 +495,7 @@ namespace OgreOggSound
 		bool mStream;					// Stream flag
 		bool mFileOpened;				// File status flag (multi-threaded ONLY)
 		bool mSourceRelative;			// Relative position flag
+		bool mPlayDelayed;				// Queue play flag
 		bool mLocalTransformDirty;		// Transformation update flag
 
 		friend class OgreOggSoundManager;

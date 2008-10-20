@@ -97,6 +97,7 @@ namespace OgreOggSound
 	mLoopCB(0), 
 	mFileOpened(false),
 	mLocalTransformDirty(false),
+	mPlayDelayed(false),
 	mSourceRelative(false)
 	{
 		// Init some oggVorbis callbacks
