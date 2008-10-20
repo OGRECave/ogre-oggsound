@@ -208,10 +208,11 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_updateAudioBuffers()
 	{	
-		if (mSource == AL_NONE || !mPlay) return;	
-
 		// Automatically play if ready.
-		if (mPlayDelayed) play();
+		if (mPlayDelayed) 
+			play();
+
+		if (mSource == AL_NONE || !mPlay) return;	
 
 		ALenum state;    
 		alGetSourcei(mSource, AL_SOURCE_STATE, &state);	
