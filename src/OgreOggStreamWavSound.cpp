@@ -217,6 +217,8 @@ namespace OgreOggSound
 			throw std::string("Format NOT supported!");
 		}
 
+		// Set ready flag
+		mFileOpened = true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStreamWavSound::_queryBufferInfo()
@@ -391,6 +393,10 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_updateAudioBuffers()
 	{	
+		// Automatically play if previously delayed
+		if (mPlayDelayed) 
+			play();
+
 		if(mSource == AL_NONE || !mPlay) return;	
 
 		ALenum state;    
@@ -525,18 +531,30 @@ namespace OgreOggSound
 	void OgreOggStreamWavSound::play()
 	{	
 		if(isPlaying())	return;
+		
+		if (!mFileOpened)	
+		{
+			mPlayDelayed = true;
+			mPlay = true;
+			return;
+		}
 
 		// Grab a source if not already attached
 		if (mSource == AL_NONE)
 			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
 				return;
-	
-		// Set play flag
-		mPlay = true;
 
 		// Play source
 		alSourcePlay(mSource);	
-		if ( alGetError() ) Ogre::LogManager::getSingleton().logMessage("Unable to play sound");
+		if ( alGetError() ) 
+		{
+			Ogre::LogManager::getSingleton().logMessage("Unable to play sound");
+			return;
+		}
+
+		// Set play flag
+		mPlay = true;
+		mPlayDelayed = false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::stop()

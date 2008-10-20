@@ -255,6 +255,9 @@ namespace OgreOggSound
 			throw std::string("Unable to load buffers with data!");
 		}
 		delete [] sound_buffer;
+
+		// Set ready flag
+		mFileOpened = true;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -437,13 +440,21 @@ namespace OgreOggSound
 	{	
 		if(isPlaying())
 			return;
+	
+		if (!mFileOpened)	
+		{
+			mPlayDelayed = true;
+			mPlay = true;
+			return;
+		}
 
 		if (mSource == AL_NONE)
 			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
 				return;
 
 		alSourcePlay(mSource);	
-		mPlay=true;
+		mPlay = true;
+		mPlayDelayed = false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticWavSound::stop()
@@ -471,6 +482,10 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticWavSound::_updateAudioBuffers()
 	{
+		// Automatically play if previously delayed
+		if (mPlayDelayed)
+			play();
+
 		if(mSource == AL_NONE || !mPlay)
 			return;
 
