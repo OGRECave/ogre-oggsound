@@ -25,7 +25,6 @@
 #include "ogg/ogg.h"
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
-#include <al.h>
 
 #include "OgreOggISound.h"
 

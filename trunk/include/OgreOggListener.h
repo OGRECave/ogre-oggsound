@@ -21,7 +21,6 @@
 #pragma once
 
 #include "OgreOggSoundPrereqs.h"
-#include <al.h>
 #include <OgreVector3.h>
 #include <OgreMovableObject.h>
 

@@ -1250,7 +1250,7 @@ namespace OgreOggSound
 		// Catch exception when plugin hasn't been registered
 		try
 		{
-			sound = static_cast<OgreOggISound*>(scnMgr.createMovableObject( name, "OgreOggISound", &params ));		
+			sound = static_cast<OgreOggISound*>(scnMgr.createMovableObject( name, OgreOggSoundFactory::FACTORY_TYPE_NAME, &params ));		
 			sound->mScnMan = &scnMgr;
 		}
 		catch (...)
@@ -1486,7 +1486,7 @@ namespace OgreOggSound
 		{
 			// If created via plugin call destroyMovableObject() which will call _destroy()
 			if (i->second->mScnMan)
-				i->second->mScnMan->destroyMovableObject(i->second->getName(), "OgreOggISound");
+				i->second->mScnMan->destroyMovableObject(i->second->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
 			// else call _destroy() directly
 			else
 				_destroy(i->second);

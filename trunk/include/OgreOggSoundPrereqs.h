@@ -20,13 +20,35 @@
 
 #pragma once
 
-/**
- * DLL linkage
- */
-#ifdef OGGSOUND_EXPORT
-	#define _OGGSOUND_EXPORT __declspec(dllexport)
-#else
-	#define _OGGSOUND_EXPORT __declspec(dllimport)
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#	include "al.h"
+#	include "alc.h"
+#	include "efx.h"
+#	include "efx-util.h"
+#	include "efx-creative.h"
+#	include "xram.h"
+#	if OGRE_COMPILER == OGRE_COMPILER_MSVC
+#		ifdef OGGSOUND_EXPORT
+#			define _OGGSOUND_EXPORT __declspec(dllexport)
+#		else
+#			define _OGGSOUND_EXPORT __declspec(dllimport)
+#		endif
+#	else
+#		define _OGGSOUND_EXPORT 
+#	endif
+#elif OGRE_COMPILER == OGRE_COMPILER_GNUC
+#	include "AL/al.h"
+#	include "AL/alc.h"
+#	if defined(OGGSOUND_EXPORT) && OGRE_COMP_VER >= 400
+#		define _OGGSOUND_EXPORT __attribute__ ((visibility("default")))
+#	else
+#		define _OGGSOUND_EXPORT
+#	endif
+#else // Other Compilers
+#	include "al.h"
+#	include "alc.h"
+#	include "xram.h"
+#	define _OGGSOUND_EXPORT
 #endif
 
 /**
@@ -35,7 +57,7 @@
  * 1 - BOOST multithreaded 
  */
 #ifndef OGGSOUND_THREADED
-#	define OGGSOUND_THREADED 1
+	#define OGGSOUND_THREADED 1
 #endif
 
 

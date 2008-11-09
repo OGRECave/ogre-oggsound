@@ -21,12 +21,6 @@
 #pragma once
 
 #include "OgreOggSoundPrereqs.h"
-#include <al.h>
-#include <alc.h>
-#include "efx.h"
-#include "efx-util.h"
-#include "efx-creative.h"
-#include "XRam.h"
 
 #include <map>
 #include <string>
