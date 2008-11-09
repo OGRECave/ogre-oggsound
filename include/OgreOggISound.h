@@ -23,7 +23,6 @@
 #include "OgreOggSoundPrereqs.h"
 #include <string>
 #include <Ogre.h>
-#include <al.h>
 #include <vorbis/vorbisfile.h>
 #include "OgreOggSoundCallback.h"
 
@@ -301,7 +300,7 @@ namespace OgreOggSound
 		ALuint getSource() { return mSource; }
 		/** Gets the sounds name
 		 */
-		const Ogre::String& getName() const { return mName; }
+		const Ogre::String& getName( void ) const { return mName; }
 		/** Gets the sounds priority
 		 */
 		Ogre::uint8 getPriority() { return mPriority; }
