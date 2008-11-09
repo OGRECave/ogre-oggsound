@@ -34,6 +34,7 @@
     <ul>
       <li><a href="#index_a"><span>a</span></a></li>
       <li><a href="#index_d"><span>d</span></a></li>
+      <li><a href="#index_f"><span>f</span></a></li>
       <li><a href="#index_m"><span>m</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
     </ul>
@@ -118,6 +119,10 @@
 <li>dataSize
 : <a class="el" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#092a0b0a12f8f852809fe9f7eb70a901">OgreOggSound::SOggFile</a>
 </ul>
+<h3><a class="anchor" name="index_f">- f -</a></h3><ul>
+<li>FACTORY_TYPE_NAME
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html#b04e0959d540f0444cfa31c76ba91d7b">OgreOggSound::OgreOggSoundFactory</a>
+</ul>
 <h3><a class="anchor" name="index_m">- m -</a></h3><ul>
 <li>mActiveSounds
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#fd00da81a1e07957db5315f489bb55aa">OgreOggSound::OgreOggSoundManager</a>
@@ -184,6 +189,10 @@
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#61ffc5cfddf5504793a5d925ac6cf164">OgreOggSound::OgreOggISound</a>
 <li>mFadeTimer
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#c81a26ff7bc8ea8706c3defd125d0bc8">OgreOggSound::OgreOggISound</a>
+<li>mFile
+: <a class="el" href="struct_ogre_ogg_sound_1_1delayed_file_open.html#3cce65c2ea94d50a2abdf40d16df8cd2">OgreOggSound::delayedFileOpen</a>
+<li>mFileOpened
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#97f2653254efcfb96826620e540c0a98">OgreOggSound::OgreOggISound</a>
 <li>mFilterList
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#655696078335197a2abdd3201313bd2e">OgreOggSound::OgreOggSoundManager</a>
 <li>mFinCBEnabled
@@ -246,9 +255,13 @@
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#3d8205e8db72a7bc6c0787ac8546a109">OgreOggSound::OgreOggStaticWavSound</a>
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#aaae6b578179af7b310398430fc2dd35">OgreOggSound::OgreOggStreamSound</a>
 <li>mOggStream
-: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#5d0a3dda14b47aec65f724d60a266329">OgreOggSound::OgreOggStaticSound</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#99551d3ec92d7042e20df87e8c1ac0dd">OgreOggSound::OgreOggStaticWavSound</a>
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#99551d3ec92d7042e20df87e8c1ac0dd">OgreOggSound::OgreOggStaticWavSound</a>
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#352eccb0e2eefdbec233d8edd6d5308c">OgreOggSound::OgreOggStreamSound</a>
+, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#5d0a3dda14b47aec65f724d60a266329">OgreOggSound::OgreOggStaticSound</a>
+<li>mOgreOggSoundFactory
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#fc5813150bd927b4ceec391efa90d402">OgreOggSound::OgreOggSoundPlugin</a>
+<li>mOgreOggSoundManager
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#103549c1fc2569c1af089c0ee3aa8587">OgreOggSound::OgreOggSoundPlugin</a>
 <li>mOrientation
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#28d8e501057c4c20e376e7aebee76bc1">OgreOggSound::OgreOggListener</a>
 <li>mOuterConeAngle
@@ -261,14 +274,20 @@
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#688b09a393bb0d3be1a8e9bffe078633">OgreOggSound::OgreOggISound</a>
 <li>mPlay
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#5f2bfbad2bc45abd27819187eb9934be">OgreOggSound::OgreOggISound</a>
+<li>mPlayDelayed
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#5a8d56318721cfc3dfb6164e75790f28">OgreOggSound::OgreOggISound</a>
 <li>mPosition
-: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#a76adf0ebfab22f7363748988591830d">OgreOggSound::OgreOggListener</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#78310415a7786c577b69e5bff90008af">OgreOggSound::OgreOggISound</a>
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#78310415a7786c577b69e5bff90008af">OgreOggSound::OgreOggISound</a>
+, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#a76adf0ebfab22f7363748988591830d">OgreOggSound::OgreOggListener</a>
+<li>mPrebuffer
+: <a class="el" href="struct_ogre_ogg_sound_1_1delayed_file_open.html#a5d9785d61505fb9db44629d461a87c4">OgreOggSound::delayedFileOpen</a>
 <li>mPreviousOffset
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#a4185a1e573b81536d3175292c5d2ffa">OgreOggSound::OgreOggStaticSound</a>
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#eacda1e3fa2a8b227783d8f3ba0cb847">OgreOggSound::OgreOggStaticWavSound</a>
 <li>mPriority
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#82aaad104932a2ee6b47f257d6348a25">OgreOggSound::OgreOggISound</a>
+<li>mQueuedSounds
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9c323eba11afb5ba30ec3df890a1e835">OgreOggSound::OgreOggSoundManager</a>
 <li>mReferenceDistance
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#cbba83421bb3ea29b44c76cf88c03493">OgreOggSound::OgreOggISound</a>
 <li>mRolloffFactor
@@ -277,8 +296,12 @@
 : <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#3e5052dbe836fcff70b1fc415bd530dc">OgreOggSound::WavFormatData</a>
 <li>mSamples
 : <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#de489295b0318a0dcb14dfeb7403c0a6">OgreOggSound::WavFormatData</a>
+<li>mScnMan
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#5922b7f7f0c5070a9c6fec01f5b32f58">OgreOggSound::OgreOggISound</a>
 <li>mShuttingDown
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1f19095ef8aaad6cdadb8e6a162aaa33">OgreOggSound::OgreOggSoundManager</a>
+<li>mSound
+: <a class="el" href="struct_ogre_ogg_sound_1_1delayed_file_open.html#59b35e34687722e1b617fa923315a2ec">OgreOggSound::delayedFileOpen</a>
 <li>mSoundMap
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4e54b136c703aca33fdc14184b8b893a">OgreOggSound::OgreOggSoundManager</a>
 <li>mSoundsToReactivate
@@ -303,13 +326,13 @@
 <li>mVelocity
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a7ade54c675ba13eb3e8f6e0e1bb5d8d">OgreOggSound::OgreOggISound</a>
 <li>mVorbisComment
-: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#aae902124eb2fa366fdf305ad8c1b6c8">OgreOggSound::OgreOggStaticSound</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#f67ace4b8dd405f70c0a22969d2b5571">OgreOggSound::OgreOggStreamSound</a>
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#f67ace4b8dd405f70c0a22969d2b5571">OgreOggSound::OgreOggStreamSound</a>
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#d619fab3e29d67a08257d069733c28a2">OgreOggSound::OgreOggStaticWavSound</a>
+, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#aae902124eb2fa366fdf305ad8c1b6c8">OgreOggSound::OgreOggStaticSound</a>
 <li>mVorbisInfo
-: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#d62700365385424d45a4822fe8aba76d">OgreOggSound::OgreOggStaticSound</a>
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#e1bfaca9da6779820d7c5f3c2b1830cc">OgreOggSound::OgreOggStaticWavSound</a>
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#ab826f29ed286aac59f93f5a37f1f491">OgreOggSound::OgreOggStreamSound</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#e1bfaca9da6779820d7c5f3c2b1830cc">OgreOggSound::OgreOggStaticWavSound</a>
+, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#d62700365385424d45a4822fe8aba76d">OgreOggSound::OgreOggStaticSound</a>
 <li>mXRamAccessible
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#b3f98b969d433edf5ca6f388485a179e">OgreOggSound::OgreOggSoundManager</a>
 <li>mXRamAuto
@@ -332,7 +355,7 @@
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1d40332ae4814c9a2fd266e87fe4e2ea">OgreOggSound::OgreOggSoundManager</a>
 </ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Oct 15 12:42:37 2008 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 9 14:30:02 2008 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

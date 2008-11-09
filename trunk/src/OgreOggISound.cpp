@@ -96,6 +96,7 @@ namespace OgreOggSound
 	mFinishedCB(0), 
 	mLoopCB(0), 
 	mFileOpened(false),
+	mScnMan(0),
 	mLocalTransformDirty(false),
 	mPlayDelayed(false),
 	mSourceRelative(false)

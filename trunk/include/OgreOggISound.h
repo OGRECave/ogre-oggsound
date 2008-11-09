@@ -301,7 +301,7 @@ namespace OgreOggSound
 		ALuint getSource() { return mSource; }
 		/** Gets the sounds name
 		 */
-		const Ogre::String& getName() { return mName; }
+		const Ogre::String& getName() const { return mName; }
 		/** Gets the sounds priority
 		 */
 		Ogre::uint8 getPriority() { return mPriority; }
@@ -391,6 +391,13 @@ namespace OgreOggSound
 			mLoopCBEnabled = enable;
 		}
 
+		/** Gets the SceneManager pointer registered at creation.
+		@remarks
+			This will only be set if the sound was created through the plugin method
+			createMovableobject().
+		*/
+		Ogre::SceneManager* getSceneManager() { return mScnMan; }
+
 		/** Returns whether file stream is ready for access
 		@remarks
 			To prevent ov_open_callbacks() stalling the calling thread, the file opening is farmed 
@@ -474,6 +481,7 @@ namespace OgreOggSound
 		/** Sound properties 
 		 */
 		ALuint mSource;					// OpenAL Source
+		Ogre::SceneManager* mScnMan;	// SceneManager pointer for plugin registered sounds
 		Ogre::uint8 mPriority;			// Priority assigned to source 
 		Ogre::Vector3 mPosition;		// 3D position
 		Ogre::Vector3 mDirection;		// 3D direction
