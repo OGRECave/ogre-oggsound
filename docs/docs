@@ -5,8 +5,8 @@
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = OgreOggSound
-PROJECT_NUMBER         = "Version 0.91"
-OUTPUT_DIRECTORY       = "C:/current projects/audio library/OgreOggSound/docs"
+PROJECT_NUMBER         = "Version 0.94"
+OUTPUT_DIRECTORY       = K:/Work/OgreOggSound/docs
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
@@ -93,24 +93,29 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = "C:/Current Projects/Audio Library/OgreOggSound/include/OgreOggStreamWavSound.h" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/include/apimainpage.txt" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/include/OgreOggISound.h" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/include/OgreOggListener.h" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/include/OgreOggSound.h" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/include/OgreOggSoundCallback.h" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/include/OgreOggSoundManager.h" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/include/OgreOggSoundPrereqs.h" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/include/OgreOggStaticSound.h" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/include/OgreOggStaticWavSound.h" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/include/OgreOggStreamSound.h" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/src/OgreOggStreamWavSound.cpp" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/src/OgreOggISound.cpp" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/src/OgreOggListener.cpp" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/src/ogreoggsoundmanager.cpp" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/src/OgreOggStaticSound.cpp" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/src/OgreOggStaticWavSound.cpp" \
-                         "C:/Current Projects/Audio Library/OgreOggSound/src/ogreoggstreamsound.cpp"
+INPUT                  = K:/Work/OgreOggSound/include/OgreOggStreamWavSound.h \
+                         K:/Work/OgreOggSound/include/apimainpage.txt \
+                         K:/Work/OgreOggSound/include/OgreOggISound.h \
+                         K:/Work/OgreOggSound/include/OgreOggListener.h \
+                         K:/Work/OgreOggSound/include/OgreOggSound.h \
+                         K:/Work/OgreOggSound/include/OgreOggSoundCallback.h \
+                         K:/Work/OgreOggSound/include/OgreOggSoundFactory.h \
+                         K:/Work/OgreOggSound/include/OgreOggSoundManager.h \
+                         K:/Work/OgreOggSound/include/OgreOggSoundPlugin.h \
+                         K:/Work/OgreOggSound/include/OgreOggSoundPrereqs.h \
+                         K:/Work/OgreOggSound/include/OgreOggStaticSound.h \
+                         K:/Work/OgreOggSound/include/OgreOggStaticWavSound.h \
+                         K:/Work/OgreOggSound/include/OgreOggStreamSound.h \
+                         K:/Work/OgreOggSound/src/OgreOggStreamWavSound.cpp \
+                         K:/Work/OgreOggSound/src/OgreOggISound.cpp \
+                         K:/Work/OgreOggSound/src/OgreOggListener.cpp \
+                         K:/Work/OgreOggSound/src/OgreOggSoundFactory.cpp \
+                         K:/Work/OgreOggSound/src/ogreoggsoundmanager.cpp \
+                         K:/Work/OgreOggSound/src/OgreOggSoundPlugin.cpp \
+                         K:/Work/OgreOggSound/src/OgreOggSoundPluginDllStart.cpp \
+                         K:/Work/OgreOggSound/src/OgreOggStaticSound.cpp \
+                         K:/Work/OgreOggSound/src/OgreOggStaticWavSound.cpp \
+                         K:/Work/OgreOggSound/src/ogreoggstreamsound.cpp
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \

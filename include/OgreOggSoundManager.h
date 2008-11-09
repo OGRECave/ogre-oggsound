@@ -38,6 +38,8 @@
 #include "OgreOggStaticSound.h"
 #include "OgreOggStaticWavSound.h"
 #include "OgreOggListener.h"
+#include "OgreOggSoundFactory.h"
+#include "OgreOggSoundPlugin.h"
 
 #if OGGSOUND_THREADED
 #	include <boost/thread/thread.hpp>
@@ -133,6 +135,26 @@ namespace OgreOggSound
 				preBuffer Flag indicating if a source should be attached at creation.
 		 */
 		OgreOggISound* createSound(const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);	
+		/** Creates a single sound object.
+		@remarks
+			Plugin specific version of createSound, uses createMovableObject() to instantiate
+			a sound automatically registered with the supplied SceneManager, allows OGRE to automatically
+			cleanup/manage this sound.
+			Each sound must have a unique name within the manager.
+			@param
+				scnMgr SceneManager to use to create sound
+			@param
+				name Unique name of sound
+			@param
+				file Audio file path string
+			@param
+				stream Flag indicating if the sound sound be streamed.
+			@param
+				loop Flag indicating if the file should loop.
+			@param
+				preBuffer Flag indicating if a source should be attached at creation.
+		 */
+		OgreOggISound* createSound(Ogre::SceneManager& scnMgr, const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);	
 		/** Gets a named sound.
 		@remarks
 			Returns a named sound object if defined, NULL otherwise.
@@ -466,6 +488,16 @@ namespace OgreOggSound
 		}
 
 #endif
+	protected:
+
+		/** Destroys a single sound.
+		@remarks
+			Destroys a single sound object.
+			@param
+				sound 
+					Sound to destroy.
+		 */
+		void _destroy(OgreOggISound* sound=0);
 
 	private:
 
@@ -642,5 +674,7 @@ namespace OgreOggSound
 		/**	Listener pointer
 		 */
 		OgreOggListener *mListener;				// Listener object
+
+		friend class OgreOggSoundFactory;
 	};
 }

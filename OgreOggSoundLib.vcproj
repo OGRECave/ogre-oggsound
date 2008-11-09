@@ -193,7 +193,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\OgreOggSoundFactory.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\OgreOggSoundManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\OgreOggSoundPlugin.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\OgreOggSoundPluginDllStart.cpp"
 				>
 			</File>
 			<File
@@ -235,7 +247,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\OgreOggSoundFactory.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\OgreOggSoundManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\OgreOggSoundPlugin.h"
 				>
 			</File>
 			<File

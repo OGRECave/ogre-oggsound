@@ -119,11 +119,13 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager* OgreOggSoundManager::getSingletonPtr(void)
 	{
+		if (!ms_Singleton) ms_Singleton = new OgreOggSoundManager();
 		return ms_Singleton;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager& OgreOggSoundManager::getSingleton(void)
 	{  
+		if (!ms_Singleton) ms_Singleton = new OgreOggSoundManager();
 		assert( ms_Singleton );  return ( *ms_Singleton );
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1124,7 +1126,7 @@ namespace OgreOggSound
 		else if ( mode==mXRamAccessible ) mCurrentXRamMode = mXRamAccessible;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name,const std::string& file, bool stream, bool loop, bool preBuffer)
+	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer)
 	{
 #if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
@@ -1228,6 +1230,35 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingleton().logMessage(msg);
 			return NULL;
 		}
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	OgreOggISound* OgreOggSoundManager::createSound(SceneManager& scnMgr, const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer)
+	{
+#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+#endif
+
+		Ogre::NameValuePairList params;
+		params["fileName"]	= file;
+		params["stream"]	= stream	? "true" : "false";
+		params["loop"]		= loop		? "true" : "false";
+		params["preBuffer"]	= preBuffer ? "true" : "false";
+
+		OgreOggISound* sound = 0;
+
+		// Catch exception when plugin hasn't been registered
+		try
+		{
+			sound = static_cast<OgreOggISound*>(scnMgr.createMovableObject( name, "OgreOggISound", &params ));		
+			sound->mScnMan = &scnMgr;
+		}
+		catch (...)
+		{
+			LogManager::getSingleton().logMessage("***--- createSound() - OgreOggSound plugin not loaded.");
+		}
+		// create Movable Sound
+		return sound; 
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1410,33 +1441,23 @@ namespace OgreOggSound
 		mPausedSounds.clear();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::destroySound(const Ogre::String& sName)
+	void OgreOggSoundManager::_destroy(OgreOggISound* sound)
 	{
+		if (!sound) return;
+
 	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
 
-		if ( sName.empty() ) return;
-
-		SoundMap::iterator i = mSoundMap.find(sName);
+		// Find sound in map
+		SoundMap::iterator i = mSoundMap.find(sound->getName());
 		if (i != mSoundMap.end())
 		{
-			/* Remove from active sounds list
-			if ( !mActiveSounds.empty() )
-			{
-				for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter )
-					if ( i->second==(*iter) )
-					{
-						mActiveSounds.erase(iter);
-						break;
-					}
-			}
-*/
 			// Remove from reactivate list
 			if ( !mSoundsToReactivate.empty() )
 			{
 				for ( ActiveList::iterator iter=mSoundsToReactivate.begin(); iter!=mSoundsToReactivate.end(); ++iter )
-					if ( i->second==(*iter) )
+					if ( sound==(*iter) )
 					{
 						mSoundsToReactivate.erase(iter);
 						break;
@@ -1444,13 +1465,32 @@ namespace OgreOggSound
 			}
 
 			// Delete sound
-			ALuint src = i->second->getSource();
-			if ( src!=AL_NONE ) releaseSoundSource(i->second);
-			delete i->second;
-			// Remove from main list
+			ALuint src = sound->getSource();
+			if ( src!=AL_NONE ) releaseSoundSource(sound);
+
+			// Delete sounds memory
+			delete sound;
+
+			// Remove from sound list
 			mSoundMap.erase(i);
 		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::destroySound(const Ogre::String& sName)
+	{
+		if ( sName.empty() ) return;
 
+		// Find sound in map
+		SoundMap::iterator i = mSoundMap.find(sName);
+		if (i != mSoundMap.end())
+		{
+			// If created via plugin call destroyMovableObject() which will call _destroy()
+			if (i->second->mScnMan)
+				i->second->mScnMan->destroyMovableObject(i->second->getName(), "OgreOggISound");
+			// else call _destroy() directly
+			else
+				_destroy(i->second);
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::processQueuedSounds()

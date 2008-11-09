@@ -28,8 +28,8 @@ mTranslateVectorCamera(Ogre::Vector3::ZERO),mYawAngleCamera(0)
 }
 //-----------------------------------------------------------------------
 MainApp::~MainApp()
-{	
-	delete mSoundManager;
+{
+//	delete mSoundManager;
 }
 //-----------------------------------------------------------------------
 void MainApp::requestQuit()
@@ -46,7 +46,7 @@ void MainApp::Init()
 	mInputManager->addKeyListener(this,"KeyListener");
 	mInputManager->addMouseListener(this,"MouseListener");
 
-	mSoundManager = new OgreOggSoundManager;
+	mSoundManager = OgreOggSoundManager::getSingletonPtr();
 	
 	createCamera();
 	createViewport();
@@ -115,12 +115,12 @@ void MainApp::createScene()
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
 	/** Sound one - non streamed, looping, moving */
-	mSoundManager->createSound("One", "one.ogg", false, true);	
+	mSoundManager->createSound(*mSceneMgr, "One", "one.ogg", false, true);	
 	mSoundManager->getSound("One")->setMaxDistance(250);
 	mSoundManager->getSound("One")->setReferenceDistance(50);
 	nOgreHead->attachObject(mSoundManager->getSound("One"));
 	mSoundManager->playSound("One");
-	
+
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
 	mSoundManager->createSound("Two", "one.ogg", false, false);	
