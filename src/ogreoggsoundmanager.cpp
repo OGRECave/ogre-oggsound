@@ -1201,11 +1201,12 @@ namespace OgreOggSound
 			else 
 				mSoundMap[name] = new OgreOggStaticWavSound(name);
 
+			// Set loop flag
+			mSoundMap[name]->loop(loop);
+
 #if OGGSOUND_THREADED==0
 			// Read audio file
 			mSoundMap[name]->open(soundData);
-			// Set loop flag
-			mSoundMap[name]->loop(loop);
 			// If requested to preBuffer - grab free source and init
 			if (preBuffer)
 			{
