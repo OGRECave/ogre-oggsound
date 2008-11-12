@@ -5,6 +5,8 @@
 		  via the SceneManager::createMovableObject() interface. OGRE automatically creates/destroys
 		  the manager and all sounds created via this process.
 		  NOTE:- The library still functions the same as before if you don't load via the plugin interface.
+	* Fixed loop bug in multi-threaded wav sounds not being set on creation
+	* Fixed infinite loop bug when opening wav sounds with extra information
 
 * version 0.93
 

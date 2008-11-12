@@ -91,6 +91,9 @@ namespace OgreOggSound
 				// Should be 16 unless compressed ( compressed NOT supported )
 				if ( mFormatData->mFormatChunkSize>=16 )
 				{
+					// Calculate extra info bytes
+					unsigned short extraBytes = mFormatData->mFormatChunkSize-16;
+
 					// Read in audio format  ( 2 bytes ) 
 					mAudioStream->read(&format_tag, 2);		
 
@@ -133,7 +136,18 @@ namespace OgreOggSound
 							// Read in sub format ( 16 bytes ) 
 							mAudioStream->read(&mFormatData->mSubFormat, sizeof(GUID));	
 						}
+						// Skip extra info
+						else if (extraBytes)
+						{
+							// Create byte array to hold extra bytes
+							char* info = new char[extraBytes];
 
+							// Read in extra bytes chunk
+							mAudioStream->read(info, extraBytes);
+
+							// Delete array
+							delete [] info;
+						}
 
 						// Read in chunk id ( 4 bytes ) 
 						mAudioStream->read(id, 4);					
