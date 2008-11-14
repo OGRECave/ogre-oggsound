@@ -7,6 +7,7 @@
 		  NOTE:- The library still functions the same as before if you don't load via the plugin interface.
 	* Fixed loop bug in multi-threaded wav sounds not being set on creation
 	* Fixed infinite loop bug when opening wav sounds with extra information
+	* Fixed pauseAllSounds bug not pausing sounds
 
 * version 0.93
 
