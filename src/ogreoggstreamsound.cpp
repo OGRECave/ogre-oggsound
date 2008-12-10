@@ -325,10 +325,11 @@ namespace OgreOggSound
 		alGetError();
 		alGetSourcei(mSource, AL_BUFFERS_PROCESSED, &queued);
 
-		if (queued)
+		while (queued--)
 		{
+			ALuint buffer;
 			// Remove number of buffers from source
-			alSourceUnqueueBuffers(mSource, queued, mBuffers);
+			alSourceUnqueueBuffers(mSource, 1, &buffer);
 
 			// Any problems?
 			if ( alGetError()!=AL_NO_ERROR ) Ogre::LogManager::getSingleton().logMessage("*** Unable to unqueue buffers");
