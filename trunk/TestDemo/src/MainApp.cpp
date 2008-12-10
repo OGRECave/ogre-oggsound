@@ -115,13 +115,10 @@ void MainApp::createScene()
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
 	/** Sound one - non streamed, looping, moving */
-	mSoundManager->createSound(*mSceneMgr, "One", "one.ogg", false, true);	
-	mSoundManager->getSound("One")->setMaxDistance(250);
-	mSoundManager->getSound("One")->setReferenceDistance(50);
-	nOgreHead->attachObject(mSoundManager->getSound("One"));
+	mSoundManager->createSound( *mSceneMgr, "One", "forestscore_test.wav", true, false);	
 	mSoundManager->playSound("One");
 
-	/** Sound two - prebuffered, streamed, looping, EFX room effect */
+	/** Sound two - prebuffered, streamed, looping, EFX room effect *
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
 	mSoundManager->createSound("Two", "one.ogg", false, false);	
 	mSoundManager->getSound("Two")->setMaxDistance(50);
@@ -135,14 +132,14 @@ void MainApp::createScene()
 	}
 	mSoundManager->playSound("Two");
 	
-	/** Sound one - non streamed, looping, moving */
+	/** Sound one - non streamed, looping, moving *
 	mSoundManager->createSound("Three", "one.ogg", false, true);	
 	mSoundManager->getSound("Three")->setMaxDistance(50);
 	mSoundManager->getSound("Three")->setReferenceDistance(5);
 	mOgreMonster->attachObject(mSoundManager->getSound("Three"));
 	mSoundManager->playSound("Three");
 	
-	/** Sound one - streamed, looping, EFX Direct filter */
+	/** Sound one - streamed, looping, EFX Direct filter *
 	mSoundManager->createSound("background", "background.ogg", true, true, true);
 	mSoundManager->getSound("background")->setRelativeToListener(true);
 	mSoundManager->getSound("background")->setVolume(0.2f);
@@ -152,7 +149,7 @@ void MainApp::createScene()
 		mSoundManager->createEFXFilter("LowPassTest", AL_FILTER_LOWPASS, 0.1, 0.5);
 		mSoundManager->attachFilterToSound("background", "LowPassTest");
 	}
-	mSoundManager->getSound("background")->play();
+	mSoundManager->getSound("background")->play();*/
 }
 //-----------------------------------------------------------------------
 void MainApp::finishedCB(OgreOggISound* sound)

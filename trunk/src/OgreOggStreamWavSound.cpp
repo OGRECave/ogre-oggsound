@@ -363,8 +363,11 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_release()
 	{		
-		ALuint src=AL_NONE;
-		setSource(src);
+		if ( mSource!=AL_NONE )
+		{
+			ALuint src=AL_NONE;
+			setSource(src);
+		}
 		alDeleteBuffers(NUM_BUFFERS, mBuffers);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -526,9 +529,10 @@ namespace OgreOggSound
 		alGetSourcei(mSource, AL_BUFFERS_PROCESSED, &queued);
 
 		// Remove number of buffers from source
-		if (queued) 
+		while (queued--) 
 		{
-			alSourceUnqueueBuffers(mSource, queued, mBuffers);
+			ALuint buffer;
+			alSourceUnqueueBuffers(mSource, 1, &buffer);
 
 			// Any problems?
 			if ( alGetError() ) Ogre::LogManager::getSingleton().logMessage("*** Unable to unqueue buffers");
