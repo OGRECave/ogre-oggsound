@@ -1,3 +1,7 @@
+* version 1.0
+
+	* Official stable release 
+
 * version 0.94
 
 	* Added OGRE plugin support
@@ -7,8 +11,8 @@
 		  NOTE:- The library still functions the same as before if you don't load via the plugin interface.
 	* Fixed loop bug in multi-threaded wav sounds not being set on creation
 	* Fixed infinite loop bug when opening wav sounds with extra information
-	* Fixed pauseAllSounds bug not pausing sounds	* Fixed random crash on shutdown in streamed sounds
-
+	* Fixed pauseAllSounds bug not pausing sounds	
+	* Fixed random crash on shutdown in streamed sounds
 
 * version 0.93
 
