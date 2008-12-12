@@ -57,10 +57,22 @@ namespace OgreOggSound
 	{
 		bool mPrebuffer;
 		Ogre::DataStreamPtr mFile;
+		Ogre::String mFileName;
+		ALuint mBuffer;
 		OgreOggISound* mSound;
 	};
 
+	/** Structure holding information for a static shared audio buffer.
+	*/
+	struct sharedAudioBuffer
+	{
+		ALuint mAudioBuffer;
+		unsigned int mRefCount;
+
+	};
+
 	typedef std::vector<delayedFileOpen*> FileOpenList;
+	typedef std::map<std::string, sharedAudioBuffer*> SharedBufferList;
 
 	/** Handles ALL sounds 
 	 */
@@ -452,6 +464,36 @@ namespace OgreOggSound
 				effectID OpenAL effect/filter id. (AL_EFFECT... | AL_FILTER...)
 		 */
 		bool isEffectSupported(ALint effectID);
+		/** Gets a shared audio buffer 
+		@remarks
+			Returns a previously loaded shared buffer reference if available.
+			@param sName
+				Name of audio file
+		 */
+		ALuint _getSharedBuffer(const Ogre::String& sName);
+		/** Releases a shared audio buffer 
+		@remarks
+			Each shared audio buffer is reference counted so destruction is handled correctly,
+			this function merely decrements the reference count, only destroying when no sounds
+			are referencing buffer.
+			@param sName
+				Name of audio file
+			@param buffer
+				OpenAL buffer ID holding audio data
+		 */
+		bool releaseSharedBuffer(const Ogre::String& sName, ALuint& buffer);
+		/** Registers a shared audio buffer 
+		@remarks
+			Its possible to share audio buffer data among many sources so this function
+			registers an audio buffer as 'sharable', meaning if a the same audio file is
+			created more then once, it will simply use the original buffer data instead of
+			creating/loading the same data again.
+			@param sName
+				Name of audio file
+			@param buffer
+				OpenAL buffer ID holding audio data
+		 */
+		bool registerSharedBuffer(const Ogre::String& sName, ALuint& buffer);
 
 #if OGGSOUND_THREADED
 
@@ -577,6 +619,7 @@ namespace OgreOggSound
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		SourceList mSourcePool;					// List of available sources
 		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
+		SharedBufferList mSharedBuffers;		// List of shared static buffers 
 
 		/** Manager instance
 		 */

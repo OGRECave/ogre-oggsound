@@ -47,6 +47,13 @@ namespace OgreOggSound
 				file path string
 		 */
 		void open(Ogre::DataStreamPtr& fileStream);
+		/** Opens audio file.
+		@remarks
+			Uses a shared buffer.
+			@param buffer
+				shared buffer reference
+		 */
+		void open(const Ogre::String& fName, ALuint& buffer);
 		/** Releases buffers.
 		@remarks
 			Cleans up and releases OpenAL buffer objects.
@@ -130,6 +137,8 @@ namespace OgreOggSound
 		OggVorbis_File	mOggStream;			// OggVorbis file structure
 		vorbis_info*	mVorbisInfo;		// Vorbis info 
 		vorbis_comment* mVorbisComment;		// Vorbis comments
+
+		Ogre::String	mAudioName;			// Name of audio file stream (Used with shared buffers)
 
 		std::vector<char> mBufferData;		// Sound data buffer
 

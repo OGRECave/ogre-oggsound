@@ -1131,22 +1131,32 @@ namespace OgreOggSound
 #if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 #endif
-
-		Ogre::ResourceGroupManager* groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
+		Ogre::ResourceGroupManager* groupManager = 0;
 		Ogre::String group;
 		Ogre::DataStreamPtr soundData;
-		try
-		{
-			group = groupManager->findGroupContainingResource(file);
-			soundData = groupManager->openResource(file, group);
-		}
-		catch (...)
-		{
-			// Cannot find sound file
-			Ogre::LogManager::getSingleton().logMessage("***--- OgreOggSoundManager::createSound() - Unable to find sound file! have you specified a resource location?", Ogre::LML_CRITICAL);
-			return (0);
-		}
+		ALuint buffer = AL_NONE;
 
+		// Can we share a buffer? 
+		// Static sounds only...
+		if ( !stream )
+		{
+			if ( (buffer = _getSharedBuffer(file)) == AL_NONE )
+			{
+				groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
+
+				try
+				{
+					group = groupManager->findGroupContainingResource(file);
+					soundData = groupManager->openResource(file, group);
+				}
+				catch (...)
+				{
+					// Cannot find sound file
+					Ogre::LogManager::getSingleton().logMessage("***--- OgreOggSoundManager::createSound() - Unable to find sound file! have you specified a resource location?", Ogre::LML_CRITICAL);
+					return (0);
+				}
+			}
+		}
 		if		(file.find(".ogg") != std::string::npos || file.find(".OGG") != std::string::npos)
 		{
 			// MUST be unique
@@ -1166,8 +1176,12 @@ namespace OgreOggSound
 			mSoundMap[name]->loop(loop);
 
 #if OGGSOUND_THREADED==0
-			// Read audio file
-			mSoundMap[name]->open(soundData);
+			// Use shared buffer if available
+			if ( buffer!=AL_NONE ) 
+				mSoundMap[name]->open(file, buffer);
+			else
+				// Load audio file
+				mSoundMap[name]->open(soundData);
 			// If requested to preBuffer - grab free source and init
 			if (preBuffer)
 			{
@@ -1179,9 +1193,11 @@ namespace OgreOggSound
 			}
 #else
 			delayedFileOpen* fo = new delayedFileOpen;
-			fo->mPrebuffer = preBuffer;
-			fo->mFile = soundData;
-			fo->mSound = mSoundMap[name];
+			fo->mPrebuffer	= preBuffer;		// Prebuffer flag
+			fo->mBuffer		= buffer;			// Shared buffer ref
+			fo->mFileName	= file;				// Filename to register
+			fo->mFile		= soundData;		// DatastreamPtr
+			fo->mSound		= mSoundMap[name];	// Sound object
 			mQueuedSounds.push_back(fo);
 #endif
 			return mSoundMap[name];
@@ -1205,8 +1221,12 @@ namespace OgreOggSound
 			mSoundMap[name]->loop(loop);
 
 #if OGGSOUND_THREADED==0
-			// Read audio file
-			mSoundMap[name]->open(soundData);
+			// Use shared buffer if available
+			if ( buffer!=AL_NONE ) 
+				mSoundMap[name]->open(file, buffer);
+			else
+				// Load audio file
+				mSoundMap[name]->open(soundData);
 			// If requested to preBuffer - grab free source and init
 			if (preBuffer)
 			{
@@ -1218,9 +1238,11 @@ namespace OgreOggSound
 			}
 #else
 			delayedFileOpen* fo = new delayedFileOpen;
-			fo->mPrebuffer = preBuffer;
-			fo->mFile = soundData;
-			fo->mSound = mSoundMap[name];
+			fo->mPrebuffer	= preBuffer;		// Prebuffer flag
+			fo->mBuffer		= buffer;			// Shared buffer ref
+			fo->mFileName	= file;				// Filename to register
+			fo->mFile		= soundData;		// DatastreamPtr
+			fo->mSound		= mSoundMap[name];	// Sound object
 			mQueuedSounds.push_back(fo);
 #endif
 			return mSoundMap[name];
@@ -1510,8 +1532,12 @@ namespace OgreOggSound
 		FileOpenList::iterator i = mQueuedSounds.begin();
 		while( i != mQueuedSounds.end())
 		{
-			// Open file for reading
-			(*i)->mSound->open((*i)->mFile);
+			if ( (*i)->mBuffer!=AL_NONE )
+				// Open file for reading
+				(*i)->mSound->open((*i)->mFileName, (*i)->mBuffer);
+			else
+				// Open file for reading
+				(*i)->mSound->open((*i)->mFile);
 
 			// Prebuffer if requested
 			if ((*i)->mPrebuffer ) requestSoundSource((*i)->mSound);
@@ -1569,6 +1595,18 @@ namespace OgreOggSound
 		}
 
 		mSourcePool.clear();
+
+		// Shared buffers
+		SharedBufferList::iterator b = mSharedBuffers.begin();
+		while (b != mSharedBuffers.end())
+		{
+			if ( b->second->mRefCount>0 )
+				alDeleteBuffers(1, &b->second->mAudioBuffer);
+			delete b->second;
+			++b;
+		}
+
+		mSharedBuffers.clear();
 
 		// clear EFX effect lists
 		if ( mFilterList )
@@ -1886,6 +1924,66 @@ namespace OgreOggSound
 
 		return false;
 	}
+	/*/////////////////////////////////////////////////////////////////*/
+	ALuint OgreOggSoundManager::_getSharedBuffer(const String& sName)
+	{
+		if ( sName.empty() ) return AL_NONE;
+
+		SharedBufferList::iterator f;
+		if ( ( f = mSharedBuffers.find(sName) ) != mSharedBuffers.end() )
+		{
+			f->second->mRefCount++;
+			return f->second->mAudioBuffer;
+		}
+		return AL_NONE;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::releaseSharedBuffer(const String& sName, ALuint& buffer)
+	{
+		if ( sName.empty() ) return false;
+
+		SharedBufferList::iterator f;
+		if ( ( f = mSharedBuffers.find(sName) ) != mSharedBuffers.end() )
+		{
+			// Decrement
+			f->second->mRefCount--;
+			if ( f->second->mRefCount==0 )
+			{
+				// Delete buffer object
+				alDeleteBuffers(1, &f->second->mAudioBuffer);
+
+				// Remove from list
+				mSharedBuffers.erase(f);
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::registerSharedBuffer(const String& sName, ALuint& buffer)
+	{
+		if ( sName.empty() ) return false;
+
+		SharedBufferList::iterator f;
+		if ( ( f = mSharedBuffers.find(sName) ) == mSharedBuffers.end() )
+		{
+			// Create struct
+			sharedAudioBuffer* buf = new sharedAudioBuffer;
+
+			// Set buffer
+			buf->mAudioBuffer = buffer;
+
+			// Set ref count
+			buf->mRefCount = 1;
+
+			// Add to list
+			mSharedBuffers[sName] = buf;
+		}
+		return true;
+	}
+
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::setDistanceModel(ALenum value)
 	{
