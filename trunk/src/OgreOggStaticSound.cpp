@@ -34,6 +34,7 @@ namespace OgreOggSound
 	,mVorbisInfo(0)			
 	,mVorbisComment(0)		
 	,mPreviousOffset(0)
+	,mAudioName("")
 	,mBuffer(0)	
 	{
 		mStream=false;
@@ -57,6 +58,9 @@ namespace OgreOggSound
 
 		// Store stream pointer
 		mAudioStream = fileStream;
+
+		// Store file name
+		mAudioName = mAudioStream->getName();
 
 		if((result = ov_open_callbacks(&mAudioStream, &mOggStream, NULL, 0, mOggCallbacks)) < 0)
 		{
@@ -98,6 +102,23 @@ namespace OgreOggSound
 			throw std::string("Unable to load buffers with data!");
 		}
 
+		// Register shared buffer
+		OgreOggSoundManager::getSingleton().registerSharedBuffer(mAudioName, mBuffer);
+
+		// Ready for playback
+		mFileOpened = true;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggStaticSound::open(const Ogre::String& fName, ALuint& buffer)
+	{
+		// Set buffer
+		mBuffer = buffer;
+
+		// Filename
+		mAudioName = fName;
+
+		// Ready for playback
 		mFileOpened = true;
 	}
 
@@ -106,8 +127,8 @@ namespace OgreOggSound
 	{
 		ALuint src=AL_NONE;
 		setSource(src);
-		alDeleteBuffers(1,&mBuffer);
-		ov_clear(&mOggStream);
+		OgreOggSoundManager::getSingleton().releaseSharedBuffer(mAudioName, mBuffer);
+		if ( !mAudioStream.isNull() ) ov_clear(&mOggStream);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_prebuffer()

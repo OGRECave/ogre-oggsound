@@ -88,6 +88,11 @@ namespace OgreOggSound
 			Abstract function
 		 */
 		virtual void open(Ogre::DataStreamPtr& fileStream) = 0;
+		/** Opens audio file.
+		@remarks
+			Optional opening function for (Static sounds only)
+		 */
+		virtual void open(const Ogre::String& fName, ALuint& buffer) {};
 		/** Sets the source object for playback.
 		@remarks
 			Abstract function

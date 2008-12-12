@@ -30,19 +30,20 @@ namespace OgreOggSound
 {
 
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggStaticWavSound::OgreOggStaticWavSound(const Ogre::String& name) : OgreOggISound(name)
-	{
-		mStream=false;
-		mOggFile=0;						
-		mVorbisInfo=0;			
-		mVorbisComment=0;		
-		mBufferData.clear();	
-		mPreviousOffset=0;
-		mFormatData=0;
-		mBuffer=0;						
-	}
+			OgreOggStaticWavSound::OgreOggStaticWavSound(const Ogre::String& name) : OgreOggISound(name)
+		,mAudioName("")
+		,mOggFile(0)						
+		,mVorbisInfo(0)			
+		,mVorbisComment(0)		
+		,mPreviousOffset(0)
+		,mFormatData(0)
+		,mBuffer(0)						
+		{
+			mStream=false;
+			mBufferData.clear();	
+		}
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggStaticWavSound::~OgreOggStaticWavSound()
+			OgreOggStaticWavSound::~OgreOggStaticWavSound()
 	{
 		_release();
 		mOggFile=0;						
@@ -52,7 +53,7 @@ namespace OgreOggSound
 		if (mFormatData) delete mFormatData;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStaticWavSound::open(Ogre::DataStreamPtr& fileStream)
+	void	OgreOggStaticWavSound::open(Ogre::DataStreamPtr& fileStream)
 	{
 		// WAVE descriptor vars
 		char*	sound_buffer=0;
@@ -63,6 +64,9 @@ namespace OgreOggSound
 
 		// Store stream pointer
 		mAudioStream = fileStream;
+
+		// Store file name
+		mAudioName = mAudioStream->getName();
 
 		// Read in "RIFF" chunk descriptor (4 bytes)
 		mAudioStream->read(id, 4); 
@@ -123,7 +127,7 @@ namespace OgreOggSound
 
 							// Read in significant bits per sample ( 2 bytes ) 
 							mAudioStream->read(&sigBitsPerSample, 2);	
-							
+
 							// Read in extra information size ( 2 bytes ) 
 							mAudioStream->read(&extraInfoSize, 2);	
 
@@ -132,7 +136,7 @@ namespace OgreOggSound
 
 							// Read in channels mask ( 2 bytes ) 
 							mAudioStream->read(&mFormatData->mChannelMask, 2);	
-							
+
 							// Read in sub format ( 16 bytes ) 
 							mAudioStream->read(&mFormatData->mSubFormat, sizeof(GUID));	
 						}
@@ -269,13 +273,28 @@ namespace OgreOggSound
 			throw std::string("Unable to load buffers with data!");
 		}
 		delete [] sound_buffer;
+		// Register shared buffer
+		OgreOggSoundManager::getSingleton().registerSharedBuffer(mAudioName, mBuffer);
 
 		// Set ready flag
 		mFileOpened = true;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggStaticWavSound::_queryBufferInfo()
+	void	OgreOggStaticWavSound::open(const Ogre::String& fName, ALuint& buffer)
+	{
+		// Set buffer
+		mBuffer = buffer;
+
+		// Filename
+		mAudioName = fName;
+
+		// Set ready flag
+		mFileOpened = true;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool	OgreOggStaticWavSound::_queryBufferInfo()
 	{
 		if (!mFormatData) return false;
 
@@ -401,14 +420,14 @@ namespace OgreOggSound
 		return true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStaticWavSound::_release()
+	void	OgreOggStaticWavSound::_release()
 	{
 		ALuint src=AL_NONE;
 		setSource(src);
-		alDeleteBuffers(1,&mBuffer);
+		OgreOggSoundManager::getSingleton().releaseSharedBuffer(mAudioName, mBuffer);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStaticWavSound::_prebuffer()
+	void	OgreOggStaticWavSound::_prebuffer()
 	{
 		if (mSource==AL_NONE) return;
 
@@ -417,7 +436,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStaticWavSound::setSource(ALuint& src)
+	void	OgreOggStaticWavSound::setSource(ALuint& src)
 	{
 		if (src!=AL_NONE)
 		{
@@ -443,14 +462,14 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStaticWavSound::pause()
+	void	OgreOggStaticWavSound::pause()
 	{		
 		if ( mSource==AL_NONE ) return;
 
 		alSourcePause(mSource);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStaticWavSound::play()
+	void	OgreOggStaticWavSound::play()
 	{		
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
@@ -474,7 +493,7 @@ namespace OgreOggSound
 		mPlayDelayed = false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStaticWavSound::stop()
+	void	OgreOggStaticWavSound::stop()
 	{
 		if ( mSource==AL_NONE ) return;
 
@@ -487,7 +506,7 @@ namespace OgreOggSound
 		if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStaticWavSound::loop(bool loop)
+	void	OgreOggStaticWavSound::loop(bool loop)
 	{
 		OgreOggISound::loop(loop);
 
@@ -497,7 +516,7 @@ namespace OgreOggSound
 		}
 	}	
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStaticWavSound::_updateAudioBuffers()
+	void	OgreOggStaticWavSound::_updateAudioBuffers()
 	{
 		// Automatically play if previously delayed
 		if (mPlayDelayed)
