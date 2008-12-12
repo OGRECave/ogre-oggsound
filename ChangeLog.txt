@@ -1,3 +1,7 @@
+* version 1.01
+
+	* Added buffer sharing for static sounds
+
 * version 1.0
 
 	* Official stable release 
