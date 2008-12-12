@@ -464,13 +464,6 @@ namespace OgreOggSound
 				effectID OpenAL effect/filter id. (AL_EFFECT... | AL_FILTER...)
 		 */
 		bool isEffectSupported(ALint effectID);
-		/** Gets a shared audio buffer 
-		@remarks
-			Returns a previously loaded shared buffer reference if available.
-			@param sName
-				Name of audio file
-		 */
-		ALuint _getSharedBuffer(const Ogre::String& sName);
 		/** Releases a shared audio buffer 
 		@remarks
 			Each shared audio buffer is reference counted so destruction is handled correctly,
@@ -537,6 +530,15 @@ namespace OgreOggSound
 
 	private:
 
+		/** Gets a shared audio buffer 
+		@remarks
+			Returns a previously loaded shared buffer reference if available.
+			NOTE:- Increments a reference count so releaseSharedBuffer() must be called 
+			when buffer is no longer used.
+			@param sName
+				Name of audio file
+		 */
+		ALuint _getSharedBuffer(const Ogre::String& sName);
 		/** Releases all sounds and buffers
 		@remarks
 			Release all sounds and their associated OpenAL objects
