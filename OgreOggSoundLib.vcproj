@@ -209,6 +209,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\OgreOggSoundRecord.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\OgreOggStaticSound.cpp"
 				>
 			</File>
