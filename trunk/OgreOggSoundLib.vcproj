@@ -267,6 +267,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\OgreOggSoundRecord.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\OgreOggStaticSound.h"
 				>
 			</File>
