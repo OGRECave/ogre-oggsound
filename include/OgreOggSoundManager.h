@@ -34,6 +34,7 @@
 #include "OgreOggListener.h"
 #include "OgreOggSoundFactory.h"
 #include "OgreOggSoundPlugin.h"
+#include "OgreOggSoundRecord.h"
 
 #if OGGSOUND_THREADED
 #	include <boost/thread/thread.hpp>
@@ -108,6 +109,9 @@ namespace OgreOggSound
 				found.
 		 */
 		bool init(const std::string &deviceName = "");
+		/** Gets recording device
+		 */
+		OgreOggSoundRecord* getRecorder() { return mRecorder; }
 		/** Creates a pool of OpenAL sources for playback.
 		@remarks
 			Attempts to create a pool of source objects which allow
@@ -487,6 +491,9 @@ namespace OgreOggSound
 				OpenAL buffer ID holding audio data
 		 */
 		bool registerSharedBuffer(const Ogre::String& sName, ALuint& buffer);
+		/** Returns whether a capture device is available
+		 */
+		bool isRecordingAvailable();
 
 #if OGGSOUND_THREADED
 
@@ -545,6 +552,9 @@ namespace OgreOggSound
 			from the system.
 		 */
 		void _release();
+		/** Creates a recordable object
+		 */
+		bool _createRecorder(ALCdevice& dev);
 		/** Checks and Logs a supported feature list
 		@remarks
 			Queries OpenAL for various supported features and lists 
@@ -628,6 +638,8 @@ namespace OgreOggSound
 		static OgreOggSoundManager *pInstance;	// OgreOggSoundManager instance pointer
 		ALCchar* mDeviceStrings;				// List of available devices strings
 		int mNumSources;						// Number of sources available for sounds
+
+		OgreOggSoundRecord* mRecorder;			// recorder object
 
 		/** sort algorithms
 		*/

@@ -47,6 +47,7 @@ namespace OgreOggSound
 		mXRamHardware(0),
 		mXRamAccessible(0),
 		mCurrentXRamMode(0),
+		mRecorder(0),
 		mEAXVersion(0),
 		mFilterList(0),
 		mEffectList(0),
@@ -109,6 +110,8 @@ namespace OgreOggSound
 #endif
 
 		_release();			
+
+		if ( mRecorder ) delete mRecorder;
 
 		alcMakeContextCurrent(0);
 		alcDestroyContext(mContext);
@@ -213,6 +216,25 @@ namespace OgreOggSound
 		Ogre::LogManager::getSingleton().logMessage("*** ---  OpenAL Initialised --- ***");
 		Ogre::LogManager::getSingleton().logMessage("***********************************");
 
+		// try to create a recorder object
+		if ( !_createRecorder(*mDevice) )
+			LogManager::getSingleton().logMessage("***--- Recording NOT available ---***");
+
+		return true;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::isRecordingAvailable()
+	{
+		if ( mRecorder ) return mRecorder->isCaptureAvailable();
+		return false;
+	}
+
+	
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::_createRecorder(ALCdevice& dev)
+	{
+		mRecorder = new OgreOggSoundRecord(dev);
 		return true;
 	}
 
