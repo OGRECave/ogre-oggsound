@@ -63,7 +63,7 @@ void	OgreOggSoundRecord::_updateRecording()
 	}
 }
 
-OgreOggSoundRecord::RecordDeviceList& OgreOggSoundRecord::getCaptureDeviceList() 
+const OgreOggSoundRecord::RecordDeviceList& OgreOggSoundRecord::getCaptureDeviceList() 
 {
 	mDeviceList.clear();
 	// Get list of available Capture Devices
