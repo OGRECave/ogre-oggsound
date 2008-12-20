@@ -39,9 +39,9 @@ namespace OgreOggSound
 		long			lDataSize;
 	} WAVEHEADER;
 
-	class OgreOggSoundRecord
+	class _OGGSOUND_EXPORT OgreOggSoundRecord
 	{
-
+	
 	public:
 
 		typedef std::vector<Ogre::String> RecordDeviceList;
