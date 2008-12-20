@@ -114,16 +114,9 @@ void MainApp::createScene()
 
 	if ( mSoundManager->isRecordingAvailable() )
 	{
-		OgreOggSoundRecord* r = 0;
-		if ( r = mSoundManager->getRecorder() )
-		{
-			OgreOggSoundRecord::RecordDeviceList& list=r->getCaptureDeviceList();
-			if ( !list.empty() )
-			{
-				for ( OgreOggSoundRecord::RecordDeviceList::iterator iter=list.begin(); iter!=list.end(); ++iter )
-					Ogre::LogManager::getSingleton().logMessage((*iter));
-			}
-		}
+		OgreOggSoundRecord* r = mSoundManager->getRecorder();
+		
+		r->isCaptureAvailable();
 	}
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
