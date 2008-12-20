@@ -72,8 +72,8 @@ const OgreOggSoundRecord::RecordDeviceList& OgreOggSoundRecord::getCaptureDevice
 	{
 		while (*pDeviceList)
 		{
-			pDeviceList += strlen(pDeviceList) + 1;
 			mDeviceList.push_back(Ogre::String(pDeviceList));
+			pDeviceList += strlen(pDeviceList) + 1;
 		}
 	}
 	return mDeviceList;

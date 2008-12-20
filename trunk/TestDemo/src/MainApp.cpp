@@ -112,17 +112,7 @@ void MainApp::createScene()
 	mSoundManager->init();
 	mSoundManager->setDistanceModel(AL_LINEAR_DISTANCE);
 
-	if ( mSoundManager->isRecordingAvailable() )
-	{
-		OgreOggSoundRecord* r = mSoundManager->getRecorder();
-		
-		r->isCaptureAvailable();
-	}
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
-
-	/** Sound one - non streamed, looping, moving */
-	mSoundManager->createSound( *mSceneMgr, "One", "forestscore_test.wav", true, false);	
-	mSoundManager->playSound("One");
 
 	/** Sound two - prebuffered, streamed, looping, EFX room effect *
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;

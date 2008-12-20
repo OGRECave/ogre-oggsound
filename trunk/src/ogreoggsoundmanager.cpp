@@ -212,13 +212,25 @@ namespace OgreOggSound
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
 	#endif
 
-		Ogre::LogManager::getSingleton().logMessage("***********************************");
-		Ogre::LogManager::getSingleton().logMessage("*** ---  OpenAL Initialised --- ***");
-		Ogre::LogManager::getSingleton().logMessage("***********************************");
-
 		// try to create a recorder object
 		if ( !_createRecorder(*mDevice) )
 			LogManager::getSingleton().logMessage("***--- Recording NOT available ---***");
+		else
+		{
+			LogManager::getSingleton().logMessage("***--- Capture devices:");
+			// List of record devices
+			OgreOggSoundRecord::RecordDeviceList list=mRecorder->getCaptureDeviceList();
+			for ( OgreOggSoundRecord::RecordDeviceList::iterator iter=list.begin(); iter!=list.end(); ++iter )
+				Ogre::LogManager::getSingleton().logMessage("***--- '"+(*iter)+"'");
+
+			// Delete recorder
+			delete mRecorder;
+			mRecorder=0;
+		}
+
+		Ogre::LogManager::getSingleton().logMessage("***********************************");
+		Ogre::LogManager::getSingleton().logMessage("*** ---  OpenAL Initialised --- ***");
+		Ogre::LogManager::getSingleton().logMessage("***********************************");
 
 		return true;
 	}
@@ -230,7 +242,6 @@ namespace OgreOggSound
 		return false;
 	}
 
-	
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_createRecorder(ALCdevice& dev)
 	{
