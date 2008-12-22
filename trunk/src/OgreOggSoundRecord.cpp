@@ -32,7 +32,6 @@ mDevice(&alDevice)
 ,mCaptureDevice(0)
 ,mDefaultCaptureDevice(0)
 ,mSamplesAvailable(0)
-,mFile(0)
 ,mDataSize(0)
 ,mBuffer(0)
 ,mSize(0)
@@ -41,14 +40,14 @@ mDevice(&alDevice)
 ,mBitsPerSample(16)
 ,mNumChannels(2)
 ,mFormat(AL_FORMAT_STEREO16)
-,mBufferSize(44100)
+,mBufferSize(8820)
 ,mRecording(false)
 {
 }
 /*/////////////////////////////////////////////////////////////////*/
 void	OgreOggSoundRecord::_updateRecording()
 {
-	if ( !mRecording || !mCaptureDevice ) return;
+	if ( !mRecording || !mCaptureDevice || !mFile.is_open() ) return;
 
 	// Find out how many samples have been captured
 	alcGetIntegerv(mCaptureDevice, ALC_CAPTURE_SAMPLES, 1, &mSamplesAvailable);
@@ -60,7 +59,7 @@ void	OgreOggSoundRecord::_updateRecording()
 		alcCaptureSamples(mCaptureDevice, mBuffer, mBufferSize / mWaveHeader.wfex.nBlockAlign);
 
 		// Write the audio data to a file
-		fwrite(mBuffer, mBufferSize, 1, mFile);
+		mFile.write(mBuffer, mBufferSize);
 
 		// Record total amount of data recorded
 		mDataSize += mBufferSize;
@@ -104,7 +103,7 @@ bool	OgreOggSoundRecord::isCaptureAvailable()
 	if (alcIsExtensionPresent(mDevice, "ALC_EXT_CAPTURE") == AL_FALSE)
 	{
 		Ogre::LogManager::getSingleton().logMessage("***--- No Capture Extension detected! ---***");
-		return 0;
+		return false;
 	}
 	return true;
 }
@@ -129,12 +128,14 @@ bool	OgreOggSoundRecord::create(const Ogre::String& deviceName)
 	mCaptureDevice = alcCaptureOpenDevice(mDeviceName.c_str(), mFreq, mFormat, mBufferSize);
 	if (mCaptureDevice)
 	{
+		using namespace std;
+
 		LogManager::getSingleton().logMessage("Opened Capture Device: "+mDeviceName);
 
-		// Create / open a file for the captured data
-		mFile = fopen(mOutputFile.c_str(), "wb");
+		// attempt to open file (binary | writing)
+		mFile.open(mOutputFile.c_str(), ios::out|ios::binary);
 
-		if ( mFile )
+		if ( mFile.is_open() )
 		{
 			// Prepare a WAVE file header for the captured data
 			sprintf(mWaveHeader.szRIFF, "RIFF");
@@ -152,7 +153,7 @@ bool	OgreOggSoundRecord::create(const Ogre::String& deviceName)
 			sprintf(mWaveHeader.szData, "data");
 			mWaveHeader.lDataSize = 0;
 
-			fwrite(&mWaveHeader, sizeof(WAVEHEADER), 1, mFile);
+			mFile.write(reinterpret_cast<char*>(&mWaveHeader), sizeof(WAVEHEADER));
 
 			// Generate buffer for capture data
 			mBuffer = new ALchar[mBufferSize];
@@ -170,6 +171,8 @@ bool	OgreOggSoundRecord::create(const Ogre::String& deviceName)
 /*/////////////////////////////////////////////////////////////////*/
 void	OgreOggSoundRecord::startRecording()
 {
+	if ( !mCaptureDevice ) return;
+
 	// Start audio capture
 	alcCaptureStart(mCaptureDevice);
 
@@ -185,36 +188,6 @@ void	OgreOggSoundRecord::stopRecording()
 	// Stop capture
 	alcCaptureStop(mCaptureDevice);
 
-	// Check if any Samples haven't been consumed yet
-	alcGetIntegerv(mCaptureDevice, ALC_CAPTURE_SAMPLES, 1, &mSamplesAvailable);
-	while (mSamplesAvailable)
-	{
-		if (mSamplesAvailable > (mBufferSize / mWaveHeader.wfex.nBlockAlign))
-		{
-			alcCaptureSamples(mCaptureDevice, mBuffer, mBufferSize / mWaveHeader.wfex.nBlockAlign);
-			fwrite(mBuffer, mBufferSize, 1, mFile);
-			mSamplesAvailable -= (mBufferSize / mWaveHeader.wfex.nBlockAlign);
-			mDataSize += mBufferSize;
-		}
-		else
-		{
-			alcCaptureSamples(mCaptureDevice, mBuffer, mSamplesAvailable);
-			fwrite(mBuffer, mSamplesAvailable * mWaveHeader.wfex.nBlockAlign, 1, mFile);
-			mDataSize += mSamplesAvailable * mWaveHeader.wfex.nBlockAlign;
-			mSamplesAvailable = 0;
-		}
-	}
-
-	// Fill in Size information in Wave Header
-	fseek(mFile, 4, SEEK_SET);
-	mSize = mDataSize + sizeof(WAVEHEADER) - 8;
-	fwrite(&mSize, 4, 1, mFile);
-	fseek(mFile, 42, SEEK_SET);
-	fwrite(&mDataSize, 4, 1, mFile);
-
-	fclose(mFile);
-	mFile=0;
-
 	mRecording = false;
 
 }
@@ -225,11 +198,38 @@ void	OgreOggSoundRecord::stopRecording()
 	// Stop recording if necessary
 	if ( mRecording ) stopRecording();
 
-	// Delete buffer
-	if ( mBuffer ) delete [] mBuffer;
+	// Close file write output
+	if ( mFile.is_open() ) 
+	{
+		// Check if any Samples haven't been consumed yet
+		alcGetIntegerv(mCaptureDevice, ALC_CAPTURE_SAMPLES, 1, &mSamplesAvailable);
+		while (mSamplesAvailable)
+		{
+			if (mSamplesAvailable > (mBufferSize / mWaveHeader.wfex.nBlockAlign))
+			{
+				alcCaptureSamples(mCaptureDevice, mBuffer, mBufferSize / mWaveHeader.wfex.nBlockAlign);
+				mFile.write(mBuffer, mBufferSize);
+				mSamplesAvailable -= (mBufferSize / mWaveHeader.wfex.nBlockAlign);
+				mDataSize += mBufferSize;
+			}
+			else
+			{
+				alcCaptureSamples(mCaptureDevice, mBuffer, mSamplesAvailable);
+				mFile.write(mBuffer, mSamplesAvailable * mWaveHeader.wfex.nBlockAlign);
+				mDataSize += mSamplesAvailable * mWaveHeader.wfex.nBlockAlign;
+				mSamplesAvailable = 0;
+			}
+		}
 
-	// Close file
-	if ( mFile ) fclose(mFile);
+		// Fill in Size information in Wave Header
+		mFile.seekp(4);
+		mSize = mDataSize + sizeof(WAVEHEADER) - 8;
+		mFile.write(reinterpret_cast<char*>(&mSize), 4);
+		mFile.seekp(42);
+		mFile.write(reinterpret_cast<char*>(&mDataSize), 4);
+		mFile.close();
+	}
+	if ( mBuffer ) delete [] mBuffer;
 
 	// Close the Capture Device
 	alcCaptureCloseDevice(mCaptureDevice);

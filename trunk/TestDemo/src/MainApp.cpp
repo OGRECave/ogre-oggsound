@@ -114,25 +114,19 @@ void MainApp::createScene()
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
-	OgreOggSoundRecord* r = mSoundManager->createRecorder("output.wav", 44100, AL_FORMAT_STEREO16, 44100);
+	OgreOggSoundRecord* r = mSoundManager->createRecorder("output.wav", 44100, AL_FORMAT_STEREO16, 8820);
 	r->create();
 
-	/** Sound two - prebuffered, streamed, looping, EFX room effect *
+	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
-	mSoundManager->createSound("Two", "one.ogg", false, false);	
+	mSoundManager->createSound("Two", "one.ogg", false, true);	
 	mSoundManager->getSound("Two")->setMaxDistance(50);
 	mSoundManager->getSound("Two")->setReferenceDistance(5);
 	nOgreMonster->attachObject(mSoundManager->getSound("Two"));
-	if ( mSoundManager->hasEFXSupport() )
-	{
-		mSoundManager->createEFXSlot();
-		mSoundManager->createEFXEffect("Auditorium", AL_EFFECT_EAXREVERB, &props);
-		mSoundManager->attachEffectToSound("Two", 0, "Auditorium");
-	}
 	mSoundManager->playSound("Two");
 	
-	/** Sound one - non streamed, looping, moving *
-	mSoundManager->createSound("Three", "one.ogg", false, true);	
+	/** Sound one - non streamed, looping, moving */
+	mSoundManager->createSound("Three", "two.ogg", false, true);	
 	mSoundManager->getSound("Three")->setMaxDistance(50);
 	mSoundManager->getSound("Three")->setReferenceDistance(5);
 	mOgreMonster->attachObject(mSoundManager->getSound("Three"));

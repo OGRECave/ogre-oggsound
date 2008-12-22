@@ -24,6 +24,7 @@
 #include "Ogre.h"
 #include "mmreg.h"
 #include <OgreString.h>
+#include <fstream>
 
 namespace OgreOggSound
 {
@@ -53,7 +54,7 @@ namespace OgreOggSound
 		ALCdevice*			mCaptureDevice;
 		const ALCchar*		mDefaultCaptureDevice;
 		ALint				mSamplesAvailable;
-		FILE*				mFile;
+		std::ofstream		mFile;
 		ALchar*				mBuffer;
 		WAVEHEADER			mWaveHeader;
 		ALint				mDataSize;
@@ -86,7 +87,7 @@ namespace OgreOggSound
 		const RecordDeviceList& getCaptureDeviceList();
 		/** Sets the name of the file to save the captured audio to
 		*/
-		void setRecordingProperties(const Ogre::String& name="output.wav", ALCuint freq=44100, ALCenum format=AL_FORMAT_STEREO16, ALsizei bufferSize=4410);
+		void setRecordingProperties(const Ogre::String& name="output.wav", ALCuint freq=44100, ALCenum format=AL_FORMAT_STEREO16, ALsizei bufferSize=8820);
 		/** Creates a capture object
 		*/
 		bool create(const Ogre::String& devName="");

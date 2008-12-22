@@ -1585,6 +1585,8 @@ namespace OgreOggSound
 		while( i != mActiveSounds.end())
 		{
 			(*i)->_updateAudioBuffers();
+			// Update recorder
+			if ( mRecorder ) mRecorder->_updateRecording();
 			++i;
 		}	
 
@@ -2062,7 +2064,5 @@ namespace OgreOggSound
 
 		// Update listener
 		mListener->update();
-		// Update recorder
-		if ( mRecorder ) mRecorder->_updateRecording();
 	}
 }
