@@ -115,8 +115,11 @@ void MainApp::createScene()
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
 	OgreOggSoundRecord* r = mSoundManager->createRecorder("output.wav", 44100, AL_FORMAT_STEREO16, 8820);
-	r->create();
-
+	if ( r )
+	{
+		OgreOggSoundRecord::RecordDeviceList::const_iterator dev=r->getCaptureDeviceList().begin();
+		r->create(*(++dev));
+	}
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
 	mSoundManager->createSound("Two", "one.ogg", false, true);	
