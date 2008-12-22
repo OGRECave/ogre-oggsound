@@ -214,9 +214,19 @@ namespace OgreOggSound
 
 		// Recording
 		if (alcIsExtensionPresent(mDevice, "ALC_EXT_CAPTURE") == AL_FALSE)
-			Ogre::LogManager::getSingleton().logMessage("***--- Recording devices NOT detected!");
+			Ogre::LogManager::getSingleton().logMessage("*** --- Recording devices NOT detected!");
 		else
-			LogManager::getSingleton().logMessage("***--- Recording devices available");
+		{
+			LogManager::getSingleton().logMessage("*** --- Recording devices available:");
+			OgreOggSoundRecord* r=0;
+			if ( r=createRecorder() )
+			{
+				OgreOggSoundRecord::RecordDeviceList list=r->getCaptureDeviceList();
+				for ( OgreOggSoundRecord::RecordDeviceList::iterator iter=list.begin(); iter!=list.end(); ++iter )
+					Ogre::LogManager::getSingleton().logMessage("***--- '"+(*iter)+"'");
+				delete r;
+			}
+		}
 
 		Ogre::LogManager::getSingleton().logMessage("***********************************");
 		Ogre::LogManager::getSingleton().logMessage("*** ---  OpenAL Initialised --- ***");
