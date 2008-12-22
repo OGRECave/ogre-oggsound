@@ -36,6 +36,8 @@ Features List:
 	* can be attached directly into scene graph via SceneNodes
 	* Automatically updates transformations
 
+* Audio capturing support to WAV file.
+
 * XRAM hardware buffer support 
 	* Currently experimental
 
