@@ -243,15 +243,12 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggSoundRecord* OgreOggSoundManager::createRecorder(const Ogre::String& filename, ALCuint freq, ALCenum format, ALsizei bufferSize)
+	OgreOggSoundRecord* OgreOggSoundManager::createRecorder()
 	{
-		if ( mDevice )
-		{
-			mRecorder = new OgreOggSoundRecord(*mDevice);
-			mRecorder->setRecordingProperties(filename, freq, format, bufferSize);
-			return mRecorder;
-		}
-		return 0;
+		if ( mDevice ) 
+			return (new OgreOggSoundRecord(*mDevice)); 
+		else 
+			return 0;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/

@@ -109,7 +109,7 @@ bool	OgreOggSoundRecord::isCaptureAvailable()
 }
 
 /*/////////////////////////////////////////////////////////////////*/
-bool	OgreOggSoundRecord::create(const Ogre::String& deviceName)
+bool	OgreOggSoundRecord::initCaptureDevice(const Ogre::String& deviceName)
 {
 	if ( !isCaptureAvailable() ) return false;
 

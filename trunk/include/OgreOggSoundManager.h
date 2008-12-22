@@ -496,7 +496,7 @@ namespace OgreOggSound
 		bool isRecordingAvailable();
 		/** Creates a recordable object
 		 */
-		OgreOggSoundRecord* createRecorder(const Ogre::String& filename="output.wav", ALCuint freq=44100, ALCenum format=AL_FORMAT_STEREO16, ALsizei bufferSize=4410);
+		OgreOggSoundRecord* createRecorder();
 
 #if OGGSOUND_THREADED
 
