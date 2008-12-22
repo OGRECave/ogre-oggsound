@@ -114,6 +114,9 @@ void MainApp::createScene()
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
+	OgreOggSoundRecord* r = mSoundManager->createRecorder("output.wav", 44100, AL_FORMAT_STEREO16, 44100);
+	r->create();
+
 	/** Sound two - prebuffered, streamed, looping, EFX room effect *
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
 	mSoundManager->createSound("Two", "one.ogg", false, false);	
@@ -250,6 +253,20 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 		if(mSoundManager->getSound("background")->isPlaying())
 			mSoundManager->getSound("background")->stop();
 		else mSoundManager->getSound("background")->play();
+	}
+
+	if (arg.key == OIS::KC_Q)
+	{
+		OgreOggSoundRecord* r = 0;
+		if ( r=mSoundManager->getRecorder() )
+			r->startRecording();
+	}
+
+	if (arg.key == OIS::KC_W)
+	{
+		OgreOggSoundRecord* r = 0;
+		if ( r=mSoundManager->getRecorder() )
+			r->stopRecording();
 	}
 
 	// Show the statistics
