@@ -212,21 +212,11 @@ namespace OgreOggSound
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
 	#endif
 
-		// try to create a recorder object
-		if ( !_createRecorder(*mDevice) )
-			LogManager::getSingleton().logMessage("***--- Recording NOT available ---***");
+		// Recording
+		if (alcIsExtensionPresent(mDevice, "ALC_EXT_CAPTURE") == AL_FALSE)
+			Ogre::LogManager::getSingleton().logMessage("***--- Recording devices NOT detected!");
 		else
-		{
-			LogManager::getSingleton().logMessage("***--- Capture devices:");
-			// List of record devices
-			OgreOggSoundRecord::RecordDeviceList list=mRecorder->getCaptureDeviceList();
-			for ( OgreOggSoundRecord::RecordDeviceList::iterator iter=list.begin(); iter!=list.end(); ++iter )
-				Ogre::LogManager::getSingleton().logMessage("***--- '"+(*iter)+"'");
-
-			// Delete recorder
-			delete mRecorder;
-			mRecorder=0;
-		}
+			LogManager::getSingleton().logMessage("***--- Recording devices available");
 
 		Ogre::LogManager::getSingleton().logMessage("***********************************");
 		Ogre::LogManager::getSingleton().logMessage("*** ---  OpenAL Initialised --- ***");
@@ -243,10 +233,15 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::_createRecorder(ALCdevice& dev)
+	OgreOggSoundRecord* OgreOggSoundManager::createRecorder(const Ogre::String& filename, ALCuint freq, ALCenum format, ALsizei bufferSize)
 	{
-		mRecorder = new OgreOggSoundRecord(dev);
-		return true;
+		if ( mDevice )
+		{
+			mRecorder = new OgreOggSoundRecord(*mDevice);
+			mRecorder->setRecordingProperties(filename, freq, format, bufferSize);
+			return mRecorder;
+		}
+		return 0;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -2067,5 +2062,7 @@ namespace OgreOggSound
 
 		// Update listener
 		mListener->update();
+		// Update recorder
+		if ( mRecorder ) mRecorder->_updateRecording();
 	}
 }

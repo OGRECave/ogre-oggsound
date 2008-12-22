@@ -64,6 +64,8 @@ namespace OgreOggSound
 		ALCuint				mFreq;
 		ALCenum				mFormat;
 		ALsizei				mBufferSize;
+		unsigned short		mBitsPerSample;
+		unsigned short		mNumChannels;
 		bool				mRecording;
 
 		/** Updates recording from the capture device
@@ -84,7 +86,7 @@ namespace OgreOggSound
 		const RecordDeviceList& getCaptureDeviceList();
 		/** Sets the name of the file to save the captured audio to
 		*/
-		void setOutputFilename(const Ogre::String& name);
+		void setRecordingProperties(const Ogre::String& name="output.wav", ALCuint freq=44100, ALCenum format=AL_FORMAT_STEREO16, ALsizei bufferSize=4410);
 		/** Creates a capture object
 		*/
 		bool create(const Ogre::String& devName="");
@@ -102,6 +104,9 @@ namespace OgreOggSound
 		/** Gets a list of strings describing the capture devices
 		*/
 		~OgreOggSoundRecord();
+
+		// Manager friend
+		friend class OgreOggSoundManager;
 	};
 
 }

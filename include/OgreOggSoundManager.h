@@ -494,6 +494,9 @@ namespace OgreOggSound
 		/** Returns whether a capture device is available
 		 */
 		bool isRecordingAvailable();
+		/** Creates a recordable object
+		 */
+		OgreOggSoundRecord* createRecorder(const Ogre::String& filename="output.wav", ALCuint freq=44100, ALCenum format=AL_FORMAT_STEREO16, ALsizei bufferSize=4410);
 
 #if OGGSOUND_THREADED
 
@@ -552,9 +555,6 @@ namespace OgreOggSound
 			from the system.
 		 */
 		void _release();
-		/** Creates a recordable object
-		 */
-		bool _createRecorder(ALCdevice& dev);
 		/** Checks and Logs a supported feature list
 		@remarks
 			Queries OpenAL for various supported features and lists 
