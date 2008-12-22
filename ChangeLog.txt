@@ -1,3 +1,12 @@
+* version 1.02
+
+	* Added capturing support
+		* Capture to wav file support
+		* Frequency, format, buffer size properties
+		* start/stop functions
+		* query support functions
+	NOTE:- Use sound/audio device control panel to select input setting and capture volume.
+
 * version 1.01
 
 	* Added buffer sharing for static sounds
