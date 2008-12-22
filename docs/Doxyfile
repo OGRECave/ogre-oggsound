@@ -1,4 +1,4 @@
-# Doxyfile 1.5.7.1
+# Doxyfile 1.5.6
 
 #---------------------------------------------------------------------------
 # Project related configuration options
@@ -6,7 +6,7 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = OgreOggSound
 PROJECT_NUMBER         = "Version 1.02"
-OUTPUT_DIRECTORY       = C:/Programming/ogreoggsound/docs
+OUTPUT_DIRECTORY       = K:/Work/ogreoggsound/docs
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
@@ -31,6 +31,7 @@ SHORT_NAMES            = NO
 JAVADOC_AUTOBRIEF      = NO
 QT_AUTOBRIEF           = NO
 MULTILINE_CPP_IS_BRIEF = NO
+DETAILS_AT_TOP         = NO
 INHERIT_DOCS           = YES
 SEPARATE_MEMBER_PAGES  = NO
 TAB_SIZE               = 8
@@ -46,7 +47,6 @@ IDL_PROPERTY_SUPPORT   = YES
 DISTRIBUTE_GROUP_DOC   = NO
 SUBGROUPING            = YES
 TYPEDEF_HIDES_STRUCT   = NO
-SYMBOL_CACHE_SIZE      = 0
 #---------------------------------------------------------------------------
 # Build related configuration options
 #---------------------------------------------------------------------------
@@ -80,7 +80,6 @@ SHOW_DIRECTORIES       = NO
 SHOW_FILES             = YES
 SHOW_NAMESPACES        = YES
 FILE_VERSION_FILTER    = 
-LAYOUT_FILE            = 
 #---------------------------------------------------------------------------
 # configuration options related to warning and progress messages
 #---------------------------------------------------------------------------
@@ -94,31 +93,31 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = C:/Programming/ogreoggsound/include/OgreOggStreamWavSound.h \
-                         C:/Programming/ogreoggsound/include/apimainpage.txt \
-                         C:/Programming/ogreoggsound/include/OgreOggISound.h \
-                         C:/Programming/ogreoggsound/include/OgreOggListener.h \
-                         C:/Programming/ogreoggsound/include/OgreOggSound.h \
-                         C:/Programming/ogreoggsound/include/OgreOggSoundCallback.h \
-                         C:/Programming/ogreoggsound/include/OgreOggSoundFactory.h \
-                         C:/Programming/ogreoggsound/include/OgreOggSoundManager.h \
-                         C:/Programming/ogreoggsound/include/OgreOggSoundPlugin.h \
-                         C:/Programming/ogreoggsound/include/OgreOggSoundPrereqs.h \
-                         C:/Programming/ogreoggsound/include/OgreOggSoundRecord.h \
-                         C:/Programming/ogreoggsound/include/OgreOggStaticSound.h \
-                         C:/Programming/ogreoggsound/include/OgreOggStaticWavSound.h \
-                         C:/Programming/ogreoggsound/include/OgreOggStreamSound.h \
-                         C:/Programming/ogreoggsound/src/OgreOggStreamWavSound.cpp \
-                         C:/Programming/ogreoggsound/src/OgreOggISound.cpp \
-                         C:/Programming/ogreoggsound/src/OgreOggListener.cpp \
-                         C:/Programming/ogreoggsound/src/OgreOggSoundFactory.cpp \
-                         C:/Programming/ogreoggsound/src/ogreoggsoundmanager.cpp \
-                         C:/Programming/ogreoggsound/src/OgreOggSoundPlugin.cpp \
-                         C:/Programming/ogreoggsound/src/OgreOggSoundPluginDllStart.cpp \
-                         C:/Programming/ogreoggsound/src/OgreOggSoundRecord.cpp \
-                         C:/Programming/ogreoggsound/src/OgreOggStaticSound.cpp \
-                         C:/Programming/ogreoggsound/src/OgreOggStaticWavSound.cpp \
-                         C:/Programming/ogreoggsound/src/ogreoggstreamsound.cpp
+INPUT                  = K:/Work/ogreoggsound/include/OgreOggStreamWavSound.h \
+                         K:/Work/ogreoggsound/include/apimainpage.txt \
+                         K:/Work/ogreoggsound/include/OgreOggISound.h \
+                         K:/Work/ogreoggsound/include/OgreOggListener.h \
+                         K:/Work/ogreoggsound/include/OgreOggSound.h \
+                         K:/Work/ogreoggsound/include/OgreOggSoundCallback.h \
+                         K:/Work/ogreoggsound/include/OgreOggSoundFactory.h \
+                         K:/Work/ogreoggsound/include/OgreOggSoundManager.h \
+                         K:/Work/ogreoggsound/include/OgreOggSoundPlugin.h \
+                         K:/Work/ogreoggsound/include/OgreOggSoundPrereqs.h \
+                         K:/Work/ogreoggsound/include/OgreOggSoundRecord.h \
+                         K:/Work/ogreoggsound/include/OgreOggStaticSound.h \
+                         K:/Work/ogreoggsound/include/OgreOggStaticWavSound.h \
+                         K:/Work/ogreoggsound/include/OgreOggStreamSound.h \
+                         K:/Work/ogreoggsound/src/OgreOggStreamWavSound.cpp \
+                         K:/Work/ogreoggsound/src/OgreOggISound.cpp \
+                         K:/Work/ogreoggsound/src/OgreOggListener.cpp \
+                         K:/Work/ogreoggsound/src/OgreOggSoundFactory.cpp \
+                         K:/Work/ogreoggsound/src/ogreoggsoundmanager.cpp \
+                         K:/Work/ogreoggsound/src/OgreOggSoundPlugin.cpp \
+                         K:/Work/ogreoggsound/src/OgreOggSoundPluginDllStart.cpp \
+                         K:/Work/ogreoggsound/src/OgreOggSoundRecord.cpp \
+                         K:/Work/ogreoggsound/src/OgreOggStaticSound.cpp \
+                         K:/Work/ogreoggsound/src/OgreOggStaticWavSound.cpp \
+                         K:/Work/ogreoggsound/src/ogreoggstreamsound.cpp
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
@@ -190,22 +189,17 @@ HTML_HEADER            =
 HTML_FOOTER            = 
 HTML_STYLESHEET        = 
 HTML_ALIGN_MEMBERS     = YES
-HTML_DYNAMIC_SECTIONS  = NO
+GENERATE_HTMLHELP      = NO
 GENERATE_DOCSET        = NO
 DOCSET_FEEDNAME        = "Doxygen generated docs"
 DOCSET_BUNDLE_ID       = org.doxygen.Project
-GENERATE_HTMLHELP      = NO
+HTML_DYNAMIC_SECTIONS  = NO
 CHM_FILE               = 
 HHC_LOCATION           = 
 GENERATE_CHI           = NO
 CHM_INDEX_ENCODING     = 
 BINARY_TOC             = NO
 TOC_EXPAND             = NO
-GENERATE_QHP           = NO
-QCH_FILE               = 
-QHP_NAMESPACE          = org.doxygen.Project
-QHP_VIRTUAL_FOLDER     = doc
-QHG_LOCATION           = 
 DISABLE_INDEX          = NO
 ENUM_VALUES_PER_LINE   = 4
 GENERATE_TREEVIEW      = ALL
@@ -289,7 +283,6 @@ MSCGEN_PATH            =
 HIDE_UNDOC_RELATIONS   = YES
 HAVE_DOT               = NO
 DOT_FONTNAME           = FreeSans
-DOT_FONTSIZE           = 10
 DOT_FONTPATH           = 
 CLASS_GRAPH            = YES
 COLLABORATION_GRAPH    = YES
