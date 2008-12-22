@@ -28,6 +28,8 @@
 
 namespace OgreOggSound
 {
+	/** WAVE file header structure
+	*/
 	typedef struct
 	{
 		char			szRIFF[4];
@@ -40,6 +42,11 @@ namespace OgreOggSound
 		long			lDataSize;
 	} WAVEHEADER;
 
+	/** Class for capturing audio data
+	@remarks
+		This class can be used to capture audio data to an external file, WAV file ONLY.
+		Use control panel --> Sound and Audio devices applet to select input type and volume.
+	*/
 	class _OGGSOUND_EXPORT OgreOggSoundRecord
 	{
 	
