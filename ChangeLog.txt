@@ -1,3 +1,7 @@
+* version 1.03
+
+	* Bug fix in OgreOggSoundRecord destructor crash
+
 * version 1.02
 
 	* Added capturing support
@@ -6,7 +10,6 @@
 		* start/stop functions
 		* query support functions
 		NOTE:- Use sound/audio device control panel to select input setting and capture volume.
-	* Bug fix in OgreOggSoundRecord destructor crash
 
 * version 1.01
 
