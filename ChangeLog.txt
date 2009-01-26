@@ -1,3 +1,7 @@
+* version 1.04
+
+	* Fixed crash with streamed sounds and soundData NULL
+
 * version 1.03
 
 	* Bug fix in OgreOggSoundRecord destructor crash
