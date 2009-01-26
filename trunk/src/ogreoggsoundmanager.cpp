@@ -1175,8 +1175,10 @@ namespace OgreOggSound
 		// Static sounds only...
 		if ( !stream )
 		{
+			// Get shared buffer if available
 			if ( (buffer = _getSharedBuffer(file)) == AL_NONE )
 			{
+				// Not available - try finding resource in OGRE resources
 				groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
 
 				try
@@ -1190,6 +1192,23 @@ namespace OgreOggSound
 					Ogre::LogManager::getSingleton().logMessage("***--- OgreOggSoundManager::createSound() - Unable to find sound file! have you specified a resource location?", Ogre::LML_CRITICAL);
 					return (0);
 				}
+			}
+		}
+		// Streamed sound - find resource in OGRE resources list
+		else
+		{
+			groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
+
+			try
+			{
+				group = groupManager->findGroupContainingResource(file);
+				soundData = groupManager->openResource(file, group);
+			}
+			catch (...)
+			{
+				// Cannot find sound file
+				Ogre::LogManager::getSingleton().logMessage("***--- OgreOggSoundManager::createSound() - Unable to find sound file! have you specified a resource location?", Ogre::LML_CRITICAL);
+				return (0);
 			}
 		}
 		if		(file.find(".ogg") != std::string::npos || file.find(".OGG") != std::string::npos)

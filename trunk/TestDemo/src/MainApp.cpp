@@ -118,13 +118,12 @@ void MainApp::createScene()
 	if ( r )
 	{
 		OgreOggSoundRecord::RecordDeviceList::const_iterator dev=r->getCaptureDeviceList().begin();
-		r->initCaptureDevice(*dev);
-		r->setRecordingProperties("output.wav", 44100, AL_FORMAT_STEREO16, 8820);	
+		r->initCaptureDevice(*dev, "output.wav", 44100, AL_FORMAT_STEREO16, 8820);
 	}
 
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
-	mSoundManager->createSound("Two", "two.ogg", false, true);	
+	mSoundManager->createSound("Two", "two.ogg", true);	
 	mSoundManager->getSound("Two")->setMaxDistance(50);
 	mSoundManager->getSound("Two")->setReferenceDistance(5);
 	nOgreMonster->attachObject(mSoundManager->getSound("Two"));
