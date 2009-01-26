@@ -35,7 +35,7 @@ mDevice(&alDevice)
 ,mDataSize(0)
 ,mBuffer(0)
 ,mSize(0)
-,mOutputFile("")
+,mOutputFile("output.wav")
 ,mFreq(44100)
 ,mBitsPerSample(16)
 ,mNumChannels(2)
@@ -83,19 +83,6 @@ const OgreOggSoundRecord::RecordDeviceList& OgreOggSoundRecord::getCaptureDevice
 	return mDeviceList;
 }
 
-/*/////////////////////////////////////////////////////////////////*/
-void	OgreOggSoundRecord::setRecordingProperties(const Ogre::String& name, ALCuint freq, ALCenum format, ALsizei bufferSize)
-{
-	mFreq=freq;
-	mFormat=format;
-	mBufferSize=bufferSize;
-	mOutputFile=name;
-	// Set channel
-	if		( mFormat==AL_FORMAT_MONO8 )	{ mNumChannels=1; mBitsPerSample=8; }
-	else if ( mFormat==AL_FORMAT_STEREO8 )	{ mNumChannels=2; mBitsPerSample=8; }
-	else if ( mFormat==AL_FORMAT_MONO16 )	{ mNumChannels=1; mBitsPerSample=16;}
-	else if ( mFormat==AL_FORMAT_STEREO16 )	{ mNumChannels=2; mBitsPerSample=16;}
-}
 
 /*/////////////////////////////////////////////////////////////////*/
 bool	OgreOggSoundRecord::isCaptureAvailable()
@@ -109,9 +96,19 @@ bool	OgreOggSoundRecord::isCaptureAvailable()
 }
 
 /*/////////////////////////////////////////////////////////////////*/
-bool	OgreOggSoundRecord::initCaptureDevice(const Ogre::String& deviceName)
+bool	OgreOggSoundRecord::initCaptureDevice(const Ogre::String& deviceName, const Ogre::String& fileName, ALCuint freq, ALCenum format, ALsizei bufferSize)
 {
 	if ( !isCaptureAvailable() ) return false;
+
+	mFreq=freq;
+	mFormat=format;
+	mBufferSize=bufferSize;
+
+	// Set channel
+	if		( mFormat==AL_FORMAT_MONO8 )	{ mNumChannels=1; mBitsPerSample=8; }
+	else if ( mFormat==AL_FORMAT_STEREO8 )	{ mNumChannels=2; mBitsPerSample=8; }
+	else if ( mFormat==AL_FORMAT_MONO16 )	{ mNumChannels=1; mBitsPerSample=16;}
+	else if ( mFormat==AL_FORMAT_STEREO16 )	{ mNumChannels=2; mBitsPerSample=16;}
 
 	// Selected device
 	mDeviceName = deviceName;
@@ -126,7 +123,7 @@ bool	OgreOggSoundRecord::initCaptureDevice(const Ogre::String& deviceName)
 	}
 
 	mCaptureDevice = alcCaptureOpenDevice(mDeviceName.c_str(), mFreq, mFormat, mBufferSize);
-	if (mCaptureDevice)
+	if ( mCaptureDevice )
 	{
 		using namespace std;
 
