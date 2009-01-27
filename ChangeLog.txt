@@ -1,6 +1,7 @@
 * version 1.04
 
 	* Fixed crash with streamed sounds and soundData NULL
+	* Removed OgreOggSoundRecord::setRecordingProperties() and added functionality to OgreOggSoundRecord::initCaptureDevice().
 
 * version 1.03
 
