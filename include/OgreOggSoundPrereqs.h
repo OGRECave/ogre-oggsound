@@ -37,16 +37,16 @@
 #		define _OGGSOUND_EXPORT 
 #	endif
 #elif OGRE_COMPILER == OGRE_COMPILER_GNUC
-#	include "AL/al.h"
-#	include "AL/alc.h"
+#	include <AL/al.h>
+#	include <AL/alc.h>
 #	if defined(OGGSOUND_EXPORT) && OGRE_COMP_VER >= 400
 #		define _OGGSOUND_EXPORT __attribute__ ((visibility("default")))
 #	else
 #		define _OGGSOUND_EXPORT
 #	endif
 #else // Other Compilers
-#	include "al.h"
-#	include "alc.h"
+#	include <OpenAL/al.h>
+#	include <OpenAL/alc.h>
 #	include "xram.h"
 #	define _OGGSOUND_EXPORT
 #endif

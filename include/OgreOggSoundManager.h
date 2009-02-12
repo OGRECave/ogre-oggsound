@@ -34,7 +34,10 @@
 #include "OgreOggListener.h"
 #include "OgreOggSoundFactory.h"
 #include "OgreOggSoundPlugin.h"
-#include "OgreOggSoundRecord.h"
+
+#ifndef _LINUX_
+#	include "OgreOggSoundRecord.h"
+#endif
 
 #if OGGSOUND_THREADED
 #	include <boost/thread/thread.hpp>
@@ -109,9 +112,6 @@ namespace OgreOggSound
 				found.
 		 */
 		bool init(const std::string &deviceName = "");
-		/** Gets recording device
-		 */
-		OgreOggSoundRecord* getRecorder() { return mRecorder; }
 		/** Creates a pool of OpenAL sources for playback.
 		@remarks
 			Attempts to create a pool of source objects which allow
@@ -223,17 +223,6 @@ namespace OgreOggSound
 		/** Returns EAX support status.
 		 */
 		bool hasEAXSupport() { return mEAXSupport; }
-		/** Sets XRam buffers.
-		@remarks
-			Currently defaults to AL_STORAGE_AUTO.
-		 */
-		void setXRamBuffer(ALsizei numBuffers, ALuint* buffers); 
-		/** Sets XRam buffers storage mode.
-		@remarks
-			Should be called before creating any sounds
-			Options: AL_STORAGE_AUTOMATIC | AL_STORAGE_HARDWARE | AL_STORAGE_ACCESSIBLE
-		 */
-		void setXRamBufferMode(ALenum mode); 
 		/** Destroys a single sound.
 		@remarks
 			Destroys a single sound object.
@@ -288,12 +277,6 @@ namespace OgreOggSound
 				speed Speed (m/s).
 		 */
 		void setSpeedOfSound(Ogre::Real speed=363.f);
-		/** Sets the distance units of measurement for EFX effects.
-		@remarks
-			@param
-				unit units(meters).
-		 */
-		void setEFXDistanceUnits(Ogre::Real unit=3.3f);
 		/** Gets a list of device strings
 		@remarks
 			Creates a list of available audio device strings
@@ -319,6 +302,24 @@ namespace OgreOggSound
 				fTime Elapsed frametime.
 		 */
 		void update(Ogre::Real fTime=0.f);
+#ifndef _LINUX_
+		/** Sets XRam buffers.
+		@remarks
+			Currently defaults to AL_STORAGE_AUTO.
+		 */
+		void setXRamBuffer(ALsizei numBuffers, ALuint* buffers); 
+		/** Sets XRam buffers storage mode.
+		@remarks
+			Should be called before creating any sounds
+			Options: AL_STORAGE_AUTOMATIC | AL_STORAGE_HARDWARE | AL_STORAGE_ACCESSIBLE
+		 */
+		void setXRamBufferMode(ALenum mode); 
+		/** Sets the distance units of measurement for EFX effects.
+		@remarks
+			@param
+				unit units(meters).
+		 */
+		void setEFXDistanceUnits(Ogre::Real unit=3.3f);
 		/** Creates a specified EFX filter
 		@remarks
 			Creates a specified EFX filter if hardware supports it.
@@ -468,6 +469,16 @@ namespace OgreOggSound
 				effectID OpenAL effect/filter id. (AL_EFFECT... | AL_FILTER...)
 		 */
 		bool isEffectSupported(ALint effectID);
+		/** Gets recording device
+		 */
+		OgreOggSoundRecord* getRecorder() { return mRecorder; }
+		/** Returns whether a capture device is available
+		 */
+		bool isRecordingAvailable();
+		/** Creates a recordable object
+		 */
+		OgreOggSoundRecord* createRecorder();
+#endif
 		/** Releases a shared audio buffer 
 		@remarks
 			Each shared audio buffer is reference counted so destruction is handled correctly,
@@ -491,12 +502,6 @@ namespace OgreOggSound
 				OpenAL buffer ID holding audio data
 		 */
 		bool registerSharedBuffer(const Ogre::String& sName, ALuint& buffer);
-		/** Returns whether a capture device is available
-		 */
-		bool isRecordingAvailable();
-		/** Creates a recordable object
-		 */
-		OgreOggSoundRecord* createRecorder();
 
 #if OGGSOUND_THREADED
 
@@ -561,6 +566,7 @@ namespace OgreOggSound
 			them with the LogManager.
 		 */
 		void _checkFeatureSupport();
+#ifndef _LINUX_
 		/** Checks for EFX hardware support
 		 */
 		bool _checkEFXSupport();
@@ -570,24 +576,6 @@ namespace OgreOggSound
 		/** Checks for EAX effect support
 		 */
 		void _determineAuxEffectSlots();
-		/** Attaches a created effect to an Auxiliary slot
-		@param
-			slot slot ID
-		@param
-			effect effect ID
-		 */
-		bool _attachEffectToSlot(ALuint slot, ALuint effect);
-		/** Re-activates any sounds which had their source stolen.
-		@remarks
-			When all sources are in use the sounds begin to give up 
-			their source objects to higher priority sounds. When this 
-			happens the lower priority sound is queued ready to re-play
-			when a source becomes available again, this function checks
-			this queue and tries to re-play those sounds. Only affects
-			sounds which were originally playing when forced to give up
-			their source object.
-		 */
-		void _reactivateQueuedSounds();
 		/** Gets a specified EFX filter
 		@param
 			fName name of filter as defined when created.
@@ -610,6 +598,25 @@ namespace OgreOggSound
 			uiEffect effect ID
 		 */
 		bool _setEAXReverbProperties(EFXEAXREVERBPROPERTIES *pEFXEAXReverb, ALuint uiEffect);
+		/** Attaches a created effect to an Auxiliary slot
+		@param
+			slot slot ID
+		@param
+			effect effect ID
+		 */
+		bool _attachEffectToSlot(ALuint slot, ALuint effect);
+#endif
+		/** Re-activates any sounds which had their source stolen.
+		@remarks
+			When all sources are in use the sounds begin to give up 
+			their source objects to higher priority sounds. When this 
+			happens the lower priority sound is queued ready to re-play
+			when a source becomes available again, this function checks
+			this queue and tries to re-play those sounds. Only affects
+			sounds which were originally playing when forced to give up
+			their source object.
+		 */
+		void _reactivateQueuedSounds();
 		/** Enumerates audio devices.
 		@remarks
 			Gets a list of audio device available.
@@ -649,7 +656,7 @@ namespace OgreOggSound
 		/**	EFX Support
 		*/
 		bool mEFXSupport;						// EFX present flag
-
+#ifndef _LINUX_
 		// Effect objects
 		LPALGENEFFECTS alGenEffects;
 		LPALDELETEEFFECTS alDeleteEffects;
@@ -689,19 +696,6 @@ namespace OgreOggSound
 		LPALGETAUXILIARYEFFECTSLOTF alGetAuxiliaryEffectSlotf;
 		LPALGETAUXILIARYEFFECTSLOTFV alGetAuxiliaryEffectSlotfv;
 
-		ALint mNumEffectSlots;					// Number of effect slots available
-		ALint mNumSendsPerSource;				// Number of aux sends per source
-
-		EffectList* mFilterList;				// List of EFX filters
-		EffectList* mEffectList;				// List of EFX effects
-		std::vector<ALuint>* mEffectSlotList;	// List of EFX effect slots
-
-		/**	EAX Support
-		*/
-
-		bool mEAXSupport;						// EAX present flag
-		int mEAXVersion;						// EAX version ID
-
 		/**	XRAM Support
 		*/
 		typedef ALboolean (__cdecl *LPEAXSETBUFFERMODE)(ALsizei n, ALuint *buffers, ALint value);
@@ -709,8 +703,20 @@ namespace OgreOggSound
 
 		LPEAXSETBUFFERMODE mEAXSetBufferMode;
 		LPEAXGETBUFFERMODE mEAXGetBufferMode;
-		
+#endif		
+		/**	EAX Support
+		*/
+		bool mEAXSupport;						// EAX present flag
+		int mEAXVersion;						// EAX version ID
+
 		bool mXRamSupport;
+
+		EffectList* mFilterList;				// List of EFX filters
+		EffectList* mEffectList;				// List of EFX effects
+		std::vector<ALuint>* mEffectSlotList;	// List of EFX effect slots
+
+		ALint mNumEffectSlots;					// Number of effect slots available
+		ALint mNumSendsPerSource;				// Number of aux sends per source
 
 		ALenum	mXRamSize, 
 				mXRamFree,

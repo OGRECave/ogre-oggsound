@@ -71,10 +71,11 @@ namespace OgreOggSound
 		if (!_queryBufferInfo()) 
 			throw std::string("Format NOT supported!");
 
+#ifndef _LINUX_
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
-		
+#endif
 		mFileOpened = true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
