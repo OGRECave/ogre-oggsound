@@ -6,7 +6,7 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = OgreOggSound
 PROJECT_NUMBER         = "Version 1.02"
-OUTPUT_DIRECTORY       = "C:/Documents and Settings/Ian/My Documents/ogreoggsound/docs"
+OUTPUT_DIRECTORY       = "C:/Current Projects/Audio Library/ogreoggsound/docs"
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
@@ -93,32 +93,31 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/apimainpage.txt" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggISound.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggListener.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggSound.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggSoundCallback.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggSoundFactory.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggSoundManager.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggSoundPlugin.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggSoundPrereqs.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggSoundRecord.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggStaticSound.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggStaticWavSound.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggStreamSound.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/OgreOggStreamWavSound.h" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/include/apimainpage.txt" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/src/OgreOggStreamWavSound.cpp" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/src/OgreOggISound.cpp" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/src/OgreOggListener.cpp" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/src/OgreOggSoundFactory.cpp" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/src/ogreoggsoundmanager.cpp" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/src/OgreOggSoundPlugin.cpp" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/src/OgreOggSoundPluginDllStart.cpp" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/src/OgreOggSoundRecord.cpp" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/src/OgreOggStaticSound.cpp" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/src/OgreOggStaticWavSound.cpp" \
-                         "C:/Documents and Settings/Ian/My Documents/ogreoggsound/src/ogreoggstreamsound.cpp"
+INPUT                  = "C:/Current Projects/Audio Library/ogreoggsound/include/apimainpage.txt" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggISound.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggListener.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggSound.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggSoundCallback.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggSoundFactory.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggSoundManager.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggSoundPlugin.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggSoundPrereqs.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggSoundRecord.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggStaticSound.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggStaticWavSound.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggStreamSound.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/include/OgreOggStreamWavSound.h" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/src/OgreOggStreamWavSound.cpp" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/src/OgreOggISound.cpp" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/src/OgreOggListener.cpp" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/src/OgreOggSoundFactory.cpp" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/src/ogreoggsoundmanager.cpp" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/src/OgreOggSoundPlugin.cpp" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/src/OgreOggSoundPluginDllStart.cpp" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/src/OgreOggSoundRecord.cpp" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/src/OgreOggStaticSound.cpp" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/src/OgreOggStaticWavSound.cpp" \
+                         "C:/Current Projects/Audio Library/ogreoggsound/src/ogreoggstreamsound.cpp"
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
