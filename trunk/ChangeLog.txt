@@ -1,3 +1,8 @@
+* version 1.05
+
+	* Started porting to linux by wrapping unsupported code in #ifndef _LINUX_ 
+	* Removed references to windows specific code
+
 * version 1.04
 
 	* Fixed crash with streamed sounds and soundData NULL

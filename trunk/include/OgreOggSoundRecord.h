@@ -22,12 +22,28 @@
 
 #include "OgreOggSoundPreReqs.h"
 #include "Ogre.h"
-#include "mmreg.h"
+
 #include <OgreString.h>
 #include <fstream>
 
 namespace OgreOggSound
 {
+	/** WAVE file format structure
+	*/
+	typedef struct
+	{
+		unsigned short 
+			nChannels,
+			wBitsPerSample,
+			nBlockAlign,
+			wFormatTag,
+			cbSize;
+		
+		unsigned int
+			nSamplesPerSec,
+			nAvgBytesPerSec;
+	} wFormat;
+
 	/** WAVE file header structure
 	*/
 	typedef struct
@@ -37,7 +53,7 @@ namespace OgreOggSound
 		char			szWave[4];
 		char			szFmt[4];
 		long			lFmtSize;
-		WAVEFORMATEX	wfex;
+		wFormat			wfex;
 		char			szData[4];
 		long			lDataSize;
 	} WAVEHEADER;

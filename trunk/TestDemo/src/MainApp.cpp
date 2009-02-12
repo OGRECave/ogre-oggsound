@@ -108,27 +108,25 @@ void MainApp::createScene()
 	light->setPosition(0,200,-250);
 	light->setSpecularColour(1.0f,1.0f,1.0f);
 
+	Ogre::SceneNode* Node = mSceneMgr->getRootSceneNode()->createChildSceneNode("pNode");
+	Ogre::SceneNode* mCamNode = Node->createChildSceneNode("pCamNode");
+	mCamera->getParentSceneNode()->detachObject(mCamera);
+	mCamNode->attachObject(mCamera);
 
+//	mSoundManager = new OgreOggSound::OgreOggSoundManager();
 	mSoundManager->init();
 	mSoundManager->setDistanceModel(AL_LINEAR_DISTANCE);
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
-	OgreOggSoundRecord* r = mSoundManager->createRecorder();
-	if ( r )
-	{
-		OgreOggSoundRecord::RecordDeviceList::const_iterator dev=r->getCaptureDeviceList().begin();
-		r->initCaptureDevice(*dev, "output.wav", 44100, AL_FORMAT_STEREO16, 8820);
-	}
-
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
-	mSoundManager->createSound("Two", "two.ogg", true);	
-	mSoundManager->getSound("Two")->setMaxDistance(50);
+	mSoundManager->createSound("Two", "boom1.wav", false, false);	
+	mSoundManager->getSound("Two")->setMaxDistance(250);
 	mSoundManager->getSound("Two")->setReferenceDistance(5);
 	nOgreMonster->attachObject(mSoundManager->getSound("Two"));
 	mSoundManager->playSound("Two");
-	
+
 	/** Sound three - non streamed, looping, moving */
 	mSoundManager->createSound("Three", "three.ogg", false, true);	
 	mSoundManager->getSound("Three")->setMaxDistance(50);

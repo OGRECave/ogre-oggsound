@@ -90,9 +90,11 @@ namespace OgreOggSound
 		while(sizeRead > 0);
 		delete [] data;
 
+#ifndef _LINUX_
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(1, &mBuffer);
+#endif
 
 		alGetError();
 		alBufferData(mBuffer, mFormat, &mBufferData[0], static_cast<ALsizei>(mBufferData.size()), mVorbisInfo->rate);

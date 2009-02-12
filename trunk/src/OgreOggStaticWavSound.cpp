@@ -22,7 +22,6 @@
 #include <string>
 #include <iostream>
 #include "OgreOggSoundManager.h"
-#include "mmreg.h"
 
 using namespace std;
 
@@ -56,11 +55,11 @@ namespace OgreOggSound
 	void	OgreOggStaticWavSound::open(Ogre::DataStreamPtr& fileStream)
 	{
 		// WAVE descriptor vars
-		char*	sound_buffer=0;
-		char	id[5]={0}; 
-		WORD	format_tag;
-		DWORD	size; 
-		int		bytesRead=0;
+		char*			sound_buffer=0;
+		char			id[5]={0}; 
+		unsigned short	format_tag;
+		unsigned long	size; 
+		int				bytesRead=0;
 
 		// Store stream pointer
 		mAudioStream = fileStream;
@@ -122,8 +121,8 @@ namespace OgreOggSound
 						// If WAVEFORMATEXTENSIBLE...
 						if (format_tag==0xFFFE)
 						{
-							WORD sigBitsPerSample;
-							WORD extraInfoSize;
+							unsigned short sigBitsPerSample;
+							unsigned short extraInfoSize;
 
 							// Read in significant bits per sample ( 2 bytes ) 
 							mAudioStream->read(&sigBitsPerSample, 2);	
@@ -138,7 +137,7 @@ namespace OgreOggSound
 							mAudioStream->read(&mFormatData->mChannelMask, 2);	
 
 							// Read in sub format ( 16 bytes ) 
-							mAudioStream->read(&mFormatData->mSubFormat, sizeof(GUID));	
+							mAudioStream->read(&mFormatData->mSubFormat, sizeof(char[16]));	
 						}
 						// Skip extra info
 						else if (extraBytes)
@@ -164,7 +163,7 @@ namespace OgreOggSound
 								mAudioStream->read(&mFormatData->mDataSize, 4);		
 
 								// Store byte offset of start of audio data
-								mFormatData->mAudioOffset = static_cast<DWORD>(mAudioStream->tell());
+								mFormatData->mAudioOffset = static_cast<unsigned long>(mAudioStream->tell());
 
 								// Allocate array
 								sound_buffer = new char[mFormatData->mDataSize];
@@ -185,7 +184,7 @@ namespace OgreOggSound
 							{
 								do
 								{
-									DWORD chunkSize;
+									unsigned short chunkSize;
 
 									// Read in size of chunk data ( 4 bytes ) 
 									mAudioStream->read(&chunkSize, 4);		
@@ -205,7 +204,7 @@ namespace OgreOggSound
 									mAudioStream->read(&mFormatData->mDataSize, 4);		
 
 									// Store byte offset of start of audio data
-									mFormatData->mAudioOffset = static_cast<DWORD>(mAudioStream->tell());
+									mFormatData->mAudioOffset = static_cast<unsigned short>(mAudioStream->tell());
 
 									// Allocate array
 									sound_buffer = new char[mFormatData->mDataSize];
@@ -257,10 +256,11 @@ namespace OgreOggSound
 		if ( alGetError()!=AL_NO_ERROR )
 			throw std::string("Unable to create OpenAL buffer!");
 
+#ifndef _LINUX_
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(1, &mBuffer);
-
+#endif
 		// Check format support
 		if (!_queryBufferInfo()) 
 			throw std::string("Format NOT supported!");

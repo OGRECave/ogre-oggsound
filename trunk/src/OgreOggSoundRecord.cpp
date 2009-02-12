@@ -139,10 +139,10 @@ bool	OgreOggSoundRecord::initCaptureDevice(const Ogre::String& deviceName, const
 			mWaveHeader.lRIFFSize = 0;
 			sprintf(mWaveHeader.szWave, "WAVE");
 			sprintf(mWaveHeader.szFmt, "fmt ");
-			mWaveHeader.lFmtSize = sizeof(WAVEFORMATEX);		
+			mWaveHeader.lFmtSize = sizeof(wFormat);		
 			mWaveHeader.wfex.nChannels = mNumChannels;
 			mWaveHeader.wfex.wBitsPerSample = mBitsPerSample;
-			mWaveHeader.wfex.wFormatTag = WAVE_FORMAT_PCM;
+			mWaveHeader.wfex.wFormatTag = 0x0001;
 			mWaveHeader.wfex.nSamplesPerSec = mFreq;
 			mWaveHeader.wfex.nBlockAlign = mWaveHeader.wfex.nChannels * mWaveHeader.wfex.wBitsPerSample / 8;
 			mWaveHeader.wfex.nAvgBytesPerSec = mWaveHeader.wfex.nSamplesPerSec * mWaveHeader.wfex.nBlockAlign;

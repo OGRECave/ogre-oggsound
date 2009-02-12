@@ -25,7 +25,7 @@
 #include <Ogre.h>
 #include <vorbis/vorbisfile.h>
 #include "OgreOggSoundCallback.h"
-
+	
 /**
  * Number of buffers to use for streaming
  */
@@ -38,19 +38,18 @@ namespace OgreOggSound
 	 */
 	typedef struct
 	{
-		DWORD			mFormatChunkSize,
+		unsigned long	mFormatChunkSize,
 						mDataSize,
 						mSampleRate,
 						mAvgBytesPerSec,
-						mAudioOffset;
+						mAudioOffset,
+						mChannelMask;
 
 		unsigned short	mNumChannels,
 						mBlockAlign,
-						mBitsPerSample;	
-
-		WORD			mSamples;
-		DWORD			mChannelMask;
-		GUID			mSubFormat;	
+						mBitsPerSample,	
+						mSamples;
+		char			mSubFormat[16];	
 	} WavFormatData;
 
 	/** Action enumeration after a fade has completed.
