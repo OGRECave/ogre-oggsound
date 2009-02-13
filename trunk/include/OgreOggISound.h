@@ -231,14 +231,6 @@ namespace OgreOggSound
 				maxDistance Distance.
 		*/
 		void setMaxDistance(float maxDistance);
-		/** Sets sounds minimum distance
-		@remarks
-			This value sets the minimum distance beyond which the volume 
-			is set to maximum.
-			@param
-				minDistance distance.
-		*/
-		void setMinDistance(float minDistance);
 		/** Sets sounds rolloff factor
 		@remarks
 			This value sets the rolloff factor applied to the attenuation 
