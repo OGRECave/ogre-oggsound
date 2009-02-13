@@ -2,6 +2,7 @@
 
 	* Started porting to linux by wrapping unsupported code in #ifndef _LINUX_ 
 	* Removed references to windows specific code
+	* Removed setMinDistance() from OgreOggISound.
 
 * version 1.04
 
