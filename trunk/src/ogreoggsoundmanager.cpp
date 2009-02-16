@@ -1,24 +1,28 @@
 /*---------------------------------------------------------------------------*\
-** This source file is part of OgreOggSound, an OpenAL wrapper library for   
-** use with the Ogre Rendering Engine.										 
-**                                                                           
-** Copyright 2008 Ian Stangoe & Eric Boissard								 
-**                                                                           
-** OgreOggSound is free software: you can redistribute it and/or modify		  
-** it under the terms of the GNU Lesser General Public License as published	 
-** by the Free Software Foundation, either version 3 of the License, or		 
-** (at your option) any later version.										 
-**																			 
-** OgreOggSound is distributed in the hope that it will be useful,			 
-** but WITHOUT ANY WARRANTY; without even the implied warranty of			 
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the			 
-** GNU Lesser General Public License for more details.						 
-**																			 
-** You should have received a copy of the GNU Lesser General Public License	 
-** along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.	 
+** This source file is part of OgreOggSound, an OpenAL wrapper library for
+** use with the Ogre Rendering Engine.
+**
+** Copyright 2008 Ian Stangoe & Eric Boissard
+**
+** OgreOggSound is free software: you can redistribute it and/or modify
+** it under the terms of the GNU Lesser General Public License as published
+** by the Free Software Foundation, either version 3 of the License, or
+** (at your option) any later version.
+**
+** OgreOggSound is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU Lesser General Public License for more details.
+**
+** You should have received a copy of the GNU Lesser General Public License
+** along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.
 \*---------------------------------------------------------------------------*/
 
 #include "OgreOggSoundManager.h"
+#include "OgreOggSound.h"
+#include "OgreOggISound.h"
+#include "OgreOggSoundFactory.h"
+
 #include <string>
 
 #if OGGSOUND_THREADED
@@ -33,10 +37,10 @@ namespace OgreOggSound
 	using namespace Ogre;
 
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggSoundManager::OgreOggSoundManager() : 
-		mNumSources(0), 
-		mDevice(0), 
-		mContext(0), 
+	OgreOggSoundManager::OgreOggSoundManager() :
+		mNumSources(0),
+		mDevice(0),
+		mContext(0),
 		mListener(0),
 		mEAXSupport(false),
 		mEFXSupport(false),
@@ -110,14 +114,14 @@ namespace OgreOggSound
 		}
 #endif
 
-		_release();			
+		_release();
 
 		if ( mRecorder ) delete mRecorder;
 
 		alcMakeContextCurrent(0);
 		alcDestroyContext(mContext);
 		alcCloseDevice(mDevice);
-		
+
 		delete mListener;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -128,7 +132,7 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager& OgreOggSoundManager::getSingleton(void)
-	{  
+	{
 		if (!ms_Singleton) ms_Singleton = new OgreOggSoundManager();
 		assert( ms_Singleton );  return ( *ms_Singleton );
 	}
@@ -155,7 +159,7 @@ namespace OgreOggSound
 
 		/*
 		** OpenAL versions prior to 1.0 DO NOT support device enumeration, so we
-		** need to test the current version and decide if we should try to find 
+		** need to test the current version and decide if we should try to find
 		** an appropriate device or if we should just open the default device.
 		*/
 		bool deviceInList = false;
@@ -187,7 +191,8 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingleton().logMessage("*** --- Choosing: " + Ogre::String(alcGetString(mDevice, ALC_DEVICE_SPECIFIER)));
 
 		Ogre::LogManager::getSingleton().logMessage("*** --- OpenAL Device successfully created");
-	
+
+#ifndef LINUX
 		ALint attribs[2] = {ALC_MAX_AUXILIARY_SENDS, 4};
 
 		mContext = alcCreateContext(mDevice, attribs);
@@ -198,6 +203,7 @@ namespace OgreOggSound
 
 		if (!alcMakeContextCurrent(mContext))
 			throw std::string("Unable to set current OpenAL context");
+#endif
 
 		_checkFeatureSupport();
 
@@ -249,7 +255,7 @@ namespace OgreOggSound
 		** two NULL characters, so we can cast the list into a string and it
 		** will automatically stop at the first NULL that it sees, then we
 		** can move the pointer ahead by the lenght of that string + 1 and we
-		** will be at the begining of the next string.  Once we hit an empty 
+		** will be at the begining of the next string.  Once we hit an empty
 		** string we know that we've found the double NULL that terminates the
 		** list and we can stop there.
 		*/
@@ -297,43 +303,43 @@ namespace OgreOggSound
 		Ogre::LogManager::getSingleton().logMessage("*** --- SUPPORTED FORMATS");
 		ALenum eBufferFormat = 0;
 		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_MONO16");
-		if(eBufferFormat) 
+		if(eBufferFormat)
 		{
 			msg="*** --- AL_FORMAT_MONO16 -- Monophonic Sound";
 			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_STEREO16");
-		if(eBufferFormat) 
+		if(eBufferFormat)
 		{
 			msg="*** --- AL_FORMAT_STEREO16 -- Stereo Sound";
 			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_QUAD16");
-		if(eBufferFormat) 
+		if(eBufferFormat)
 		{
 			msg="*** --- AL_FORMAT_QUAD16 -- 4 Channel Sound";
 			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_51CHN16");
-		if(eBufferFormat) 
+		if(eBufferFormat)
 		{
 			msg="*** --- AL_FORMAT_51CHN16 -- 5.1 Surround Sound";
 			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_61CHN16");
-		if(eBufferFormat) 
+		if(eBufferFormat)
 		{
 			msg="*** --- AL_FORMAT_61CHN16 -- 6.1 Surround Sound";
 			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_71CHN16");
-		if(eBufferFormat) 
+		if(eBufferFormat)
 		{
 			msg="*** --- AL_FORMAT_71CHN16 -- 7.1 Surround Sound";
 			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 
-#ifndef _LINUX_
+#ifndef LINUX
 		// EFX
 		mEFXSupport = _checkEFXSupport();
 		if (mEFXSupport)
@@ -351,12 +357,12 @@ namespace OgreOggSound
 			// Log message
 			Ogre::LogManager::getSingleton().logMessage("*** --- X-RAM Detected");
 			Ogre::LogManager::getSingleton().logMessage("*** --- X-RAM Size(MB): " + Ogre::StringConverter::toString(mXRamSizeMB) +
-				" Free(MB):" + Ogre::StringConverter::toString(mXRamFreeMB));		
+				" Free(MB):" + Ogre::StringConverter::toString(mXRamFreeMB));
 		}
 		else
 			Ogre::LogManager::getSingleton().logMessage("*** --- XRAM NOT Detected");
 
-		// EAX 
+		// EAX
 		for(int version = 5; version >= 2; version--)
 		{
 			Ogre::String eaxName="EAX"+Ogre::StringConverter::toString(version)+".0";
@@ -388,7 +394,7 @@ namespace OgreOggSound
 		Ogre::DataStreamPtr soundData;
 		ALuint buffer = AL_NONE;
 
-		// Can we share a buffer? 
+		// Can we share a buffer?
 		// Static sounds only...
 		if ( !stream )
 		{
@@ -431,7 +437,7 @@ namespace OgreOggSound
 		if		(file.find(".ogg") != std::string::npos || file.find(".OGG") != std::string::npos)
 		{
 			// MUST be unique
-			if ( mSoundMap.find(name)!=mSoundMap.end() ) 
+			if ( mSoundMap.find(name)!=mSoundMap.end() )
 			{
 				Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound with name: "+name+" already exists!";
 				Ogre::LogManager::getSingleton().logMessage(msg);
@@ -440,7 +446,7 @@ namespace OgreOggSound
 
 			if(stream)
 				mSoundMap[name] = new OgreOggStreamSound(name);
-			else 
+			else
 				mSoundMap[name] = new OgreOggStaticSound(name);
 
 			// Set loop flag
@@ -448,7 +454,7 @@ namespace OgreOggSound
 
 #if OGGSOUND_THREADED==0
 			// Use shared buffer if available
-			if ( buffer!=AL_NONE ) 
+			if ( buffer!=AL_NONE )
 				mSoundMap[name]->open(file, buffer);
 			else
 				// Load audio file
@@ -476,7 +482,7 @@ namespace OgreOggSound
 		else if	(file.find(".wav") != std::string::npos || file.find(".WAV") != std::string::npos)
 		{
 			// MUST be unique
-			if ( mSoundMap.find(name)!=mSoundMap.end() ) 
+			if ( mSoundMap.find(name)!=mSoundMap.end() )
 			{
 				Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound with name: "+name+" already exists!";
 				Ogre::LogManager::getSingleton().logMessage(msg);
@@ -485,7 +491,7 @@ namespace OgreOggSound
 
 			if(stream)
 				mSoundMap[name] = new OgreOggStreamWavSound(name);
-			else 
+			else
 				mSoundMap[name] = new OgreOggStaticWavSound(name);
 
 			// Set loop flag
@@ -493,7 +499,7 @@ namespace OgreOggSound
 
 #if OGGSOUND_THREADED==0
 			// Use shared buffer if available
-			if ( buffer!=AL_NONE ) 
+			if ( buffer!=AL_NONE )
 				mSoundMap[name]->open(file, buffer);
 			else
 				// Load audio file
@@ -544,7 +550,7 @@ namespace OgreOggSound
 		// Catch exception when plugin hasn't been registered
 		try
 		{
-			sound = static_cast<OgreOggISound*>(scnMgr.createMovableObject( name, OgreOggSoundFactory::FACTORY_TYPE_NAME, &params ));		
+			sound = static_cast<OgreOggISound*>(scnMgr.createMovableObject( name, OgreOggSoundFactory::FACTORY_TYPE_NAME, &params ));
 			sound->mScnMan = &scnMgr;
 		}
 		catch (...)
@@ -552,7 +558,7 @@ namespace OgreOggSound
 			LogManager::getSingleton().logMessage("***--- createSound() - OgreOggSound plugin not loaded.");
 		}
 		// create Movable Sound
-		return sound; 
+		return sound;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -578,9 +584,9 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundRecord* OgreOggSoundManager::createRecorder()
 	{
-		if ( mDevice ) 
-			return (new OgreOggSoundRecord(*mDevice)); 
-		else 
+		if ( mDevice )
+			return (new OgreOggSoundRecord(*mDevice));
+		else
 			return 0;
 	}
 
@@ -611,7 +617,7 @@ namespace OgreOggSound
 				break;
 		}
 
-		msg="*** --- "+Ogre::StringConverter::toString(mNumEffectSlots)+ " Auxiliary Effect Slot(s)"; 
+		msg="*** --- "+Ogre::StringConverter::toString(mNumEffectSlots)+ " Auxiliary Effect Slot(s)";
 		Ogre::LogManager::getSingleton().logMessage(msg);
 
 		// Retrieve the number of Auxiliary Effect Slots Sends available on each Source
@@ -703,7 +709,7 @@ namespace OgreOggSound
 				Ogre::LogManager::getSingleton().logMessage("*** --- 'Equalizer' Support: NO");
 		}
 
-		
+
 		// To determine which Filters are supported, generate a Filter Object, and try to set its type to
 		// the various Filter enum values
 		Ogre::LogManager::getSingleton().logMessage("*** --- FILTERS SUPPORTED: ");
@@ -821,16 +827,17 @@ namespace OgreOggSound
 					return true;
 				}
 			}
-		}	
+		}
 		return false;
 	}
-
+#ifndef LINUX
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::setXRamBuffer(ALsizei numBuffers, ALuint* buffer)
 	{
 		if ( buffer && mEAXSetBufferMode )
 			mEAXSetBufferMode(numBuffers, buffer, mCurrentXRamMode);
 	}
+#endif
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::setXRamBufferMode(ALenum mode)
 	{
@@ -1132,16 +1139,16 @@ namespace OgreOggSound
 			return false;
 		}
 		return true;
-	}	
+	}
 	/*/////////////////////////////////////////////////////////////////*/
 	ALuint OgreOggSoundManager::_getEFXFilter(const std::string& fName)
 	{
 		if ( !mFilterList || !hasEFXSupport() || fName.empty() ) return AL_FILTER_NULL;
 
 		EffectList::iterator filter=mFilterList->find(fName);
-		if ( filter==mFilterList->end() ) 
-			return AL_FILTER_NULL; 
-		else 
+		if ( filter==mFilterList->end() )
+			return AL_FILTER_NULL;
+		else
 			return filter->second;
 	}
 
@@ -1151,9 +1158,9 @@ namespace OgreOggSound
 		if ( !mEffectList || !hasEFXSupport() || eName.empty() ) return AL_EFFECT_NULL;
 
 		EffectList::iterator effect=mEffectList->find(eName);
-		if ( effect==mEffectList->end() ) 
-			return AL_EFFECT_NULL; 
-		else 
+		if ( effect==mEffectList->end() )
+			return AL_EFFECT_NULL;
+		else
 			return effect->second;
 	}
 
@@ -1168,7 +1175,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::createEFXFilter(const std::string& fName, ALint filterType, ALfloat gain, ALfloat hfGain)
 	{
-		if ( !hasEFXSupport() || fName.empty() || !isEffectSupported(filterType) ) 
+		if ( !hasEFXSupport() || fName.empty() || !isEffectSupported(filterType) )
 		{
 			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::createEFXFilter() - Unsupported filter!");
 			return false;
@@ -1207,7 +1214,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::createEFXEffect(const std::string& eName, ALint effectType, EAXREVERBPROPERTIES* props)
 	{
-		if ( !hasEFXSupport() || eName.empty() || !isEffectSupported(effectType) ) 		
+		if ( !hasEFXSupport() || eName.empty() || !isEffectSupported(effectType) )
 		{
 			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::createEFXEffect() - Unsupported effect!");
 			return false;
@@ -1251,7 +1258,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::createEFXSlot()
 	{
-		if ( !hasEFXSupport() ) 
+		if ( !hasEFXSupport() )
 		{
 			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::createEFXFilter() - No EFX support!");
 			return false;
@@ -1278,7 +1285,7 @@ namespace OgreOggSound
 	int OgreOggSoundManager::getNumberOfSupportedEffectSlots()
 	{
 		if ( !hasEFXSupport() ) return 0;
-		
+
 		ALint auxSends=0;
 		alcGetIntegerv(mDevice, ALC_MAX_AUXILIARY_SENDS, 1, &auxSends);
 
@@ -1300,12 +1307,12 @@ namespace OgreOggSound
 		{
 			// Clear AL Error code
 			alGetError();
-		
+
 			// Determine type of 'Reverb' effect and apply correct settings
 			ALint type;
 			alGetEffecti(uiEffect, AL_EFFECT_TYPE, &type);
-		
-			// Apply selected presets to normal reverb 
+
+			// Apply selected presets to normal reverb
 			if ( type==AL_EFFECT_REVERB )
 			{
 				alEffectf(uiEffect, AL_REVERB_DENSITY, pEFXEAXReverb->flDensity);
@@ -1455,7 +1462,7 @@ namespace OgreOggSound
 	#endif
 
 		OgreOggISound* sound = 0;
-		
+
 		if ( sound = getSound(sName) )
 			sound->play();
 	}
@@ -1469,7 +1476,7 @@ namespace OgreOggSound
 		if (mActiveSounds.empty()) return;
 
 		OgreOggISound* sound = 0;
-		
+
 		if ( sound = getSound(sName) )
 			sound->stop();
 	}
@@ -1483,7 +1490,7 @@ namespace OgreOggSound
 		if (mActiveSounds.empty()) return;
 
 		OgreOggISound* sound = 0;
-		
+
 		if ( sound = getSound(sName) )
 			sound->pause();
 	}
@@ -1612,7 +1619,7 @@ namespace OgreOggSound
 			// Remove from queue
 			delete (*i);
 			i=mQueuedSounds.erase(i);
-		}	
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::updateBuffers()
@@ -1627,10 +1634,10 @@ namespace OgreOggSound
 			// Update recorder
 			if ( mRecorder ) mRecorder->_updateRecording();
 			++i;
-		}	
+		}
 
 	#if (OGGSOUND_THREADED!=0)
-		Sleep(10);	
+		sleep(10);
 	#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1655,9 +1662,12 @@ namespace OgreOggSound
 		{
 			if ( hasEFXSupport() )
 			{
+#ifndef LINUX
 				// Remove filters/effects
 				alSourcei(static_cast<ALuint>((*it)), AL_DIRECT_FILTER, AL_FILTER_NULL);
 				alSource3i(static_cast<ALuint>((*it)), AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, AL_FILTER_NULL);
+#endif
+
  			}
 			alDeleteSources(1,&(*it));
 			++it;
@@ -1677,7 +1687,7 @@ namespace OgreOggSound
 
 		mSharedBuffers.clear();
 
-#ifndef _LINUX_
+#ifndef LINUX
 		// clear EFX effect lists
 		if ( mFilterList )
 		{
@@ -1751,7 +1761,7 @@ namespace OgreOggSound
 			if ( d1<d2 )	return true;
 			if ( d1>d2 )	return false;
 
-			// Equal - don't sort 
+			// Equal - don't sort
 			return false;
 		}
 	};
@@ -1778,7 +1788,7 @@ namespace OgreOggSound
 			if ( d1>d2 )	return true;
 			if ( d1<d2 )	return false;
 
-			// Equal - don't sort 
+			// Equal - don't sort
 			return false;
 		}
 	};
@@ -1796,7 +1806,7 @@ namespace OgreOggSound
 		std::sort(mSoundsToReactivate.begin(), mSoundsToReactivate.end(), _sortNearToFar());
 
 		// Get sound object from front of list
-		OgreOggISound* snd = mSoundsToReactivate.front(); 
+		OgreOggISound* snd = mSoundsToReactivate.front();
 
 		// Try to request a source for sound
 		if (requestSoundSource(snd))
@@ -1810,7 +1820,7 @@ namespace OgreOggSound
 	{
 		// Does sound need a source?
 		if (!sound) return false;
-		
+
 	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
@@ -1821,7 +1831,7 @@ namespace OgreOggSound
 
 		// If there are still sources available
 		// Pop next available off list
-		if ( !mSourcePool.empty() ) 
+		if ( !mSourcePool.empty() )
 		{
 			// Get next available source
 			src = static_cast<ALuint>(mSourcePool.back());
@@ -1836,12 +1846,12 @@ namespace OgreOggSound
 			if ( !mSoundsToReactivate.empty() )
 			{
 				for ( ActiveList::iterator rIter=mSoundsToReactivate.begin(); rIter!=mSoundsToReactivate.end(); ++rIter )
-					if ( (*rIter)==sound ) 
+					if ( (*rIter)==sound )
 						mSoundsToReactivate.erase(rIter);
 			}
 			return true;
 		}
-		// All sources in use 
+		// All sources in use
 		// Re-use an active source
 		// Use either a non-playing source or a lower priority source
 		else
@@ -1906,7 +1916,7 @@ namespace OgreOggSound
 				else
 					++iter;
 			}
-			
+
 			// Sort by distance
 			Real	d1 = 0.f,
 					d2 = 0.f;
@@ -1961,9 +1971,9 @@ namespace OgreOggSound
 	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
-		
+
 		if (sound->getSource()==AL_NONE) return true;
-			
+
 		// Get source
 		ALuint src = sound->getSource();
 
@@ -1971,7 +1981,7 @@ namespace OgreOggSound
 		if(src!=AL_NONE)
 		{
 			ALuint source=AL_NONE;
-	
+
 			// Detach source from sound
 			sound->setSource(source);
 
@@ -1979,7 +1989,7 @@ namespace OgreOggSound
 			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter )
 			{
 				// Find sound in actives list
-				if ( (*iter)==sound )	
+				if ( (*iter)==sound )
 				{
 					// Remove from list
 					mActiveSounds.erase(iter);
@@ -2072,7 +2082,7 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::update(Ogre::Real fTime)
-	{		
+	{
 		static Real rTime=0.f;
 
 		// Update ALL active sounds
@@ -2086,10 +2096,10 @@ namespace OgreOggSound
 			i++;
 		}
 
-		// Limit re-activation 
+		// Limit re-activation
 		if ( (rTime+=fTime) > 0.1 )
 		{
-			// try to reactivate any 
+			// try to reactivate any
 			_reactivateQueuedSounds();
 
 			// Reset timer

@@ -1,21 +1,21 @@
 /*---------------------------------------------------------------------------*\
-** This source file is part of OgreOggSound, an OpenAL wrapper library for   
-** use with the Ogre Rendering Engine.										 
-**                                                                           
-** Copyright 2008 Ian Stangoe & Eric Boissard								 
-**                                                                           
-** OgreOggSound is free software: you can redistribute it and/or modify		  
-** it under the terms of the GNU Lesser General Public License as published	 
-** by the Free Software Foundation, either version 3 of the License, or		 
-** (at your option) any later version.										 
-**																			 
-** OgreOggSound is distributed in the hope that it will be useful,			 
-** but WITHOUT ANY WARRANTY; without even the implied warranty of			 
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the			 
-** GNU Lesser General Public License for more details.						 
-**																			 
-** You should have received a copy of the GNU Lesser General Public License	 
-** along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.	 
+** This source file is part of OgreOggSound, an OpenAL wrapper library for
+** use with the Ogre Rendering Engine.
+**
+** Copyright 2008 Ian Stangoe & Eric Boissard
+**
+** OgreOggSound is free software: you can redistribute it and/or modify
+** it under the terms of the GNU Lesser General Public License as published
+** by the Free Software Foundation, either version 3 of the License, or
+** (at your option) any later version.
+**
+** OgreOggSound is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU Lesser General Public License for more details.
+**
+** You should have received a copy of the GNU Lesser General Public License
+** along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.
 \*---------------------------------------------------------------------------*/
 
 #include "OgreOggStaticSound.h"
@@ -30,12 +30,12 @@ namespace OgreOggSound
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStaticSound::OgreOggStaticSound(const Ogre::String& name) : OgreOggISound(name)
-	,mOggFile(0)						
-	,mVorbisInfo(0)			
-	,mVorbisComment(0)		
+	,mOggFile(0)
+	,mVorbisInfo(0)
+	,mVorbisComment(0)
 	,mPreviousOffset(0)
 	,mAudioName("")
-	,mBuffer(0)	
+	,mBuffer(0)
 	{
 		mStream=false;
 		// Disable seeking
@@ -46,10 +46,10 @@ namespace OgreOggSound
 	OgreOggStaticSound::~OgreOggStaticSound()
 	{
 		_release();
-		mOggFile=0;						
-		mVorbisInfo=0;			
-		mVorbisComment=0;		
-		mBufferData.clear();		
+		mOggFile=0;
+		mVorbisInfo=0;
+		mVorbisComment=0;
+		mBufferData.clear();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::open(Ogre::DataStreamPtr& fileStream)
@@ -72,7 +72,7 @@ namespace OgreOggSound
 		mVorbisComment = ov_comment(&mOggStream, -1);
 
 		// Check format support
-		if (!_queryBufferInfo()) 
+		if (!_queryBufferInfo())
 			throw std::string("Format NOT supported!");
 
 		alGenBuffers(1, &mBuffer);
@@ -86,11 +86,11 @@ namespace OgreOggSound
 		{
 			sizeRead = ov_read(&mOggStream, data, static_cast<int>(mBufferSize), 0, 2, 1, &bitStream);
 			mBufferData.insert(mBufferData.end(), data, data + sizeRead);
-		} 
+		}
 		while(sizeRead > 0);
 		delete [] data;
 
-#ifndef _LINUX_
+#ifndef LINUX
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(1, &mBuffer);
@@ -144,7 +144,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStaticSound::_queryBufferInfo()
 	{
-		if (!mVorbisInfo) 
+		if (!mVorbisInfo)
 		{
 			Ogre::LogManager::getSingleton().logMessage("*** --- No vorbis info!");
 			return false;
@@ -230,7 +230,7 @@ namespace OgreOggSound
 		{
 			// Attach new source
 			mSource=src;
-			
+
 			// Load audio data onto source
 			_prebuffer();
 
@@ -251,14 +251,14 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::pause()
-	{		
+	{
 		if ( mSource==AL_NONE ) return;
 
 		alSourcePause(mSource);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::play()
-	{	
+	{
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
 		// that it can be automatically played when ready.
@@ -269,14 +269,14 @@ namespace OgreOggSound
 			return;
 		}
 
-		if(isPlaying()) 
+		if(isPlaying())
 			return;
 
 		if (mSource == AL_NONE)
 			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
 				return;
 
-		alSourcePlay(mSource);	
+		alSourcePlay(mSource);
 		mPlay = true;
 		mPlayDelayed = false;
 	}
@@ -286,7 +286,7 @@ namespace OgreOggSound
 		if ( mSource==AL_NONE ) return;
 
 		alSourceStop(mSource);
-		alSourceRewind(mSource);	
+		alSourceRewind(mSource);
 		mPlay=false;
 		mPreviousOffset=0;
 		mPlayDelayed=false;
@@ -303,25 +303,25 @@ namespace OgreOggSound
 		{
 			alSourcei(mSource,AL_LOOPING, loop);
 		}
-	}	
+	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_updateAudioBuffers()
 	{
 		// Automatically play if ready.
-		if (mPlayDelayed) 
+		if (mPlayDelayed)
 			play();
 
 		if(mSource == AL_NONE || !mPlay)
 			return;
 
-		ALenum state;    
-		alGetSourcei(mSource, AL_SOURCE_STATE, &state);	
+		ALenum state;
+		alGetSourcei(mSource, AL_SOURCE_STATE, &state);
 
 		if (state == AL_STOPPED)
 		{
 			stop();
 			// Finished callback
-			if ( mFinishedCB && mFinCBEnabled ) 
+			if ( mFinishedCB && mFinCBEnabled )
 				mFinishedCB->execute(static_cast<OgreOggISound*>(this));
 		}
 		else
@@ -330,7 +330,7 @@ namespace OgreOggSound
 
 			// Use byte offset to work out current position
 			alGetSourcei(mSource, AL_BYTE_OFFSET, &bytes);
-			
+
 			// Has the audio looped?
 			if ( mPreviousOffset>bytes )
 			{
@@ -338,7 +338,7 @@ namespace OgreOggSound
 					mLoopCB->execute(static_cast<OgreOggISound*>(this));
 			}
 
-			// Store current offset position			
+			// Store current offset position
 			mPreviousOffset=bytes;
 		}
 	}

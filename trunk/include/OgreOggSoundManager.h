@@ -1,43 +1,32 @@
 /*---------------------------------------------------------------------------*\
-** This source file is part of OgreOggSound, an OpenAL wrapper library for   
-** use with the Ogre Rendering Engine.										 
-**                                                                           
-** Copyright 2008 Ian Stangoe & Eric Boissard								 
-**                                                                           
-** OgreOggSound is free software: you can redistribute it and/or modify		  
-** it under the terms of the GNU Lesser General Public License as published	 
-** by the Free Software Foundation, either version 3 of the License, or		 
-** (at your option) any later version.										 
-**																			 
-** OgreOggSound is distributed in the hope that it will be useful,			 
-** but WITHOUT ANY WARRANTY; without even the implied warranty of			 
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the			 
-** GNU Lesser General Public License for more details.						 
-**																			 
-** You should have received a copy of the GNU Lesser General Public License	 
-** along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.	 
+** This source file is part of OgreOggSound, an OpenAL wrapper library for
+** use with the Ogre Rendering Engine.
+**
+** Copyright 2008 Ian Stangoe & Eric Boissard
+**
+** OgreOggSound is free software: you can redistribute it and/or modify
+** it under the terms of the GNU Lesser General Public License as published
+** by the Free Software Foundation, either version 3 of the License, or
+** (at your option) any later version.
+**
+** OgreOggSound is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU Lesser General Public License for more details.
+**
+** You should have received a copy of the GNU Lesser General Public License
+** along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.
 \*---------------------------------------------------------------------------*/
 
 #pragma once
 
 #include "OgreOggSoundPrereqs.h"
+#include "OgreOggISound.h"
+#include "OgreOggListener.h"
+#include "OgreOggSoundRecord.h"
 
 #include <map>
 #include <string>
-
-#include <OgreSingleton.h>
-#include "OgreOggISound.h"
-#include "OgreOggStreamSound.h"
-#include "OgreOggStreamWavSound.h"
-#include "OgreOggStaticSound.h"
-#include "OgreOggStaticWavSound.h"
-#include "OgreOggListener.h"
-#include "OgreOggSoundFactory.h"
-#include "OgreOggSoundPlugin.h"
-
-#ifndef LINUX
-#	include "OgreOggSoundRecord.h"
-#endif
 
 #if OGGSOUND_THREADED
 #	include <boost/thread/thread.hpp>
@@ -78,12 +67,12 @@ namespace OgreOggSound
 	typedef std::vector<delayedFileOpen*> FileOpenList;
 	typedef std::map<std::string, sharedAudioBuffer*> SharedBufferList;
 
-	/** Handles ALL sounds 
+	/** Handles ALL sounds
 	 */
 	class _OGGSOUND_EXPORT OgreOggSoundManager : public Ogre::Singleton<OgreOggSoundManager>
 	{
 
-	public:	
+	public:
 
 		/** Creates a manager for all sounds within the application.
 		 */
@@ -97,7 +86,7 @@ namespace OgreOggSound
 		/** Destroys this manager.
 		@remarks
 			Destroys all sound objects and thread if defined. Cleans up
-			all OpenAL objects, buffers and devices and closes down the 
+			all OpenAL objects, buffers and devices and closes down the
 			audio device.
 		 */
 		~OgreOggSoundManager();
@@ -105,7 +94,7 @@ namespace OgreOggSound
 		@remarks
 			Attempts to initialise the audio device for sound playback.
 			Internally some logging is done to list features supported as
-			well as creating a pool of sources from which sounds can be 
+			well as creating a pool of sources from which sounds can be
 			attached and played.
 			@param
 				Audio device string to open, will use default device if not
@@ -115,8 +104,8 @@ namespace OgreOggSound
 		/** Creates a pool of OpenAL sources for playback.
 		@remarks
 			Attempts to create a pool of source objects which allow
-			simultaneous audio playback. The number of sources will be 
-			clamped to either the hardware maximum or [MAX_SOURCES] 
+			simultaneous audio playback. The number of sources will be
+			clamped to either the hardware maximum or [MAX_SOURCES]
 			whichever comes first.
 		 */
 		int createSourcePool();
@@ -144,7 +133,7 @@ namespace OgreOggSound
 			@param
 				preBuffer Flag indicating if a source should be attached at creation.
 		 */
-		OgreOggISound* createSound(const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);	
+		OgreOggISound* createSound(const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);
 		/** Creates a single sound object.
 		@remarks
 			Plugin specific version of createSound, uses createMovableObject() to instantiate
@@ -164,7 +153,7 @@ namespace OgreOggSound
 			@param
 				preBuffer Flag indicating if a source should be attached at creation.
 		 */
-		OgreOggISound* createSound(Ogre::SceneManager& scnMgr, const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);	
+		OgreOggISound* createSound(Ogre::SceneManager& scnMgr, const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);
 		/** Gets a named sound.
 		@remarks
 			Returns a named sound object if defined, NULL otherwise.
@@ -239,7 +228,7 @@ namespace OgreOggSound
 		@remarks
 			Retrieves a free source object and attaches it to the
 			specified sound object. Internally checks for any currently
-			available sources, then checks stopped sounds and finally 
+			available sources, then checks stopped sounds and finally
 			prioritised sounds.
 			@param
 				sound Sound pointer.
@@ -307,13 +296,13 @@ namespace OgreOggSound
 		@remarks
 			Currently defaults to AL_STORAGE_AUTO.
 		 */
-		void setXRamBuffer(ALsizei numBuffers, ALuint* buffers); 
+		void setXRamBuffer(ALsizei numBuffers, ALuint* buffers);
 		/** Sets XRam buffers storage mode.
 		@remarks
 			Should be called before creating any sounds
 			Options: AL_STORAGE_AUTOMATIC | AL_STORAGE_HARDWARE | AL_STORAGE_ACCESSIBLE
 		 */
-		void setXRamBufferMode(ALenum mode); 
+		void setXRamBufferMode(ALenum mode);
 		/** Sets the distance units of measurement for EFX effects.
 		@remarks
 			@param
@@ -323,97 +312,97 @@ namespace OgreOggSound
 		/** Creates a specified EFX filter
 		@remarks
 			Creates a specified EFX filter if hardware supports it.
-			@param 
+			@param
 				eName name for filter.
-			@param 
+			@param
 				type see OpenAL docs for available filters.
 		 */
 		bool createEFXFilter(const std::string& eName, ALint type, ALfloat gain=1.0, ALfloat hfGain=1.0);
 		/** Creates a specified EFX effect
 		@remarks
-			Creates a specified EFX effect if hardware supports it. Optional reverb 
+			Creates a specified EFX effect if hardware supports it. Optional reverb
 			preset structure can be passed which will be applied to the effect. See
 			eax-util.h for list of presets.
-			@param 
+			@param
 				eName name for effect.
-			@param 
+			@param
 				type see OpenAL docs for available effects.
-			@param 
+			@param
 				props legacy structure describing a preset reverb effect.
 		 */
 		bool createEFXEffect(const std::string& eName, ALint type, EAXREVERBPROPERTIES* props=0);
 		/** Sets extended properties on a specified sounds source
 		@remarks
 			Tries to set EFX extended source properties.
-			@param 
+			@param
 				sName name of sound.
-			@param 
+			@param
 				airAbsorption absorption factor for air.
-			@param 
+			@param
 				roomRolloff room rolloff factor.
-			@param 
+			@param
 				coneOuterHF cone outer gain factor for High frequencies.
 		 */
 		bool setEFXSoundProperties(const std::string& eName, Ogre::Real airAbsorption=0.f, Ogre::Real roomRolloff=0.f, Ogre::Real coneOuterHF=0.f);
 		/** Sets a specified paremeter on an effect
 		@remarks
 			Tries to set a parameter value on a specified effect. Returns true/false.
-			@param 
+			@param
 				eName name of effect.
-			@param 
+			@param
 				effectType see OpenAL docs for available effects.
-			@param 
+			@param
 				attrib parameter value to alter.
-			@param 
+			@param
 				param float value to set.
 		 */
 		bool setEFXEffectParameter(const std::string& eName, ALint effectType, ALenum attrib, ALfloat param);
 		/** Sets a specified paremeter on an effect
 		@remarks
 			Tries to set a parameter value on a specified effect. Returns true/false.
-			@param 
+			@param
 				eName name of effect.
-			@param 
+			@param
 				effectType see OpenAL docs for available effects.
-			@param 
+			@param
 				attrib parameter value to alter.
-			@param 
+			@param
 				param vector pointer of float values to set.
 		 */
 		bool setEFXEffectParameter(const std::string& eName, ALint type, ALenum attrib, ALfloat* params=0);
 		/** Sets a specified paremeter on an effect
 		@remarks
 			Tries to set a parameter value on a specified effect. Returns true/false.
-			@param 
+			@param
 				eName name of effect.
-			@param 
+			@param
 				effectType see OpenAL docs for available effects.
-			@param 
+			@param
 				attrib parameter value to alter.
-			@param 
+			@param
 				param integer value to set.
 		 */
 		bool setEFXEffectParameter(const std::string& eName, ALint type, ALenum attrib, ALint param);
 		/** Sets a specified paremeter on an effect
 		@remarks
 			Tries to set a parameter value on a specified effect. Returns true/false.
-			@param 
+			@param
 				eName name of effect.
-			@param 
+			@param
 				effectType see OpenAL docs for available effects.
-			@param 
+			@param
 				attrib parameter value to alter.
-			@param 
+			@param
 				params vector pointer of integer values to set.
 		 */
 		bool setEFXEffectParameter(const std::string& eName, ALint type, ALenum attrib, ALint* params=0);
 		/** Gets the maximum number of Auxiliary Effect slots per source
 		@remarks
-			Determines how many simultaneous effects can be applied to 
+			Determines how many simultaneous effects can be applied to
 			any one source object
 		 */
 		int getNumberOfSupportedEffectSlots();
-		/** Gets the number of currently created Auxiliary Effect slots 
+		/** Gets the number of currently created Auxiliary Effect slots
 		@remarks
 			Returns number of slots craeted and available for effects/filters.
 		 */
@@ -421,7 +410,7 @@ namespace OgreOggSound
 		/** Creates a specified EFX filter
 		@remarks
 			Creates a specified EFX filter if hardware supports it.
-			@param 
+			@param
 				eName name for filter.
 				type see OpenAL docs for available filter types.
 		 */
@@ -429,7 +418,7 @@ namespace OgreOggSound
 		/** Attaches an effect to a sound
 		@remarks
 			Currently sound must have a source attached prior to this call.
-			@param 
+			@param
 				sName name of sound
 			@param
 				slot slot ID
@@ -442,7 +431,7 @@ namespace OgreOggSound
 		/** Attaches a filter to a sound
 		@remarks
 			Currently sound must have a source attached prior to this call.
-			@param 
+			@param
 				sName name of sound
 			@param
 				filter name of filter as defined when created
@@ -451,7 +440,7 @@ namespace OgreOggSound
 		/** Detaches all effects from a sound
 		@remarks
 			Currently sound must have a source attached prior to this call.
-			@param 
+			@param
 				sName name of sound
 			@param
 				slot slot ID
@@ -460,7 +449,7 @@ namespace OgreOggSound
 		/** Detaches all filters from a sound
 		@remarks
 			Currently sound must have a source attached prior to this call.
-			@param 
+			@param
 				sName name of sound
 		 */
 		bool detachFilterFromSound(const std::string& sName);
@@ -479,7 +468,7 @@ namespace OgreOggSound
 		 */
 		OgreOggSoundRecord* createRecorder();
 #endif
-		/** Releases a shared audio buffer 
+		/** Releases a shared audio buffer
 		@remarks
 			Each shared audio buffer is reference counted so destruction is handled correctly,
 			this function merely decrements the reference count, only destroying when no sounds
@@ -490,7 +479,7 @@ namespace OgreOggSound
 				OpenAL buffer ID holding audio data
 		 */
 		bool releaseSharedBuffer(const Ogre::String& sName, ALuint& buffer);
-		/** Registers a shared audio buffer 
+		/** Registers a shared audio buffer
 		@remarks
 			Its possible to share audio buffer data among many sources so this function
 			registers an audio buffer as 'sharable', meaning if a the same audio file is
@@ -518,7 +507,7 @@ namespace OgreOggSound
 			would be disrupted by any pauses or large frame lags, due to
 			the fact that OpenAL itself runs in its own thread. If the audio
 			buffers aren't constantly re-filled the sound will be automatically
-			stopped by OpenAL. Static sounds do not suffer this problem because all the 
+			stopped by OpenAL. Static sounds do not suffer this problem because all the
 			audio data is preloaded into memory.
 		 */
 		static void threadUpdate()
@@ -538,17 +527,17 @@ namespace OgreOggSound
 		@remarks
 			Destroys a single sound object.
 			@param
-				sound 
+				sound
 					Sound to destroy.
 		 */
 		void _destroy(OgreOggISound* sound=0);
 
 	private:
 
-		/** Gets a shared audio buffer 
+		/** Gets a shared audio buffer
 		@remarks
 			Returns a previously loaded shared buffer reference if available.
-			NOTE:- Increments a reference count so releaseSharedBuffer() must be called 
+			NOTE:- Increments a reference count so releaseSharedBuffer() must be called
 			when buffer is no longer used.
 			@param sName
 				Name of audio file
@@ -562,7 +551,7 @@ namespace OgreOggSound
 		void _release();
 		/** Checks and Logs a supported feature list
 		@remarks
-			Queries OpenAL for various supported features and lists 
+			Queries OpenAL for various supported features and lists
 			them with the LogManager.
 		 */
 		void _checkFeatureSupport();
@@ -608,8 +597,8 @@ namespace OgreOggSound
 #endif
 		/** Re-activates any sounds which had their source stolen.
 		@remarks
-			When all sources are in use the sounds begin to give up 
-			their source objects to higher priority sounds. When this 
+			When all sources are in use the sounds begin to give up
+			their source objects to higher priority sounds. When this
 			happens the lower priority sound is queued ready to re-play
 			when a source becomes available again, this function checks
 			this queue and tries to re-play those sounds. Only affects
@@ -632,13 +621,13 @@ namespace OgreOggSound
 		/** Sound lists
 		 */
 		SoundMap mSoundMap;						// Map of all sounds
-		ActiveList mActiveSounds;				// list of sounds currently active 
+		ActiveList mActiveSounds;				// list of sounds currently active
 		FileOpenList mQueuedSounds;				// list of sounds queued to be opened (multi-threaded ONLY)
 		ActiveList mPausedSounds;				// list of sounds currently paused
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		SourceList mSourcePool;					// List of available sources
 		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
-		SharedBufferList mSharedBuffers;		// List of shared static buffers 
+		SharedBufferList mSharedBuffers;		// List of shared static buffers
 
 		/** Manager instance
 		 */
@@ -703,7 +692,7 @@ namespace OgreOggSound
 
 		LPEAXSETBUFFERMODE mEAXSetBufferMode;
 		LPEAXGETBUFFERMODE mEAXGetBufferMode;
-#endif		
+#endif
 		/**	EAX Support
 		*/
 		bool mEAXSupport;						// EAX present flag
@@ -718,13 +707,13 @@ namespace OgreOggSound
 		ALint mNumEffectSlots;					// Number of effect slots available
 		ALint mNumSendsPerSource;				// Number of aux sends per source
 
-		ALenum	mXRamSize, 
+		ALenum	mXRamSize,
 				mXRamFree,
-				mXRamAuto, 
-				mXRamHardware, 
+				mXRamAuto,
+				mXRamHardware,
 				mXRamAccessible,
 				mCurrentXRamMode;
-		
+
 		ALint	mXRamSizeMB,
 				mXRamFreeMB;
 

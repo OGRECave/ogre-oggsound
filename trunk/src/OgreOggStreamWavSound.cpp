@@ -1,21 +1,21 @@
 /*---------------------------------------------------------------------------*\
-** This source file is part of OgreOggSound, an OpenAL wrapper library for   
-** use with the Ogre Rendering Engine.										 
-**                                                                           
-** Copyright 2008 Ian Stangoe & Eric Boissard								 
-**                                                                           
-** OgreOggSound is free software: you can redistribute it and/or modify		  
-** it under the terms of the GNU Lesser General Public License as published	 
-** by the Free Software Foundation, either version 3 of the License, or		 
-** (at your option) any later version.										 
-**																			 
-** OgreOggSound is distributed in the hope that it will be useful,			 
-** but WITHOUT ANY WARRANTY; without even the implied warranty of			 
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the			 
-** GNU Lesser General Public License for more details.						 
-**																			 
-** You should have received a copy of the GNU Lesser General Public License	 
-** along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.	 
+** This source file is part of OgreOggSound, an OpenAL wrapper library for
+** use with the Ogre Rendering Engine.
+**
+** Copyright 2008 Ian Stangoe & Eric Boissard
+**
+** OgreOggSound is free software: you can redistribute it and/or modify
+** it under the terms of the GNU Lesser General Public License as published
+** by the Free Software Foundation, either version 3 of the License, or
+** (at your option) any later version.
+**
+** OgreOggSound is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU Lesser General Public License for more details.
+**
+** You should have received a copy of the GNU Lesser General Public License
+** along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.
 \*---------------------------------------------------------------------------*/
 
 #include "OgreOggStreamWavSound.h"
@@ -32,15 +32,15 @@ namespace OgreOggSound
 	OgreOggStreamWavSound::OgreOggStreamWavSound(const Ogre::String& name) : OgreOggISound(name)
 	{
 		mStream=true;
-		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;		
-		mStreamEOF=false;	
+		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;
+		mStreamEOF=false;
 		mFormatData=0;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamWavSound::~OgreOggStreamWavSound()
 	{
 		_release();
-		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;		
+		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;
 		if (mFormatData) delete mFormatData;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -48,36 +48,36 @@ namespace OgreOggSound
 	{
 		// WAVE descriptor vars
 		char*			sound_buffer=0;
-		char			id[5]={0}; 
+		char			id[5]={0};
 		unsigned short	format_tag;
-		unsigned long	size; 
+		unsigned long	size;
 		int				bytesRead=0;
 
 		// Store stream pointer
 		mAudioStream = fileStream;
 
 		// Read in "RIFF" chunk descriptor (4 bytes)
-		mAudioStream->read(id, 4); 
+		mAudioStream->read(id, 4);
 
 		// Valid RIFF?
 		if (!strcmp(id, "RIFF"))
-		{ 
+		{
 			// Read in chunk size (4 bytes)
-			mAudioStream->read(&size, 4);					
+			mAudioStream->read(&size, 4);
 
 			// Read in "WAVE" format descriptor (4 bytes)
-			mAudioStream->read(id, 4);						
+			mAudioStream->read(id, 4);
 
 			// Valid wav?
 			if (!strcmp(id,"WAVE"))
-			{ 
+			{
 				// Create format struct
 				if (!mFormatData) mFormatData = new WavFormatData;
 
-				// Read in "fmt" id ( 4 bytes ) 
-				mAudioStream->read(id, 4);					
+				// Read in "fmt" id ( 4 bytes )
+				mAudioStream->read(id, 4);
 
-				// Read in "fmt" chunk size ( 4 bytes ) 
+				// Read in "fmt" chunk size ( 4 bytes )
 				mAudioStream->read(&mFormatData->mFormatChunkSize, 4);
 
 				// Should be 16 unless compressed ( compressed NOT supported )
@@ -86,26 +86,26 @@ namespace OgreOggSound
 					// Calculate extra info bytes
 					unsigned short extraBytes = mFormatData->mFormatChunkSize-16;
 
-					// Read in audio format  ( 2 bytes ) 
-					mAudioStream->read(&format_tag, 2);		
+					// Read in audio format  ( 2 bytes )
+					mAudioStream->read(&format_tag, 2);
 
 					// PCM == 1
 					if (format_tag==0x0001 || format_tag==0xFFFE)
 					{
-						// Read in num channels ( 2 bytes ) 
-						mAudioStream->read(&mFormatData->mNumChannels, 2);			
+						// Read in num channels ( 2 bytes )
+						mAudioStream->read(&mFormatData->mNumChannels, 2);
 
-						// Read in sample rate ( 4 bytes ) 
-						mAudioStream->read(&mFormatData->mSampleRate, 4);		
+						// Read in sample rate ( 4 bytes )
+						mAudioStream->read(&mFormatData->mSampleRate, 4);
 
-						// Read in byte rate ( 4 bytes ) 
-						mAudioStream->read(&mFormatData->mAvgBytesPerSec, 4);	
+						// Read in byte rate ( 4 bytes )
+						mAudioStream->read(&mFormatData->mAvgBytesPerSec, 4);
 
-						// Read in byte align ( 2 bytes ) 
-						mAudioStream->read(&mFormatData->mBlockAlign, 2);		
+						// Read in byte align ( 2 bytes )
+						mAudioStream->read(&mFormatData->mBlockAlign, 2);
 
-						// Read in bits per sample ( 2 bytes ) 
-						mAudioStream->read(&mFormatData->mBitsPerSample, 2);	
+						// Read in bits per sample ( 2 bytes )
+						mAudioStream->read(&mFormatData->mBitsPerSample, 2);
 
 						// If WAVEFORMATEXTENSIBLE...
 						if (format_tag==0xFFFE)
@@ -113,20 +113,20 @@ namespace OgreOggSound
 							unsigned short sigBitsPerSample;
 							unsigned short extraInfoSize;
 
-							// Read in significant bits per sample ( 2 bytes ) 
-							mAudioStream->read(&sigBitsPerSample, 2);	
-							
-							// Read in extra info size ( 2 bytes ) 
-							mAudioStream->read(&extraInfoSize, 2);	
+							// Read in significant bits per sample ( 2 bytes )
+							mAudioStream->read(&sigBitsPerSample, 2);
 
-							// Read in samples ( 2 bytes ) 
-							mAudioStream->read(&mFormatData->mSamples, 2);	
+							// Read in extra info size ( 2 bytes )
+							mAudioStream->read(&extraInfoSize, 2);
 
-							// Read in channel mask ( 2 bytes ) 
-							mAudioStream->read(&mFormatData->mChannelMask, 2);	
-							
-							// Read in sub format ( 16 bytes ) 
-							mAudioStream->read(&mFormatData->mSubFormat, sizeof(char[16]));	
+							// Read in samples ( 2 bytes )
+							mAudioStream->read(&mFormatData->mSamples, 2);
+
+							// Read in channel mask ( 2 bytes )
+							mAudioStream->read(&mFormatData->mChannelMask, 2);
+
+							// Read in sub format ( 16 bytes )
+							mAudioStream->read(&mFormatData->mSubFormat, sizeof(char[16]));
 						}
 						// Skip extra info
 						else if (extraBytes)
@@ -141,13 +141,13 @@ namespace OgreOggSound
 							delete [] info;
 						}
 
-						// Read in chunk id ( 4 bytes ) 
-						mAudioStream->read(id, 4);					
+						// Read in chunk id ( 4 bytes )
+						mAudioStream->read(id, 4);
 
 						if ( !strcmp(id, "data") )
 						{
-							// Read in size of audio data ( 4 bytes ) 
-							mAudioStream->read(&mFormatData->mDataSize, 4);		
+							// Read in size of audio data ( 4 bytes )
+							mAudioStream->read(&mFormatData->mDataSize, 4);
 
 							// Store byte offset of start of audio data
 							mFormatData->mAudioOffset = static_cast<unsigned long>(mAudioStream->tell());
@@ -161,22 +161,22 @@ namespace OgreOggSound
 								{
 									unsigned long chunkSize;
 
-									// Read in size of chunk data ( 4 bytes ) 
-									mAudioStream->read(&chunkSize, 4);		
+									// Read in size of chunk data ( 4 bytes )
+									mAudioStream->read(&chunkSize, 4);
 
 									// Skip chunk
 									mAudioStream->skip(chunkSize);
 
 									// Read next chunk id
-									mAudioStream->read(id, 4); 
+									mAudioStream->read(id, 4);
 								}
 								while ( strcmp(id, "data") || mAudioStream->eof() );
 
 								// Validity check
 								if (!mAudioStream->eof())
 								{
-									// Read in size of audio data ( 4 bytes ) 
-									mAudioStream->read(&mFormatData->mDataSize, 4);		
+									// Read in size of audio data ( 4 bytes )
+									mAudioStream->read(&mFormatData->mDataSize, 4);
 
 									// Store byte offset of start of audio data
 									mFormatData->mAudioOffset = static_cast<unsigned long>(mAudioStream->tell());
@@ -219,14 +219,14 @@ namespace OgreOggSound
 		// Generate audio buffers
 		alGenBuffers(NUM_BUFFERS, mBuffers);
 
-#ifndef _LINUX_
+#ifndef LINUX
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
 #endif
 
 		// Check format support
-		if (!_queryBufferInfo()) 
+		if (!_queryBufferInfo())
 		{
 			Ogre::LogManager::getSingleton().logMessage("*** --- Format NOT supported");
 			throw std::string("Format NOT supported!");
@@ -259,7 +259,7 @@ namespace OgreOggSound
 
 					// Queue 250ms of audio data
 					mBufferSize = mFormatData->mAvgBytesPerSec >> 2;
-		
+
 					// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...
 					mBufferSize -= (mBufferSize % mFormatData->mBlockAlign);
 				}
@@ -295,7 +295,7 @@ namespace OgreOggSound
 			{
 				// 16-bit Quad surround
 				mFormat = alGetEnumValue("AL_FORMAT_QUAD16");
-				if (!mFormat) return false; 
+				if (!mFormat) return false;
 
 				// Queue 250ms of audio data
 				mBufferSize = mFormatData->mAvgBytesPerSec >> 2;
@@ -308,7 +308,7 @@ namespace OgreOggSound
 			{
 				// 16-bit 5.1 surround
 				mFormat = alGetEnumValue("AL_FORMAT_51CHN16");
-				if (!mFormat) return false; 
+				if (!mFormat) return false;
 
 				// Queue 250ms of audio data
 				mBufferSize = mFormatData->mAvgBytesPerSec >> 2;
@@ -321,7 +321,7 @@ namespace OgreOggSound
 			{
 				// 16-bit 6.1 surround
 				mFormat = alGetEnumValue("AL_FORMAT_61CHN16");
-				if (!mFormat) return false; 
+				if (!mFormat) return false;
 
 				// Queue 250ms of audio data
 				mBufferSize = mFormatData->mAvgBytesPerSec >> 2;
@@ -334,7 +334,7 @@ namespace OgreOggSound
 			{
 				// 16-bit 7.1 surround
 				mFormat = alGetEnumValue("AL_FORMAT_71CHN16");
-				if (!mFormat) return false; 
+				if (!mFormat) return false;
 
 				// Queue 250ms of audio data
 				mBufferSize = mFormatData->mAvgBytesPerSec >> 2;
@@ -363,7 +363,7 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_release()
-	{		
+	{
 		if ( mSource!=AL_NONE )
 		{
 			ALuint src=AL_NONE;
@@ -373,13 +373,13 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_prebuffer()
-	{	
+	{
 		if (mSource==AL_NONE) return;
 
 		int i=0;
 		while ( i<NUM_BUFFERS )
 		{
-			if ( _stream(mBuffers[i]) ) 
+			if ( _stream(mBuffers[i]) )
 				alSourceQueueBuffers(mSource, 1, &mBuffers[i++]);
 			else
 				break;
@@ -400,7 +400,7 @@ namespace OgreOggSound
 			_initSource();
 		}
 		else
-		{			
+		{
 			// Unqueue buffers
 			_dequeue();
 
@@ -410,15 +410,15 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_updateAudioBuffers()
-	{	
+	{
 		// Automatically play if previously delayed
-		if (mPlayDelayed) 
+		if (mPlayDelayed)
 			play();
 
-		if(mSource == AL_NONE || !mPlay) return;	
+		if(mSource == AL_NONE || !mPlay) return;
 
-		ALenum state;    
-		alGetSourcei(mSource, AL_SOURCE_STATE, &state);	
+		ALenum state;
+		alGetSourcei(mSource, AL_SOURCE_STATE, &state);
 
 		if (state == AL_STOPPED)
 		{
@@ -426,15 +426,15 @@ namespace OgreOggSound
 			{
 				stop();
 				// Finished callback
-				if ( mFinishedCB && mFinCBEnabled ) 
+				if ( mFinishedCB && mFinCBEnabled )
 					mFinishedCB->execute(static_cast<OgreOggISound*>(this));
 				return;
 			}
-			else 
+			else
 			{
-				alSourcePlay(mSource);	
+				alSourcePlay(mSource);
 			}
-		}	
+		}
 
 		int processed;
 
@@ -442,19 +442,19 @@ namespace OgreOggSound
 
 		while(processed--)
 		{
-			ALuint buffer;		
+			ALuint buffer;
 
-			alSourceUnqueueBuffers(mSource, 1, &buffer);		      
-			if ( _stream(buffer) ) alSourceQueueBuffers(mSource, 1, &buffer);		
-		}	
+			alSourceUnqueueBuffers(mSource, 1, &buffer);
+			if ( _stream(buffer) ) alSourceQueueBuffers(mSource, 1, &buffer);
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStreamWavSound::_stream(ALuint buffer)
 	{
 		std::vector<char> audioData;
-		char* data;		
+		char* data;
 		int  bytes = 0;
-		int  result = 0;	
+		int  result = 0;
 
 		// Create buffer
 		data = new char[mBufferSize];
@@ -465,7 +465,7 @@ namespace OgreOggSound
 			// Read up to a buffer's worth of data
 			bytes = static_cast<int>(mAudioStream->read(data, mBufferSize));
 			// EOF check
-			if (mAudioStream->eof()) 
+			if (mAudioStream->eof())
 			{
 				// If set to loop wrap to start of stream
 				if ( mLoop )
@@ -473,10 +473,10 @@ namespace OgreOggSound
 					mAudioStream->seek(mFormatData->mAudioOffset);
 					/**	This is the closest we can get to a loop trigger.
 						If, whilst filling the buffers, we need to wrap the stream
-						pointer, trigger the loop callback if defined. 
+						pointer, trigger the loop callback if defined.
 						NOTE:- The accuracy of this method will be affected by a number of
 						parameters, namely the buffer size, whether the sound has previously
-						given up its source (therefore it will be re-filling all buffers, which, 
+						given up its source (therefore it will be re-filling all buffers, which,
 						if the sound was close to eof will likely get triggered), and the quality
 						of the sound, lower quality will hold a longer section of audio per buffer.
 						In ALL cases this trigger will happen BEFORE the audio audibly loops!!
@@ -498,7 +498,7 @@ namespace OgreOggSound
 		}
 
 		// EOF
-		if(result == 0)	
+		if(result == 0)
 		{
 			delete [] data;
 			return false;
@@ -515,10 +515,10 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_dequeue()
-	{		
+	{
 		if(mSource == AL_NONE)
 			return;
-		
+
 		int queued=0;
 
 		alGetError();
@@ -530,7 +530,7 @@ namespace OgreOggSound
 		alGetSourcei(mSource, AL_BUFFERS_PROCESSED, &queued);
 
 		// Remove number of buffers from source
-		while (queued--) 
+		while (queued--)
 		{
 			ALuint buffer;
 			alSourceUnqueueBuffers(mSource, 1, &buffer);
@@ -541,14 +541,14 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::pause()
-	{		
+	{
 		if(mSource == AL_NONE) return;
 
 		alSourcePause(mSource);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::play()
-	{	
+	{
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
 		// that it can be automatically played when ready.
@@ -560,15 +560,15 @@ namespace OgreOggSound
 		}
 
 		if(isPlaying())	return;
-		
+
 		// Grab a source if not already attached
 		if (mSource == AL_NONE)
 			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
 				return;
 
 		// Play source
-		alSourcePlay(mSource);	
-		if ( alGetError() ) 
+		alSourcePlay(mSource);
+		if ( alGetError() )
 		{
 			Ogre::LogManager::getSingleton().logMessage("Unable to play sound");
 			return;
