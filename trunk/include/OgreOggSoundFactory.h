@@ -22,7 +22,6 @@
 #define __OGREOGGSOUNDFactory_H__
 
 #include <Ogre.h>
-
 #include "OgreOggSound.h"
 
 namespace OgreOggSound 

@@ -35,7 +35,7 @@
 #include "OgreOggSoundFactory.h"
 #include "OgreOggSoundPlugin.h"
 
-#ifndef _LINUX_
+#ifndef LINUX
 #	include "OgreOggSoundRecord.h"
 #endif
 
@@ -302,7 +302,7 @@ namespace OgreOggSound
 				fTime Elapsed frametime.
 		 */
 		void update(Ogre::Real fTime=0.f);
-#ifndef _LINUX_
+#ifndef LINUX
 		/** Sets XRam buffers.
 		@remarks
 			Currently defaults to AL_STORAGE_AUTO.
@@ -566,7 +566,7 @@ namespace OgreOggSound
 			them with the LogManager.
 		 */
 		void _checkFeatureSupport();
-#ifndef _LINUX_
+#ifndef LINUX
 		/** Checks for EFX hardware support
 		 */
 		bool _checkEFXSupport();
@@ -656,7 +656,7 @@ namespace OgreOggSound
 		/**	EFX Support
 		*/
 		bool mEFXSupport;						// EFX present flag
-#ifndef _LINUX_
+#ifndef LINUX
 		// Effect objects
 		LPALGENEFFECTS alGenEffects;
 		LPALDELETEEFFECTS alDeleteEffects;

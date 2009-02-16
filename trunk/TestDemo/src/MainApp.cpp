@@ -115,24 +115,25 @@ void MainApp::createScene()
 
 //	mSoundManager = new OgreOggSound::OgreOggSoundManager();
 	mSoundManager->init();
-	mSoundManager->setDistanceModel(AL_LINEAR_DISTANCE);
+//	mSoundManager->setDistanceModel(AL_LINEAR_DISTANCE);
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
-	mSoundManager->createSound("Two", "boom1.wav", false, false);	
-	mSoundManager->getSound("Two")->setMaxDistance(250);
-	mSoundManager->getSound("Two")->setReferenceDistance(5);
-	nOgreMonster->attachObject(mSoundManager->getSound("Two"));
+	mSoundManager->createSound("Two", "three.ogg", false, true);	
+	mSoundManager->getSound("Two")->setMaxDistance(100);
+	mSoundManager->getSound("Two")->setReferenceDistance(1);
+	nOgreHead->attachObject(mSoundManager->getSound("Two"));
+	nOgreHead->showBoundingBox(true);
 	mSoundManager->playSound("Two");
 
-	/** Sound three - non streamed, looping, moving */
+	/** Sound three - non streamed, looping, moving *
 	mSoundManager->createSound("Three", "three.ogg", false, true);	
 	mSoundManager->getSound("Three")->setMaxDistance(50);
-	mSoundManager->getSound("Three")->setReferenceDistance(5);
+	mSoundManager->getSound("Three")->setReferenceDistance(1);
 	mOgreMonster->attachObject(mSoundManager->getSound("Three"));
-	mSoundManager->playSound("Three");
+//	mSoundManager->playSound("Three");
 	
 	/** Sound one - streamed, looping, EFX Direct filter *
 	mSoundManager->createSound("background", "background.ogg", true, true, true);
@@ -165,9 +166,11 @@ bool MainApp::frameStarted( const Ogre::FrameEvent& evt )
 		mCamera->getParentSceneNode()->yaw(Ogre::Degree(mYawAngleCamera * mFrameTime));
 	}	
 
+	if ( mInputManager->getMouse()->getMouseState().buttonDown(OIS::MB_Right) )
+	{
 	Ogre::SceneNode *nHeadAxis = mSceneMgr->getSceneNode("OgreHeadAxis");
 	nHeadAxis->rotate(Ogre::Quaternion(Ogre::Degree(20.0f * evt.timeSinceLastFrame),Ogre::Vector3::UNIT_Y));
-
+	}
 	Ogre::SceneNode *nMonsterAxis = mSceneMgr->getSceneNode("OgreMonsterAxis");
 	mSoundManager->update(evt.timeSinceLastFrame);
 	

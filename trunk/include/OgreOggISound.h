@@ -22,7 +22,6 @@
 
 #include "OgreOggSoundPrereqs.h"
 #include <string>
-#include <Ogre.h>
 #include <vorbis/vorbisfile.h>
 #include "OgreOggSoundCallback.h"
 	

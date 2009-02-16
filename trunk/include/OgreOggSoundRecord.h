@@ -20,10 +20,8 @@
 
 #pragma once
 
-#include "OgreOggSoundPreReqs.h"
-#include "Ogre.h"
+#include "OgreOggSoundPrereqs.h"
 
-#include <OgreString.h>
 #include <fstream>
 
 namespace OgreOggSound

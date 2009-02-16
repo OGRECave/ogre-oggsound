@@ -18,8 +18,8 @@
 ** along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.	 
 \*---------------------------------------------------------------------------*/
 
-#include "OgreOggIsound.h"
-#include "OgreOggSoundManager.h"
+#include "OgreOggISound.h"
+#include "OgreOggSound.h"
 
 namespace OgreOggSound
 {
@@ -97,7 +97,7 @@ namespace OgreOggSound
 	mLoopCB(0), 
 	mFileOpened(false),
 	mScnMan(0),
-	mLocalTransformDirty(false),
+	mLocalTransformDirty(true),
 	mPlayDelayed(false),
 	mSourceRelative(false)
 	{
