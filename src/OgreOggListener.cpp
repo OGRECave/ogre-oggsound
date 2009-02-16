@@ -19,7 +19,7 @@
 \*---------------------------------------------------------------------------*/
 
 #include "OgreOggListener.h"
-#include <OgreNode.h>
+#include "OgreOggSound.h"
 
 namespace OgreOggSound
 {

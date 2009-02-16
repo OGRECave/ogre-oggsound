@@ -54,7 +54,7 @@ namespace OgreOggSound
 		mEffectSlotList(0),
 		mDeviceStrings(0)
 		{
-#ifndef _LINUX_
+#ifndef LINUX
 			// Effect objects
 			alGenEffects = NULL;
 			alDeleteEffects = NULL;
@@ -213,7 +213,7 @@ namespace OgreOggSound
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
 	#endif
 
-#ifndef _LINUX_
+#ifndef LINUX
 		// Recording
 		if (alcIsExtensionPresent(mDevice, "ALC_EXT_CAPTURE") == AL_FALSE)
 			Ogre::LogManager::getSingleton().logMessage("*** --- Recording devices NOT detected!");
@@ -567,7 +567,7 @@ namespace OgreOggSound
 		if(i == mSoundMap.end()) return 0;
 		return i->second;
 	}
-#ifndef _LINUX_
+#ifndef LINUX
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::isRecordingAvailable()
 	{

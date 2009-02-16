@@ -28,7 +28,6 @@
 
 #include "OgreOggISound.h"
 
-
 namespace OgreOggSound
 {
 	/** 
