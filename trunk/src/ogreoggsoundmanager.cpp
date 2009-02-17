@@ -1637,8 +1637,12 @@ namespace OgreOggSound
 		}
 
 	#if (OGGSOUND_THREADED!=0)
+#ifndef LINUX
+		Sleep(10);
+#else
 		sleep(10);
-	#endif
+#endif
+#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_release()
