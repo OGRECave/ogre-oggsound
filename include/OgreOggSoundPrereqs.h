@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "OGRE/Ogre.h"
+#include "Ogre.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #	include "al.h"
