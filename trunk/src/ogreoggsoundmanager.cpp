@@ -296,6 +296,14 @@ namespace OgreOggSound
 		return deviceVector;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	StringVector OgreOggSoundManager::getSoundList()
+	{ 
+		Ogre::StringVector list;
+		for ( SoundMap::iterator iter=mSoundMap.begin(); iter!=mSoundMap.end(); ++iter )
+			list.push_back((*iter).first);
+		return list; 
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_checkFeatureSupport()
 	{
 		Ogre::String msg="";
