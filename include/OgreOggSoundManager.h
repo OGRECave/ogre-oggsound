@@ -161,6 +161,11 @@ namespace OgreOggSound
 				name Sound name.
 		 */
 		OgreOggISound *getSound(const std::string& name);
+		/** Gets list of created sounds.
+		@remarks
+			Returns a vector of sound name strings.
+		 */
+		Ogre::StringVector getSoundList();
 		/** Returns whether named sound exists.
 		@remarks
 			Checks sound map for a named sound.
