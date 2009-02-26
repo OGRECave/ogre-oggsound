@@ -1,8 +1,10 @@
 * version 1.05
 
-	* Started porting to linux by wrapping unsupported code in #ifndef _LINUX_ 
+	* Started porting to linux by wrapping unsupported code in #ifndef LINUX 
+		* builds using CMake on LINUX	
 	* Removed references to windows specific code
 	* Removed setMinDistance() from OgreOggISound.
+	* added getSoundList() to SoundManager, returns a StringVector of all defined sounds.
 
 * version 1.04
 
