@@ -79,27 +79,15 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggListener::update()
 	{
-		if(_needUpdate())
+		if(mLocalTransformDirty)
 		{
 			if ( mParentNode )
 			{
 				setPosition(mParentNode->_getDerivedPosition());
 				setOrientation(mParentNode->_getDerivedOrientation());			 
 			}
+			mLocalTransformDirty = false;
 		}
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggListener::_needUpdate()
-	{
-		if (mParentNode)
-		{
-			if(!mParentNode->_getDerivedPosition().positionEquals(mPosition))							
-				return true;	
-			if(!mParentNode->_getDerivedOrientation().zAxis().positionEquals(Ogre::Vector3(-mOrientation[0],-mOrientation[1],-mOrientation[2])))
-				return true;					
-		}
-
-		return false;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -144,6 +132,8 @@ namespace OgreOggSound
 
 		return;
 	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggListener::_notifyMoved(void) { mLocalTransformDirty = true; }
 }
 
 	

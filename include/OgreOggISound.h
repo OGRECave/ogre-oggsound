@@ -333,6 +333,11 @@ namespace OgreOggSound
 			Overridden from MovableObject.
 		 */
 		virtual void _notifyAttached(Ogre::Node* node, bool isTagPoint=false);
+		/** Notifys object it has moved
+		@remarks
+			Overridden from MovableObject.
+		 */
+		virtual void _notifyMoved(void);
 		/** Renderable callback
 		@remarks
 			Overridden function from MovableObject.
@@ -421,12 +426,6 @@ namespace OgreOggSound
 			Initialises all the source objects states ready for playback.
 		 */
 		void _initSource();
-		/** Checks transformations for re-sync
-		@remarks
-			Compares transformations which need re-syncing this update.
-			Returns true|false.
-		 */
-		bool _needUpdate();
 		/** Updates a fade
 		@remarks
 			Updates a fade action.

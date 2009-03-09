@@ -137,6 +137,11 @@ namespace OgreOggSound
 			Overridden function from MovableObject.
 		 */
 		virtual void _notifyAttached(Ogre::Node* node, bool isTagPoint=false);
+		/** Moved callback
+		@remarks
+			Overridden function from MovableObject.
+		 */
+		virtual void _notifyMoved(void);
 		
 	private:
 
@@ -146,14 +151,5 @@ namespace OgreOggSound
 		Ogre::Vector3 mPosition;	// 3D position
 		float mOrientation[6];		// 3D orientation
 		bool mLocalTransformDirty;	// Dirty transforms flag
-
-	protected:
-
-		/** Returns whether a transformation update is required.
-		@remarks
-			Checks the transformation vars for changes which require
-			re-syncing this update. Returns true/false.
-		 */
-		bool _needUpdate();
 	};
 }
