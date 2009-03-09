@@ -408,7 +408,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::update(Ogre::Real fTime)
 	{
-		if (mLocalTransformDirty || _needUpdate())
+		if (mLocalTransformDirty )
 		{
 			if (mParentNode)
 			{
@@ -426,19 +426,6 @@ namespace OgreOggSound
 		}	
 
 		_updateFade(fTime);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggISound::_needUpdate()
-	{		
-		if (mParentNode)
-		{
-			if(!mParentNode->_getDerivedPosition().positionEquals(mPosition))							
-				return true;	
-			if(!mParentNode->_getDerivedOrientation().zAxis().positionEquals(-mDirection))
-				return true;							
-		}
-
-		return false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	const Ogre::String& OgreOggISound::getMovableType(void) const
@@ -484,6 +471,8 @@ namespace OgreOggSound
 
 		return;
 	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::_notifyMoved(void) { mLocalTransformDirty = true; }
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables)
 	{
