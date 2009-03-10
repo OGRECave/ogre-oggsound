@@ -13,6 +13,7 @@
 		* Previously if sound didn't have a source it returned false, however, although it isn't currently playing this could
 		be due to being held in the reactivate list where it would be restarted when within range, therefore this function now
 		returns the current and/or intended status.
+	* Added functions to record and recover audio position when relinquishing/reactivating.
 
 * version 1.05
 

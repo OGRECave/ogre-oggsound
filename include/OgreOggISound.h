@@ -436,6 +436,18 @@ namespace OgreOggSound
 			Initialises all the source objects states ready for playback.
 		 */
 		void _initSource();
+		/** Stores the current play position of the sound
+		@remarks
+			Only for static sounds at present so that when re-activated it begins 
+			exactly where it left off.
+		 */
+		void _markPlayPosition();
+		/** Sets the previous play position of the sound
+		@remarks
+			Uses a previously stored play position to ensure sound playback
+			starts where it left off
+		 */
+		void _recoverPlayPosition();
 		/** Updates a fade
 		@remarks
 			Updates a fade action.

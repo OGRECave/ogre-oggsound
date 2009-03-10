@@ -361,6 +361,35 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::_markPlayPosition()
+	{
+		/** Ignore if no source available.
+			With stream sounds the buffers will hold the audio data
+			at the position it is kicked off at, although there is potential
+			to be 1/4 second out, so may need to look at this..
+			for now just re-use buffers
+		*/
+		if ( !mSeekable || (mSource==AL_NONE) || mStream )
+			return;
+
+		alSourcePause(mSource);
+		alGetSourcef(mSource, AL_SEC_OFFSET, &mPlayPos);
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::_recoverPlayPosition()
+	{
+		if ( !mSeekable || (mSource==AL_NONE) || mStream )
+			return;
+
+		alSourcef(mSource, AL_SEC_OFFSET, mPlayPos);
+		if (alGetError())
+		{
+			Ogre::LogManager::getSingleton().logMessage("***--- OgreOggISound::_recoverPlayPosition() - Unable to set play position", Ogre::LML_CRITICAL);
+		}
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggISound::isPlaying()
 	{
 		if(mSource != AL_NONE)
