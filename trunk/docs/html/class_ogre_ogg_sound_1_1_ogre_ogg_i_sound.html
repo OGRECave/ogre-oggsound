@@ -156,9 +156,13 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#7cab25e60a016a9e8d534e3833f70125">OgreOggISound</a> (const Ogre::String &amp;name, bool seekSupport=false)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#5dcd65d02b1ac08ca81f96010472169f">~OgreOggISound</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#8cca990b841f997803caa5b16b63b51a">~OgreOggISound</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#c89a5d9dcf5100cbf459d6330c5cec0d">_initSource</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#3d2ad3d432dedfee362a96e7da82e6c2">_markPlayPosition</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#e7004e711e90566ab42346be94524bb1">_recoverPlayPosition</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#712ec612c267e192b24bb2222707adf5">_updateFade</a> (Ogre::Real fTime=0.f)</td></tr>
 
@@ -291,14 +295,16 @@ class for a sound, provides functions for setting audio properties on a 3D sound
 
 <p>
 Superclass describing a single sound object. 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00067">67</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
 </div>
 </div><p>
-<a class="anchor" name="5dcd65d02b1ac08ca81f96010472169f"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::~OgreOggISound" ref="5dcd65d02b1ac08ca81f96010472169f" args="()" -->
+<a class="anchor" name="8cca990b841f997803caa5b16b63b51a"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::~OgreOggISound" ref="8cca990b841f997803caa5b16b63b51a" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual OgreOggSound::OgreOggISound::~OgreOggISound           </td>
+          <td class="memname">OgreOggSound::OgreOggISound::~OgreOggISound           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -310,6 +316,8 @@ Superclass describing a single sound object.
 
 <p>
 Superclass destructor. 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00115">115</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
 </div>
 </div><p>
 <hr><h2>Member Function Documentation</h2>
@@ -637,6 +645,8 @@ Sets sounds position. <dl compact><dt><b>Parameters:</b></dt><dd>
   </table>
 </dl>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00120">120</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="7bb7270ffd542d8c1c57ac70bc9cad1e"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::setPosition" ref="7bb7270ffd542d8c1c57ac70bc9cad1e" args="(const Ogre::Vector3 &amp;pos)" -->
@@ -661,6 +671,8 @@ Sets sounds position. <dl compact><dt><b>Parameters:</b></dt><dd>
     <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>3D vector position </td></tr>
   </table>
 </dl>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00128">128</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -702,6 +714,8 @@ Sets sounds direction. <dl compact><dt><b>Parameters:</b></dt><dd>
   </table>
 </dl>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00134">134</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="e7d1583e0e5054a5a13b62d57a815405"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::setDirection" ref="e7d1583e0e5054a5a13b62d57a815405" args="(const Ogre::Vector3 &amp;dir)" -->
@@ -726,6 +740,8 @@ Sets sounds direction. <dl compact><dt><b>Parameters:</b></dt><dd>
     <tr><td valign="top"></td><td valign="top"><em>dir</em>&nbsp;</td><td>3D vector direction </td></tr>
   </table>
 </dl>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00142">142</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -767,6 +783,8 @@ Sets sounds velocity. <dl compact><dt><b>Parameters:</b></dt><dd>
   </table>
 </dl>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00148">148</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="a9d1a1dff3d9d09b2074026d9f02b2ae"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::setVelocity" ref="a9d1a1dff3d9d09b2074026d9f02b2ae" args="(const Ogre::Vector3 &amp;vel)" -->
@@ -791,6 +809,8 @@ Sets sounds velocity. <dl compact><dt><b>Parameters:</b></dt><dd>
     <tr><td valign="top"></td><td valign="top"><em>vel</em>&nbsp;</td><td>3D vector velocity </td></tr>
   </table>
 </dl>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00156">156</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -818,6 +838,8 @@ Sets sounds volume <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Sets s
   </table>
 </dl>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00162">162</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="224ec0fb0e3f00d29d3225733811f1fe"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::getVolume" ref="224ec0fb0e3f00d29d3225733811f1fe" args="()" -->
@@ -837,6 +859,8 @@ Sets sounds volume <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Sets s
 
 <p>
 Gets sounds volume <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Gets the current gain value. </dd></dl>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00294">294</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -864,6 +888,8 @@ Sets sounds maximum attenuation volume <dl class="remark" compact><dt><b>Remarks
   </table>
 </dl>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00174">174</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="98e6c185292f59a6105cf7f5073adfec"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::setMinVolume" ref="98e6c185292f59a6105cf7f5073adfec" args="(float minGain)" -->
@@ -889,6 +915,8 @@ Sets sounds minimum attenuation volume <dl class="remark" compact><dt><b>Remarks
     <tr><td valign="top"></td><td valign="top"><em>minGain</em>&nbsp;</td><td>Volume scalar (0..1) </td></tr>
   </table>
 </dl>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00186">186</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -926,6 +954,8 @@ Sets sounds cone angles <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>T
   </table>
 </dl>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00198">198</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="9cdbbe210addfc168637fd1082ba0584"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::setOuterConeVolume" ref="9cdbbe210addfc168637fd1082ba0584" args="(float gain=0.f)" -->
@@ -951,6 +981,8 @@ Sets sounds outer cone volume <dl class="remark" compact><dt><b>Remarks:</b></dt
     <tr><td valign="top"></td><td valign="top"><em>gain</em>&nbsp;</td><td>Volume scalar (0..1) </td></tr>
   </table>
 </dl>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00213">213</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -978,6 +1010,8 @@ Sets sounds maximum distance <dl class="remark" compact><dt><b>Remarks:</b></dt>
   </table>
 </dl>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00225">225</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="19d3486a1473d2a2b340f56e56543a29"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::setRolloffFactor" ref="19d3486a1473d2a2b340f56e56543a29" args="(float rolloffFactor)" -->
@@ -1003,6 +1037,8 @@ Sets sounds rolloff factor <dl class="remark" compact><dt><b>Remarks:</b></dt><d
     <tr><td valign="top"></td><td valign="top"><em>rolloffFactor</em>&nbsp;</td><td>Factor (&gt;0). </td></tr>
   </table>
 </dl>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00237">237</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1030,6 +1066,8 @@ Sets sounds reference distance <dl class="remark" compact><dt><b>Remarks:</b></d
   </table>
 </dl>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00249">249</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
 </div>
 </div><p>
 <a class="anchor" name="2d12745d804b9e5a2bfde8fbb1f617e9"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::setPitch" ref="2d12745d804b9e5a2bfde8fbb1f617e9" args="(float pitch)" -->
@@ -1055,6 +1093,8 @@ Sets sounds pitch <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>This af
     <tr><td valign="top"></td><td valign="top"><em>pitch</em>&nbsp;</td><td>Pitch (&gt;0). </td></tr>
   </table>
 </dl>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00261">261</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1166,6 +1206,8 @@ Starts a fade in/out of the sound volume <dl class="remark" compact><dt><b>Remar
     <tr><td valign="top"></td><td valign="top"><em>actionOnCompletion</em>&nbsp;</td><td>Optional action to perform when fading has finished (default: NONE) </td></tr>
   </table>
 </dl>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00306">306</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1756,6 +1798,52 @@ Release all OpenAL objects <dl class="remark" compact><dt><b>Remarks:</b></dt><d
 <p>
 Inits source object <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Initialises all the source objects states ready for playback. </dd></dl>
 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00271">271</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="3d2ad3d432dedfee362a96e7da82e6c2"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::_markPlayPosition" ref="3d2ad3d432dedfee362a96e7da82e6c2" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggISound::_markPlayPosition           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Stores the current play position of the sound <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Only for static sounds at present so that when re-activated it begins exactly where it left off. </dd></dl>
+
+<p>
+Ignore if no source available. With stream sounds the buffers will hold the audio data at the position it is kicked off at, although there is potential to be 1/4 second out, so may need to look at this.. for now just re-use buffers 
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00364">364</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="e7004e711e90566ab42346be94524bb1"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::_recoverPlayPosition" ref="e7004e711e90566ab42346be94524bb1" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggISound::_recoverPlayPosition           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets the previous play position of the sound <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Uses a previously stored play position to ensure sound playback starts where it left off </dd></dl>
+
 </div>
 </div><p>
 <a class="anchor" name="712ec612c267e192b24bb2222707adf5"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::_updateFade" ref="712ec612c267e192b24bb2222707adf5" args="(Ogre::Real fTime=0.f)" -->
@@ -1776,6 +1864,8 @@ Inits source object <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Initi
 
 <p>
 Updates a fade <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Updates a fade action. </dd></dl>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00325">325</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1861,7 +1951,7 @@ Calculates buffer size and format. <dl class="remark" compact><dt><b>Remarks:</b
 
 <p>Reimplemented in <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#7cfed535deaa9c3b1c335b122135c474">OgreOggSound::OgreOggStaticSound</a>, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#7cfed535deaa9c3b1c335b122135c474">OgreOggSound::OgreOggStaticWavSound</a>, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#7cfed535deaa9c3b1c335b122135c474">OgreOggSound::OgreOggStreamSound</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#7cfed535deaa9c3b1c335b122135c474">OgreOggSound::OgreOggStreamWavSound</a>.</p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00517">517</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00529">529</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -1879,7 +1969,7 @@ Calculates buffer size and format. <dl class="remark" compact><dt><b>Remarks:</b
 
 <p>
 Variables used to fade sound 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00465">465</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00477">477</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -1896,7 +1986,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00466">466</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00478">478</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -1913,7 +2003,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00467">467</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00479">479</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -1930,7 +2020,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00468">468</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00480">480</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -1947,7 +2037,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00469">469</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00481">481</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -1964,7 +2054,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00470">470</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00482">482</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -1981,7 +2071,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00473">473</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00485">485</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -1998,7 +2088,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00474">474</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00486">486</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2015,7 +2105,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00477">477</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00489">489</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2032,7 +2122,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00478">478</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00490">490</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2049,7 +2139,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00479">479</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00491">491</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2066,7 +2156,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00480">480</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00492">492</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2083,7 +2173,7 @@ Variables used to fade sound
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00482">482</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00494">494</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2100,7 +2190,7 @@ Variables used to fade sound
 
 <p>
 Sound properties 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00486">486</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00498">498</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2117,7 +2207,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00487">487</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00499">499</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2134,7 +2224,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00488">488</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00500">500</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2151,7 +2241,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00489">489</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00501">501</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2168,7 +2258,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00490">490</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00502">502</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2185,7 +2275,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00491">491</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00503">503</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2202,7 +2292,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00492">492</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00504">504</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2219,7 +2309,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00493">493</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00505">505</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2236,7 +2326,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00494">494</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00506">506</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2253,7 +2343,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00495">495</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00507">507</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2270,7 +2360,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00496">496</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00508">508</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2287,7 +2377,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00497">497</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00509">509</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2304,7 +2394,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00498">498</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00510">510</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2321,7 +2411,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00499">499</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00511">511</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2338,7 +2428,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00500">500</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00512">512</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2355,7 +2445,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00501">501</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00513">513</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2372,7 +2462,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00502">502</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00514">514</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2389,7 +2479,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00503">503</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00515">515</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2406,7 +2496,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00504">504</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00516">516</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2423,7 +2513,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00505">505</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00517">517</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2440,7 +2530,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00506">506</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00518">518</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2457,7 +2547,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00507">507</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00519">519</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2474,7 +2564,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00508">508</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00520">520</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2491,7 +2581,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00509">509</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00521">521</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2508,7 +2598,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00510">510</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00522">522</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2525,7 +2615,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00511">511</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00523">523</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2542,7 +2632,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00512">512</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00524">524</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2559,7 +2649,7 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00513">513</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00525">525</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
@@ -2576,14 +2666,14 @@ Sound properties
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00515">515</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h-source.html#l00527">527</a> of file <a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div><p>
-<hr>The documentation for this class was generated from the following file:<ul>
-<li>C:/Current Projects/Audio Library/ogreoggsound/include/<a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a></ul>
+<hr>The documentation for this class was generated from the following files:<ul>
+<li>C:/Current Projects/Audio Library/ogreoggsound/include/<a class="el" href="_ogre_ogg_i_sound_8h-source.html">OgreOggISound.h</a><li>C:/Current Projects/Audio Library/ogreoggsound/src/<a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Mar 10 12:07:26 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Mar 10 12:31:31 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

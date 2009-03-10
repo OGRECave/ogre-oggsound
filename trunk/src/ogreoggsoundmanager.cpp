@@ -1966,10 +1966,12 @@ namespace OgreOggSound
 				ALuint nullSrc = AL_NONE;
 				// Pause sounds
 				snd1->pause();
+				snd1->_markPlayPosition();
 				// Remove source
 				snd1->setSource(nullSrc);
 				// Attach source to new sound
 				sound->setSource(src);
+				sound->_recoverPlayPosition();
 				// Add to reactivate list
 				mSoundsToReactivate.push_back(snd1);
 				// Remove relinquished sound from active list

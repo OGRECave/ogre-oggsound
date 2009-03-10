@@ -89,6 +89,15 @@ ALuint &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <a class="el" href="namespace_ogre_ogg_sound.html#22f1223df732e29d78414d082e00c012ae443d79685fcc38b4a35cd618eae914">STOP</a> =  0x02
  }</td></tr>
 
+<tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#75366a00cc562bc549ed68e5a4934c1b">OOSStreamRead</a> (void *ptr, size_t size, size_t nmemb, void *datasource)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#8014b796acf9c184d41877381588baff">OOSStreamSeek</a> (void *datasource, ogg_int64_t offset, int whence)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#485609d03584df22a3932113e02f3fde">OOSStreamClose</a> (void *datasource)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#2f1ca388040b259c7e771e84824b32ff">OOSStreamTell</a> (void *datasource)</td></tr>
+
 </table>
 <hr><h2>Typedef Documentation</h2>
 <a class="anchor" name="7cf9e279b0e175eb8535dede22947223"></a><!-- doxytag: member="OgreOggSound::ActiveList" ref="7cf9e279b0e175eb8535dede22947223" args="" -->
@@ -239,8 +248,133 @@ Action enumeration after a fade has completed. <dl class="remark" compact><dt><b
 
 </div>
 </div><p>
+<hr><h2>Function Documentation</h2>
+<a class="anchor" name="485609d03584df22a3932113e02f3fde"></a><!-- doxytag: member="OgreOggSound::OOSStreamClose" ref="485609d03584df22a3932113e02f3fde" args="(void *datasource)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int OgreOggSound::OOSStreamClose           </td>
+          <td>(</td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>datasource</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Mar 10 12:07:26 2009 for OgreOggSound by&nbsp;
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00055">55</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="75366a00cc562bc549ed68e5a4934c1b"></a><!-- doxytag: member="OgreOggSound::OOSStreamRead" ref="75366a00cc562bc549ed68e5a4934c1b" args="(void *ptr, size_t size, size_t nmemb, void *datasource)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t OgreOggSound::OOSStreamRead           </td>
+          <td>(</td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&nbsp;</td>
+          <td class="paramname"> <em>nmemb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>datasource</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00030">30</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="8014b796acf9c184d41877381588baff"></a><!-- doxytag: member="OgreOggSound::OOSStreamSeek" ref="8014b796acf9c184d41877381588baff" args="(void *datasource, ogg_int64_t offset, int whence)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int OgreOggSound::OOSStreamSeek           </td>
+          <td>(</td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>datasource</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ogg_int64_t&nbsp;</td>
+          <td class="paramname"> <em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>whence</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00036">36</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="2f1ca388040b259c7e771e84824b32ff"></a><!-- doxytag: member="OgreOggSound::OOSStreamTell" ref="2f1ca388040b259c7e771e84824b32ff" args="(void *datasource)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long OgreOggSound::OOSStreamTell           </td>
+          <td>(</td>
+          <td class="paramtype">void *&nbsp;</td>
+          <td class="paramname"> <em>datasource</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html#l00060">60</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp-source.html">OgreOggISound.cpp</a>.</p>
+
+</div>
+</div><p>
+</div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Mar 10 12:31:31 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

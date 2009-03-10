@@ -1982,173 +1982,175 @@
 <a name="l01966"></a>01966 <span class="comment">                                ALuint nullSrc = AL_NONE;</span>
 <a name="l01967"></a>01967 <span class="comment">                                // Pause sounds</span>
 <a name="l01968"></a>01968 <span class="comment">                                snd1-&gt;pause();</span>
-<a name="l01969"></a>01969 <span class="comment">                                // Remove source</span>
-<a name="l01970"></a>01970 <span class="comment">                                snd1-&gt;setSource(nullSrc);</span>
-<a name="l01971"></a>01971 <span class="comment">                                // Attach source to new sound</span>
-<a name="l01972"></a>01972 <span class="comment">                                sound-&gt;setSource(src);</span>
-<a name="l01973"></a>01973 <span class="comment">                                // Add to reactivate list</span>
-<a name="l01974"></a>01974 <span class="comment">                                mSoundsToReactivate.push_back(snd1);</span>
-<a name="l01975"></a>01975 <span class="comment">                                // Remove relinquished sound from active list</span>
-<a name="l01976"></a>01976 <span class="comment">                                mActiveSounds.erase(mActiveSounds.begin());</span>
-<a name="l01977"></a>01977 <span class="comment">                                // Add new sound to active list</span>
-<a name="l01978"></a>01978 <span class="comment">                                mActiveSounds.push_back(sound);</span>
-<a name="l01979"></a>01979 <span class="comment">                                // Return success</span>
-<a name="l01980"></a>01980 <span class="comment">                                return true;</span>
-<a name="l01981"></a>01981 <span class="comment">                        }</span>
-<a name="l01982"></a>01982 <span class="comment">                }</span>
-<a name="l01983"></a>01983 <span class="comment">                // Uh oh - won't be played</span>
-<a name="l01984"></a>01984 <span class="comment">                return false;</span>
-<a name="l01985"></a>01985 <span class="comment">        }</span>
-<a name="l01986"></a>01986 <span class="comment"></span>
-<a name="l01987"></a>01987 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l01988"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#79b5f9d8326eb61b375f43b7152b494f">01988</a> <span class="comment">        bool OgreOggSoundManager::releaseSoundSource(OgreOggISound* sound)</span>
-<a name="l01989"></a>01989 <span class="comment">        {</span>
-<a name="l01990"></a>01990 <span class="comment">                if (!sound) return false;</span>
-<a name="l01991"></a>01991 <span class="comment"></span>
-<a name="l01992"></a>01992 <span class="comment">        #if OGGSOUND_THREADED</span>
-<a name="l01993"></a>01993 <span class="comment">                boost::recursive_mutex::scoped_lock l(mMutex);</span>
-<a name="l01994"></a>01994 <span class="comment">        #endif</span>
-<a name="l01995"></a>01995 <span class="comment"></span>
-<a name="l01996"></a>01996 <span class="comment">                if (sound-&gt;getSource()==AL_NONE) return true;</span>
+<a name="l01969"></a>01969 <span class="comment">                                snd1-&gt;_markPlayPosition();</span>
+<a name="l01970"></a>01970 <span class="comment">                                // Remove source</span>
+<a name="l01971"></a>01971 <span class="comment">                                snd1-&gt;setSource(nullSrc);</span>
+<a name="l01972"></a>01972 <span class="comment">                                // Attach source to new sound</span>
+<a name="l01973"></a>01973 <span class="comment">                                sound-&gt;setSource(src);</span>
+<a name="l01974"></a>01974 <span class="comment">                                sound-&gt;_recoverPlayPosition();</span>
+<a name="l01975"></a>01975 <span class="comment">                                // Add to reactivate list</span>
+<a name="l01976"></a>01976 <span class="comment">                                mSoundsToReactivate.push_back(snd1);</span>
+<a name="l01977"></a>01977 <span class="comment">                                // Remove relinquished sound from active list</span>
+<a name="l01978"></a>01978 <span class="comment">                                mActiveSounds.erase(mActiveSounds.begin());</span>
+<a name="l01979"></a>01979 <span class="comment">                                // Add new sound to active list</span>
+<a name="l01980"></a>01980 <span class="comment">                                mActiveSounds.push_back(sound);</span>
+<a name="l01981"></a>01981 <span class="comment">                                // Return success</span>
+<a name="l01982"></a>01982 <span class="comment">                                return true;</span>
+<a name="l01983"></a>01983 <span class="comment">                        }</span>
+<a name="l01984"></a>01984 <span class="comment">                }</span>
+<a name="l01985"></a>01985 <span class="comment">                // Uh oh - won't be played</span>
+<a name="l01986"></a>01986 <span class="comment">                return false;</span>
+<a name="l01987"></a>01987 <span class="comment">        }</span>
+<a name="l01988"></a>01988 <span class="comment"></span>
+<a name="l01989"></a>01989 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l01990"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#79b5f9d8326eb61b375f43b7152b494f">01990</a> <span class="comment">        bool OgreOggSoundManager::releaseSoundSource(OgreOggISound* sound)</span>
+<a name="l01991"></a>01991 <span class="comment">        {</span>
+<a name="l01992"></a>01992 <span class="comment">                if (!sound) return false;</span>
+<a name="l01993"></a>01993 <span class="comment"></span>
+<a name="l01994"></a>01994 <span class="comment">        #if OGGSOUND_THREADED</span>
+<a name="l01995"></a>01995 <span class="comment">                boost::recursive_mutex::scoped_lock l(mMutex);</span>
+<a name="l01996"></a>01996 <span class="comment">        #endif</span>
 <a name="l01997"></a>01997 <span class="comment"></span>
-<a name="l01998"></a>01998 <span class="comment">                // Get source</span>
-<a name="l01999"></a>01999 <span class="comment">                ALuint src = sound-&gt;getSource();</span>
-<a name="l02000"></a>02000 <span class="comment"></span>
-<a name="l02001"></a>02001 <span class="comment">                // Valid source?</span>
-<a name="l02002"></a>02002 <span class="comment">                if(src!=AL_NONE)</span>
-<a name="l02003"></a>02003 <span class="comment">                {</span>
-<a name="l02004"></a>02004 <span class="comment">                        ALuint source=AL_NONE;</span>
-<a name="l02005"></a>02005 <span class="comment"></span>
-<a name="l02006"></a>02006 <span class="comment">                        // Detach source from sound</span>
-<a name="l02007"></a>02007 <span class="comment">                        sound-&gt;setSource(source);</span>
-<a name="l02008"></a>02008 <span class="comment"></span>
-<a name="l02009"></a>02009 <span class="comment">                        // Remove from actives list</span>
-<a name="l02010"></a>02010 <span class="comment">                        for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter )</span>
-<a name="l02011"></a>02011 <span class="comment">                        {</span>
-<a name="l02012"></a>02012 <span class="comment">                                // Find sound in actives list</span>
-<a name="l02013"></a>02013 <span class="comment">                                if ( (*iter)==sound )</span>
-<a name="l02014"></a>02014 <span class="comment">                                {</span>
-<a name="l02015"></a>02015 <span class="comment">                                        // Remove from list</span>
-<a name="l02016"></a>02016 <span class="comment">                                        mActiveSounds.erase(iter);</span>
-<a name="l02017"></a>02017 <span class="comment"></span>
-<a name="l02018"></a>02018 <span class="comment">                                        // Make source available</span>
-<a name="l02019"></a>02019 <span class="comment">                                        mSourcePool.push_back(src);</span>
-<a name="l02020"></a>02020 <span class="comment"></span>
-<a name="l02021"></a>02021 <span class="comment">                                        // All ok</span>
-<a name="l02022"></a>02022 <span class="comment">                                        return true;</span>
-<a name="l02023"></a>02023 <span class="comment">                                }</span>
-<a name="l02024"></a>02024 <span class="comment">                        }</span>
-<a name="l02025"></a>02025 <span class="comment">                }</span>
-<a name="l02026"></a>02026 <span class="comment"></span>
-<a name="l02027"></a>02027 <span class="comment">                return false;</span>
-<a name="l02028"></a>02028 <span class="comment">        }</span>
-<a name="l02029"></a>02029 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l02030"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#8b7c76fc1dc6d3c407439d97f58b378b">02030</a> <span class="comment">        ALuint OgreOggSoundManager::_getSharedBuffer(const String&amp; sName)</span>
-<a name="l02031"></a>02031 <span class="comment">        {</span>
-<a name="l02032"></a>02032 <span class="comment">                if ( sName.empty() ) return AL_NONE;</span>
-<a name="l02033"></a>02033 <span class="comment"></span>
-<a name="l02034"></a>02034 <span class="comment">                SharedBufferList::iterator f;</span>
-<a name="l02035"></a>02035 <span class="comment">                if ( ( f = mSharedBuffers.find(sName) ) != mSharedBuffers.end() )</span>
-<a name="l02036"></a>02036 <span class="comment">                {</span>
-<a name="l02037"></a>02037 <span class="comment">                        f-&gt;second-&gt;mRefCount++;</span>
-<a name="l02038"></a>02038 <span class="comment">                        return f-&gt;second-&gt;mAudioBuffer;</span>
-<a name="l02039"></a>02039 <span class="comment">                }</span>
-<a name="l02040"></a>02040 <span class="comment">                return AL_NONE;</span>
-<a name="l02041"></a>02041 <span class="comment">        }</span>
-<a name="l02042"></a>02042 <span class="comment"></span>
-<a name="l02043"></a>02043 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l02044"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#b52eec8cd84e7180726c8574b3063b92">02044</a> <span class="comment">        bool OgreOggSoundManager::releaseSharedBuffer(const String&amp; sName, ALuint&amp; buffer)</span>
-<a name="l02045"></a>02045 <span class="comment">        {</span>
-<a name="l02046"></a>02046 <span class="comment">                if ( sName.empty() ) return false;</span>
-<a name="l02047"></a>02047 <span class="comment"></span>
-<a name="l02048"></a>02048 <span class="comment">                SharedBufferList::iterator f;</span>
-<a name="l02049"></a>02049 <span class="comment">                if ( ( f = mSharedBuffers.find(sName) ) != mSharedBuffers.end() )</span>
-<a name="l02050"></a>02050 <span class="comment">                {</span>
-<a name="l02051"></a>02051 <span class="comment">                        // Decrement</span>
-<a name="l02052"></a>02052 <span class="comment">                        f-&gt;second-&gt;mRefCount--;</span>
-<a name="l02053"></a>02053 <span class="comment">                        if ( f-&gt;second-&gt;mRefCount==0 )</span>
-<a name="l02054"></a>02054 <span class="comment">                        {</span>
-<a name="l02055"></a>02055 <span class="comment">                                // Delete buffer object</span>
-<a name="l02056"></a>02056 <span class="comment">                                alDeleteBuffers(1, &amp;f-&gt;second-&gt;mAudioBuffer);</span>
-<a name="l02057"></a>02057 <span class="comment"></span>
-<a name="l02058"></a>02058 <span class="comment">                                // Remove from list</span>
-<a name="l02059"></a>02059 <span class="comment">                                mSharedBuffers.erase(f);</span>
-<a name="l02060"></a>02060 <span class="comment">                        }</span>
-<a name="l02061"></a>02061 <span class="comment">                        return true;</span>
-<a name="l02062"></a>02062 <span class="comment">                }</span>
-<a name="l02063"></a>02063 <span class="comment">                return false;</span>
-<a name="l02064"></a>02064 <span class="comment">        }</span>
-<a name="l02065"></a>02065 <span class="comment"></span>
-<a name="l02066"></a>02066 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l02067"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#d3d66a84ca52aa8731047a1b9799a629">02067</a> <span class="comment">        bool OgreOggSoundManager::registerSharedBuffer(const String&amp; sName, ALuint&amp; buffer)</span>
-<a name="l02068"></a>02068 <span class="comment">        {</span>
-<a name="l02069"></a>02069 <span class="comment">                if ( sName.empty() ) return false;</span>
-<a name="l02070"></a>02070 <span class="comment"></span>
-<a name="l02071"></a>02071 <span class="comment">                SharedBufferList::iterator f;</span>
-<a name="l02072"></a>02072 <span class="comment">                if ( ( f = mSharedBuffers.find(sName) ) == mSharedBuffers.end() )</span>
-<a name="l02073"></a>02073 <span class="comment">                {</span>
-<a name="l02074"></a>02074 <span class="comment">                        // Create struct</span>
-<a name="l02075"></a>02075 <span class="comment">                        sharedAudioBuffer* buf = new sharedAudioBuffer;</span>
-<a name="l02076"></a>02076 <span class="comment"></span>
-<a name="l02077"></a>02077 <span class="comment">                        // Set buffer</span>
-<a name="l02078"></a>02078 <span class="comment">                        buf-&gt;mAudioBuffer = buffer;</span>
-<a name="l02079"></a>02079 <span class="comment"></span>
-<a name="l02080"></a>02080 <span class="comment">                        // Set ref count</span>
-<a name="l02081"></a>02081 <span class="comment">                        buf-&gt;mRefCount = 1;</span>
-<a name="l02082"></a>02082 <span class="comment"></span>
-<a name="l02083"></a>02083 <span class="comment">                        // Add to list</span>
-<a name="l02084"></a>02084 <span class="comment">                        mSharedBuffers[sName] = buf;</span>
-<a name="l02085"></a>02085 <span class="comment">                }</span>
-<a name="l02086"></a>02086 <span class="comment">                return true;</span>
-<a name="l02087"></a>02087 <span class="comment">        }</span>
-<a name="l02088"></a>02088 <span class="comment"></span>
-<a name="l02089"></a>02089 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l02090"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#51da0a6b2bc8c3ddb15a19a508697d2d">02090</a> <span class="comment">        void OgreOggSoundManager::setDistanceModel(ALenum value)</span>
-<a name="l02091"></a>02091 <span class="comment">        {</span>
-<a name="l02092"></a>02092 <span class="comment">                alDistanceModel(value);</span>
-<a name="l02093"></a>02093 <span class="comment">        }</span>
-<a name="l02094"></a>02094 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l02095"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#8813c720b2b520f5ae7f028d99f8f795">02095</a> <span class="comment">        void OgreOggSoundManager::setSpeedOfSound(Ogre::Real speed)</span>
-<a name="l02096"></a>02096 <span class="comment">        {</span>
-<a name="l02097"></a>02097 <span class="comment">                alSpeedOfSound(speed);</span>
-<a name="l02098"></a>02098 <span class="comment">        }</span>
-<a name="l02099"></a>02099 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l02100"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#eb9f32f01d92f0c9790c2e99e9a8d77c">02100</a> <span class="comment">        void OgreOggSoundManager::setDopplerFactor(Ogre::Real factor)</span>
-<a name="l02101"></a>02101 <span class="comment">        {</span>
-<a name="l02102"></a>02102 <span class="comment">                alDopplerFactor(factor);</span>
-<a name="l02103"></a>02103 <span class="comment">        }</span>
-<a name="l02104"></a>02104 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l02105"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#a7b0bebc35c5bd82989cb84245df3c0b">02105</a> <span class="comment">        void OgreOggSoundManager::update(Ogre::Real fTime)</span>
-<a name="l02106"></a>02106 <span class="comment">        {</span>
-<a name="l02107"></a>02107 <span class="comment">                static Real rTime=0.f;</span>
-<a name="l02108"></a>02108 <span class="comment"></span>
-<a name="l02109"></a>02109 <span class="comment">                // Update ALL active sounds</span>
-<a name="l02110"></a>02110 <span class="comment">                ActiveList::iterator i = mActiveSounds.begin();</span>
-<a name="l02111"></a>02111 <span class="comment">                while( i != mActiveSounds.end())</span>
-<a name="l02112"></a>02112 <span class="comment">                {</span>
-<a name="l02113"></a>02113 <span class="comment">                        (*i)-&gt;update(fTime);</span>
-<a name="l02114"></a>02114 <span class="comment">        #if ( OGGSOUND_THREADED==0 )</span>
-<a name="l02115"></a>02115 <span class="comment">                        (*i)-&gt;_updateAudioBuffers();</span>
-<a name="l02116"></a>02116 <span class="comment">        #endif</span>
-<a name="l02117"></a>02117 <span class="comment">                        i++;</span>
-<a name="l02118"></a>02118 <span class="comment">                }</span>
-<a name="l02119"></a>02119 <span class="comment"></span>
-<a name="l02120"></a>02120 <span class="comment">                // Limit re-activation</span>
-<a name="l02121"></a>02121 <span class="comment">                if ( (rTime+=fTime) &gt; 0.1 )</span>
-<a name="l02122"></a>02122 <span class="comment">                {</span>
-<a name="l02123"></a>02123 <span class="comment">                        // try to reactivate any</span>
-<a name="l02124"></a>02124 <span class="comment">                        _reactivateQueuedSounds();</span>
-<a name="l02125"></a>02125 <span class="comment"></span>
-<a name="l02126"></a>02126 <span class="comment">                        // Reset timer</span>
-<a name="l02127"></a>02127 <span class="comment">                        rTime=0.f;</span>
-<a name="l02128"></a>02128 <span class="comment">                }</span>
-<a name="l02129"></a>02129 <span class="comment"></span>
-<a name="l02130"></a>02130 <span class="comment">                // Update listener</span>
-<a name="l02131"></a>02131 <span class="comment">                mListener-&gt;update();</span>
-<a name="l02132"></a>02132 <span class="comment">        }</span>
-<a name="l02133"></a>02133 <span class="comment">}</span>
+<a name="l01998"></a>01998 <span class="comment">                if (sound-&gt;getSource()==AL_NONE) return true;</span>
+<a name="l01999"></a>01999 <span class="comment"></span>
+<a name="l02000"></a>02000 <span class="comment">                // Get source</span>
+<a name="l02001"></a>02001 <span class="comment">                ALuint src = sound-&gt;getSource();</span>
+<a name="l02002"></a>02002 <span class="comment"></span>
+<a name="l02003"></a>02003 <span class="comment">                // Valid source?</span>
+<a name="l02004"></a>02004 <span class="comment">                if(src!=AL_NONE)</span>
+<a name="l02005"></a>02005 <span class="comment">                {</span>
+<a name="l02006"></a>02006 <span class="comment">                        ALuint source=AL_NONE;</span>
+<a name="l02007"></a>02007 <span class="comment"></span>
+<a name="l02008"></a>02008 <span class="comment">                        // Detach source from sound</span>
+<a name="l02009"></a>02009 <span class="comment">                        sound-&gt;setSource(source);</span>
+<a name="l02010"></a>02010 <span class="comment"></span>
+<a name="l02011"></a>02011 <span class="comment">                        // Remove from actives list</span>
+<a name="l02012"></a>02012 <span class="comment">                        for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter )</span>
+<a name="l02013"></a>02013 <span class="comment">                        {</span>
+<a name="l02014"></a>02014 <span class="comment">                                // Find sound in actives list</span>
+<a name="l02015"></a>02015 <span class="comment">                                if ( (*iter)==sound )</span>
+<a name="l02016"></a>02016 <span class="comment">                                {</span>
+<a name="l02017"></a>02017 <span class="comment">                                        // Remove from list</span>
+<a name="l02018"></a>02018 <span class="comment">                                        mActiveSounds.erase(iter);</span>
+<a name="l02019"></a>02019 <span class="comment"></span>
+<a name="l02020"></a>02020 <span class="comment">                                        // Make source available</span>
+<a name="l02021"></a>02021 <span class="comment">                                        mSourcePool.push_back(src);</span>
+<a name="l02022"></a>02022 <span class="comment"></span>
+<a name="l02023"></a>02023 <span class="comment">                                        // All ok</span>
+<a name="l02024"></a>02024 <span class="comment">                                        return true;</span>
+<a name="l02025"></a>02025 <span class="comment">                                }</span>
+<a name="l02026"></a>02026 <span class="comment">                        }</span>
+<a name="l02027"></a>02027 <span class="comment">                }</span>
+<a name="l02028"></a>02028 <span class="comment"></span>
+<a name="l02029"></a>02029 <span class="comment">                return false;</span>
+<a name="l02030"></a>02030 <span class="comment">        }</span>
+<a name="l02031"></a>02031 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l02032"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#8b7c76fc1dc6d3c407439d97f58b378b">02032</a> <span class="comment">        ALuint OgreOggSoundManager::_getSharedBuffer(const String&amp; sName)</span>
+<a name="l02033"></a>02033 <span class="comment">        {</span>
+<a name="l02034"></a>02034 <span class="comment">                if ( sName.empty() ) return AL_NONE;</span>
+<a name="l02035"></a>02035 <span class="comment"></span>
+<a name="l02036"></a>02036 <span class="comment">                SharedBufferList::iterator f;</span>
+<a name="l02037"></a>02037 <span class="comment">                if ( ( f = mSharedBuffers.find(sName) ) != mSharedBuffers.end() )</span>
+<a name="l02038"></a>02038 <span class="comment">                {</span>
+<a name="l02039"></a>02039 <span class="comment">                        f-&gt;second-&gt;mRefCount++;</span>
+<a name="l02040"></a>02040 <span class="comment">                        return f-&gt;second-&gt;mAudioBuffer;</span>
+<a name="l02041"></a>02041 <span class="comment">                }</span>
+<a name="l02042"></a>02042 <span class="comment">                return AL_NONE;</span>
+<a name="l02043"></a>02043 <span class="comment">        }</span>
+<a name="l02044"></a>02044 <span class="comment"></span>
+<a name="l02045"></a>02045 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l02046"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#b52eec8cd84e7180726c8574b3063b92">02046</a> <span class="comment">        bool OgreOggSoundManager::releaseSharedBuffer(const String&amp; sName, ALuint&amp; buffer)</span>
+<a name="l02047"></a>02047 <span class="comment">        {</span>
+<a name="l02048"></a>02048 <span class="comment">                if ( sName.empty() ) return false;</span>
+<a name="l02049"></a>02049 <span class="comment"></span>
+<a name="l02050"></a>02050 <span class="comment">                SharedBufferList::iterator f;</span>
+<a name="l02051"></a>02051 <span class="comment">                if ( ( f = mSharedBuffers.find(sName) ) != mSharedBuffers.end() )</span>
+<a name="l02052"></a>02052 <span class="comment">                {</span>
+<a name="l02053"></a>02053 <span class="comment">                        // Decrement</span>
+<a name="l02054"></a>02054 <span class="comment">                        f-&gt;second-&gt;mRefCount--;</span>
+<a name="l02055"></a>02055 <span class="comment">                        if ( f-&gt;second-&gt;mRefCount==0 )</span>
+<a name="l02056"></a>02056 <span class="comment">                        {</span>
+<a name="l02057"></a>02057 <span class="comment">                                // Delete buffer object</span>
+<a name="l02058"></a>02058 <span class="comment">                                alDeleteBuffers(1, &amp;f-&gt;second-&gt;mAudioBuffer);</span>
+<a name="l02059"></a>02059 <span class="comment"></span>
+<a name="l02060"></a>02060 <span class="comment">                                // Remove from list</span>
+<a name="l02061"></a>02061 <span class="comment">                                mSharedBuffers.erase(f);</span>
+<a name="l02062"></a>02062 <span class="comment">                        }</span>
+<a name="l02063"></a>02063 <span class="comment">                        return true;</span>
+<a name="l02064"></a>02064 <span class="comment">                }</span>
+<a name="l02065"></a>02065 <span class="comment">                return false;</span>
+<a name="l02066"></a>02066 <span class="comment">        }</span>
+<a name="l02067"></a>02067 <span class="comment"></span>
+<a name="l02068"></a>02068 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l02069"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#d3d66a84ca52aa8731047a1b9799a629">02069</a> <span class="comment">        bool OgreOggSoundManager::registerSharedBuffer(const String&amp; sName, ALuint&amp; buffer)</span>
+<a name="l02070"></a>02070 <span class="comment">        {</span>
+<a name="l02071"></a>02071 <span class="comment">                if ( sName.empty() ) return false;</span>
+<a name="l02072"></a>02072 <span class="comment"></span>
+<a name="l02073"></a>02073 <span class="comment">                SharedBufferList::iterator f;</span>
+<a name="l02074"></a>02074 <span class="comment">                if ( ( f = mSharedBuffers.find(sName) ) == mSharedBuffers.end() )</span>
+<a name="l02075"></a>02075 <span class="comment">                {</span>
+<a name="l02076"></a>02076 <span class="comment">                        // Create struct</span>
+<a name="l02077"></a>02077 <span class="comment">                        sharedAudioBuffer* buf = new sharedAudioBuffer;</span>
+<a name="l02078"></a>02078 <span class="comment"></span>
+<a name="l02079"></a>02079 <span class="comment">                        // Set buffer</span>
+<a name="l02080"></a>02080 <span class="comment">                        buf-&gt;mAudioBuffer = buffer;</span>
+<a name="l02081"></a>02081 <span class="comment"></span>
+<a name="l02082"></a>02082 <span class="comment">                        // Set ref count</span>
+<a name="l02083"></a>02083 <span class="comment">                        buf-&gt;mRefCount = 1;</span>
+<a name="l02084"></a>02084 <span class="comment"></span>
+<a name="l02085"></a>02085 <span class="comment">                        // Add to list</span>
+<a name="l02086"></a>02086 <span class="comment">                        mSharedBuffers[sName] = buf;</span>
+<a name="l02087"></a>02087 <span class="comment">                }</span>
+<a name="l02088"></a>02088 <span class="comment">                return true;</span>
+<a name="l02089"></a>02089 <span class="comment">        }</span>
+<a name="l02090"></a>02090 <span class="comment"></span>
+<a name="l02091"></a>02091 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l02092"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#51da0a6b2bc8c3ddb15a19a508697d2d">02092</a> <span class="comment">        void OgreOggSoundManager::setDistanceModel(ALenum value)</span>
+<a name="l02093"></a>02093 <span class="comment">        {</span>
+<a name="l02094"></a>02094 <span class="comment">                alDistanceModel(value);</span>
+<a name="l02095"></a>02095 <span class="comment">        }</span>
+<a name="l02096"></a>02096 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l02097"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#8813c720b2b520f5ae7f028d99f8f795">02097</a> <span class="comment">        void OgreOggSoundManager::setSpeedOfSound(Ogre::Real speed)</span>
+<a name="l02098"></a>02098 <span class="comment">        {</span>
+<a name="l02099"></a>02099 <span class="comment">                alSpeedOfSound(speed);</span>
+<a name="l02100"></a>02100 <span class="comment">        }</span>
+<a name="l02101"></a>02101 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l02102"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#eb9f32f01d92f0c9790c2e99e9a8d77c">02102</a> <span class="comment">        void OgreOggSoundManager::setDopplerFactor(Ogre::Real factor)</span>
+<a name="l02103"></a>02103 <span class="comment">        {</span>
+<a name="l02104"></a>02104 <span class="comment">                alDopplerFactor(factor);</span>
+<a name="l02105"></a>02105 <span class="comment">        }</span>
+<a name="l02106"></a>02106 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l02107"></a><a class="code" href="namespace_ogre_ogg_sound_manager.html#a7b0bebc35c5bd82989cb84245df3c0b">02107</a> <span class="comment">        void OgreOggSoundManager::update(Ogre::Real fTime)</span>
+<a name="l02108"></a>02108 <span class="comment">        {</span>
+<a name="l02109"></a>02109 <span class="comment">                static Real rTime=0.f;</span>
+<a name="l02110"></a>02110 <span class="comment"></span>
+<a name="l02111"></a>02111 <span class="comment">                // Update ALL active sounds</span>
+<a name="l02112"></a>02112 <span class="comment">                ActiveList::iterator i = mActiveSounds.begin();</span>
+<a name="l02113"></a>02113 <span class="comment">                while( i != mActiveSounds.end())</span>
+<a name="l02114"></a>02114 <span class="comment">                {</span>
+<a name="l02115"></a>02115 <span class="comment">                        (*i)-&gt;update(fTime);</span>
+<a name="l02116"></a>02116 <span class="comment">        #if ( OGGSOUND_THREADED==0 )</span>
+<a name="l02117"></a>02117 <span class="comment">                        (*i)-&gt;_updateAudioBuffers();</span>
+<a name="l02118"></a>02118 <span class="comment">        #endif</span>
+<a name="l02119"></a>02119 <span class="comment">                        i++;</span>
+<a name="l02120"></a>02120 <span class="comment">                }</span>
+<a name="l02121"></a>02121 <span class="comment"></span>
+<a name="l02122"></a>02122 <span class="comment">                // Limit re-activation</span>
+<a name="l02123"></a>02123 <span class="comment">                if ( (rTime+=fTime) &gt; 0.1 )</span>
+<a name="l02124"></a>02124 <span class="comment">                {</span>
+<a name="l02125"></a>02125 <span class="comment">                        // try to reactivate any</span>
+<a name="l02126"></a>02126 <span class="comment">                        _reactivateQueuedSounds();</span>
+<a name="l02127"></a>02127 <span class="comment"></span>
+<a name="l02128"></a>02128 <span class="comment">                        // Reset timer</span>
+<a name="l02129"></a>02129 <span class="comment">                        rTime=0.f;</span>
+<a name="l02130"></a>02130 <span class="comment">                }</span>
+<a name="l02131"></a>02131 <span class="comment"></span>
+<a name="l02132"></a>02132 <span class="comment">                // Update listener</span>
+<a name="l02133"></a>02133 <span class="comment">                mListener-&gt;update();</span>
+<a name="l02134"></a>02134 <span class="comment">        }</span>
+<a name="l02135"></a>02135 <span class="comment">}</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Mar 10 12:07:25 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Mar 10 12:31:30 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
