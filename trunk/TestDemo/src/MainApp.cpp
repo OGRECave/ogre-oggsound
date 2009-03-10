@@ -121,7 +121,7 @@ void MainApp::createScene()
 
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
-	mSoundManager->createSound("Two", "three.ogg", false, true);	
+	mSoundManager->createSound("Two", "MusicTest.ogg", true, true);	
 	mSoundManager->getSound("Two")->setMaxDistance(300);
 	mSoundManager->getSound("Two")->setReferenceDistance(10);
 	nOgreHead->attachObject(mSoundManager->getSound("Two"));
@@ -266,6 +266,10 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 		OgreOggSoundRecord* r = 0;
 		if ( r=mSoundManager->getRecorder() )
 			r->stopRecording();
+	}
+	if (arg.key == OIS::KC_S)
+	{
+		mSoundManager->getSound("Two")->setPlayPosition(20.f);
 	}
 
 	// Show the statistics

@@ -55,6 +55,15 @@ namespace OgreOggSound
 		// Store stream pointer
 		mAudioStream = fileStream;
 
+		// Seekable file?
+		if(!ov_seekable(&mOggStream))
+		{
+			// Disable seeking
+			mOggCallbacks.seek_func=NULL;
+			mOggCallbacks.tell_func=NULL;
+			mSeekable = false;
+		}
+
 		if((result = ov_open_callbacks(&mAudioStream, &mOggStream, NULL, 0, mOggCallbacks)) < 0)
 		{
 			throw string("Could not open Ogg stream. ");
@@ -63,6 +72,9 @@ namespace OgreOggSound
 
 		mVorbisInfo = ov_info(&mOggStream, -1);
 		mVorbisComment = ov_comment(&mOggStream, -1);
+
+		// Get total playtime in seconds
+		mPlayTime = ov_time_total(&mOggStream, -1);
 
 		// Generate audio buffers
 		alGenBuffers(NUM_BUFFERS, mBuffers);
@@ -85,6 +97,8 @@ namespace OgreOggSound
 		setSource(src);
 		alDeleteBuffers(NUM_BUFFERS,mBuffers);
 		ov_clear(&mOggStream);
+		mPlayPosChanged = false;
+		mPlayPos = 0.f;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStreamSound::_queryBufferInfo()
@@ -244,6 +258,12 @@ namespace OgreOggSound
 			alSourceUnqueueBuffers(mSource, 1, &buffer);
 			if ( _stream(buffer) ) alSourceQueueBuffers(mSource, 1, &buffer);
 		}
+
+		// handle play position change 
+		if ( mPlayPosChanged ) 
+		{
+			_updatePlayPosition();
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStreamSound::_stream(ALuint buffer)
@@ -336,6 +356,53 @@ namespace OgreOggSound
 			if ( alGetError()!=AL_NO_ERROR ) Ogre::LogManager::getSingleton().logMessage("*** Unable to unqueue buffers");
 		}
 	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggStreamSound::_updatePlayPosition()
+	{
+		if ( mSource==AL_NONE ) 
+			return;
+
+		bool paused = isPlaying();
+		bool playing = isPaused();
+
+		// Seek...
+		pause();
+		ov_time_seek(&mOggStream, mPlayPos);
+
+		// Unqueue all buffers
+		_dequeue();
+
+		// Fill buffers
+		_prebuffer();
+
+		// Reset state..
+		if		( playing ) play();
+		else if ( paused ) pause();
+
+		// Set flag
+		mPlayPosChanged = false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggStreamSound::setPlayPosition(Ogre::Real seconds)
+	{
+		if ( !mSeekable || seconds<0.f ) 
+			return;
+
+		// Wrap time
+		if ( seconds>mPlayTime )
+		{
+			do { seconds-=mPlayTime; } while ( seconds>mPlayTime );
+		}
+
+		// Set position
+		mPlayPos = seconds;
+	
+		// Set flag
+		mPlayPosChanged = true;
+	}
+
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::pause()
 	{

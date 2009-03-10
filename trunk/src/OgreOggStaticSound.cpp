@@ -38,9 +38,6 @@ namespace OgreOggSound
 	,mBuffer(0)
 	{
 		mStream=false;
-		// Disable seeking
-		mOggCallbacks.seek_func=NULL;
-		mOggCallbacks.tell_func=NULL;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStaticSound::~OgreOggStaticSound()
@@ -62,6 +59,15 @@ namespace OgreOggSound
 		// Store file name
 		mAudioName = mAudioStream->getName();
 
+		// Seekable file?
+		if(!ov_seekable(&mOggStream))
+		{
+			// Disable seeking
+			mOggCallbacks.seek_func=NULL;
+			mOggCallbacks.tell_func=NULL;
+			mSeekable = false;
+		}
+
 		if((result = ov_open_callbacks(&mAudioStream, &mOggStream, NULL, 0, mOggCallbacks)) < 0)
 		{
 			throw string("Could not open Ogg stream. ");
@@ -70,6 +76,9 @@ namespace OgreOggSound
 
 		mVorbisInfo = ov_info(&mOggStream, -1);
 		mVorbisComment = ov_comment(&mOggStream, -1);
+
+		// Get playtime in secs
+		mPlayTime = ov_time_total(&mOggStream, -1);
 
 		// Check format support
 		if (!_queryBufferInfo())
@@ -131,6 +140,8 @@ namespace OgreOggSound
 		setSource(src);
 		OgreOggSoundManager::getSingleton().releaseSharedBuffer(mAudioName, mBuffer);
 		if ( !mAudioStream.isNull() ) ov_clear(&mOggStream);
+		mPlayPosChanged = false;
+		mPlayPos = 0.f;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_prebuffer()
@@ -275,6 +286,10 @@ namespace OgreOggSound
 		if (mSource == AL_NONE)
 			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
 				return;
+
+		// Pick up playback position change..
+		if ( mPlayPosChanged )
+			setPlayPosition(mPlayPos);
 
 		alSourcePlay(mSource);
 		mPlay = true;

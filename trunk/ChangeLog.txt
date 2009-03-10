@@ -1,3 +1,19 @@
+* version 1.06
+
+	* Added check in _reactivateSounds() for stopped sounds.
+		* Now if a sound has been stopped whilst waiting for reactivation, it is merely kicked off the list and management is
+		  handed back to user.
+	* Added seeking to sounds in seconds.
+		* You can now 'jump' to a point in time (seconds) on any sound, offset is wrapped if out of bounds.
+	* Added OgreOggISound::getAudioLength() - returns length in seconds.
+	* Changed default return value from isStopped() to true.
+		* Previously if sound didn't have a source it skipped the check and returned false, obviously if it doesn't have a 
+		source it can't be playing!
+	* Changed default return value of isPlaying().
+		* Previously if sound didn't have a source it returned false, however, although it isn't currently playing this could
+		be due to being held in the reactivate list where it would be restarted when within range, therefore this function now
+		returns the current and/or intended status.
+
 * version 1.05
 
 	* Started porting to linux by wrapping unsupported code in #ifndef LINUX 

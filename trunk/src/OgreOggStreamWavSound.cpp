@@ -30,11 +30,11 @@ namespace OgreOggSound
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamWavSound::OgreOggStreamWavSound(const Ogre::String& name) : OgreOggISound(name)
+	, mFormatData(0)
+	, mStreamEOF(false)
 	{
-		mStream=true;
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;
-		mStreamEOF=false;
-		mFormatData=0;
+		mStream = true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamWavSound::~OgreOggStreamWavSound()
@@ -219,6 +219,9 @@ namespace OgreOggSound
 		// Generate audio buffers
 		alGenBuffers(NUM_BUFFERS, mBuffers);
 
+		// Calculate length in seconds
+		mPlayTime = (mFormatData->mDataSize / ((mFormatData->mBitsPerSample/8) * mFormatData->mSampleRate)) / mFormatData->mNumChannels;
+
 #ifndef LINUX
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
@@ -370,6 +373,8 @@ namespace OgreOggSound
 			setSource(src);
 		}
 		alDeleteBuffers(NUM_BUFFERS, mBuffers);
+		mPlayPosChanged = false;
+		mPlayPos = 0.f;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_prebuffer()
@@ -446,6 +451,13 @@ namespace OgreOggSound
 
 			alSourceUnqueueBuffers(mSource, 1, &buffer);
 			if ( _stream(buffer) ) alSourceQueueBuffers(mSource, 1, &buffer);
+		}
+
+		// Handle play position change
+		if ( mPlayPosChanged )
+		{
+			_updatePlayPosition();
+			mPlayPosChanged = false;
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -578,6 +590,49 @@ namespace OgreOggSound
 		mPlay = true;
 		mPlayDelayed = false;
 	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggStreamWavSound::setPlayPosition(Ogre::Real seconds)
+	{
+		if(seconds < 0) return;
+
+		// Wrap
+		if ( seconds>mPlayTime ) 
+			do { seconds-=mPlayTime; } while ( seconds>mPlayTime );
+
+		// Store play position
+		mPlayPos = seconds;
+
+		// Set flag
+		mPlayPosChanged = true;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggStreamWavSound::_updatePlayPosition()
+	{
+		if ( mSource==AL_NONE ) 
+			return;
+
+		// Get state
+		bool playing = isPlaying();
+		bool paused = isPaused();
+
+		// Stop playback
+		pause();
+
+		// mBufferSize is 1/4 of a second
+		size_t dataOffset = static_cast<size_t>(mPlayPos * mBufferSize * 4);
+		mAudioStream->seek(mFormatData->mAudioOffset + dataOffset);
+
+		// Unqueue audio
+		_dequeue();
+
+		// Fill buffers
+		_prebuffer();
+
+		// Set state
+		if		(playing) play();
+		else if	(paused) pause();
+	}
+	
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::stop()
 	{

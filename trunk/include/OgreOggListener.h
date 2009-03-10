@@ -151,5 +151,6 @@ namespace OgreOggSound
 		Ogre::Vector3 mPosition;	// 3D position
 		float mOrientation[6];		// 3D orientation
 		bool mLocalTransformDirty;	// Dirty transforms flag
+
 	};
 }

@@ -64,7 +64,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggISound::OgreOggISound(const Ogre::String& name) : 
+	OgreOggISound::OgreOggISound(const Ogre::String& name, bool seekSupport) : 
 	mName(name),
 	mSource(0), 
 	mLoop(false), 
@@ -82,6 +82,7 @@ namespace OgreOggSound
 	mInnerConeAngle(360.0f), 
 	mOuterConeAngle(360.0f), 
 	mOuterConeGain(0.0f), 
+	mPlayTime(0.0f), 
 	mFadeTimer(0.0f), 
 	mFadeTime(1.0f), 
 	mFadeInitVol(0), 
@@ -91,7 +92,9 @@ namespace OgreOggSound
 	mStream(false), 
 	mFinCBEnabled(false), 
 	mLoopCBEnabled(false), 
-	mGiveUpSource(false), 
+	mGiveUpSource(false),  
+	mPlayPosChanged(false),  
+	mPlayPos(0.f), 
 	mPriority(0), 
 	mFinishedCB(0), 
 	mLoopCB(0), 
@@ -99,6 +102,7 @@ namespace OgreOggSound
 	mScnMan(0),
 	mLocalTransformDirty(true),
 	mPlayDelayed(false),
+	mSeekable(true),
 	mSourceRelative(false)
 	{
 		// Init some oggVorbis callbacks
@@ -367,7 +371,9 @@ namespace OgreOggSound
 			return (state == AL_PLAYING);
 		}
 
-		return false;
+		// May have been kicked off and is currently waiting to be reactivated
+		// Return its previous status..
+		return mPlay;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggISound::isPaused()
@@ -393,7 +399,40 @@ namespace OgreOggSound
 			return (state == AL_STOPPED);
 		}
 
-		return false;
+		return true;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::setPlayPosition(Ogre::Real seconds)
+	{
+		// Invalid time - exit
+		if ( !mSeekable || seconds<0.f ) 
+			return;
+
+		// Wrap time
+		if ( seconds > mPlayTime ) 
+		{
+			do		{ seconds-=mPlayTime; }
+			while	( seconds>mPlayTime );
+		}
+
+		// Set offset if source available
+		if ( mSource!=AL_NONE )
+		{
+			alGetError();
+			alSourcef(mSource, AL_SEC_OFFSET, seconds);
+			if (alGetError())
+			{
+				Ogre::LogManager::getSingleton().logMessage("***--- OgreOggISound::setPlayPosition() - Error setting play position", Ogre::LML_CRITICAL);
+			}
+			// Reset flag
+			mPlayPosChanged = false;
+		}
+		// Mark it so it can be applied when sound receives a source
+		else
+		{
+			mPlayPosChanged = true;
+			mPlayPos = seconds;
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setRelativeToListener(bool relative)
@@ -408,7 +447,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::update(Ogre::Real fTime)
 	{
-		if (mLocalTransformDirty )
+		if (mLocalTransformDirty)
 		{
 			if (mParentNode)
 			{
@@ -472,7 +511,7 @@ namespace OgreOggSound
 		return;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::_notifyMoved(void) { mLocalTransformDirty = true; }
+	void OgreOggISound::_notifyMoved(void) { mLocalTransformDirty=true; }
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables)
 	{

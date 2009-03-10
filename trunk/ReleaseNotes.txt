@@ -26,6 +26,8 @@ Features List:
 	* Global sound speed configurable
 	* Global doppler effect configurable
 
+* Playback seeking 
+
 * Source management
 	* Sources are pooled 
 	* Sources are automatically re-used when a sound requests to play
