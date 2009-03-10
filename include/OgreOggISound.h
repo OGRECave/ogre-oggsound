@@ -308,6 +308,16 @@ namespace OgreOggSound
 				priority (0..255)
 		 */
 		void setPriority(Ogre::uint8 priority) { mPriority=priority; }
+		/** Sets the position of the playback cursor in seconds
+		@param seconds
+			Play position in seconds 
+		 */
+		virtual void setPlayPosition(Ogre::Real seconds);
+		/** Sets the position of the playback cursor in seconds
+		@param seconds
+			Play position in seconds 
+		 */
+		Ogre::Real getAudioLength() { return mPlayTime; }
 		/** Gets movable type string
 		@remarks
 			Overridden from MovableObject.
@@ -333,7 +343,7 @@ namespace OgreOggSound
 			Overridden from MovableObject.
 		 */
 		virtual void _notifyAttached(Ogre::Node* node, bool isTagPoint=false);
-		/** Notifys object it has moved
+		/** Notifys object its been moved
 		@remarks
 			Overridden from MovableObject.
 		 */
@@ -417,7 +427,7 @@ namespace OgreOggSound
 
 		/** Superclass describing a single sound object.
 		 */
-		OgreOggISound(const Ogre::String& name);
+		OgreOggISound(const Ogre::String& name, bool seekSupport=false);
 		/** Superclass destructor.
 		 */
 		virtual ~OgreOggISound();
@@ -489,6 +499,7 @@ namespace OgreOggSound
 		Ogre::Real mOuterConeGain;		// Outer cone volume
 		Ogre::Real mInnerConeAngle;		// Inner cone angle
 		Ogre::Real mOuterConeAngle;		// outer cone angle
+		Ogre::Real mPlayTime;			// Time in seconds of sound file
 		Ogre::String mName;				// Sound name
 		bool mLoop;						// Loop status
 		bool mPlay;						// Play status
@@ -498,6 +509,10 @@ namespace OgreOggSound
 		bool mSourceRelative;			// Relative position flag
 		bool mPlayDelayed;				// Queue play flag
 		bool mLocalTransformDirty;		// Transformation update flag
+		bool mPlayPosChanged;			// Flag indicating playback position has changed
+		bool mSeekable;					// Flag indicating seeking available
+
+		ALfloat mPlayPos;				// Playback position in seconds
 
 		friend class OgreOggSoundManager;
 	};

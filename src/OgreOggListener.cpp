@@ -86,10 +86,9 @@ namespace OgreOggSound
 				setPosition(mParentNode->_getDerivedPosition());
 				setOrientation(mParentNode->_getDerivedOrientation());			 
 			}
-			mLocalTransformDirty = false;
+			mLocalTransformDirty=false;
 		}
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	const Ogre::String& OgreOggListener::getMovableType(void) const
 	{
@@ -133,7 +132,7 @@ namespace OgreOggSound
 		return;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggListener::_notifyMoved(void) { mLocalTransformDirty = true; }
+	void OgreOggListener::_notifyMoved(void) { mLocalTransformDirty=true; }
 }
 
 	

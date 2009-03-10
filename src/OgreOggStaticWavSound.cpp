@@ -265,6 +265,9 @@ namespace OgreOggSound
 		if (!_queryBufferInfo())
 			throw std::string("Format NOT supported!");
 
+		// Calculate length in seconds
+		mPlayTime = (mFormatData->mDataSize / ((mFormatData->mBitsPerSample/8) * mFormatData->mSampleRate)) / mFormatData->mNumChannels;
+
 		alGetError();
 		alBufferData(mBuffer, mFormat, sound_buffer, static_cast<ALsizei>(bytesRead), mFormatData->mSampleRate);
 		if ( alGetError()!=AL_NO_ERROR )
@@ -425,6 +428,8 @@ namespace OgreOggSound
 		ALuint src=AL_NONE;
 		setSource(src);
 		OgreOggSoundManager::getSingleton().releaseSharedBuffer(mAudioName, mBuffer);
+		mPlayPosChanged = false;
+		mPlayPos = 0.f;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void	OgreOggStaticWavSound::_prebuffer()
@@ -487,6 +492,10 @@ namespace OgreOggSound
 		if (mSource == AL_NONE)
 			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
 				return;
+
+		// Pick up position change
+		if ( mPlayPosChanged )
+			setPlayPosition(mPlayPos);
 
 		alSourcePlay(mSource);
 		mPlay = true;

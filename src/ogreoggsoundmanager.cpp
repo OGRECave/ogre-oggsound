@@ -1820,11 +1820,20 @@ namespace OgreOggSound
 		// Get sound object from front of list
 		OgreOggISound* snd = mSoundsToReactivate.front();
 
-		// Try to request a source for sound
-		if (requestSoundSource(snd))
+		// Check sound hasn't been stopped whilst in list
+		if ( snd->isPlaying() )
 		{
-			// Request new source for reactivated sound
-			snd->play();
+			// Try to request a source for sound
+			if (requestSoundSource(snd))
+			{
+				// play sound
+				snd->play();
+			}
+		}
+		// Else - kick off list
+		else
+		{
+			mSoundsToReactivate.erase(mSoundsToReactivate.begin());
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/

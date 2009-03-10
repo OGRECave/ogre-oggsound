@@ -77,6 +77,11 @@ namespace OgreOggSound
 			within this call.
 		 */
 		void play();	
+		/** Sets the position of the playback cursor in seconds
+		@param seconds
+			Play position in seconds 
+		 */
+		void setPlayPosition(Ogre::Real seconds);	
 
 	protected:
 
@@ -124,6 +129,12 @@ namespace OgreOggSound
 			sounds properties
 		 */
 		bool _queryBufferInfo();		
+		/** handles a request to set the playback position within the stream
+		@remarks
+			To ensure thread safety this function performs the request within
+			the thread locked update function instead of 'immediate mode' for static sounds.
+		 */
+		void _updatePlayPosition();		
 
 	private:
 
