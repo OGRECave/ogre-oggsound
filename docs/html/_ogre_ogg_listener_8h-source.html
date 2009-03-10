@@ -66,20 +66,18 @@
 <a name="l00129"></a>00129                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _updateRenderQueue(Ogre::RenderQueue *queue);
 <a name="l00134"></a>00134                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> visitRenderables(Ogre::Renderable::Visitor* visitor, <span class="keywordtype">bool</span> debugRenderables);
 <a name="l00139"></a>00139                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _notifyAttached(Ogre::Node* node, <span class="keywordtype">bool</span> isTagPoint=<span class="keyword">false</span>);
-<a name="l00140"></a>00140                 
-<a name="l00141"></a>00141         <span class="keyword">private</span>:
-<a name="l00142"></a>00142 
-<a name="l00146"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#a76adf0ebfab22f7363748988591830d">00146</a>                 Ogre::Vector3 mPosition;        <span class="comment">// 3D position</span>
-<a name="l00147"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#28d8e501057c4c20e376e7aebee76bc1">00147</a>                 <span class="keywordtype">float</span> mOrientation[6];          <span class="comment">// 3D orientation</span>
-<a name="l00148"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#dab00c19277fd0d70fef6e0961874463">00148</a>                 <span class="keywordtype">bool</span> mLocalTransformDirty;      <span class="comment">// Dirty transforms flag</span>
-<a name="l00149"></a>00149 
-<a name="l00150"></a>00150         <span class="keyword">protected</span>:
-<a name="l00151"></a>00151 
-<a name="l00157"></a>00157                 <span class="keywordtype">bool</span> _needUpdate();
-<a name="l00158"></a>00158         };
-<a name="l00159"></a>00159 }
+<a name="l00144"></a>00144                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _notifyMoved(<span class="keywordtype">void</span>);
+<a name="l00145"></a>00145                 
+<a name="l00146"></a>00146         <span class="keyword">private</span>:
+<a name="l00147"></a>00147 
+<a name="l00151"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#a76adf0ebfab22f7363748988591830d">00151</a>                 Ogre::Vector3 mPosition;        <span class="comment">// 3D position</span>
+<a name="l00152"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#28d8e501057c4c20e376e7aebee76bc1">00152</a>                 <span class="keywordtype">float</span> mOrientation[6];          <span class="comment">// 3D orientation</span>
+<a name="l00153"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#dab00c19277fd0d70fef6e0961874463">00153</a>                 <span class="keywordtype">bool</span> mLocalTransformDirty;      <span class="comment">// Dirty transforms flag</span>
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155         };
+<a name="l00156"></a>00156 }
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Fri Feb 13 11:02:59 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Mar 10 12:07:25 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
