@@ -38,32 +38,31 @@
 <a name="l00022"></a>00022 <span class="preprocessor"></span><span class="preprocessor">#define __OGREOGGSOUNDFactory_H__</span>
 <a name="l00023"></a>00023 <span class="preprocessor"></span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include &lt;Ogre.h&gt;</span>
-<a name="l00025"></a>00025 
-<a name="l00026"></a>00026 <span class="preprocessor">#include "<a class="code" href="_ogre_ogg_sound_8h.html">OgreOggSound.h</a>"</span>
-<a name="l00027"></a>00027 
-<a name="l00028"></a>00028 <span class="keyword">namespace </span>OgreOggSound 
-<a name="l00029"></a>00029 {
-<a name="l00031"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html">00031</a>         <span class="keyword">class </span><a class="code" href="_ogre_ogg_sound_prereqs_8h.html#0262ff4b64daaf82d734efea7f4c5ddb">_OGGSOUND_EXPORT</a> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html">OgreOggSoundFactory</a> : <span class="keyword">public</span> Ogre::MovableObjectFactory
-<a name="l00032"></a>00032         {
-<a name="l00033"></a>00033 
-<a name="l00034"></a>00034         <span class="keyword">protected</span>:
-<a name="l00035"></a>00035                 Ogre::MovableObject* createInstanceImpl( <span class="keyword">const</span> Ogre::String&amp; name, <span class="keyword">const</span> Ogre::NameValuePairList* params);
-<a name="l00036"></a>00036 
-<a name="l00037"></a>00037         <span class="keyword">public</span>:
-<a name="l00038"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html#64eff4e82d5a309bbb0976de03dc43ad">00038</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html">OgreOggSoundFactory</a>() {}
-<a name="l00039"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html#a43dc0ab45ef1748489a474c22a6a1ab">00039</a>                 ~<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html">OgreOggSoundFactory</a>() {}
-<a name="l00040"></a>00040 
-<a name="l00041"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html#b04e0959d540f0444cfa31c76ba91d7b">00041</a>                 <span class="keyword">static</span> Ogre::String FACTORY_TYPE_NAME;
-<a name="l00042"></a>00042 
-<a name="l00043"></a>00043                 <span class="keyword">const</span> Ogre::String&amp; getType(<span class="keywordtype">void</span>) <span class="keyword">const</span>;
-<a name="l00044"></a>00044                 <span class="keywordtype">void</span> destroyInstance( Ogre::MovableObject* obj);
-<a name="l00045"></a>00045 
-<a name="l00046"></a>00046         };
-<a name="l00047"></a>00047 }
-<a name="l00048"></a>00048 
-<a name="l00049"></a>00049 <span class="preprocessor">#endif</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include "<a class="code" href="_ogre_ogg_sound_8h.html">OgreOggSound.h</a>"</span>
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <span class="keyword">namespace </span>OgreOggSound 
+<a name="l00028"></a>00028 {
+<a name="l00030"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html">00030</a>         <span class="keyword">class </span><a class="code" href="_ogre_ogg_sound_prereqs_8h.html#0262ff4b64daaf82d734efea7f4c5ddb">_OGGSOUND_EXPORT</a> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html">OgreOggSoundFactory</a> : <span class="keyword">public</span> Ogre::MovableObjectFactory
+<a name="l00031"></a>00031         {
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033         <span class="keyword">protected</span>:
+<a name="l00034"></a>00034                 Ogre::MovableObject* createInstanceImpl( <span class="keyword">const</span> Ogre::String&amp; name, <span class="keyword">const</span> Ogre::NameValuePairList* params);
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036         <span class="keyword">public</span>:
+<a name="l00037"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html#64eff4e82d5a309bbb0976de03dc43ad">00037</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html">OgreOggSoundFactory</a>() {}
+<a name="l00038"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html#a43dc0ab45ef1748489a474c22a6a1ab">00038</a>                 ~<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html">OgreOggSoundFactory</a>() {}
+<a name="l00039"></a>00039 
+<a name="l00040"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html#b04e0959d540f0444cfa31c76ba91d7b">00040</a>                 <span class="keyword">static</span> Ogre::String FACTORY_TYPE_NAME;
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042                 <span class="keyword">const</span> Ogre::String&amp; getType(<span class="keywordtype">void</span>) <span class="keyword">const</span>;
+<a name="l00043"></a>00043                 <span class="keywordtype">void</span> destroyInstance( Ogre::MovableObject* obj);
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045         };
+<a name="l00046"></a>00046 }
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Fri Feb 13 11:02:59 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Mar 10 12:07:25 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
