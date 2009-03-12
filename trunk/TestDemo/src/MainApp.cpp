@@ -121,20 +121,24 @@ void MainApp::createScene()
 
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
-	mSoundManager->createSound("Two", "MusicTest.ogg", true, true);	
-	mSoundManager->getSound("Two")->setMaxDistance(300);
-	mSoundManager->getSound("Two")->setReferenceDistance(10);
-	nOgreHead->attachObject(mSoundManager->getSound("Two"));
-	nOgreHead->showBoundingBox(true);
-	mSoundManager->playSound("Two");
-
+	OgreOggISound* sound = 0;
+	if ( sound = mSoundManager->createSound("Two", "boom1.wav", true, true) )	
+	{
+		sound->setMaxDistance(300);
+		sound->setReferenceDistance(10);
+		nOgreHead->attachObject(sound);
+		nOgreHead->showBoundingBox(true);
+		sound->play();
+	}
 	/** Sound three - non streamed, looping, moving */
-	mSoundManager->createSound("Three", "three.ogg", false, true);	
-	mSoundManager->getSound("Three")->setMaxDistance(50);
-	mSoundManager->getSound("Three")->setReferenceDistance(1);
-	mOgreMonster->attachObject(mSoundManager->getSound("Three"));
-	mSoundManager->playSound("Three");
-	
+	sound = 0;
+	if ( sound = mSoundManager->createSound("Three", "three.ogg", false, true) )
+	{
+		sound->setMaxDistance(50);
+		sound->setReferenceDistance(1);
+		mOgreMonster->attachObject(sound);
+		sound->play();
+	}
 	/** Sound one - streamed, looping, EFX Direct filter *
 	mSoundManager->createSound("background", "background.ogg", true, true, true);
 	mSoundManager->getSound("background")->setRelativeToListener(true);

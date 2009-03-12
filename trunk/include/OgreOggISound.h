@@ -25,6 +25,12 @@
 #include <vorbis/vorbisfile.h>
 #include "OgreOggSoundCallback.h"
 	
+#if OGGSOUND_THREADED
+#	include <boost/thread/thread.hpp>
+#	include <boost/thread/recursive_mutex.hpp>
+#	include <boost/thread/xtime.hpp>
+#endif
+
 /**
  * Number of buffers to use for streaming
  */

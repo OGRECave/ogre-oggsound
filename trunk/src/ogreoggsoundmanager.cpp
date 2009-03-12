@@ -1609,24 +1609,43 @@ namespace OgreOggSound
 	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
-		if (mQueuedSounds.empty()) return;
+		if (mPlayQueue.empty() && mQueuedSounds.empty()) return;
 
-		FileOpenList::iterator i = mQueuedSounds.begin();
-		while( i != mQueuedSounds.end())
+		if ( !mQueuedSounds.empty() )
 		{
-			if ( (*i)->mBuffer!=AL_NONE )
-				// Open file for reading
-				(*i)->mSound->open((*i)->mFileName, (*i)->mBuffer);
-			else
-				// Open file for reading
-				(*i)->mSound->open((*i)->mFile);
+			FileOpenList::iterator i = mQueuedSounds.begin();
+			while( i != mQueuedSounds.end())
+			{
+				if ( (*i)->mBuffer!=AL_NONE )
+					// Open file for reading
+					(*i)->mSound->open((*i)->mFileName, (*i)->mBuffer);
+				else
+					// Open file for reading
+					(*i)->mSound->open((*i)->mFile);
 
-			// Prebuffer if requested
-			if ((*i)->mPrebuffer ) requestSoundSource((*i)->mSound);
+				// Prebuffer if requested
+				if ((*i)->mPrebuffer ) requestSoundSource((*i)->mSound);
 
-			// Remove from queue
-			delete (*i);
-			i=mQueuedSounds.erase(i);
+				// Remove from queue
+				delete (*i);
+				i=mQueuedSounds.erase(i);
+			}
+		}
+		
+		if ( !mPlayQueue.empty() )
+		{
+			ActiveList::iterator i = mPlayQueue.begin();
+			while( i != mPlayQueue.end())
+			{
+				// Prebuffer if requested
+				(*i)->play();
+
+				// If successful remove from list
+				if ( (*i)->isPlaying() )
+				{
+					i=mPlayQueue.erase(i);
+				}
+			}
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1698,6 +1717,8 @@ namespace OgreOggSound
 		}
 
 		mSharedBuffers.clear();
+
+		mPlayQueue.clear();
 
 #ifndef LINUX
 		// clear EFX effect lists
@@ -2086,6 +2107,21 @@ namespace OgreOggSound
 			mSharedBuffers[sName] = buf;
 		}
 		return true;
+	}
+	
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::queueSoundToPlay(OgreOggISound* sound)
+	{
+		// Valid?
+		if ( !sound ) return;
+
+		// Already in list?
+		for ( ActiveList::iterator iter=mPlayQueue.begin(); iter!=mPlayQueue.end(); ++iter )
+			if ( (*iter)==sound )
+				return;
+
+		// Add to list
+		mPlayQueue.push_back(sound);
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
