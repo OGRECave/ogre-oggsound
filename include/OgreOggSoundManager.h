@@ -64,7 +64,7 @@ namespace OgreOggSound
 
 	};
 
-	typedef std::vector<delayedFileOpen*> FileOpenList;
+	typedef std::deque<delayedFileOpen*> FileOpenList;
 	typedef std::map<std::string, sharedAudioBuffer*> SharedBufferList;
 
 	/** Handles ALL sounds
@@ -496,6 +496,19 @@ namespace OgreOggSound
 				OpenAL buffer ID holding audio data
 		 */
 		bool registerSharedBuffer(const Ogre::String& sName, ALuint& buffer);
+		/** Queues a sound to play
+		@remarks
+			Synchronisation function for Threaded version of library, fixes the bug where creating 
+			and immediately playing a sound through OgreOggISound::play() results in no sound. This 
+			is because theres no facilty to re-check a play delayed sound after it has been opened.
+			This function therefore adds the specified sound to an internal list which is checked 
+			in update() and an attempt is made to play() the sound.
+			NOTE (Multithreaded version ONLY):- calling OgreOggISound::play()/stop()/pause() directly 
+			still has the potential to crash out as these functions are not mutex locked. If Threading
+			is enabled you SHOULD use the OgreOggSoundManager::playSound()/pauseSound()/stopSound() functions.
+			This will be addressed in the near future.
+		 */
+		void queueSoundToPlay(OgreOggISound* sound=0);
 
 #if OGGSOUND_THREADED
 
@@ -628,6 +641,7 @@ namespace OgreOggSound
 		SoundMap mSoundMap;						// Map of all sounds
 		ActiveList mActiveSounds;				// list of sounds currently active
 		FileOpenList mQueuedSounds;				// list of sounds queued to be opened (multi-threaded ONLY)
+		ActiveList mPlayQueue;					// list of sounds waiting to play
 		ActiveList mPausedSounds;				// list of sounds currently paused
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		SourceList mSourcePool;					// List of available sources
