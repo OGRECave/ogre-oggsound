@@ -67,6 +67,15 @@ namespace OgreOggSound
 	typedef std::deque<delayedFileOpen*> FileOpenList;
 	typedef std::map<std::string, sharedAudioBuffer*> SharedBufferList;
 
+	/** Enumeration describing action to perform once a file has been loaded
+	 */
+	enum DELAYED_ACTION
+	{
+		DA_PLAY,
+		DA_STOP,
+		DA_PAUSE
+	};
+
 	/** Handles ALL sounds
 	 */
 	class _OGGSOUND_EXPORT OgreOggSoundManager : public Ogre::Singleton<OgreOggSoundManager>
@@ -508,7 +517,7 @@ namespace OgreOggSound
 			is enabled you SHOULD use the OgreOggSoundManager::playSound()/pauseSound()/stopSound() functions.
 			This will be addressed in the near future.
 		 */
-		void queueSoundToPlay(OgreOggISound* sound=0);
+		void queueDelayedSound(OgreOggISound* sound=0, DELAYED_ACTION action=DA_PLAY);
 
 #if OGGSOUND_THREADED
 
@@ -641,7 +650,9 @@ namespace OgreOggSound
 		SoundMap mSoundMap;						// Map of all sounds
 		ActiveList mActiveSounds;				// list of sounds currently active
 		FileOpenList mQueuedSounds;				// list of sounds queued to be opened (multi-threaded ONLY)
-		ActiveList mPlayQueue;					// list of sounds waiting to play
+		ActiveList mPlayQueue;					// list of sounds waiting to play	(only used prior to file loaded)
+		ActiveList mPauseQueue;					// list of sounds waiting to pause	(only used prior to file loaded)
+		ActiveList mStopQueue;					// list of sounds waiting to stop	(only used prior to file loaded)
 		ActiveList mPausedSounds;				// list of sounds currently paused
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		SourceList mSourcePool;					// List of available sources

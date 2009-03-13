@@ -88,7 +88,7 @@ namespace OgreOggSound
 	mFadeInitVol(0), 
 	mFadeEndVol(1), 
 	mFade(false),  
-	mFadeEndAction(OgreOggSound::NONE),  
+	mFadeEndAction(OgreOggSound::FC_NONE),  
 	mStream(false), 
 	mFinCBEnabled(false), 
 	mLoopCBEnabled(false), 
@@ -102,6 +102,8 @@ namespace OgreOggSound
 	mScnMan(0),
 	mLocalTransformDirty(true),
 	mPlayDelayed(false),
+	mStopDelayed(false),
+	mPauseDelayed(false),
 	mSeekable(true),
 	mSourceRelative(false)
 	{
@@ -334,7 +336,7 @@ namespace OgreOggSound
 				// NOTE:- Must go through SoundManager when using threads to avoid any corruption/mutex issues.
 				switch ( mFadeEndAction ) 
 				{
-				case PAUSE: 
+				case FC_PAUSE: 
 					{ 
 #if OGGSOUND_THREADED==0
 						pause(); 
@@ -342,7 +344,7 @@ namespace OgreOggSound
 						OgreOggSoundManager::getSingleton().pauseSound(getName());
 #endif
 					} break;
-				case STOP: 
+				case FC_STOP: 
 					{ 
 #if OGGSOUND_THREADED==0
 						stop(); 
