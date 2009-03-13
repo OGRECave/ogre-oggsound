@@ -3,29 +3,50 @@
 	* Added check in _reactivateSounds() for stopped sounds.
 		* Now if a sound has been stopped whilst waiting for reactivation, it is merely kicked off the list and management is
 		  handed back to user.
+	
 	* Added seeking to sounds in seconds.
 		* You can now 'jump' to a point in time (seconds) on any sound, offset is wrapped if out of bounds.
+	
 	* Added OgreOggISound::getAudioLength() - returns length in seconds.
+	
 	* Changed default return value from isStopped() to true.
 		* Previously if sound didn't have a source it skipped the check and returned false, obviously if it doesn't have a 
 		source it can't be playing!
+	
 	* Changed default return value of isPlaying().
 		* Previously if sound didn't have a source it returned false, however, although it isn't currently playing this could
 		be due to being held in the reactivate list where it would be restarted when within range, therefore this function now
 		returns the current and/or intended status.
+	
 	* Added functions to record and recover audio position when relinquishing/reactivating.
+	
+	* Added queues to handle delayed sound actions when compiled with Thread support.
+		* Fixes the issue where creating a sound and calling its play/pause/stop functions directly has no effect.
+		* It was because the sounds weren't rechecked if the call was made prior to the file having been opened by the second thread. Now such actions are queued and checked by the SoundManager to ensure they are excuted at the earliest opportunity.
+	
+	* Added mutex locking to sound objects to prevent crashing if calling OgreOggISound functions directly.
+	
+	* Rebuilt ogg/vorbis libs to remove warnings
+
+	* Added vc8 and vc9 project/solution files
+		* NOTE:- library has been compiled with vc8 ( Visual Studio C++ 2005 Express )
 
 * version 1.05
 
 	* Started porting to linux by wrapping unsupported code in #ifndef LINUX 
 		* builds using CMake on LINUX	
+
 	* Removed references to windows specific code
+
 	* Removed setMinDistance() from OgreOggISound.
+
 	* added getSoundList() to SoundManager, returns a StringVector of all defined sounds.
 
 * version 1.04
 
+
 	* Fixed crash with streamed sounds and soundData NULL
+
 	* Removed OgreOggSoundRecord::setRecordingProperties() and added functionality to OgreOggSoundRecord::initCaptureDevice().
 
 * version 1.03
@@ -56,21 +77,29 @@
 		  via the SceneManager::createMovableObject() interface. OGRE automatically creates/destroys
 		  the manager and all sounds created via this process.
 		  NOTE:- The library still functions the same as before if you don't load via the plugin interface.
+
 	* Fixed loop bug in multi-threaded wav sounds not being set on creation
+
 	* Fixed infinite loop bug when opening wav sounds with extra information
+
 	* Fixed pauseAllSounds bug not pausing sounds	
+
 	* Fixed random crash on shutdown in streamed sounds
 
 * version 0.93
 
 	* Added automatic pause/restart on fade
+
 	* Fixed potential memory leak in _stream() functions
+
 	* Added OgreOggSoundManager functions for stopping/playing/pausing sounds.
 		* Prevents by-passing thread mutex and casuing memory corruption/audio artefacts.
+
 	* Added optional parameter to startFade() to add control to the fading sound.
 		* Pass an enumerated value to allow stopping/pausing of the sound when fading is
 		  complete, useful when fading out to stop/pause a sound to save cpu time.
 		  default: NONE.
+
 	* Fixed crash at maximum sources.
 
 * version 0.92
@@ -80,29 +109,43 @@
 * version 0.91
 	
 	* Added extra query funtions to listener and sound classes
+
 	* Re-wrote requestSoundSource() to eliminate list invalidation
+
 	* Added sort by distance for reactivated sounds or when playing a new sound
+
 	* Added mutex lock in SoundManager::update()
+
 	* Optimised reactivate function() - periodically checks
+
 	* Added solution file to fix working directory problem in test demo
+
 	* Added default parameter in SoundManager::init(), an empty parameter list will pick default device
+
 	* Updated docs
 
 * version 0.9
 	
 	* Added multichannel support for ogg/wav files.
+
 	* Improved buffer size management.
 
 * version 0.89
 
 	* Added EFX effect/filter support
+
 	* Added EAX room reverb preset support	
+
 	* Fixed sound position bug 
+
 	* Added flag in OgreOggISound for indicating source management per sound
 		Can be used to keep a good level of source objects available, by forcing infrequent
 		or single play sounds to immediately give up their source objects when stopped.
+
 	* Added 'TestDemo' project as a playpen.
+
 	* Added support for RIFF WAVE audio files.
+
 	* Fixed unqueue bug in streamed sounds
 
 * version 0.88
@@ -110,6 +153,7 @@
 	* Added XRAM support for hardware buffers
 		As suggested in the OpenAL specification this only applies to static sound buffers
 		not streaming buffers.
+
 	* Cleaned up and enhanced supported features checks.
 
 * version 0.87
@@ -120,12 +164,15 @@
 * version 0.86
 	
 	* Added callbacks for finished sounds
+
 	* Fixed bug in stop() for static sounds
+
 	* Added enable/disable of callbacks
 
 * version 0.85
 
 	* Fixed crash caused by non-SceneNode derived positioning in OgreOggISound / OgreOggListener.
+
 	* Fixed updating bug in fading where the volume would never stop being set once started. 
           Also ammended startFade() to pick up current sound volume to fade in/out from.
 

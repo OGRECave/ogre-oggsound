@@ -1606,11 +1606,15 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::processQueuedSounds()
 	{
-	#if OGGSOUND_THREADED
+#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-		if (mPlayQueue.empty() && mQueuedSounds.empty()) return;
 
+		if (mPlayQueue.empty() && mPauseQueue.empty() && mStopQueue.empty() && mQueuedSounds.empty()) return;
+
+		/** Queue will only be used when library is compiled with Thread support. 
+			Its used to farm file opening operations onto the second Thread which
+			prevents stalling in the main thread.
+		*/
 		if ( !mQueuedSounds.empty() )
 		{
 			FileOpenList::iterator i = mQueuedSounds.begin();
@@ -1630,14 +1634,19 @@ namespace OgreOggSound
 				delete (*i);
 				i=mQueuedSounds.erase(i);
 			}
-		}
-		
+		}	
+
+		/** The following queues will only be used when library is compiled with
+			Thread support. They are required because file opening is handled in the
+			second Thread, therefore its possible to play/pause/stop a sound before its
+			actually been loaded, these lists handle that scenario.
+		*/
 		if ( !mPlayQueue.empty() )
 		{
 			ActiveList::iterator i = mPlayQueue.begin();
 			while( i != mPlayQueue.end())
 			{
-				// Prebuffer if requested
+				// Perform requested action
 				(*i)->play();
 
 				// If successful remove from list
@@ -1645,15 +1654,52 @@ namespace OgreOggSound
 				{
 					i=mPlayQueue.erase(i);
 				}
+				else
+					++i;
 			}
 		}
+		if ( !mPauseQueue.empty() )
+		{
+			ActiveList::iterator i = mPauseQueue.begin();
+			while( i != mPauseQueue.end())
+			{
+				// Perform requested action
+				(*i)->pause();
+
+				// If successful remove from list
+				if ( (*i)->isPaused() )
+				{
+					i=mPauseQueue.erase(i);
+				}
+				else
+					++i;
+			}
+		}
+		if ( !mStopQueue.empty() )
+		{
+			ActiveList::iterator i = mStopQueue.begin();
+			while( i != mStopQueue.end())
+			{
+				// Perform requested action
+				(*i)->stop();
+
+				// If successful remove from list
+				if ( !(*i)->isPlaying() )
+				{
+					i=mStopQueue.erase(i);
+				}
+				else
+					++i;
+			}
+		}
+#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::updateBuffers()
 	{
-	#if OGGSOUND_THREADED
+#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
+#endif
 		ActiveList::iterator i = mActiveSounds.begin();
 		while( i != mActiveSounds.end())
 		{
@@ -1663,12 +1709,12 @@ namespace OgreOggSound
 			++i;
 		}
 
-	#if (OGGSOUND_THREADED!=0)
-#ifndef LINUX
-		Sleep(10);
-#else
-		sleep(10);
-#endif
+#if OGGSOUND_THREADED
+#	ifndef LINUX
+		Sleep(2);
+#	else
+		sleep(2);
+#	endif
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1718,7 +1764,10 @@ namespace OgreOggSound
 
 		mSharedBuffers.clear();
 
+		// Clear queues
 		mPlayQueue.clear();
+		mPauseQueue.clear();
+		mStopQueue.clear();
 
 #ifndef LINUX
 		// clear EFX effect lists
@@ -2108,20 +2157,48 @@ namespace OgreOggSound
 		}
 		return true;
 	}
-	
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::queueSoundToPlay(OgreOggISound* sound)
+	void OgreOggSoundManager::queueDelayedSound(OgreOggISound* sound, DELAYED_ACTION action)
 	{
 		// Valid?
 		if ( !sound ) return;
 
-		// Already in list?
-		for ( ActiveList::iterator iter=mPlayQueue.begin(); iter!=mPlayQueue.end(); ++iter )
-			if ( (*iter)==sound )
-				return;
+		switch ( action )
+		{
+		case DA_PLAY:
+			{
+				// Already in list?
+				for ( ActiveList::iterator iter=mPlayQueue.begin(); iter!=mPlayQueue.end(); ++iter )
+					if ( (*iter)==sound )
+						return;
 
-		// Add to list
-		mPlayQueue.push_back(sound);
+				// Add to list
+				mPlayQueue.push_back(sound);
+			}
+			break;
+		case DA_PAUSE:
+			{
+				// Already in list?
+				for ( ActiveList::iterator iter=mPauseQueue.begin(); iter!=mPauseQueue.end(); ++iter )
+					if ( (*iter)==sound )
+						return;
+
+				// Add to list
+				mPauseQueue.push_back(sound);
+			}
+			break;
+		case DA_STOP:
+			{
+				// Already in list?
+				for ( ActiveList::iterator iter=mStopQueue.begin(); iter!=mStopQueue.end(); ++iter )
+					if ( (*iter)==sound )
+						return;
+
+				// Add to list
+				mStopQueue.push_back(sound);
+			}
+			break;
+		}
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -2146,7 +2223,7 @@ namespace OgreOggSound
 
 		// Update ALL active sounds
 		ActiveList::iterator i = mActiveSounds.begin();
-		while( i != mActiveSounds.end())
+		while( i != mActiveSounds.end() )
 		{
 			(*i)->update(fTime);
 	#if ( OGGSOUND_THREADED==0 )

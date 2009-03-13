@@ -121,7 +121,7 @@ void MainApp::createScene()
 
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
-	OgreOggISound* sound = 0;
+	sound = 0;
 	if ( sound = mSoundManager->createSound("Two", "boom1.wav", true, true) )	
 	{
 		sound->setMaxDistance(300);
@@ -130,7 +130,7 @@ void MainApp::createScene()
 		nOgreHead->showBoundingBox(true);
 		sound->play();
 	}
-	/** Sound three - non streamed, looping, moving */
+	/** Sound three - non streamed, looping, moving *
 	sound = 0;
 	if ( sound = mSoundManager->createSound("Three", "three.ogg", false, true) )
 	{
@@ -234,28 +234,40 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 
 	if (arg.key == OIS::KC_F1)
 	{
-		mSoundManager->getSound("One")->startFade(false, 2.f, OgreOggSound::STOP);
+		if ( mSoundManager->hasSound("One") )
+		{
+			mSoundManager->getSound("One")->startFade(false, 2.f, OgreOggSound::FC_STOP);
+		}
 	}
 
 	if (arg.key == OIS::KC_F2)
 	{
-		if(mSoundManager->getSound("Two")->isPlaying())
-			mSoundManager->getSound("Two")->stop();
-		else mSoundManager->getSound("Two")->play();
+		if ( mSoundManager->hasSound("Two") )
+		{
+			if(mSoundManager->getSound("Two")->isPlaying())
+				mSoundManager->getSound("Two")->stop();
+			else mSoundManager->getSound("Two")->play();
+		}
 	}
 
 	if (arg.key == OIS::KC_F3)
 	{
-		if(mSoundManager->getSound("Three")->isPlaying())
-			mSoundManager->getSound("Three")->stop();
-		else mSoundManager->getSound("Three")->play();
+		if ( mSoundManager->hasSound("Three") )
+		{
+			if(mSoundManager->getSound("Three")->isPlaying())
+				mSoundManager->getSound("Three")->stop();
+			else mSoundManager->getSound("Three")->play();
+		}
 	}
 
 	if (arg.key == OIS::KC_F4)
 	{
-		if(mSoundManager->getSound("background")->isPlaying())
-			mSoundManager->getSound("background")->stop();
-		else mSoundManager->getSound("background")->play();
+		if ( mSoundManager->hasSound("background") )
+		{
+			if(mSoundManager->getSound("background")->isPlaying())
+				mSoundManager->getSound("background")->stop();
+			else mSoundManager->getSound("background")->play();
+		}
 	}
 
 	if (arg.key == OIS::KC_Q)
@@ -273,7 +285,13 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 	}
 	if (arg.key == OIS::KC_S)
 	{
-		mSoundManager->getSound("Two")->setPlayPosition(20.f);
+		if ( sound )
+		{
+			if ( sound->isPlaying() )
+				sound->stop();
+			else
+				sound->play();
+		}
 	}
 
 	// Show the statistics

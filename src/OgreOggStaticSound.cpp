@@ -263,14 +263,36 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::pause()
 	{
+#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+
+		// If threaded it may be possible that a sound is trying to be played
+		// before its actually been opened by the thread, if so mark it so
+		// that it can be automatically played when ready.
+		if (!mFileOpened)
+		{
+			if ( !mPauseDelayed )
+			{
+				mPauseDelayed = true;
+				// Register this sound with the manager so it can be polled to play when ready
+				OgreOggSoundManager::getSingletonPtr()->queueDelayedSound(this, DA_PAUSE);
+			}
+			return;
+		}
+#endif
+
 		if ( mSource==AL_NONE ) return;
 
 		alSourcePause(mSource);
+
+		mPauseDelayed=false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::play()
 	{
 #if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
 		// that it can be automatically played when ready.
@@ -280,7 +302,7 @@ namespace OgreOggSound
 			{
 				mPlayDelayed = true;
 				// Register this sound with the manager so it can be polled to play when ready
-				OgreOggSoundManager::getSingletonPtr()->queueSoundToPlay(this);
+				OgreOggSoundManager::getSingletonPtr()->queueDelayedSound(this, DA_PLAY);
 			}
 			return;
 		}
@@ -299,18 +321,36 @@ namespace OgreOggSound
 
 		alSourcePlay(mSource);
 		mPlay = true;
-		mPlayDelayed = false;
+		mPlayDelayed=false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::stop()
 	{
+#if OGGSOUND_THREADED
+		boost::recursive_mutex::scoped_lock l(mMutex);
+
+		// If threaded it may be possible that a sound is trying to be played
+		// before its actually been opened by the thread, if so mark it so
+		// that it can be automatically played when ready.
+		if (!mFileOpened)
+		{
+			if ( !mPlayDelayed )
+			{
+				mPlayDelayed = true;
+				// Register this sound with the manager so it can be polled to play when ready
+				OgreOggSoundManager::getSingletonPtr()->queueDelayedSound(this, DA_PLAY);
+			}
+			return;
+		}
+#endif
+
 		if ( mSource==AL_NONE ) return;
 
 		alSourceStop(mSource);
 		alSourceRewind(mSource);
 		mPlay=false;
 		mPreviousOffset=0;
-		mPlayDelayed=false;
+		mStopDelayed=false;
 
 		// Give up source immediately if specfied
 		if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);

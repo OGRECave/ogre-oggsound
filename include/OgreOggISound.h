@@ -26,9 +26,7 @@
 #include "OgreOggSoundCallback.h"
 	
 #if OGGSOUND_THREADED
-#	include <boost/thread/thread.hpp>
 #	include <boost/thread/recursive_mutex.hpp>
-#	include <boost/thread/xtime.hpp>
 #endif
 
 /**
@@ -63,9 +61,9 @@ namespace OgreOggSound
 	*/
 	enum FadeControl
 	{
-		NONE	= 0x00,
-		PAUSE	= 0x01,
-		STOP	= 0x02
+		FC_NONE		= 0x00,
+		FC_PAUSE	= 0x01,
+		FC_STOP		= 0x02
 	};
 
 	/**
@@ -285,7 +283,7 @@ namespace OgreOggSound
 			@param
 				actionOnCompletion Optional action to perform when fading has finished (default: NONE)
 		*/
-		void startFade(bool dir, Ogre::Real fadeTime, FadeControl actionOnCompletion=OgreOggSound::NONE);
+		void startFade(bool dir, Ogre::Real fadeTime, FadeControl actionOnCompletion=OgreOggSound::FC_NONE);
 		/** Returns fade status.
 		 */
 		bool isFading() { return mFade; }
@@ -431,6 +429,10 @@ namespace OgreOggSound
 
 	protected:
 
+#if OGGSOUND_THREADED
+		boost::recursive_mutex mMutex;
+#endif
+
 		/** Superclass describing a single sound object.
 		 */
 		OgreOggISound(const Ogre::String& name, bool seekSupport=false);
@@ -526,6 +528,8 @@ namespace OgreOggSound
 		bool mFileOpened;				// File status flag (multi-threaded ONLY)
 		bool mSourceRelative;			// Relative position flag
 		bool mPlayDelayed;				// Queue play flag
+		bool mStopDelayed;				// Queue stop flag
+		bool mPauseDelayed;				// Queue pause flag
 		bool mLocalTransformDirty;		// Transformation update flag
 		bool mPlayPosChanged;			// Flag indicating playback position has changed
 		bool mSeekable;					// Flag indicating seeking available

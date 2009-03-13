@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreOggSound", "OgreOggSoundLib_vc8.vcproj", "{A99FF2FA-D4DE-4E65-BA3E-7194B7183125}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestDemo", "TestDemo\TestDemo_vc8.vcproj", "{07FB0C63-4131-47F7-8D5A-6670F795FAFF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A99FF2FA-D4DE-4E65-BA3E-7194B7183125} = {A99FF2FA-D4DE-4E65-BA3E-7194B7183125}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
