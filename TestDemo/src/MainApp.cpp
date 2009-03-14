@@ -128,6 +128,7 @@ void MainApp::createScene()
 		sound->setReferenceDistance(10);
 		nOgreHead->attachObject(sound);
 		nOgreHead->showBoundingBox(true);
+		sound->addCuePoint(1.f);
 		sound->play();
 	}
 	/** Sound three - non streamed, looping, moving *
@@ -287,10 +288,7 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 	{
 		if ( sound )
 		{
-			if ( sound->isPlaying() )
-				sound->stop();
-			else
-				sound->play();
+			sound->removeCuePoint(0);
 		}
 	}
 

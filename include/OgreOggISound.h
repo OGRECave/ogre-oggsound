@@ -312,6 +312,32 @@ namespace OgreOggSound
 				priority (0..255)
 		 */
 		void setPriority(Ogre::uint8 priority) { mPriority=priority; }
+		/** Adds a time position in a sound as a cue point
+		@remarks
+			Allows the setting of a 'jump-to' point within an audio file. Returns the true on success. 
+			@param seconds
+				Cue point in seconds 
+		 */
+		bool addCuePoint(Ogre::Real seconds);
+		/** Removes a cue point
+		 */
+		void removeCuePoint(unsigned short index);
+		/** Clears entire list of cue points
+		 */
+		void clearCuePoints() { mCuePoints.clear(); }
+		/** Shifts the play position to a previously set cue point position.
+		@param index
+			position in cue point list to apply
+		 */
+		void setCuePoint(unsigned short index);
+		/** Gets a previously set cue point by index
+		@param index
+			position in cue point list to get
+		 */
+		Ogre::Real getCuePoint(unsigned short index);
+		/** Returns number of cue points
+		 */
+		unsigned int getNumCuePoints() { return static_cast<int>(mCuePoints.size()); }
 		/** Sets the position of the playback cursor in seconds
 		@param seconds
 			Play position in seconds 
@@ -535,6 +561,7 @@ namespace OgreOggSound
 		bool mSeekable;					// Flag indicating seeking available
 
 		ALfloat mPlayPos;				// Playback position in seconds
+		std::deque<Ogre::Real> mCuePoints;	// List of play position points
 
 		friend class OgreOggSoundManager;
 	};

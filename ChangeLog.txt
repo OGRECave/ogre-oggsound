@@ -30,6 +30,8 @@
 
 	* Added vc8 and vc9 project/solution files
 		* NOTE:- library has been compiled with vc8 ( Visual Studio C++ 2005 Express )
+	
+	* Added cue point list to sounds
 
 * version 1.05
 
