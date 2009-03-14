@@ -28,6 +28,8 @@ Features List:
 
 * Playback seeking 
 
+* Cue points - Set 'jump-to' points within sounds
+
 * Source management
 	* Sources are pooled 
 	* Sources are automatically re-used when a sound requests to play
