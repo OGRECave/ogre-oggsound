@@ -343,9 +343,9 @@ namespace OgreOggSound
 			Play position in seconds 
 		 */
 		virtual void setPlayPosition(Ogre::Real seconds);
-		/** Sets the position of the playback cursor in seconds
-		@param seconds
-			Play position in seconds 
+		/** Gets the length of the audio file in seconds
+		@remarks
+			Only valid after file has been opened AND file is seekable.
 		 */
 		Ogre::Real getAudioLength() { return mPlayTime; }
 		/** Gets movable type string
