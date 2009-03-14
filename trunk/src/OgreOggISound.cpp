@@ -466,6 +466,49 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggISound::addCuePoint(Ogre::Real seconds)
+	{
+		// Valid time?
+		if ( seconds > 0.f )
+		{
+			mCuePoints.push_back(seconds);
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::removeCuePoint(unsigned short index)
+	{
+		if ( mCuePoints.empty() || ((int)mCuePoints.size()<=index) )
+			return;
+
+		// Erase element
+		mCuePoints.erase(mCuePoints.begin()+index);
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	Ogre::Real OgreOggISound::getCuePoint(unsigned short index)
+	{
+		if ( mCuePoints.empty() || ((int)mCuePoints.size()<=index) )
+			return -1.f;
+
+		// get element
+		return mCuePoints.at(index);
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::setCuePoint(unsigned short index)
+	{
+		if ( mCuePoints.empty() || ((int)mCuePoints.size()<=index) )
+			return;
+
+		// set cue point
+		setPlayPosition(mCuePoints.at(index));
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setRelativeToListener(bool relative)
 	{
 		mSourceRelative = relative;
