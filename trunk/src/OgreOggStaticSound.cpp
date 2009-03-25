@@ -30,7 +30,6 @@ namespace OgreOggSound
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStaticSound::OgreOggStaticSound(const Ogre::String& name) : OgreOggISound(name)
-	,mOggFile(0)
 	,mVorbisInfo(0)
 	,mVorbisComment(0)
 	,mPreviousOffset(0)
@@ -43,7 +42,6 @@ namespace OgreOggSound
 	OgreOggStaticSound::~OgreOggStaticSound()
 	{
 		_release();
-		mOggFile=0;
 		mVorbisInfo=0;
 		mVorbisComment=0;
 		mBufferData.clear();
@@ -59,19 +57,18 @@ namespace OgreOggSound
 		// Store file name
 		mAudioName = mAudioStream->getName();
 
-		// Seekable file?
-		if(!ov_seekable(&mOggStream))
-		{
-			// Disable seeking
-			mOggCallbacks.seek_func=NULL;
-			mOggCallbacks.tell_func=NULL;
-			mSeekable = false;
-		}
-
 		if((result = ov_open_callbacks(&mAudioStream, &mOggStream, NULL, 0, mOggCallbacks)) < 0)
 		{
 			throw string("Could not open Ogg stream. ");
 			return;
+		}
+
+
+		// Seekable file?
+		if(ov_seekable(&mOggStream)==0)
+		{
+			// Disable seeking
+			mSeekable = false;
 		}
 
 		mVorbisInfo = ov_info(&mOggStream, -1);

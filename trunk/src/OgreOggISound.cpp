@@ -477,7 +477,6 @@ namespace OgreOggSound
 		else
 			return false;
 	}
-	
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::removeCuePoint(unsigned short index)
 	{
