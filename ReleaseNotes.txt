@@ -1,6 +1,6 @@
 Release Notes:-
 
-OgreOggSound is a wrapper around OpenAL to quickly add 2D/3D .ogg audio to applications. 
+OgreOggSound is a wrapper around OpenAL to quickly add 2D/3D .ogg/.wav audio to applications. 
 It is designed to seemlessly integrate into OGRE applications and handles static and streamed sounds with optional multi-threaded stream support via BOOST threads.
 
 Features List:

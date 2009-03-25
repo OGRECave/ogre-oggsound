@@ -30,7 +30,6 @@ namespace OgreOggSound
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamSound::OgreOggStreamSound(const Ogre::String& name) : OgreOggISound(name)
-	,mOggFile(0)
 	,mVorbisInfo(0)
 	,mVorbisComment(0)
 	,mStreamEOF(false)
@@ -42,7 +41,6 @@ namespace OgreOggSound
 	OgreOggStreamSound::~OgreOggStreamSound()
 	{
 		_release();
-		mOggFile=0;
 		mVorbisInfo=0;
 		mVorbisComment=0;
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;
@@ -55,19 +53,17 @@ namespace OgreOggSound
 		// Store stream pointer
 		mAudioStream = fileStream;
 
-		// Seekable file?
-		if(!ov_seekable(&mOggStream))
-		{
-			// Disable seeking
-			mOggCallbacks.seek_func=NULL;
-			mOggCallbacks.tell_func=NULL;
-			mSeekable = false;
-		}
-
 		if((result = ov_open_callbacks(&mAudioStream, &mOggStream, NULL, 0, mOggCallbacks)) < 0)
 		{
 			throw string("Could not open Ogg stream. ");
 			return;
+		}
+
+		// Seekable file?
+		if(ov_seekable(&mOggStream)==0)
+		{
+			// Disable seeking
+			mSeekable = false;
 		}
 
 		mVorbisInfo = ov_info(&mOggStream, -1);
@@ -286,9 +282,13 @@ namespace OgreOggSound
 			if (bytes == 0)
 			{
 				// If set to loop wrap to start of stream
-				if ( mLoop )
+				if ( mLoop && mSeekable )
 				{
-					ov_time_seek(&mOggStream, 0);
+					if ( ov_time_seek(&mOggStream, 0)!= 0 )
+					{
+						Ogre::LogManager::getSingleton().logMessage("***--- OgreOggStream::_stream() - ERROR looping stream, ogg file NOT seekable!");
+						break;
+					}
 					/**	This is the closest we can get to a loop trigger.
 						If, whilst filling the buffers, we need to wrap the stream
 						pointer, trigger the loop callback if defined.
@@ -360,7 +360,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_updatePlayPosition()
 	{
-		if ( mSource==AL_NONE ) 
+		if ( mSource==AL_NONE || !mSeekable ) 
 			return;
 
 		bool paused = isPlaying();
@@ -424,7 +424,7 @@ namespace OgreOggSound
 		}
 #endif
 
-		if(mSource == AL_NONE)
+		if(mSource == AL_NONE) return;
 
 		alSourcePause(mSource);
 
@@ -500,8 +500,20 @@ namespace OgreOggSound
 			mPlay = false;
 			mStopDelayed = false;
 
-			// Reset stream pointer
-			ov_time_seek(&mOggStream,0);
+			// Jump to beginning if seeking available
+			if ( mSeekable ) 
+			{
+				ov_time_seek(&mOggStream,0);
+			}
+			// Non-seekable - close/reopen
+			else
+			{
+				// Close
+				_release();
+
+				// Reopen
+				open(mAudioStream);
+			}
 
 			// Reload data
 			_prebuffer();

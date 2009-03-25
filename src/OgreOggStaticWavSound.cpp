@@ -31,7 +31,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 			OgreOggStaticWavSound::OgreOggStaticWavSound(const Ogre::String& name) : OgreOggISound(name)
 		,mAudioName("")
-		,mOggFile(0)
 		,mVorbisInfo(0)
 		,mVorbisComment(0)
 		,mPreviousOffset(0)
@@ -45,7 +44,6 @@ namespace OgreOggSound
 			OgreOggStaticWavSound::~OgreOggStaticWavSound()
 	{
 		_release();
-		mOggFile=0;
 		mVorbisInfo=0;
 		mVorbisComment=0;
 		mBufferData.clear();

@@ -122,7 +122,7 @@ void MainApp::createScene()
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
 	sound = 0;
-	if ( sound = mSoundManager->createSound("Two", "boom1.wav", true, true) )	
+	if ( sound = mSoundManager->createSound("Two", "two.ogg", true, true) )	
 	{
 		sound->setMaxDistance(300);
 		sound->setReferenceDistance(10);

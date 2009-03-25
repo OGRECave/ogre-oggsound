@@ -1,3 +1,15 @@
+* version 1.07
+
+	* Cleaned out some unused ogg file pointers
+	
+	* Cleaned up ov_time_seek() use when using non-seekable ogg's
+	
+	* Fixed infinte loop bug in OgreOggStreamSound::_stream() when ogg file is set to loop but is unseekable.
+	
+	* Fixed bug in OgreOggStreamSound::pause() missing 'return;' after source check.
+	
+	* Added closing/opening of ogg file in stop() when using non-seekable ogg's, should reset play cursor to beginning, however will cause delay whilst re-opening file..
+
 * version 1.06
 
 	* Added check in _reactivateSounds() for stopped sounds.

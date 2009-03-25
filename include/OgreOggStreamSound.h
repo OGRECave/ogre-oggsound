@@ -148,7 +148,6 @@ namespace OgreOggSound
 		/**
 		 * Ogg file variables
 		 */
-		FILE* mOggFile;						// Ogg file pointer
 		OggVorbis_File mOggStream;			// OggVorbis file structure
 		vorbis_info* mVorbisInfo;			// Vorbis info
 		vorbis_comment* mVorbisComment;		// Vorbis comments
