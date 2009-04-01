@@ -1,8 +1,8 @@
 #ifndef __OGRE_H__
 #define __OGRE_H__
 
-#include <windows.h>
-#include <ogre.h>
+#include <Windows.h>
+#include <Ogre.h>
 #include "InputManager.h"
 
 #ifdef _STEREO
@@ -35,7 +35,7 @@ public:
 	#endif
 };
 
-
+/*
 class MouseCursor
 {
 private:
@@ -60,5 +60,5 @@ public:
 		}	
 	};
 };
-
+*/
 #endif

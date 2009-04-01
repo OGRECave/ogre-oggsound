@@ -119,7 +119,7 @@ void MainApp::createScene()
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
-	/** Sound two - prebuffered, streamed, looping, EFX room effect */
+	/** Sound two - prebuffered, streamed, looping, EFX room effect *
 	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
 	sound = 0;
 	if ( sound = mSoundManager->createSound("Two", "two.ogg", true, true) )	
@@ -273,9 +273,11 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 
 	if (arg.key == OIS::KC_Q)
 	{
+#ifndef LINUX
 		OgreOggSoundRecord* r = 0;
 		if ( r=mSoundManager->getRecorder() )
 			r->startRecording();
+#endif
 	}
 
 	if (arg.key == OIS::KC_W)
