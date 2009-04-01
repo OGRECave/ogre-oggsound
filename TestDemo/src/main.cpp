@@ -114,7 +114,7 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR, INT )
 
 	return 0;
 }
-//-----------------------------------------------------------------------
+/*-----------------------------------------------------------------------
 void showWin32Console()
 {
 	static const WORD MAX_CONSOLE_LINES = 5000;
@@ -150,4 +150,4 @@ void showWin32Console()
 	// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog
 	// point to console as well
 	std::ios::sync_with_stdio();
-}
+}*/

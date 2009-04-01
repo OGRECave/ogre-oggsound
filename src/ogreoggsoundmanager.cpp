@@ -259,7 +259,7 @@ namespace OgreOggSound
 		** string we know that we've found the double NULL that terminates the
 		** list and we can stop there.
 		*/
-		while(*deviceList != NULL)
+		while(*deviceList != 0)
 		{
 			try
 			{
