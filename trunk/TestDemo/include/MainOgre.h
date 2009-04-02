@@ -35,7 +35,7 @@ public:
 	#endif
 };
 
-/*
+
 class MouseCursor
 {
 private:
@@ -60,5 +60,5 @@ public:
 		}	
 	};
 };
-*/
+
 #endif
