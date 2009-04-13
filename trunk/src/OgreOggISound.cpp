@@ -20,6 +20,7 @@
 
 #include "OgreOggISound.h"
 #include "OgreOggSound.h"
+#include <OgreMovableObject.h>
 
 namespace OgreOggSound
 {
@@ -584,7 +585,13 @@ namespace OgreOggSound
 		return;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::_notifyMoved(void) { mLocalTransformDirty=true; }
+	void OgreOggISound::_notifyMoved(void) 
+	{ 
+		// Call base class notify
+		Ogre::MovableObject::_notifyMoved();
+
+		mLocalTransformDirty=true; 
+	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables)
 	{
