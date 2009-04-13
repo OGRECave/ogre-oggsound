@@ -20,6 +20,7 @@
 
 #include "OgreOggListener.h"
 #include "OgreOggSound.h"
+#include <OgreMovableObject.h>
 
 namespace OgreOggSound
 {
@@ -132,7 +133,13 @@ namespace OgreOggSound
 		return;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggListener::_notifyMoved(void) { mLocalTransformDirty=true; }
+	void OgreOggListener::_notifyMoved(void) 
+	{ 
+		// Call base class notify
+		Ogre::MovableObject::_notifyMoved();
+
+		mLocalTransformDirty=true; 
+	}
 }
 
 	

@@ -7,6 +7,8 @@
 	* Fixed infinte loop bug in OgreOggStreamSound::_stream() when ogg file is set to loop but is unseekable.
 	
 	* Fixed bug in OgreOggStreamSound::pause() missing 'return;' after source check.
+
+	* Added missing subclass call in _notifyMoved() methods of OgreOggIsound/Listener classes
 	
 	* Added closing/opening of ogg file in stop() when using non-seekable ogg's, should reset play cursor to beginning, however will cause delay whilst re-opening file..
 
