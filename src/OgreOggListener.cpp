@@ -27,7 +27,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggListener::setListenerVolume(ALfloat vol)
 	{
-		if ( vol<0 ) return;
+		if		( vol<0.f ) vol=0.f;
+		else if ( vol>1.f ) vol=1.f;
 
 		alListenerf(AL_GAIN, vol);
 	}

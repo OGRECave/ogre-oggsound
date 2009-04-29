@@ -80,19 +80,18 @@
 <a name="l00140"></a>00140 
 <a name="l00146"></a>00146                 <span class="keywordtype">void</span> _release();        
 <a name="l00147"></a>00147 
-<a name="l00151"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#aaae6b578179af7b310398430fc2dd35">00151</a>                 FILE* mOggFile;                                         <span class="comment">// Ogg file pointer</span>
-<a name="l00152"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#352eccb0e2eefdbec233d8edd6d5308c">00152</a>                 OggVorbis_File mOggStream;                      <span class="comment">// OggVorbis file structure</span>
-<a name="l00153"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#ab826f29ed286aac59f93f5a37f1f491">00153</a>                 vorbis_info* mVorbisInfo;                       <span class="comment">// Vorbis info</span>
-<a name="l00154"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#f67ace4b8dd405f70c0a22969d2b5571">00154</a>                 vorbis_comment* mVorbisComment;         <span class="comment">// Vorbis comments</span>
-<a name="l00155"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#399ac695736cd6a89f11634216d6fece">00155</a>                 ALuint mBuffers[<a class="code" href="_ogre_ogg_i_sound_8h.html#ac028f4c15ac7f78a44be5db76cfbec7">NUM_BUFFERS</a>];           <span class="comment">// Sound data buffers</span>
-<a name="l00156"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#cbc4b3d4af43d81e18f65a937686412c">00156</a>                 ALenum mFormat;                                         <span class="comment">// OpenAL format</span>
-<a name="l00157"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#5beb918beffeb04a6b5c3d463e7f3e24">00157</a>                 <span class="keywordtype">bool</span> <a class="code" href="ogreoggstreamsound_8cpp.html#5b9f92af36f7edef770c37640aa80bce">mStreamEOF</a>;                                        <span class="comment">// EOF flag</span>
-<a name="l00158"></a>00158 
-<a name="l00159"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#7cfed535deaa9c3b1c335b122135c474">00159</a>                 <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html">OgreOggSoundManager</a>;
-<a name="l00160"></a>00160         };
-<a name="l00161"></a>00161 }
+<a name="l00151"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#352eccb0e2eefdbec233d8edd6d5308c">00151</a>                 OggVorbis_File mOggStream;                      <span class="comment">// OggVorbis file structure</span>
+<a name="l00152"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#ab826f29ed286aac59f93f5a37f1f491">00152</a>                 vorbis_info* mVorbisInfo;                       <span class="comment">// Vorbis info</span>
+<a name="l00153"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#f67ace4b8dd405f70c0a22969d2b5571">00153</a>                 vorbis_comment* mVorbisComment;         <span class="comment">// Vorbis comments</span>
+<a name="l00154"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#399ac695736cd6a89f11634216d6fece">00154</a>                 ALuint mBuffers[<a class="code" href="_ogre_ogg_i_sound_8h.html#ac028f4c15ac7f78a44be5db76cfbec7">NUM_BUFFERS</a>];           <span class="comment">// Sound data buffers</span>
+<a name="l00155"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#cbc4b3d4af43d81e18f65a937686412c">00155</a>                 ALenum mFormat;                                         <span class="comment">// OpenAL format</span>
+<a name="l00156"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#5beb918beffeb04a6b5c3d463e7f3e24">00156</a>                 <span class="keywordtype">bool</span> <a class="code" href="ogreoggstreamsound_8cpp.html#5b9f92af36f7edef770c37640aa80bce">mStreamEOF</a>;                                        <span class="comment">// EOF flag</span>
+<a name="l00157"></a>00157 
+<a name="l00158"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#7cfed535deaa9c3b1c335b122135c474">00158</a>                 <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html">OgreOggSoundManager</a>;
+<a name="l00159"></a>00159         };
+<a name="l00160"></a>00160 }
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sat Mar 14 10:13:58 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Apr 29 23:01:10 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>
