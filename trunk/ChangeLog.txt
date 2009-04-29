@@ -12,6 +12,9 @@
 	
 	* Added closing/opening of ogg file in stop() when using non-seekable ogg's, should reset play cursor to beginning, however will cause delay whilst re-opening file..
 
+	* Added mute/unmute functions to OgreOggSoundManager
+
+
 * version 1.06
 
 	* Added check in _reactivateSounds() for stopped sounds.

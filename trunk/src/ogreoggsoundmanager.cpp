@@ -39,6 +39,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::OgreOggSoundManager() :
 		mNumSources(0),
+		mOrigVolume(1.f),
 		mDevice(0),
 		mContext(0),
 		mListener(0),
@@ -838,14 +839,12 @@ namespace OgreOggSound
 		}
 		return false;
 	}
-#ifndef LINUX
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::setXRamBuffer(ALsizei numBuffers, ALuint* buffer)
 	{
 		if ( buffer && mEAXSetBufferMode )
 			mEAXSetBufferMode(numBuffers, buffer, mCurrentXRamMode);
 	}
-#endif
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::setXRamBufferMode(ALenum mode)
 	{
@@ -1515,6 +1514,17 @@ namespace OgreOggSound
 		{
 			(*iter)->stop();
 		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::muteAllSounds()
+	{
+		alGetListenerf(AL_GAIN, &mOrigVolume);
+		alListenerf(AL_GAIN, 0.f);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::unmuteAllSounds()
+	{
+		alListenerf(AL_GAIN, mOrigVolume);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::pauseAllSounds()

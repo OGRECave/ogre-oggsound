@@ -209,6 +209,12 @@ namespace OgreOggSound
 		/** Pauses all currently playing sounds.
 		 */
 		void pauseAllSounds();
+		/** Mutes all sounds.
+		 */
+		void muteAllSounds();
+		/** Un mutes all sounds.
+		 */
+		void unmuteAllSounds();
 		/** Resumes all previously playing sounds.
 		 */
 		void resumeAllPausedSounds();
@@ -644,6 +650,8 @@ namespace OgreOggSound
 		 */
 		ALCdevice* mDevice;						// OpenAL device
 		ALCcontext* mContext;					// OpenAL context
+
+		ALfloat	mOrigVolume;					// Used to revert volume after a mute
 
 		/** Sound lists
 		 */

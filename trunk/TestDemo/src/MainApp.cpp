@@ -119,16 +119,13 @@ void MainApp::createScene()
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
-	/** Sound two - prebuffered, streamed, looping, EFX room effect *
-	EAXREVERBPROPERTIES props = REVERB_PRESET_AUDITORIUM;
+	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	sound = 0;
-	if ( sound = mSoundManager->createSound("Two", "two.ogg", true, true) )	
+	if ( sound = mSoundManager->createSound("Two", "two.ogg", false, true) )	
 	{
 		sound->setMaxDistance(300);
-		sound->setReferenceDistance(10);
-		nOgreHead->attachObject(sound);
-		nOgreHead->showBoundingBox(true);
-		sound->addCuePoint(1.f);
+		sound->setReferenceDistance(100);
+		mOgreMonster->attachObject(sound);
 		sound->play();
 	}
 	/** Sound three - non streamed, looping, moving *
@@ -235,40 +232,11 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 
 	if (arg.key == OIS::KC_F1)
 	{
-		if ( mSoundManager->hasSound("One") )
-		{
-			mSoundManager->getSound("One")->startFade(false, 2.f, OgreOggSound::FC_STOP);
-		}
+		mSoundManager->muteAllSounds();
 	}
-
 	if (arg.key == OIS::KC_F2)
 	{
-		if ( mSoundManager->hasSound("Two") )
-		{
-			if(mSoundManager->getSound("Two")->isPlaying())
-				mSoundManager->getSound("Two")->stop();
-			else mSoundManager->getSound("Two")->play();
-		}
-	}
-
-	if (arg.key == OIS::KC_F3)
-	{
-		if ( mSoundManager->hasSound("Three") )
-		{
-			if(mSoundManager->getSound("Three")->isPlaying())
-				mSoundManager->getSound("Three")->stop();
-			else mSoundManager->getSound("Three")->play();
-		}
-	}
-
-	if (arg.key == OIS::KC_F4)
-	{
-		if ( mSoundManager->hasSound("background") )
-		{
-			if(mSoundManager->getSound("background")->isPlaying())
-				mSoundManager->getSound("background")->stop();
-			else mSoundManager->getSound("background")->play();
-		}
+		mSoundManager->unmuteAllSounds();
 	}
 
 	if (arg.key == OIS::KC_Q)
