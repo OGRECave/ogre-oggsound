@@ -1,3 +1,12 @@
+* version 1.08
+
+	* Added mute/unmute functions to OgreOggSoundManager
+
+	* Removed setListenerVolume()/getListenerVolume() from OgreOggSoundListener
+		* use OgreOggSoundManager::setMasterVolume() & OgreOggSound::getMasterVolume() instead.
+
+
+
 * version 1.07
 
 	* Cleaned out some unused ogg file pointers
@@ -12,7 +21,6 @@
 	
 	* Added closing/opening of ogg file in stop() when using non-seekable ogg's, should reset play cursor to beginning, however will cause delay whilst re-opening file..
 
-	* Added mute/unmute functions to OgreOggSoundManager
 
 
 * version 1.06
