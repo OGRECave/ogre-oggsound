@@ -542,6 +542,23 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::setMasterVolume(ALfloat vol)
+	{
+		if		( vol<0.f ) vol=0.f;
+		else if ( vol>1.f ) vol=1.f;
+
+		alListenerf(AL_GAIN, vol);
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	ALfloat OgreOggSoundManager::getMasterVolume()
+	{
+		ALfloat vol=1.0;
+		alGetListenerf(AL_GAIN, &vol);
+		return vol;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound* OgreOggSoundManager::createSound(SceneManager& scnMgr, const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer)
 	{
 #if OGGSOUND_THREADED
@@ -1428,16 +1445,6 @@ namespace OgreOggSound
 
 		SoundMap::iterator i = mSoundMap.find(name);
 		if(i == mSoundMap.end()) return false; return true;
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::setMasterVolume(ALfloat vol)
-	{
-		if ( mListener ) mListener->setListenerVolume(vol);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	ALfloat OgreOggSoundManager::getMasterVolume()
-	{
-		if (mListener) return mListener->getListenerVolume(); else return 1.0;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::destroyAllSounds()

@@ -42,17 +42,6 @@ namespace OgreOggSound
 		{
 			for (int i=0; i<6; i++ ) mOrientation[i]=0;		
 		};
-		/** Sets the listeners volume.
-		@remarks
-			This sets the global master gain for all sounds heard through
-			the listener.
-			@param
-				vol master gain for all sounds. (MUST be positive)
-		 */
-		void setListenerVolume(ALfloat vol=1.0); 
-		/** Gets the listeners volume.
-		 */
-		ALfloat getListenerVolume();
 		/** Sets the position of the listener.
 		@remarks
 			Sets the 3D position of the listener. This is a manual method,
