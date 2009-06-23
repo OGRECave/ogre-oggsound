@@ -40,7 +40,7 @@ const String& OgreOggSoundPlugin::getName() const
 void OgreOggSoundPlugin::install()
 {
 	// Create new factory
-	mOgreOggSoundFactory = new OgreOggSoundFactory();
+	mOgreOggSoundFactory = OGRE_NEW_T(OgreOggSoundFactory, Ogre::MEMCATEGORY_GENERAL)();
 
 	// Register
 	Root::getSingleton().addMovableObjectFactory(mOgreOggSoundFactory, true);
@@ -49,13 +49,13 @@ void OgreOggSoundPlugin::install()
 void OgreOggSoundPlugin::initialise()
 {
 	//initialise OgreOggSoundManager here
-	mOgreOggSoundManager = new OgreOggSoundManager();
+	mOgreOggSoundManager = OGRE_NEW_T(OgreOggSoundManager, Ogre::MEMCATEGORY_GENERAL)();
 }
 //---------------------------------------------------------------------
 void OgreOggSoundPlugin::shutdown()
 {
 	// shutdown OgreOggSoundManager here
-	delete mOgreOggSoundManager;
+	OGRE_DELETE_T(mOgreOggSoundManager, OgreOggSoundManager, Ogre::MEMCATEGORY_GEOMETRY);
 	mOgreOggSoundManager = 0;
 }
 //---------------------------------------------------------------------
@@ -64,6 +64,6 @@ void OgreOggSoundPlugin::uninstall()
 	// unregister
 	Root::getSingleton().removeMovableObjectFactory(mOgreOggSoundFactory);
 
-	delete mOgreOggSoundFactory;
+	OGRE_DELETE_T(mOgreOggSoundFactory, OgreOggSoundFactory, Ogre::MEMCATEGORY_GENERAL);
 	mOgreOggSoundFactory = 0;
 }

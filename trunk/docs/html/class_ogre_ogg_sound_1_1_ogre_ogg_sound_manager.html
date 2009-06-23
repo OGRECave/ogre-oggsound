@@ -1031,7 +1031,7 @@ Destroys a single sound. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>
 <p>
 Updates all sound buffers. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Iterates all sounds and updates their buffers. </dd></dl>
 
-<p>Referenced by <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00546">threadUpdate()</a>.</p>
+<p>Referenced by <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00544">threadUpdate()</a>.</p>
 
 </div>
 </div><p>
@@ -1246,7 +1246,7 @@ Returns number of sources created.
 <p>
 Opens all queued sounds. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>To prevent calling thread blocking when using ov_open_callbacks() we offload this call onto the update thread. This function basically opens an ogg file for reading and notifys its parent sound that its ready to be used. </dd></dl>
 
-<p>Referenced by <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00546">threadUpdate()</a>.</p>
+<p>Referenced by <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00544">threadUpdate()</a>.</p>
 
 </div>
 </div><p>
@@ -2021,7 +2021,6 @@ Releases a shared audio buffer <dl class="remark" compact><dt><b>Remarks:</b></d
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>sName</em>&nbsp;</td><td>Name of audio file </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>buffer</em>&nbsp;</td><td>OpenAL buffer ID holding audio data </td></tr>
   </table>
 </dl>
 
@@ -2111,7 +2110,7 @@ Queues a sound to play <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Sy
 <p>
 Threaded function for streaming updates <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Optional threading function specified in OgreOggPreReqs.h. Implemented to handle updating of streamed audio buffers independently of main game thread, unthreaded streaming would be disrupted by any pauses or large frame lags, due to the fact that OpenAL itself runs in its own thread. If the audio buffers aren't constantly re-filled the sound will be automatically stopped by OpenAL. Static sounds do not suffer this problem because all the audio data is preloaded into memory. </dd></dl>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00546">546</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00544">544</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 <p>References <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l00135">OgreOggSoundManager::getSingleton()</a>, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#60ad3ee53469ef6c68110cefe509dc5d">processQueuedSounds()</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7f0ab1761fbea41cedcc225525d35e39">updateBuffers()</a>.</p>
 
@@ -2465,7 +2464,7 @@ Enumerates audio devices. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00762">762</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00760">760</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2483,7 +2482,7 @@ Enumerates audio devices. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00530">530</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00528">528</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2500,7 +2499,7 @@ Enumerates audio devices. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00532">532</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00530">530</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2517,7 +2516,7 @@ Enumerates audio devices. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00533">533</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00531">531</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2534,7 +2533,7 @@ Enumerates audio devices. <dl class="remark" compact><dt><b>Remarks:</b></dt><dd
 
 <p>
 OpenAL device objects 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00651">651</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00649">649</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2551,7 +2550,7 @@ OpenAL device objects
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00652">652</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00650">650</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2568,7 +2567,7 @@ OpenAL device objects
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00654">654</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00652">652</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2585,7 +2584,7 @@ OpenAL device objects
 
 <p>
 Sound lists 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00658">658</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00656">656</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2602,7 +2601,7 @@ Sound lists
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00659">659</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00657">657</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2619,7 +2618,7 @@ Sound lists
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00660">660</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00658">658</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2636,7 +2635,7 @@ Sound lists
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00661">661</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00659">659</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2653,7 +2652,7 @@ Sound lists
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00662">662</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00660">660</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2670,7 +2669,7 @@ Sound lists
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00663">663</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00661">661</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2687,7 +2686,7 @@ Sound lists
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00664">664</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00662">662</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2704,7 +2703,7 @@ Sound lists
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00665">665</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00663">663</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2721,7 +2720,7 @@ Sound lists
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00666">666</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00664">664</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2738,7 +2737,7 @@ Sound lists
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00667">667</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00665">665</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2755,7 +2754,7 @@ Sound lists
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00668">668</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00666">666</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2772,7 +2771,7 @@ Sound lists
 
 <p>
 Manager instance 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00672">672</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00670">670</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2789,7 +2788,7 @@ Manager instance
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00673">673</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00671">671</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2806,7 +2805,7 @@ Manager instance
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00674">674</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00672">672</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2823,7 +2822,7 @@ Manager instance
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00676">676</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00674">674</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2840,7 +2839,7 @@ Manager instance
 
 <p>
 EFX Support 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00681">681</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00679">679</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2857,7 +2856,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00688">688</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00686">686</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2874,7 +2873,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00689">689</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00687">687</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2891,7 +2890,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00690">690</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00688">688</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2908,7 +2907,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00691">691</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00689">689</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2925,7 +2924,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00692">692</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00690">690</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2942,7 +2941,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00693">693</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00691">691</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2959,7 +2958,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00694">694</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00692">692</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2976,7 +2975,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00695">695</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00693">693</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -2993,7 +2992,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00696">696</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00694">694</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3010,7 +3009,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00697">697</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00695">695</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3027,7 +3026,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00698">698</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00696">696</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3044,7 +3043,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00701">701</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00699">699</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3061,7 +3060,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00702">702</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00700">700</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3078,7 +3077,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00703">703</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00701">701</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3095,7 +3094,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00704">704</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00702">702</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3112,7 +3111,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00705">705</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00703">703</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3129,7 +3128,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00706">706</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00704">704</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3146,7 +3145,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00707">707</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00705">705</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3163,7 +3162,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00708">708</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00706">706</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3180,7 +3179,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00709">709</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00707">707</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3197,7 +3196,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00710">710</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00708">708</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3214,7 +3213,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00711">711</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00709">709</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3231,7 +3230,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00714">714</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00712">712</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3248,7 +3247,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00715">715</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00713">713</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3265,7 +3264,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00716">716</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00714">714</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3282,7 +3281,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00717">717</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00715">715</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3299,7 +3298,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00718">718</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00716">716</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3316,7 +3315,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00719">719</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00717">717</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3333,7 +3332,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00720">720</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00718">718</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3350,7 +3349,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00721">721</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00719">719</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3367,7 +3366,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00722">722</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00720">720</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3384,7 +3383,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00723">723</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00721">721</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3401,7 +3400,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00724">724</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00722">722</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3418,7 +3417,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00731">731</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00729">729</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3435,7 +3434,7 @@ EFX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00732">732</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00730">730</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3452,7 +3451,7 @@ EFX Support
 
 <p>
 EAX Support 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00736">736</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00734">734</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3469,7 +3468,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00737">737</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00735">735</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3486,7 +3485,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00739">739</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00737">737</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3503,7 +3502,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00741">741</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00739">739</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3520,7 +3519,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00742">742</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00740">740</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3537,7 +3536,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00743">743</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00741">741</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3554,7 +3553,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00745">745</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00743">743</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3571,7 +3570,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00746">746</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00744">744</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3588,7 +3587,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00748">748</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00746">746</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3605,7 +3604,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00748">748</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00746">746</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3622,7 +3621,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00748">748</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00746">746</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3639,7 +3638,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00748">748</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00746">746</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3656,7 +3655,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00748">748</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00746">746</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3673,7 +3672,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00748">748</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00746">746</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3690,7 +3689,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00755">755</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00753">753</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3707,7 +3706,7 @@ EAX Support
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00755">755</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00753">753</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
@@ -3724,14 +3723,14 @@ EAX Support
 
 <p>
 Listener pointer 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00760">760</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_manager_8h-source.html#l00758">758</a> of file <a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a>.</p>
 
 </div>
 </div><p>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>C:/Current Projects/Audio Library/ogreoggsound/include/<a class="el" href="_ogre_ogg_sound_manager_8h-source.html">OgreOggSoundManager.h</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 30 10:29:59 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Jun 23 12:31:19 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

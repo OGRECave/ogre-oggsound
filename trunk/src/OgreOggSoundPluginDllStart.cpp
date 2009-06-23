@@ -34,7 +34,7 @@ OgreOggSoundPlugin* mOgreOggSoundPlugin;
 extern "C" void _OGGSOUND_EXPORT dllStartPlugin( void )
 {
 	// Create new plugin
-	mOgreOggSoundPlugin = new OgreOggSoundPlugin();
+	mOgreOggSoundPlugin = OGRE_NEW_T(OgreOggSoundPlugin, Ogre::MEMCATEGORY_GENERAL)();
 
 	// Register
 	Root::getSingleton().installPlugin(mOgreOggSoundPlugin);
@@ -44,6 +44,6 @@ extern "C" void _OGGSOUND_EXPORT dllStopPlugin( void )
 {
 	Root::getSingleton().uninstallPlugin(mOgreOggSoundPlugin);
 
-	delete mOgreOggSoundPlugin;
+	OGRE_DELETE_T(mOgreOggSoundPlugin, OgreOggSoundPlugin, Ogre::MEMCATEGORY_GENERAL);
 	mOgreOggSoundPlugin = 0;
 }

@@ -271,7 +271,7 @@ namespace OgreOggSound
 		int  result = 0;
 
 		// Create buffer
-		data = new char[mBufferSize];
+		data = OGRE_ALLOC_T(char, mBufferSize, Ogre::MEMCATEGORY_GENERAL);
 
 		// Read only what was asked for
 		while(static_cast<int>(audioData.size()) < mBufferSize)
@@ -318,7 +318,7 @@ namespace OgreOggSound
 		// EOF
 		if(result == 0)
 		{
-			delete [] data;
+			OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);
 			return false;
 		}
 
@@ -327,7 +327,7 @@ namespace OgreOggSound
 		alBufferData(buffer, mFormat, &audioData[0], static_cast<ALsizei>(audioData.size()), mVorbisInfo->rate);
 
 		// Cleanup
-		delete [] data;
+		OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);
 
 		return true;
 	}

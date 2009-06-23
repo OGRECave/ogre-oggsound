@@ -87,14 +87,14 @@ namespace OgreOggSound
 		int sizeRead = 0;
 		int bitStream;
 
-		data = new char[mBufferSize];
+		data = OGRE_ALLOC_T(char, mBufferSize, Ogre::MEMCATEGORY_GENERAL);
 		do
 		{
 			sizeRead = ov_read(&mOggStream, data, static_cast<int>(mBufferSize), 0, 2, 1, &bitStream);
 			mBufferData.insert(mBufferData.end(), data, data + sizeRead);
 		}
 		while(sizeRead > 0);
-		delete [] data;
+		OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);
 
 #ifndef LINUX
 		// Upload to XRAM buffers if available

@@ -287,7 +287,7 @@
 <a name="l00271"></a>00271 <span class="comment">                int  result = 0;</span>
 <a name="l00272"></a>00272 <span class="comment"></span>
 <a name="l00273"></a>00273 <span class="comment">                // Create buffer</span>
-<a name="l00274"></a>00274 <span class="comment">                data = new char[mBufferSize];</span>
+<a name="l00274"></a>00274 <span class="comment">                data = OGRE_ALLOC_T(char, mBufferSize, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00275"></a>00275 <span class="comment"></span>
 <a name="l00276"></a>00276 <span class="comment">                // Read only what was asked for</span>
 <a name="l00277"></a>00277 <span class="comment">                while(static_cast&lt;int&gt;(audioData.size()) &lt; mBufferSize)</span>
@@ -324,7 +324,7 @@
 <a name="l00318"></a>00318 <span class="comment">                // EOF</span>
 <a name="l00319"></a><a class="code" href="ogreoggstreamsound_8cpp.html#aa9a2bbb6e06930157e48db0627975ff">00319</a> <span class="comment">                if(result == 0)</span>
 <a name="l00320"></a>00320 <span class="comment">                {</span>
-<a name="l00321"></a>00321 <span class="comment">                        delete [] data;</span>
+<a name="l00321"></a>00321 <span class="comment">                        OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00322"></a>00322 <span class="comment">                        return false;</span>
 <a name="l00323"></a>00323 <span class="comment">                }</span>
 <a name="l00324"></a>00324 <span class="comment"></span>
@@ -333,7 +333,7 @@
 <a name="l00327"></a>00327 <span class="comment">                alBufferData(buffer, mFormat, &amp;audioData[0], static_cast&lt;ALsizei&gt;(audioData.size()), mVorbisInfo-&gt;rate);</span>
 <a name="l00328"></a>00328 <span class="comment"></span>
 <a name="l00329"></a>00329 <span class="comment">                // Cleanup</span>
-<a name="l00330"></a><a class="code" href="ogreoggstreamsound_8cpp.html#0b93784311071f71f9f44b7b5395737b">00330</a> <span class="comment">                delete [] data;</span>
+<a name="l00330"></a>00330 <span class="comment">                OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00331"></a>00331 <span class="comment"></span>
 <a name="l00332"></a><a class="code" href="ogreoggstreamsound_8cpp.html#930920b2bc42824a5c03be681830f4b2">00332</a> <span class="comment">                return true;</span>
 <a name="l00333"></a>00333 <span class="comment">        }</span>
@@ -530,7 +530,7 @@
 <a name="l00524"></a>00524 <span class="comment">        }</span>
 <a name="l00525"></a>00525 <span class="comment">}</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 30 10:29:58 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Jun 23 12:31:18 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

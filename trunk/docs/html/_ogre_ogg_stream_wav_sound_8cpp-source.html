@@ -57,7 +57,7 @@
 <a name="l00041"></a>00041 <span class="comment">        {</span>
 <a name="l00042"></a>00042 <span class="comment">                _release();</span>
 <a name="l00043"></a>00043 <span class="comment">                for ( int i=0; i&lt;NUM_BUFFERS; i++ ) mBuffers[i]=0;</span>
-<a name="l00044"></a>00044 <span class="comment">                if (mFormatData) delete mFormatData;</span>
+<a name="l00044"></a>00044 <span class="comment">                if (mFormatData) OGRE_FREE(mFormatData, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00045"></a>00045 <span class="comment">        }</span>
 <a name="l00046"></a>00046 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
 <a name="l00047"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#102005054a29abc772854b39f1c503e1">00047</a> <span class="comment">        void OgreOggStreamWavSound::open(Ogre::DataStreamPtr&amp; fileStream)</span>
@@ -88,7 +88,7 @@
 <a name="l00072"></a>00072 <span class="comment">                        if (!strcmp(id,"WAVE"))</span>
 <a name="l00073"></a>00073 <span class="comment">                        {</span>
 <a name="l00074"></a>00074 <span class="comment">                                // Create format struct</span>
-<a name="l00075"></a>00075 <span class="comment">                                if (!mFormatData) mFormatData = new WavFormatData;</span>
+<a name="l00075"></a>00075 <span class="comment">                                if (!mFormatData) mFormatData = OGRE_ALLOC_T(WavFormatData, 1, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00076"></a>00076 <span class="comment"></span>
 <a name="l00077"></a>00077 <span class="comment">                                // Read in "fmt" id ( 4 bytes )</span>
 <a name="l00078"></a>00078 <span class="comment">                                mAudioStream-&gt;read(id, 4);</span>
@@ -148,13 +148,13 @@
 <a name="l00132"></a>00132 <span class="comment">                                                else if (extraBytes)</span>
 <a name="l00133"></a>00133 <span class="comment">                                                {</span>
 <a name="l00134"></a>00134 <span class="comment">                                                        // Create byte array to hold extra bytes</span>
-<a name="l00135"></a>00135 <span class="comment">                                                        char* info = new char[extraBytes];</span>
+<a name="l00135"></a>00135 <span class="comment">                                                        char* info = OGRE_ALLOC_T(char, extraBytes, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00136"></a>00136 <span class="comment"></span>
 <a name="l00137"></a>00137 <span class="comment">                                                        // Read in extra bytes chunk</span>
 <a name="l00138"></a>00138 <span class="comment">                                                        mAudioStream-&gt;read(info, extraBytes);</span>
 <a name="l00139"></a>00139 <span class="comment"></span>
 <a name="l00140"></a>00140 <span class="comment">                                                        // Delete array</span>
-<a name="l00141"></a>00141 <span class="comment">                                                        delete [] info;</span>
+<a name="l00141"></a>00141 <span class="comment">                                                        OGRE_FREE(info, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00142"></a>00142 <span class="comment">                                                }</span>
 <a name="l00143"></a>00143 <span class="comment"></span>
 <a name="l00144"></a>00144 <span class="comment">                                                // Read in chunk id ( 4 bytes )</span>
@@ -485,7 +485,7 @@
 <a name="l00469"></a>00469 <span class="comment">                int  result = 0;</span>
 <a name="l00470"></a>00470 <span class="comment"></span>
 <a name="l00471"></a>00471 <span class="comment">                // Create buffer</span>
-<a name="l00472"></a>00472 <span class="comment">                data = new char[mBufferSize];</span>
+<a name="l00472"></a>00472 <span class="comment">                data = OGRE_ALLOC_T(char, mBufferSize, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00473"></a>00473 <span class="comment"></span>
 <a name="l00474"></a>00474 <span class="comment">                // Read only what was asked for</span>
 <a name="l00475"></a>00475 <span class="comment">                while(static_cast&lt;int&gt;(audioData.size()) &lt; mBufferSize)</span>
@@ -518,7 +518,7 @@
 <a name="l00512"></a>00512 <span class="comment">                // EOF</span>
 <a name="l00513"></a><a class="code" href="_ogre_ogg_stream_wav_sound_8cpp.html#aa9a2bbb6e06930157e48db0627975ff">00513</a> <span class="comment">                if(result == 0)</span>
 <a name="l00514"></a>00514 <span class="comment">                {</span>
-<a name="l00515"></a>00515 <span class="comment">                        delete [] data;</span>
+<a name="l00515"></a>00515 <span class="comment">                        OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00516"></a>00516 <span class="comment">                        return false;</span>
 <a name="l00517"></a>00517 <span class="comment">                }</span>
 <a name="l00518"></a>00518 <span class="comment"></span>
@@ -527,7 +527,7 @@
 <a name="l00521"></a>00521 <span class="comment">                alBufferData(buffer, mFormat, &amp;audioData[0], static_cast&lt;ALsizei&gt;(audioData.size()), mFormatData-&gt;mSampleRate);</span>
 <a name="l00522"></a>00522 <span class="comment"></span>
 <a name="l00523"></a>00523 <span class="comment">                // Cleanup</span>
-<a name="l00524"></a><a class="code" href="_ogre_ogg_stream_wav_sound_8cpp.html#0b93784311071f71f9f44b7b5395737b">00524</a> <span class="comment">                delete [] data;</span>
+<a name="l00524"></a>00524 <span class="comment">                OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00525"></a>00525 <span class="comment"></span>
 <a name="l00526"></a><a class="code" href="_ogre_ogg_stream_wav_sound_8cpp.html#930920b2bc42824a5c03be681830f4b2">00526</a> <span class="comment">                return true;</span>
 <a name="l00527"></a>00527 <span class="comment">        }</span>
@@ -708,7 +708,7 @@
 <a name="l00702"></a>00702 <span class="comment">        }</span>
 <a name="l00703"></a>00703 <span class="comment">}</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 30 10:29:58 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Jun 23 12:31:18 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

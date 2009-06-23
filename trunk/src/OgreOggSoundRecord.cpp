@@ -153,7 +153,7 @@ bool	OgreOggSoundRecord::initCaptureDevice(const Ogre::String& deviceName, const
 			mFile.write(reinterpret_cast<char*>(&mWaveHeader), sizeof(WAVEHEADER));
 
 			// Generate buffer for capture data
-			mBuffer = new ALchar[mBufferSize];
+			mBuffer = OGRE_ALLOC_T(ALchar, mBufferSize, Ogre::MEMCATEGORY_GENERAL);
 
 			return true;
 		}
@@ -229,7 +229,7 @@ void	OgreOggSoundRecord::stopRecording()
 
 
 	// Destroy audio buffer
-	if ( mBuffer ) 	delete [] mBuffer;
+	if ( mBuffer ) 	OGRE_FREE(mBuffer, Ogre::MEMCATEGORY_GENERAL);
 
 	// Close the Capture Device
 	if (mCaptureDevice) alcCaptureCloseDevice(mCaptureDevice);

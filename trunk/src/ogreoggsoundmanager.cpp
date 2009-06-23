@@ -117,24 +117,24 @@ namespace OgreOggSound
 
 		_release();
 
-		if ( mRecorder ) delete mRecorder;
+		if ( mRecorder ) OGRE_DELETE_T(mRecorder, OgreOggSoundRecord, Ogre::MEMCATEGORY_GENERAL);
 
 		alcMakeContextCurrent(0);
 		alcDestroyContext(mContext);
 		alcCloseDevice(mDevice);
 
-		delete mListener;
+		OGRE_DELETE_T(mListener, OgreOggListener, Ogre::MEMCATEGORY_GENERAL);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager* OgreOggSoundManager::getSingletonPtr(void)
 	{
-		if (!ms_Singleton) ms_Singleton = new OgreOggSoundManager();
+		if (!ms_Singleton) ms_Singleton = OGRE_NEW_T(OgreOggSoundManager, Ogre::MEMCATEGORY_GENERAL)();
 		return ms_Singleton;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager& OgreOggSoundManager::getSingleton(void)
 	{
-		if (!ms_Singleton) ms_Singleton = new OgreOggSoundManager();
+		if (!ms_Singleton) ms_Singleton = OGRE_NEW_T(OgreOggSoundManager, Ogre::MEMCATEGORY_GENERAL)();
 		assert( ms_Singleton );  return ( *ms_Singleton );
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -208,7 +208,7 @@ namespace OgreOggSound
 
 		_checkFeatureSupport();
 
-		mListener = new OgreOggListener;
+		mListener = OGRE_NEW_T(OgreOggListener, Ogre::MEMCATEGORY_GENERAL)();
 
 		mNumSources = createSourcePool();
 
@@ -233,7 +233,7 @@ namespace OgreOggSound
 				OgreOggSoundRecord::RecordDeviceList list=r->getCaptureDeviceList();
 				for ( OgreOggSoundRecord::RecordDeviceList::iterator iter=list.begin(); iter!=list.end(); ++iter )
 					Ogre::LogManager::getSingleton().logMessage("***--- '"+(*iter)+"'");
-				delete r;
+				OGRE_DELETE_T(r, OgreOggSoundRecord, Ogre::MEMCATEGORY_GENERAL);
 			}
 		}
 #endif
@@ -454,9 +454,9 @@ namespace OgreOggSound
 			}
 
 			if(stream)
-				mSoundMap[name] = new OgreOggStreamSound(name);
+				mSoundMap[name] = OGRE_NEW_T(OgreOggStreamSound, Ogre::MEMCATEGORY_GENERAL)(name);
 			else
-				mSoundMap[name] = new OgreOggStaticSound(name);
+				mSoundMap[name] = OGRE_NEW_T(OgreOggStaticSound, Ogre::MEMCATEGORY_GENERAL)(name);
 
 			// Set loop flag
 			mSoundMap[name]->loop(loop);
@@ -478,7 +478,7 @@ namespace OgreOggSound
 				}
 			}
 #else
-			delayedFileOpen* fo = new delayedFileOpen;
+			delayedFileOpen* fo = OGRE_NEW_T(delayedFileOpen, Ogre::MEMCATEGORY_GENERAL);
 			fo->mPrebuffer	= preBuffer;		// Prebuffer flag
 			fo->mBuffer		= buffer;			// Shared buffer ref
 			fo->mFileName	= file;				// Filename to register
@@ -499,9 +499,9 @@ namespace OgreOggSound
 			}
 
 			if(stream)
-				mSoundMap[name] = new OgreOggStreamWavSound(name);
+				mSoundMap[name] = OGRE_NEW_T(OgreOggStreamWavSound, Ogre::MEMCATEGORY_GENERAL)(name);
 			else
-				mSoundMap[name] = new OgreOggStaticWavSound(name);
+				mSoundMap[name] = OGRE_NEW_T(OgreOggStaticWavSound, Ogre::MEMCATEGORY_GENERAL)(name);
 
 			// Set loop flag
 			mSoundMap[name]->loop(loop);
@@ -523,7 +523,7 @@ namespace OgreOggSound
 				}
 			}
 #else
-			delayedFileOpen* fo = new delayedFileOpen;
+			delayedFileOpen* fo = OGRE_ALLOC_T(delayedFileOpen, 1, Ogre::MEMCATEGORY_GENERAL);
 			fo->mPrebuffer	= preBuffer;		// Prebuffer flag
 			fo->mBuffer		= buffer;			// Shared buffer ref
 			fo->mFileName	= file;				// Filename to register
@@ -611,7 +611,7 @@ namespace OgreOggSound
 	OgreOggSoundRecord* OgreOggSoundManager::createRecorder()
 	{
 		if ( mDevice )
-			return (new OgreOggSoundRecord(*mDevice));
+			return (OGRE_NEW_T(OgreOggSoundRecord, Ogre::MEMCATEGORY_GENERAL)(*mDevice));
 		else
 			return 0;
 	}
@@ -1228,7 +1228,7 @@ namespace OgreOggSound
 				alFilterf(filter, AL_LOWPASS_GAIN, gain);
 				alFilterf(filter, AL_LOWPASS_GAINHF, hfGain);
 
-				if ( !mFilterList ) mFilterList = new EffectList;
+				if ( !mFilterList ) mFilterList = OGRE_ALLOC_T(EffectList, 1, Ogre::MEMCATEGORY_GENERAL);
 				(*mFilterList)[fName]=filter;
 			}
 		}
@@ -1272,7 +1272,7 @@ namespace OgreOggSound
 				}
 
 				// Add to list
-				if ( !mEffectList ) mEffectList = new EffectList;
+				if ( !mEffectList ) mEffectList = OGRE_ALLOC_T(EffectList, 1, Ogre::MEMCATEGORY_GENERAL);
 				(*mEffectList)[eName]=effect;
 			}
 		}
@@ -1298,7 +1298,7 @@ namespace OgreOggSound
 		}
 		else
 		{
-			if ( !mEffectSlotList ) mEffectSlotList = new std::vector<ALuint>;
+			if ( !mEffectSlotList ) mEffectSlotList = OGRE_ALLOC_T(std::vector<ALuint>, 1, Ogre::MEMCATEGORY_GENERAL);
 			mEffectSlotList->push_back(slot);
 		}
 
@@ -1456,7 +1456,7 @@ namespace OgreOggSound
 		SoundMap::iterator i = mSoundMap.begin();
 		while(i != mSoundMap.end())
 		{
-			delete i->second;
+			OGRE_DELETE_T(i->second, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
 			++i;
 		}
 
@@ -1597,7 +1597,7 @@ namespace OgreOggSound
 			if ( src!=AL_NONE ) releaseSoundSource(sound);
 
 			// Delete sounds memory
-			delete sound;
+			OGRE_DELETE_T(sound, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
 
 			// Remove from sound list
 			mSoundMap.erase(i);
@@ -1648,7 +1648,7 @@ namespace OgreOggSound
 				if ((*i)->mPrebuffer ) requestSoundSource((*i)->mSound);
 
 				// Remove from queue
-				delete (*i);
+				OGRE_DELETE_T((*i), delayedFileOpen, Ogre::MEMCATEGORY_GENERAL);
 				i=mQueuedSounds.erase(i);
 			}
 		}	
@@ -1742,15 +1742,25 @@ namespace OgreOggSound
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
 
+		// Destroy any queued sound structures
+		FileOpenList::iterator f = mQueuedSounds.begin();
+		while ( f!=mQueuedSounds.end() )
+		{
+			// Destroy
+			OGRE_DELETE_T((*f), delayedFileOpen, Ogre::MEMCATEGORY_GENERAL);
+			++f;
+		}	
+
+		// Destroy all sounds
 		SoundMap::iterator i = mSoundMap.begin();
 		while(i != mSoundMap.end())
 		{
-			delete i->second;
+			OGRE_DELETE_T(i->second, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
 			++i;
 		}
 
 		mSoundMap.clear();
-
+		// Delete sources
 		SourceList::iterator it = mSourcePool.begin();
 		while (it != mSourcePool.end())
 		{
@@ -1768,14 +1778,13 @@ namespace OgreOggSound
 		}
 
 		mSourcePool.clear();
-
 		// Shared buffers
 		SharedBufferList::iterator b = mSharedBuffers.begin();
 		while (b != mSharedBuffers.end())
 		{
 			if ( b->second->mRefCount>0 )
 				alDeleteBuffers(1, &b->second->mAudioBuffer);
-			delete b->second;
+			OGRE_FREE(b->second, Ogre::MEMCATEGORY_GENERAL);
 			++b;
 		}
 
@@ -1792,7 +1801,7 @@ namespace OgreOggSound
 		{
 			for ( EffectList::iterator iter=mFilterList->begin(); iter!=mFilterList->end(); ++iter )
 			    alDeleteEffects( 1, &iter->second);
-			delete mFilterList;
+			OGRE_FREE(mFilterList, Ogre::MEMCATEGORY_GENERAL);
 			mFilterList=0;
 		}
 
@@ -1800,7 +1809,7 @@ namespace OgreOggSound
 		{
 			for ( EffectList::iterator iter=mEffectList->begin(); iter!=mEffectList->end(); ++iter )
 			    alDeleteEffects( 1, &iter->second);
-			delete mEffectList;
+			OGRE_FREE(mEffectList, Ogre::MEMCATEGORY_GENERAL);
 			mEffectList=0;
 		}
 
@@ -1808,7 +1817,7 @@ namespace OgreOggSound
 		{
 			for ( std::vector<ALuint>::iterator iter=mEffectSlotList->begin(); iter!=mEffectSlotList->end(); ++iter )
 			    alDeleteEffects( 1, &(*iter));
-			delete mEffectSlotList;
+			OGRE_FREE(mEffectSlotList, Ogre::MEMCATEGORY_GENERAL);
 			mEffectSlotList=0;
 		}
 #endif
@@ -2137,17 +2146,24 @@ namespace OgreOggSound
 		SharedBufferList::iterator f;
 		if ( ( f = mSharedBuffers.find(sName) ) != mSharedBuffers.end() )
 		{
-			// Decrement
-			f->second->mRefCount--;
-			if ( f->second->mRefCount==0 )
+			// Is it sharing buffer?
+			if ( buffer == f->second->mAudioBuffer )
 			{
-				// Delete buffer object
-				alDeleteBuffers(1, &f->second->mAudioBuffer);
+				// Decrement
+				f->second->mRefCount--;
+				if ( f->second->mRefCount==0 )
+				{
+					// Delete buffer object
+					alDeleteBuffers(1, &f->second->mAudioBuffer);
 
-				// Remove from list
-				mSharedBuffers.erase(f);
+					// Delete struct
+					OGRE_FREE(f->second, Ogre::MEMCATEGORY_GENERAL);
+
+					// Remove from list
+					mSharedBuffers.erase(f);
+				}
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
@@ -2161,7 +2177,7 @@ namespace OgreOggSound
 		if ( ( f = mSharedBuffers.find(sName) ) == mSharedBuffers.end() )
 		{
 			// Create struct
-			sharedAudioBuffer* buf = new sharedAudioBuffer;
+			sharedAudioBuffer* buf = OGRE_ALLOC_T(sharedAudioBuffer, 1, Ogre::MEMCATEGORY_GENERAL);
 
 			// Set buffer
 			buf->mAudioBuffer = buffer;
