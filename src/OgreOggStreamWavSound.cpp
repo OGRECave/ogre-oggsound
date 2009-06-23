@@ -41,7 +41,7 @@ namespace OgreOggSound
 	{
 		_release();
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;
-		if (mFormatData) delete mFormatData;
+		if (mFormatData) OGRE_FREE(mFormatData, Ogre::MEMCATEGORY_GENERAL);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::open(Ogre::DataStreamPtr& fileStream)
@@ -72,7 +72,7 @@ namespace OgreOggSound
 			if (!strcmp(id,"WAVE"))
 			{
 				// Create format struct
-				if (!mFormatData) mFormatData = new WavFormatData;
+				if (!mFormatData) mFormatData = OGRE_ALLOC_T(WavFormatData, 1, Ogre::MEMCATEGORY_GENERAL);
 
 				// Read in "fmt" id ( 4 bytes )
 				mAudioStream->read(id, 4);
@@ -132,13 +132,13 @@ namespace OgreOggSound
 						else if (extraBytes)
 						{
 							// Create byte array to hold extra bytes
-							char* info = new char[extraBytes];
+							char* info = OGRE_ALLOC_T(char, extraBytes, Ogre::MEMCATEGORY_GENERAL);
 
 							// Read in extra bytes chunk
 							mAudioStream->read(info, extraBytes);
 
 							// Delete array
-							delete [] info;
+							OGRE_FREE(info, Ogre::MEMCATEGORY_GENERAL);
 						}
 
 						// Read in chunk id ( 4 bytes )
@@ -469,7 +469,7 @@ namespace OgreOggSound
 		int  result = 0;
 
 		// Create buffer
-		data = new char[mBufferSize];
+		data = OGRE_ALLOC_T(char, mBufferSize, Ogre::MEMCATEGORY_GENERAL);
 
 		// Read only what was asked for
 		while(static_cast<int>(audioData.size()) < mBufferSize)
@@ -512,7 +512,7 @@ namespace OgreOggSound
 		// EOF
 		if(result == 0)
 		{
-			delete [] data;
+			OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);
 			return false;
 		}
 
@@ -521,7 +521,7 @@ namespace OgreOggSound
 		alBufferData(buffer, mFormat, &audioData[0], static_cast<ALsizei>(audioData.size()), mFormatData->mSampleRate);
 
 		// Cleanup
-		delete [] data;
+		OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);
 
 		return true;
 	}

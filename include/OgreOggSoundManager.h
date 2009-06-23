@@ -495,9 +495,7 @@ namespace OgreOggSound
 			are referencing buffer.
 			@param sName
 				Name of audio file
-			@param buffer
-				OpenAL buffer ID holding audio data
-		 */
+		*/
 		bool releaseSharedBuffer(const Ogre::String& sName, ALuint& buffer);
 		/** Registers a shared audio buffer
 		@remarks

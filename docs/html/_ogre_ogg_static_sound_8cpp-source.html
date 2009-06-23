@@ -103,14 +103,14 @@
 <a name="l00087"></a>00087 <span class="comment">                int sizeRead = 0;</span>
 <a name="l00088"></a>00088 <span class="comment">                int bitStream;</span>
 <a name="l00089"></a>00089 <span class="comment"></span>
-<a name="l00090"></a>00090 <span class="comment">                data = new char[mBufferSize];</span>
+<a name="l00090"></a>00090 <span class="comment">                data = OGRE_ALLOC_T(char, mBufferSize, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00091"></a>00091 <span class="comment">                do</span>
 <a name="l00092"></a>00092 <span class="comment">                {</span>
 <a name="l00093"></a>00093 <span class="comment">                        sizeRead = ov_read(&amp;mOggStream, data, static_cast&lt;int&gt;(mBufferSize), 0, 2, 1, &amp;bitStream);</span>
 <a name="l00094"></a>00094 <span class="comment">                        mBufferData.insert(mBufferData.end(), data, data + sizeRead);</span>
 <a name="l00095"></a>00095 <span class="comment">                }</span>
 <a name="l00096"></a>00096 <span class="comment">                while(sizeRead &gt; 0);</span>
-<a name="l00097"></a>00097 <span class="comment">                delete [] data;</span>
+<a name="l00097"></a>00097 <span class="comment">                OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);</span>
 <a name="l00098"></a>00098 <span class="comment"></span>
 <a name="l00099"></a>00099 <span class="comment">#ifndef LINUX</span>
 <a name="l00100"></a>00100 <span class="comment">                // Upload to XRAM buffers if available</span>
@@ -418,7 +418,7 @@
 <a name="l00402"></a>00402 <span class="comment">        }</span>
 <a name="l00403"></a>00403 <span class="comment">}</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 30 10:29:58 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Jun 23 12:31:18 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

@@ -47,7 +47,7 @@ namespace OgreOggSound
 		mVorbisInfo=0;
 		mVorbisComment=0;
 		mBufferData.clear();
-		if (mFormatData) delete mFormatData;
+		if (mFormatData) OGRE_FREE(mFormatData, Ogre::MEMCATEGORY_GENERAL);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void	OgreOggStaticWavSound::open(Ogre::DataStreamPtr& fileStream)
@@ -81,7 +81,7 @@ namespace OgreOggSound
 			if (!strcmp(id,"WAVE"))
 			{
 				// Create format struct
-				if (!mFormatData) mFormatData = new WavFormatData;
+				if (!mFormatData) mFormatData = OGRE_ALLOC_T(WavFormatData, 1, Ogre::MEMCATEGORY_GENERAL);
 
 				// Read in "fmt" id ( 4 bytes )
 				mAudioStream->read(id, 4);
@@ -141,13 +141,13 @@ namespace OgreOggSound
 						else if (extraBytes)
 						{
 							// Create byte array to hold extra bytes
-							char* info = new char[extraBytes];
+							char* info = OGRE_ALLOC_T(char, extraBytes, Ogre::MEMCATEGORY_GENERAL);
 
 							// Read in extra bytes chunk
 							mAudioStream->read(info, extraBytes);
 
 							// Delete array
-							delete [] info;
+							OGRE_FREE(info, Ogre::MEMCATEGORY_GENERAL);
 						}
 
 						// Read in chunk id ( 4 bytes )
@@ -164,7 +164,7 @@ namespace OgreOggSound
 								mFormatData->mAudioOffset = static_cast<unsigned long>(mAudioStream->tell());
 
 								// Allocate array
-								sound_buffer = new char[mFormatData->mDataSize];
+								sound_buffer = OGRE_ALLOC_T(char, mFormatData->mDataSize, Ogre::MEMCATEGORY_GENERAL);
 
 								// Read entire sound data
 								bytesRead = static_cast<int>(mAudioStream->read(sound_buffer, mFormatData->mDataSize));
@@ -205,7 +205,7 @@ namespace OgreOggSound
 									mFormatData->mAudioOffset = static_cast<unsigned short>(mAudioStream->tell());
 
 									// Allocate array
-									sound_buffer = new char[mFormatData->mDataSize];
+									sound_buffer = OGRE_ALLOC_T(char, mFormatData->mDataSize, Ogre::MEMCATEGORY_GENERAL);
 
 									// Read entire sound data
 									bytesRead = static_cast<int>(mAudioStream->read(sound_buffer, mFormatData->mDataSize));
@@ -273,7 +273,8 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - Unable to load audio data into buffer!!", Ogre::LML_CRITICAL);
 			throw std::string("Unable to load buffers with data!");
 		}
-		delete [] sound_buffer;
+		OGRE_FREE(sound_buffer, Ogre::MEMCATEGORY_GENERAL);
+
 		// Register shared buffer
 		OgreOggSoundManager::getSingleton().registerSharedBuffer(mAudioName, mBuffer);
 
