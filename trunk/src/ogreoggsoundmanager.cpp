@@ -110,7 +110,7 @@ namespace OgreOggSound
 		if (mUpdateThread)
 		{
 			mUpdateThread->join();
-			delete mUpdateThread;
+			OGRE_FREE(mUpdateThread, Ogre::MEMCATEGORY_GENERAL);
 			mUpdateThread = 0;
 		}
 #endif
@@ -216,7 +216,7 @@ namespace OgreOggSound
 		Ogre::LogManager::getSingleton().logMessage(msg);
 
 	#if OGGSOUND_THREADED
-		mUpdateThread = new boost::thread(boost::function0<void>(&OgreOggSoundManager::threadUpdate));
+		mUpdateThread = OGRE_NEW_T(boost::thread,Ogre::MEMCATEGORY_GENERAL)(boost::function0<void>(&OgreOggSoundManager::threadUpdate));
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
 	#endif
 
