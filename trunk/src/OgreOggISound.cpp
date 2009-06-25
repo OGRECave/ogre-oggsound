@@ -271,6 +271,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setPitch(float pitch)
 	{
+		if ( pitch<=0.f ) return;
+
 		mPitch = pitch;
 
 		if(mSource != AL_NONE)
