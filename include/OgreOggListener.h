@@ -38,7 +38,9 @@ namespace OgreOggSound
 		@remarks
 			Creates a listener object to act as the ears of the user. 
 		 */
-		OgreOggListener(): mLocalTransformDirty(false), mPosition(Ogre::Vector3::ZERO)
+		OgreOggListener(): mLocalTransformDirty(false)
+			, mPosition(Ogre::Vector3::ZERO)
+			, mVelocity(Ogre::Vector3::ZERO)
 		{
 			for (int i=0; i<6; i++ ) mOrientation[i]=0;		
 		};
@@ -86,6 +88,16 @@ namespace OgreOggSound
 		/** Gets the orientation of the listener.
 		*/
 		Ogre::Vector3 getOrientation() { return Ogre::Vector3(mOrientation[0],mOrientation[1],mOrientation[2]); }
+		/** Sets sounds velocity.
+		@param
+			vel 3D x/y/z velocity
+		 */
+		void setVelocity(float velx, float vely, float velz);
+		/** Sets sounds velocity.
+		@param
+			vel 3D vector velocity
+		 */
+		void setVelocity(const Ogre::Vector3 &vel);
 		/** Updates the listener.
 		@remarks
 			Handles positional updates to the listener either automatically
@@ -138,6 +150,7 @@ namespace OgreOggSound
 		 * Positional variables
 		 */
 		Ogre::Vector3 mPosition;	// 3D position
+		Ogre::Vector3 mVelocity;	// 3D velocity
 		float mOrientation[6];		// 3D orientation
 		bool mLocalTransformDirty;	// Dirty transforms flag
 

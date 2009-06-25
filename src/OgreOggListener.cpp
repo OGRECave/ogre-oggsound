@@ -39,6 +39,20 @@ namespace OgreOggSound
 		alListener3f(AL_POSITION,pos.x,pos.y,pos.z);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggListener::setVelocity(float velx, float vely, float velz)
+	{
+		mVelocity.x = velx;
+		mVelocity.y = vely;
+		mVelocity.z = velz;
+		alListener3f(AL_VELOCITY, velx, vely, velz);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggListener::setVelocity(const Ogre::Vector3 &vel)
+	{
+		mVelocity = vel;	
+		alListener3f(AL_VELOCITY, vel.x, vel.y, vel.z);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggListener::setOrientation(ALfloat x,ALfloat y,ALfloat z,ALfloat upx,ALfloat upy,ALfloat upz)
 	{
 		mOrientation[0] = x;

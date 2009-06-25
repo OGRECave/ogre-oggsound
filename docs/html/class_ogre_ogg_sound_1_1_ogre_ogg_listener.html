@@ -46,6 +46,10 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">Ogre::Vector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#b5691db202bffb2388c5c99c3db2bf9c">getOrientation</a> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#0fed536784d4edcc16d8caea76b53b5d">setVelocity</a> (float velx, float vely, float velz)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#2c8c3ce6fd5951bf51b1cd1b3d8e823e">setVelocity</a> (const Ogre::Vector3 &amp;vel)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#65d7c3761c07578920995852f489a340">update</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const Ogre::String &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#9cfeffb77e355bb480701371a4e0864d">getMovableType</a> (void) const </td></tr>
@@ -65,6 +69,8 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 
 <tr><td colspan="2"><br><h2>Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">Ogre::Vector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#a76adf0ebfab22f7363748988591830d">mPosition</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">Ogre::Vector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#1453be3a5c2ac5d840483ee03f7a8a1c">mVelocity</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#28d8e501057c4c20e376e7aebee76bc1">mOrientation</a> [6]</td></tr>
 
@@ -293,6 +299,71 @@ Gets the orientation of the listener.
 
 </div>
 </div><p>
+<a class="anchor" name="0fed536784d4edcc16d8caea76b53b5d"></a><!-- doxytag: member="OgreOggSound::OgreOggListener::setVelocity" ref="0fed536784d4edcc16d8caea76b53b5d" args="(float velx, float vely, float velz)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggListener::setVelocity           </td>
+          <td>(</td>
+          <td class="paramtype">float&nbsp;</td>
+          <td class="paramname"> <em>velx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&nbsp;</td>
+          <td class="paramname"> <em>vely</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&nbsp;</td>
+          <td class="paramname"> <em>velz</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets sounds velocity. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>vel</em>&nbsp;</td><td>3D x/y/z velocity </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="2c8c3ce6fd5951bf51b1cd1b3d8e823e"></a><!-- doxytag: member="OgreOggSound::OgreOggListener::setVelocity" ref="2c8c3ce6fd5951bf51b1cd1b3d8e823e" args="(const Ogre::Vector3 &amp;vel)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSound::OgreOggListener::setVelocity           </td>
+          <td>(</td>
+          <td class="paramtype">const Ogre::Vector3 &amp;&nbsp;</td>
+          <td class="paramname"> <em>vel</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets sounds velocity. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>vel</em>&nbsp;</td><td>3D vector velocity </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
 <a class="anchor" name="65d7c3761c07578920995852f489a340"></a><!-- doxytag: member="OgreOggSound::OgreOggListener::update" ref="65d7c3761c07578920995852f489a340" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -492,7 +563,24 @@ Moved callback <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>Overridden
 
 <p>
 Positional variables 
-<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00140">140</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00150">150</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="1453be3a5c2ac5d840483ee03f7a8a1c"></a><!-- doxytag: member="OgreOggSound::OgreOggListener::mVelocity" ref="1453be3a5c2ac5d840483ee03f7a8a1c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Ogre::Vector3 <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#1453be3a5c2ac5d840483ee03f7a8a1c">OgreOggSound::OgreOggListener::mVelocity</a><code> [private]</code>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00151">151</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
 
 </div>
 </div><p>
@@ -509,7 +597,7 @@ Positional variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00141">141</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00152">152</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
 
 </div>
 </div><p>
@@ -526,14 +614,14 @@ Positional variables
 
 <p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00142">142</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_listener_8h-source.html#l00153">153</a> of file <a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a>.</p>
 
 </div>
 </div><p>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>C:/Current Projects/Audio Library/ogreoggsound/include/<a class="el" href="_ogre_ogg_listener_8h-source.html">OgreOggListener.h</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Jun 25 11:03:43 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Jun 25 15:50:48 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

@@ -152,14 +152,22 @@ namespace OgreOggSound
 	{
 		mVelocity.x = velx;
 		mVelocity.y = vely;
-		mVelocity.z = velz;	   
-		mLocalTransformDirty = true;
+		mVelocity.z = velz;
+
+		if(mSource != AL_NONE)
+		{
+			alSource3f(mSource, AL_VELOCITY, velx, vely, velz);
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setVelocity(const Ogre::Vector3 &vel)
 	{
 		mVelocity = vel;	
-		mLocalTransformDirty = true;
+
+		if(mSource != AL_NONE)
+		{
+			alSource3f(mSource, AL_VELOCITY, vel.x, vel.y, vel.z);
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setVolume(float gain)
