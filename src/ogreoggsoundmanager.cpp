@@ -1764,8 +1764,11 @@ namespace OgreOggSound
 				// Prebuffer if requested
 				if ((*i)->mPrebuffer ) requestSoundSource((*i)->mSound);
 
+				// Delete struct
+				(*i)->mFile.setNull();
+				OGRE_FREE((*i), Ogre::MEMCATEGORY_GENERAL);
+
 				// Remove from queue
-				OGRE_DELETE_T((*i), delayedFileOpen, Ogre::MEMCATEGORY_GENERAL);
 				i=mQueuedSounds.erase(i);
 			}
 		}	
@@ -2071,7 +2074,6 @@ namespace OgreOggSound
 			src = static_cast<ALuint>(mSourcePool.back());
 			// Remove from available list
 			mSourcePool.pop_back();
-			// log message
 			// Set sounds source
 			sound->setSource(src);
 			// Add to active list
@@ -2221,22 +2223,22 @@ namespace OgreOggSound
 			// Detach source from sound
 			sound->setSource(source);
 
+			// Make source available
+			mSourcePool.push_back(src);
+
 			// Remove from actives list
-			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter )
+			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); )
 			{
 				// Find sound in actives list
 				if ( (*iter)==sound )
 				{
 					// Remove from list
-					mActiveSounds.erase(iter);
-
-					// Make source available
-					mSourcePool.push_back(src);
-
-					// All ok
-					return true;
+					iter = mActiveSounds.erase(iter);
 				}
+				else
+					++iter;
 			}
+			return true;
 		}
 
 		return false;

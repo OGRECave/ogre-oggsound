@@ -113,9 +113,7 @@ void MainApp::createScene()
 	mCamera->getParentSceneNode()->detachObject(mCamera);
 	mCamNode->attachObject(mCamera);
 
-//	mSoundManager = new OgreOggSound::OgreOggSoundManager();
 	mSoundManager->init();
-//	mSoundManager->setDistanceModel(AL_LINEAR_DISTANCE);
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
@@ -159,6 +157,8 @@ void MainApp::finishedCB(OgreOggISound* sound)
 bool MainApp::frameStarted( const Ogre::FrameEvent& evt )
 {
 	mFrameTime = evt.timeSinceLastFrame;
+	static Ogre::Real mCurrentPitch = 0.1f;
+	static bool dir = true;
 
 	mInputManager->capture();	
 
@@ -170,12 +170,35 @@ bool MainApp::frameStarted( const Ogre::FrameEvent& evt )
 
 	if ( mInputManager->getMouse()->getMouseState().buttonDown(OIS::MB_Right) )
 	{
-	Ogre::SceneNode *nHeadAxis = mSceneMgr->getSceneNode("OgreHeadAxis");
-	nHeadAxis->rotate(Ogre::Quaternion(Ogre::Degree(20.0f * evt.timeSinceLastFrame),Ogre::Vector3::UNIT_Y));
+		Ogre::SceneNode *nHeadAxis = mSceneMgr->getSceneNode("OgreHeadAxis");
+		nHeadAxis->rotate(Ogre::Quaternion(Ogre::Degree(20.0f * evt.timeSinceLastFrame),Ogre::Vector3::UNIT_Y));
 	}
 	Ogre::SceneNode *nMonsterAxis = mSceneMgr->getSceneNode("OgreMonsterAxis");
 	mSoundManager->update(evt.timeSinceLastFrame);
 	
+	// Increment
+	if ( dir )
+	{
+		mCurrentPitch+=1.f*evt.timeSinceLastFrame;
+		if ( mCurrentPitch>2.f ) 
+			dir = false;
+	}
+	else
+	{
+		mCurrentPitch-=1.f*evt.timeSinceLastFrame;
+		if ( mCurrentPitch<0.f ) 
+			dir = true;
+	}
+
+	if (mCurrentPitch>0.1f)
+	{
+		mSoundManager->getSound("Two")->play();
+		mSoundManager->getSound("Two")->setPitch(mCurrentPitch);
+	}
+	else
+	{
+		mSoundManager->getSound("Two")->stop();
+	}
 	if (mQuit) return false;	
 
 	return true;
@@ -267,24 +290,6 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 //-----------------------------------------------------------------------
 bool MainApp::keyReleased( const OIS::KeyEvent &arg )
 {	
-	if (arg.key == OIS::KC_S)
-	{
-		/** Sound two - prebuffered, streamed, looping, EFX room effect */
-		sound = 0;
-		if ( sound = mSoundManager->createSound("Two", "two.ogg", false, true, false) )	
-		{
-			sound->setMaxDistance(300);
-			sound->setReferenceDistance(100);
-			mSceneMgr->getSceneNode("OgreMonster")->attachObject(sound);
-			sound->play();
-		}
-	}
-	
-	if (arg.key == OIS::KC_D)
-	{
-		mSoundManager->destroyAllSounds();
-	}
-
 	return true;
 }
 //-----------------------------------------------------------------------
