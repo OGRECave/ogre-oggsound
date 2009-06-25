@@ -561,7 +561,16 @@ namespace OgreOggSound
 				sound
 					Sound to destroy.
 		 */
-		void _destroy(OgreOggISound* sound=0);
+		void _destroySound(OgreOggISound* sound=0);
+		/** Removes references of a sound from all possible internal lists.
+		@remarks
+			Various lists exist to manage numerous states of a sound, this
+			function exists to remove a sound object from any/all lists it has
+			previously been added to. 
+			@param sound
+				Sound to destroy.
+		 */
+		void _removeFromLists(OgreOggISound* sound=0);
 
 	private:
 

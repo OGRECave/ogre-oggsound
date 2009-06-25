@@ -254,13 +254,6 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 		if ( r=mSoundManager->getRecorder() )
 			r->stopRecording();
 	}
-	if (arg.key == OIS::KC_S)
-	{
-		if ( sound )
-		{
-			sound->removeCuePoint(0);
-		}
-	}
 
 	// Show the statistics
 	if( arg.key == OIS::KC_H )
@@ -274,7 +267,24 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 //-----------------------------------------------------------------------
 bool MainApp::keyReleased( const OIS::KeyEvent &arg )
 {	
+	if (arg.key == OIS::KC_S)
+	{
+		/** Sound two - prebuffered, streamed, looping, EFX room effect */
+		sound = 0;
+		if ( sound = mSoundManager->createSound("Two", "two.ogg", false, true, false) )	
+		{
+			sound->setMaxDistance(300);
+			sound->setReferenceDistance(100);
+			mSceneMgr->getSceneNode("OgreMonster")->attachObject(sound);
+			sound->play();
+		}
+	}
 	
+	if (arg.key == OIS::KC_D)
+	{
+		mSoundManager->destroyAllSounds();
+	}
+
 	return true;
 }
 //-----------------------------------------------------------------------

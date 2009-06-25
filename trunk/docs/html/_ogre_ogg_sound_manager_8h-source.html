@@ -177,131 +177,132 @@
 <a name="l00554"></a>00554 <span class="preprocessor">#endif</span>
 <a name="l00555"></a>00555 <span class="preprocessor"></span>        <span class="keyword">protected</span>:
 <a name="l00556"></a>00556 
-<a name="l00564"></a>00564                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#db9e7a4793697e5d6aa231887fdf4a92">_destroy</a>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a>* sound=0);
-<a name="l00565"></a>00565 
-<a name="l00566"></a>00566         <span class="keyword">private</span>:
-<a name="l00567"></a>00567 
-<a name="l00576"></a>00576                 ALuint <a class="code" href="namespace_ogre_ogg_sound_manager.html#8b7c76fc1dc6d3c407439d97f58b378b">_getSharedBuffer</a>(<span class="keyword">const</span> Ogre::String&amp; sName);
-<a name="l00582"></a>00582                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#1e89213905ab48d859a8e44a3183d861">_release</a>();
-<a name="l00588"></a>00588                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#fd41cad472a457cd2050461a6410706f">_checkFeatureSupport</a>();
-<a name="l00589"></a>00589 <span class="preprocessor">#ifndef LINUX</span>
-<a name="l00590"></a>00590 <span class="preprocessor"></span>
-<a name="l00592"></a>00592                 <span class="keywordtype">bool</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#9c6a4f7f443b52d9a718e1d66d108c46">_checkEFXSupport</a>();
-<a name="l00595"></a>00595                 <span class="keywordtype">bool</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#6be7c794bdbf4cc64da7b0ba1c90a405">_checkXRAMSupport</a>();
-<a name="l00598"></a>00598                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#67edeb69bd6205ad410ce0d59c75ca85">_determineAuxEffectSlots</a>();
-<a name="l00603"></a>00603                 ALuint <a class="code" href="namespace_ogre_ogg_sound_manager.html#6037b205c01966cb77a09dc5befd31c2">_getEFXFilter</a>(<span class="keyword">const</span> std::string&amp; fName);
-<a name="l00608"></a>00608                 ALuint <a class="code" href="namespace_ogre_ogg_sound_manager.html#52749efae30d0cb87a59cdc0131275ba">_getEFXEffect</a>(<span class="keyword">const</span> std::string&amp; eName);
-<a name="l00613"></a>00613                 ALuint <a class="code" href="namespace_ogre_ogg_sound_manager.html#95f203ce44b319509f4c85cbf9ebd02b">_getEFXSlot</a>(<span class="keywordtype">int</span> slotID=0);
-<a name="l00620"></a>00620                 <span class="keywordtype">bool</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#f418239500b05be628596d4d89ae40dc">_setEAXReverbProperties</a>(EFXEAXREVERBPROPERTIES *pEFXEAXReverb, ALuint uiEffect);
-<a name="l00627"></a>00627                 <span class="keywordtype">bool</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#f92d58ae54c8b39c76e29feacf1db47a">_attachEffectToSlot</a>(ALuint slot, ALuint effect);
-<a name="l00628"></a>00628 <span class="preprocessor">#endif</span>
-<a name="l00629"></a>00629 <span class="preprocessor"></span>
-<a name="l00639"></a>00639                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#c89c793a5bf91d1279f5fe704a860b1d">_reactivateQueuedSounds</a>();
-<a name="l00644"></a>00644                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#ee60e73bdb5e0e49d816a2111b829a4e">_enumDevices</a>();
-<a name="l00645"></a>00645 
-<a name="l00649"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9ca13fb63d627947bfb1456ac60dd9b8">00649</a>                 ALCdevice* mDevice;                                             <span class="comment">// OpenAL device</span>
-<a name="l00650"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ffd312e31a2cd7b527e6ddfa5c55b252">00650</a>                 ALCcontext* mContext;                                   <span class="comment">// OpenAL context</span>
-<a name="l00651"></a>00651 
-<a name="l00652"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#0b17fd507af1a6f71d00ca33dbb8dd25">00652</a>                 ALfloat mOrigVolume;                                    <span class="comment">// Used to revert volume after a mute</span>
-<a name="l00653"></a>00653 
-<a name="l00656"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4e54b136c703aca33fdc14184b8b893a">00656</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#1d428d2d725aab0c7dea5617cd5814f4">SoundMap</a> mSoundMap;                                             <span class="comment">// Map of all sounds</span>
-<a name="l00657"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#fd00da81a1e07957db5315f489bb55aa">00657</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mActiveSounds;                               <span class="comment">// list of sounds currently active</span>
-<a name="l00658"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9c323eba11afb5ba30ec3df890a1e835">00658</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#44588c71d398921e6a3e0b03083c8884">FileOpenList</a> mQueuedSounds;                             <span class="comment">// list of sounds queued to be opened (multi-threaded ONLY)</span>
-<a name="l00659"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4f0b9524e8469e82665edf349450d5f2">00659</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mPlayQueue;                                  <span class="comment">// list of sounds waiting to play       (only used prior to file loaded)</span>
-<a name="l00660"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#616ef3f5fdeb8906fe60362ecd353d93">00660</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mPauseQueue;                                 <span class="comment">// list of sounds waiting to pause      (only used prior to file loaded)</span>
-<a name="l00661"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#5e9bf9fd87f310f5428a850b36bedfef">00661</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mStopQueue;                                  <span class="comment">// list of sounds waiting to stop       (only used prior to file loaded)</span>
-<a name="l00662"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#8439b8994509d29e1b26eb07862981cb">00662</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mPausedSounds;                               <span class="comment">// list of sounds currently paused</span>
-<a name="l00663"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bbbf5fbf0be48bf3ae42cbe076b8d748">00663</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mSoundsToReactivate;                 <span class="comment">// list of sounds that need re-activating when sources become available</span>
-<a name="l00664"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#07ee917dd1caa631bd51a93d8bedf16b">00664</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#5bb349cdaa82110c2368669db3597b45">SourceList</a> mSourcePool;                                 <span class="comment">// List of available sources</span>
-<a name="l00665"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9aeba436ff2ec38424bd25ab77e40914">00665</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#6423f182d5d3792463165288d3468550">FeatureList</a> mEFXSupportList;                    <span class="comment">// List of supported EFX effects by OpenAL ID</span>
-<a name="l00666"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#874d35bc6d803784c368c6b4aa29394d">00666</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#43c7af78bc795f22d7b01a23ec2d4c0a">SharedBufferList</a> mSharedBuffers;                <span class="comment">// List of shared static buffers</span>
-<a name="l00667"></a>00667 
-<a name="l00670"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1d40332ae4814c9a2fd266e87fe4e2ea">00670</a>                 <span class="keyword">static</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html">OgreOggSoundManager</a> *pInstance;  <span class="comment">// OgreOggSoundManager instance pointer</span>
-<a name="l00671"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#014eef5dfd5014e0c7d96e17a96caacd">00671</a>                 ALCchar* mDeviceStrings;                                <span class="comment">// List of available devices strings</span>
-<a name="l00672"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#027b4bdd069d4ab4218f2d14a9188e04">00672</a>                 <span class="keywordtype">int</span> mNumSources;                                                <span class="comment">// Number of sources available for sounds</span>
-<a name="l00673"></a>00673 
-<a name="l00674"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#38c54c4cc61ddf2d46ce1267efe02bd2">00674</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html">OgreOggSoundRecord</a>* mRecorder;                  <span class="comment">// recorder object</span>
-<a name="l00675"></a>00675 
-<a name="l00678"></a>00678                 <span class="keyword">struct </span>_sortNearToFar;
-<a name="l00679"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cbcc7aeef656a8c99a5259d149fa6011">00679</a>                 <span class="keyword">struct </span>_sortFarToNear;
-<a name="l00680"></a>00680 
-<a name="l00683"></a>00683                 <span class="keywordtype">bool</span> mEFXSupport;                                               <span class="comment">// EFX present flag</span>
-<a name="l00684"></a>00684 <span class="preprocessor">#ifndef LINUX</span>
-<a name="l00685"></a>00685 <span class="preprocessor"></span>                <span class="comment">// Effect objects</span>
-<a name="l00686"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74b210634f22925c662516d7f7bb3263">00686</a>                 LPALGENEFFECTS alGenEffects;
-<a name="l00687"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#c28d37fe26e9dc092f4f033467578f18">00687</a>                 LPALDELETEEFFECTS alDeleteEffects;
-<a name="l00688"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#3796f08de6171614d1c78399618dbbc6">00688</a>                 LPALISEFFECT alIsEffect;
-<a name="l00689"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f562ef9afb814f2d95168db89f7c0d5f">00689</a>                 LPALEFFECTI alEffecti;
-<a name="l00690"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9308ee49938f28e5b519beef4522db96">00690</a>                 LPALEFFECTIV alEffectiv;
-<a name="l00691"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#941932060122d2317da53247af1220fe">00691</a>                 LPALEFFECTF alEffectf;
-<a name="l00692"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1190a99248346c1600aae4998302a246">00692</a>                 LPALEFFECTFV alEffectfv;
-<a name="l00693"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#86cdc9a18aaaa9c2def16761918b8635">00693</a>                 LPALGETEFFECTI alGetEffecti;
-<a name="l00694"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#44ec7197e3dff4fbc84c51ca896ef137">00694</a>                 LPALGETEFFECTIV alGetEffectiv;
-<a name="l00695"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#fee2aa7b5e135f4c501c5ac61504e5c1">00695</a>                 LPALGETEFFECTF alGetEffectf;
-<a name="l00696"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4dc0626b81a1cfcce1b3b864ba294ae2">00696</a>                 LPALGETEFFECTFV alGetEffectfv;
-<a name="l00697"></a>00697 
-<a name="l00698"></a>00698                 <span class="comment">//Filter objects</span>
-<a name="l00699"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#591abc1025085d1c0e9158830971b3a4">00699</a>                 LPALGENFILTERS alGenFilters;
-<a name="l00700"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#0b2aa37fe9a3546af7f7b40e9884d858">00700</a>                 LPALDELETEFILTERS alDeleteFilters;
-<a name="l00701"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#efbd42e9892b2067f3b8f9931b9f45c7">00701</a>                 LPALISFILTER alIsFilter;
-<a name="l00702"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cd269d4af58673ed2739d2ed93b2ab2e">00702</a>                 LPALFILTERI alFilteri;
-<a name="l00703"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#8b5b1f90d23a4a6cc5c94b7c3f03bd94">00703</a>                 LPALFILTERIV alFilteriv;
-<a name="l00704"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#d37cc8532a9806ff3edf6e5edd3120dd">00704</a>                 LPALFILTERF alFilterf;
-<a name="l00705"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#e981fc89b07089a2937a0a49e1fd9fb2">00705</a>                 LPALFILTERFV alFilterfv;
-<a name="l00706"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#0c98c97be572344620529e55632877ce">00706</a>                 LPALGETFILTERI alGetFilteri;
-<a name="l00707"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#98423aeafbca17ebf822a1ba6bc2dbc9">00707</a>                 LPALGETFILTERIV alGetFilteriv;
-<a name="l00708"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bdcd1b22664562994f388f2c875da84f">00708</a>                 LPALGETFILTERF alGetFilterf;
-<a name="l00709"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7f387fd2ba72cfceda7c729482b76aaa">00709</a>                 LPALGETFILTERFV alGetFilterfv;
-<a name="l00710"></a>00710 
-<a name="l00711"></a>00711                 <span class="comment">// Auxiliary slot object</span>
-<a name="l00712"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74a7c0eccd15efb5170cd9e85609fff4">00712</a>                 LPALGENAUXILIARYEFFECTSLOTS alGenAuxiliaryEffectSlots;
-<a name="l00713"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#31a75cfb4258c76fe8bebf7f03bd2289">00713</a>                 LPALDELETEAUXILIARYEFFECTSLOTS alDeleteAuxiliaryEffectSlots;
-<a name="l00714"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f9b9427236998ef5a34ce5274e723614">00714</a>                 LPALISAUXILIARYEFFECTSLOT alIsAuxiliaryEffectSlot;
-<a name="l00715"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#98368e23019f2e2eea2968d1e606af01">00715</a>                 LPALAUXILIARYEFFECTSLOTI alAuxiliaryEffectSloti;
-<a name="l00716"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#e4196d9381c9ff569334132f5bc41aa5">00716</a>                 LPALAUXILIARYEFFECTSLOTIV alAuxiliaryEffectSlotiv;
-<a name="l00717"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac1876049da0e7ea42bf02ab542ef842">00717</a>                 LPALAUXILIARYEFFECTSLOTF alAuxiliaryEffectSlotf;
-<a name="l00718"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bb048e53b98adb4dacf7848aa5155263">00718</a>                 LPALAUXILIARYEFFECTSLOTFV alAuxiliaryEffectSlotfv;
-<a name="l00719"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1807531c534a49759b129d100bff48db">00719</a>                 LPALGETAUXILIARYEFFECTSLOTI alGetAuxiliaryEffectSloti;
-<a name="l00720"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74c1c2791c47888909765ac2f03911c6">00720</a>                 LPALGETAUXILIARYEFFECTSLOTIV alGetAuxiliaryEffectSlotiv;
-<a name="l00721"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#6a8f436863bf6ada14f0ac7542b5a2aa">00721</a>                 LPALGETAUXILIARYEFFECTSLOTF alGetAuxiliaryEffectSlotf;
-<a name="l00722"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#978bf9525f11ebb1fc067c99a5c71baf">00722</a>                 LPALGETAUXILIARYEFFECTSLOTFV alGetAuxiliaryEffectSlotfv;
-<a name="l00723"></a>00723 
-<a name="l00726"></a>00726                 <span class="keyword">typedef</span> ALboolean (__cdecl *LPEAXSETBUFFERMODE)(ALsizei n, ALuint *buffers, ALint value);
-<a name="l00727"></a>00727                 <span class="keyword">typedef</span> ALenum    (__cdecl *LPEAXGETBUFFERMODE)(ALuint buffer, ALint *value);
-<a name="l00728"></a>00728 
-<a name="l00729"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#c6d36493fda948725b57da28f5c54414">00729</a>                 LPEAXSETBUFFERMODE mEAXSetBufferMode;
-<a name="l00730"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4a2b6553406ca3b4d24e6a6a8b08399a">00730</a>                 LPEAXGETBUFFERMODE mEAXGetBufferMode;
-<a name="l00731"></a>00731 <span class="preprocessor">#endif</span>
-<a name="l00732"></a>00732 <span class="preprocessor"></span>
-<a name="l00734"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f93b38dd0ea25e75abe7ca20d014254c">00734</a>                 <span class="keywordtype">bool</span> mEAXSupport;                                               <span class="comment">// EAX present flag</span>
-<a name="l00735"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#842f9a9be3f3b75b504c127f3843bbc4">00735</a>                 <span class="keywordtype">int</span> mEAXVersion;                                                <span class="comment">// EAX version ID</span>
-<a name="l00736"></a>00736 
-<a name="l00737"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#a2cfd6b5b1c0878f1aad74eda428ccba">00737</a>                 <span class="keywordtype">bool</span> mXRamSupport;
-<a name="l00738"></a>00738 
-<a name="l00739"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#655696078335197a2abdd3201313bd2e">00739</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#daedc172c3e871304a6bc73b4f3220d4">EffectList</a>* mFilterList;                                <span class="comment">// List of EFX filters</span>
-<a name="l00740"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#35c39b4807634f27540532f45e945091">00740</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#daedc172c3e871304a6bc73b4f3220d4">EffectList</a>* mEffectList;                                <span class="comment">// List of EFX effects</span>
-<a name="l00741"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#6ca2c2f5d26cd3df53a8de8ec0bcda40">00741</a>                 std::vector&lt;ALuint&gt;* mEffectSlotList;   <span class="comment">// List of EFX effect slots</span>
-<a name="l00742"></a>00742 
-<a name="l00743"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f90b4770bccecd68a546cc4a969ec41f">00743</a>                 ALint mNumEffectSlots;                                  <span class="comment">// Number of effect slots available</span>
-<a name="l00744"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#362acf64ed85e9546bf10d28c5bd2ca6">00744</a>                 ALint mNumSendsPerSource;                               <span class="comment">// Number of aux sends per source</span>
+<a name="l00564"></a>00564                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#e1c2fa1a1e5e0fcc463e8f1fd1d2fb03">_destroySound</a>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a>* sound=0);
+<a name="l00573"></a>00573                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#bf290feed768bc7e1ad37497dca77959">_removeFromLists</a>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a>* sound=0);
+<a name="l00574"></a>00574 
+<a name="l00575"></a>00575         <span class="keyword">private</span>:
+<a name="l00576"></a>00576 
+<a name="l00585"></a>00585                 ALuint <a class="code" href="namespace_ogre_ogg_sound_manager.html#8b7c76fc1dc6d3c407439d97f58b378b">_getSharedBuffer</a>(<span class="keyword">const</span> Ogre::String&amp; sName);
+<a name="l00591"></a>00591                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#1e89213905ab48d859a8e44a3183d861">_release</a>();
+<a name="l00597"></a>00597                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#fd41cad472a457cd2050461a6410706f">_checkFeatureSupport</a>();
+<a name="l00598"></a>00598 <span class="preprocessor">#ifndef LINUX</span>
+<a name="l00599"></a>00599 <span class="preprocessor"></span>
+<a name="l00601"></a>00601                 <span class="keywordtype">bool</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#9c6a4f7f443b52d9a718e1d66d108c46">_checkEFXSupport</a>();
+<a name="l00604"></a>00604                 <span class="keywordtype">bool</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#6be7c794bdbf4cc64da7b0ba1c90a405">_checkXRAMSupport</a>();
+<a name="l00607"></a>00607                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#67edeb69bd6205ad410ce0d59c75ca85">_determineAuxEffectSlots</a>();
+<a name="l00612"></a>00612                 ALuint <a class="code" href="namespace_ogre_ogg_sound_manager.html#6037b205c01966cb77a09dc5befd31c2">_getEFXFilter</a>(<span class="keyword">const</span> std::string&amp; fName);
+<a name="l00617"></a>00617                 ALuint <a class="code" href="namespace_ogre_ogg_sound_manager.html#52749efae30d0cb87a59cdc0131275ba">_getEFXEffect</a>(<span class="keyword">const</span> std::string&amp; eName);
+<a name="l00622"></a>00622                 ALuint <a class="code" href="namespace_ogre_ogg_sound_manager.html#95f203ce44b319509f4c85cbf9ebd02b">_getEFXSlot</a>(<span class="keywordtype">int</span> slotID=0);
+<a name="l00629"></a>00629                 <span class="keywordtype">bool</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#f418239500b05be628596d4d89ae40dc">_setEAXReverbProperties</a>(EFXEAXREVERBPROPERTIES *pEFXEAXReverb, ALuint uiEffect);
+<a name="l00636"></a>00636                 <span class="keywordtype">bool</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#f92d58ae54c8b39c76e29feacf1db47a">_attachEffectToSlot</a>(ALuint slot, ALuint effect);
+<a name="l00637"></a>00637 <span class="preprocessor">#endif</span>
+<a name="l00638"></a>00638 <span class="preprocessor"></span>
+<a name="l00648"></a>00648                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#c89c793a5bf91d1279f5fe704a860b1d">_reactivateQueuedSounds</a>();
+<a name="l00653"></a>00653                 <span class="keywordtype">void</span> <a class="code" href="namespace_ogre_ogg_sound_manager.html#ee60e73bdb5e0e49d816a2111b829a4e">_enumDevices</a>();
+<a name="l00654"></a>00654 
+<a name="l00658"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9ca13fb63d627947bfb1456ac60dd9b8">00658</a>                 ALCdevice* mDevice;                                             <span class="comment">// OpenAL device</span>
+<a name="l00659"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ffd312e31a2cd7b527e6ddfa5c55b252">00659</a>                 ALCcontext* mContext;                                   <span class="comment">// OpenAL context</span>
+<a name="l00660"></a>00660 
+<a name="l00661"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#0b17fd507af1a6f71d00ca33dbb8dd25">00661</a>                 ALfloat mOrigVolume;                                    <span class="comment">// Used to revert volume after a mute</span>
+<a name="l00662"></a>00662 
+<a name="l00665"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4e54b136c703aca33fdc14184b8b893a">00665</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#1d428d2d725aab0c7dea5617cd5814f4">SoundMap</a> mSoundMap;                                             <span class="comment">// Map of all sounds</span>
+<a name="l00666"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#fd00da81a1e07957db5315f489bb55aa">00666</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mActiveSounds;                               <span class="comment">// list of sounds currently active</span>
+<a name="l00667"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9c323eba11afb5ba30ec3df890a1e835">00667</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#44588c71d398921e6a3e0b03083c8884">FileOpenList</a> mQueuedSounds;                             <span class="comment">// list of sounds queued to be opened (multi-threaded ONLY)</span>
+<a name="l00668"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4f0b9524e8469e82665edf349450d5f2">00668</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mPlayQueue;                                  <span class="comment">// list of sounds waiting to play       (only used prior to file loaded)</span>
+<a name="l00669"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#616ef3f5fdeb8906fe60362ecd353d93">00669</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mPauseQueue;                                 <span class="comment">// list of sounds waiting to pause      (only used prior to file loaded)</span>
+<a name="l00670"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#5e9bf9fd87f310f5428a850b36bedfef">00670</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mStopQueue;                                  <span class="comment">// list of sounds waiting to stop       (only used prior to file loaded)</span>
+<a name="l00671"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#8439b8994509d29e1b26eb07862981cb">00671</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mPausedSounds;                               <span class="comment">// list of sounds currently paused</span>
+<a name="l00672"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bbbf5fbf0be48bf3ae42cbe076b8d748">00672</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#7cf9e279b0e175eb8535dede22947223">ActiveList</a> mSoundsToReactivate;                 <span class="comment">// list of sounds that need re-activating when sources become available</span>
+<a name="l00673"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#07ee917dd1caa631bd51a93d8bedf16b">00673</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#5bb349cdaa82110c2368669db3597b45">SourceList</a> mSourcePool;                                 <span class="comment">// List of available sources</span>
+<a name="l00674"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9aeba436ff2ec38424bd25ab77e40914">00674</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#6423f182d5d3792463165288d3468550">FeatureList</a> mEFXSupportList;                    <span class="comment">// List of supported EFX effects by OpenAL ID</span>
+<a name="l00675"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#874d35bc6d803784c368c6b4aa29394d">00675</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#43c7af78bc795f22d7b01a23ec2d4c0a">SharedBufferList</a> mSharedBuffers;                <span class="comment">// List of shared static buffers</span>
+<a name="l00676"></a>00676 
+<a name="l00679"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1d40332ae4814c9a2fd266e87fe4e2ea">00679</a>                 <span class="keyword">static</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html">OgreOggSoundManager</a> *pInstance;  <span class="comment">// OgreOggSoundManager instance pointer</span>
+<a name="l00680"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#014eef5dfd5014e0c7d96e17a96caacd">00680</a>                 ALCchar* mDeviceStrings;                                <span class="comment">// List of available devices strings</span>
+<a name="l00681"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#027b4bdd069d4ab4218f2d14a9188e04">00681</a>                 <span class="keywordtype">int</span> mNumSources;                                                <span class="comment">// Number of sources available for sounds</span>
+<a name="l00682"></a>00682 
+<a name="l00683"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#38c54c4cc61ddf2d46ce1267efe02bd2">00683</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html">OgreOggSoundRecord</a>* mRecorder;                  <span class="comment">// recorder object</span>
+<a name="l00684"></a>00684 
+<a name="l00687"></a>00687                 <span class="keyword">struct </span>_sortNearToFar;
+<a name="l00688"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cbcc7aeef656a8c99a5259d149fa6011">00688</a>                 <span class="keyword">struct </span>_sortFarToNear;
+<a name="l00689"></a>00689 
+<a name="l00692"></a>00692                 <span class="keywordtype">bool</span> mEFXSupport;                                               <span class="comment">// EFX present flag</span>
+<a name="l00693"></a>00693 <span class="preprocessor">#ifndef LINUX</span>
+<a name="l00694"></a>00694 <span class="preprocessor"></span>                <span class="comment">// Effect objects</span>
+<a name="l00695"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74b210634f22925c662516d7f7bb3263">00695</a>                 LPALGENEFFECTS alGenEffects;
+<a name="l00696"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#c28d37fe26e9dc092f4f033467578f18">00696</a>                 LPALDELETEEFFECTS alDeleteEffects;
+<a name="l00697"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#3796f08de6171614d1c78399618dbbc6">00697</a>                 LPALISEFFECT alIsEffect;
+<a name="l00698"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f562ef9afb814f2d95168db89f7c0d5f">00698</a>                 LPALEFFECTI alEffecti;
+<a name="l00699"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#9308ee49938f28e5b519beef4522db96">00699</a>                 LPALEFFECTIV alEffectiv;
+<a name="l00700"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#941932060122d2317da53247af1220fe">00700</a>                 LPALEFFECTF alEffectf;
+<a name="l00701"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1190a99248346c1600aae4998302a246">00701</a>                 LPALEFFECTFV alEffectfv;
+<a name="l00702"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#86cdc9a18aaaa9c2def16761918b8635">00702</a>                 LPALGETEFFECTI alGetEffecti;
+<a name="l00703"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#44ec7197e3dff4fbc84c51ca896ef137">00703</a>                 LPALGETEFFECTIV alGetEffectiv;
+<a name="l00704"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#fee2aa7b5e135f4c501c5ac61504e5c1">00704</a>                 LPALGETEFFECTF alGetEffectf;
+<a name="l00705"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4dc0626b81a1cfcce1b3b864ba294ae2">00705</a>                 LPALGETEFFECTFV alGetEffectfv;
+<a name="l00706"></a>00706 
+<a name="l00707"></a>00707                 <span class="comment">//Filter objects</span>
+<a name="l00708"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#591abc1025085d1c0e9158830971b3a4">00708</a>                 LPALGENFILTERS alGenFilters;
+<a name="l00709"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#0b2aa37fe9a3546af7f7b40e9884d858">00709</a>                 LPALDELETEFILTERS alDeleteFilters;
+<a name="l00710"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#efbd42e9892b2067f3b8f9931b9f45c7">00710</a>                 LPALISFILTER alIsFilter;
+<a name="l00711"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#cd269d4af58673ed2739d2ed93b2ab2e">00711</a>                 LPALFILTERI alFilteri;
+<a name="l00712"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#8b5b1f90d23a4a6cc5c94b7c3f03bd94">00712</a>                 LPALFILTERIV alFilteriv;
+<a name="l00713"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#d37cc8532a9806ff3edf6e5edd3120dd">00713</a>                 LPALFILTERF alFilterf;
+<a name="l00714"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#e981fc89b07089a2937a0a49e1fd9fb2">00714</a>                 LPALFILTERFV alFilterfv;
+<a name="l00715"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#0c98c97be572344620529e55632877ce">00715</a>                 LPALGETFILTERI alGetFilteri;
+<a name="l00716"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#98423aeafbca17ebf822a1ba6bc2dbc9">00716</a>                 LPALGETFILTERIV alGetFilteriv;
+<a name="l00717"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bdcd1b22664562994f388f2c875da84f">00717</a>                 LPALGETFILTERF alGetFilterf;
+<a name="l00718"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7f387fd2ba72cfceda7c729482b76aaa">00718</a>                 LPALGETFILTERFV alGetFilterfv;
+<a name="l00719"></a>00719 
+<a name="l00720"></a>00720                 <span class="comment">// Auxiliary slot object</span>
+<a name="l00721"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74a7c0eccd15efb5170cd9e85609fff4">00721</a>                 LPALGENAUXILIARYEFFECTSLOTS alGenAuxiliaryEffectSlots;
+<a name="l00722"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#31a75cfb4258c76fe8bebf7f03bd2289">00722</a>                 LPALDELETEAUXILIARYEFFECTSLOTS alDeleteAuxiliaryEffectSlots;
+<a name="l00723"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f9b9427236998ef5a34ce5274e723614">00723</a>                 LPALISAUXILIARYEFFECTSLOT alIsAuxiliaryEffectSlot;
+<a name="l00724"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#98368e23019f2e2eea2968d1e606af01">00724</a>                 LPALAUXILIARYEFFECTSLOTI alAuxiliaryEffectSloti;
+<a name="l00725"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#e4196d9381c9ff569334132f5bc41aa5">00725</a>                 LPALAUXILIARYEFFECTSLOTIV alAuxiliaryEffectSlotiv;
+<a name="l00726"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac1876049da0e7ea42bf02ab542ef842">00726</a>                 LPALAUXILIARYEFFECTSLOTF alAuxiliaryEffectSlotf;
+<a name="l00727"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#bb048e53b98adb4dacf7848aa5155263">00727</a>                 LPALAUXILIARYEFFECTSLOTFV alAuxiliaryEffectSlotfv;
+<a name="l00728"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1807531c534a49759b129d100bff48db">00728</a>                 LPALGETAUXILIARYEFFECTSLOTI alGetAuxiliaryEffectSloti;
+<a name="l00729"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#74c1c2791c47888909765ac2f03911c6">00729</a>                 LPALGETAUXILIARYEFFECTSLOTIV alGetAuxiliaryEffectSlotiv;
+<a name="l00730"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#6a8f436863bf6ada14f0ac7542b5a2aa">00730</a>                 LPALGETAUXILIARYEFFECTSLOTF alGetAuxiliaryEffectSlotf;
+<a name="l00731"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#978bf9525f11ebb1fc067c99a5c71baf">00731</a>                 LPALGETAUXILIARYEFFECTSLOTFV alGetAuxiliaryEffectSlotfv;
+<a name="l00732"></a>00732 
+<a name="l00735"></a>00735                 <span class="keyword">typedef</span> ALboolean (__cdecl *LPEAXSETBUFFERMODE)(ALsizei n, ALuint *buffers, ALint value);
+<a name="l00736"></a>00736                 <span class="keyword">typedef</span> ALenum    (__cdecl *LPEAXGETBUFFERMODE)(ALuint buffer, ALint *value);
+<a name="l00737"></a>00737 
+<a name="l00738"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#c6d36493fda948725b57da28f5c54414">00738</a>                 LPEAXSETBUFFERMODE mEAXSetBufferMode;
+<a name="l00739"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#4a2b6553406ca3b4d24e6a6a8b08399a">00739</a>                 LPEAXGETBUFFERMODE mEAXGetBufferMode;
+<a name="l00740"></a>00740 <span class="preprocessor">#endif</span>
+<a name="l00741"></a>00741 <span class="preprocessor"></span>
+<a name="l00743"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f93b38dd0ea25e75abe7ca20d014254c">00743</a>                 <span class="keywordtype">bool</span> mEAXSupport;                                               <span class="comment">// EAX present flag</span>
+<a name="l00744"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#842f9a9be3f3b75b504c127f3843bbc4">00744</a>                 <span class="keywordtype">int</span> mEAXVersion;                                                <span class="comment">// EAX version ID</span>
 <a name="l00745"></a>00745 
-<a name="l00746"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7de8acb0614d4d387b69ffacf36da10b">00746</a>                 ALenum  mXRamSize,
-<a name="l00747"></a>00747                                 mXRamFree,
-<a name="l00748"></a>00748                                 mXRamAuto,
-<a name="l00749"></a>00749                                 mXRamHardware,
-<a name="l00750"></a>00750                                 mXRamAccessible,
-<a name="l00751"></a>00751                                 mCurrentXRamMode;
-<a name="l00752"></a>00752 
-<a name="l00753"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#3311af58b1077a969522dea08226cddc">00753</a>                 ALint   mXRamSizeMB,
-<a name="l00754"></a>00754                                 mXRamFreeMB;
-<a name="l00755"></a>00755 
-<a name="l00758"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#539d1467a060b2429bc2da3bee63c800">00758</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html">OgreOggListener</a> *mListener;                             <span class="comment">// Listener object</span>
-<a name="l00759"></a>00759 
-<a name="l00760"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1760dbcccfbba4cf82297db7e8000e07">00760</a>                 <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html">OgreOggSoundFactory</a>;
-<a name="l00761"></a>00761         };
-<a name="l00762"></a>00762 }
+<a name="l00746"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#a2cfd6b5b1c0878f1aad74eda428ccba">00746</a>                 <span class="keywordtype">bool</span> mXRamSupport;
+<a name="l00747"></a>00747 
+<a name="l00748"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#655696078335197a2abdd3201313bd2e">00748</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#daedc172c3e871304a6bc73b4f3220d4">EffectList</a>* mFilterList;                                <span class="comment">// List of EFX filters</span>
+<a name="l00749"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#35c39b4807634f27540532f45e945091">00749</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#daedc172c3e871304a6bc73b4f3220d4">EffectList</a>* mEffectList;                                <span class="comment">// List of EFX effects</span>
+<a name="l00750"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#6ca2c2f5d26cd3df53a8de8ec0bcda40">00750</a>                 std::vector&lt;ALuint&gt;* mEffectSlotList;   <span class="comment">// List of EFX effect slots</span>
+<a name="l00751"></a>00751 
+<a name="l00752"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#f90b4770bccecd68a546cc4a969ec41f">00752</a>                 ALint mNumEffectSlots;                                  <span class="comment">// Number of effect slots available</span>
+<a name="l00753"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#362acf64ed85e9546bf10d28c5bd2ca6">00753</a>                 ALint mNumSendsPerSource;                               <span class="comment">// Number of aux sends per source</span>
+<a name="l00754"></a>00754 
+<a name="l00755"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#7de8acb0614d4d387b69ffacf36da10b">00755</a>                 ALenum  mXRamSize,
+<a name="l00756"></a>00756                                 mXRamFree,
+<a name="l00757"></a>00757                                 mXRamAuto,
+<a name="l00758"></a>00758                                 mXRamHardware,
+<a name="l00759"></a>00759                                 mXRamAccessible,
+<a name="l00760"></a>00760                                 mCurrentXRamMode;
+<a name="l00761"></a>00761 
+<a name="l00762"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#3311af58b1077a969522dea08226cddc">00762</a>                 ALint   mXRamSizeMB,
+<a name="l00763"></a>00763                                 mXRamFreeMB;
+<a name="l00764"></a>00764 
+<a name="l00767"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#539d1467a060b2429bc2da3bee63c800">00767</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html">OgreOggListener</a> *mListener;                             <span class="comment">// Listener object</span>
+<a name="l00768"></a>00768 
+<a name="l00769"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#1760dbcccfbba4cf82297db7e8000e07">00769</a>                 <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html">OgreOggSoundFactory</a>;
+<a name="l00770"></a>00770         };
+<a name="l00771"></a>00771 }
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Jun 23 12:31:18 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Jun 25 10:53:00 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

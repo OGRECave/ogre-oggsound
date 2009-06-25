@@ -136,7 +136,9 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound_manager.html#864a4a76ade377bd4351548d2d464fd5">resumeAllPausedSounds</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound_manager.html#db9e7a4793697e5d6aa231887fdf4a92">_destroy</a> (OgreOggISound *sound)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound_manager.html#bf290feed768bc7e1ad37497dca77959">_removeFromLists</a> (<a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggSound::OgreOggISound</a> *sound)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound_manager.html#e1c2fa1a1e5e0fcc463e8f1fd1d2fb03">_destroySound</a> (OgreOggISound *sound)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound_manager.html#5cdc8bfd9c213df84244cfa7d9881040">destroySound</a> (const Ogre::String &amp;sName)</td></tr>
 
@@ -266,12 +268,12 @@
 
 </div>
 </div><p>
-<a class="anchor" name="db9e7a4793697e5d6aa231887fdf4a92"></a><!-- doxytag: member="OgreOggSoundManager::_destroy" ref="db9e7a4793697e5d6aa231887fdf4a92" args="(OgreOggISound *sound)" -->
+<a class="anchor" name="e1c2fa1a1e5e0fcc463e8f1fd1d2fb03"></a><!-- doxytag: member="OgreOggSoundManager::_destroySound" ref="e1c2fa1a1e5e0fcc463e8f1fd1d2fb03" args="(OgreOggISound *sound)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void OgreOggSoundManager::_destroy           </td>
+          <td class="memname">void OgreOggSoundManager::_destroySound           </td>
           <td>(</td>
           <td class="paramtype">OgreOggISound *&nbsp;</td>
           <td class="paramname"> <em>sound</em>          </td>
@@ -284,7 +286,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01572">1572</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01702">1702</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -414,7 +416,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02128">2128</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02245">2245</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -435,7 +437,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01904">1904</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02021">2021</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -456,7 +458,34 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01738">1738</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01855">1855</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="bf290feed768bc7e1ad37497dca77959"></a><!-- doxytag: member="OgreOggSoundManager::_removeFromLists" ref="bf290feed768bc7e1ad37497dca77959" args="(OgreOggSound::OgreOggISound *sound)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void OgreOggSoundManager::_removeFromLists           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggSound::OgreOggISound</a> *&nbsp;</td>
+          <td class="paramname"> <em>sound</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>
+Threaded lists <dl class="remark" compact><dt><b>Remarks:</b></dt><dd>The following lists exist for Threaded version ONLY, they are used to prevent blocking of the main thread when creating/loading a sound for the first time</dd></dl>
+Queued to play list<p>
+Paused sound list - created by a call to <a class="el" href="namespace_ogre_ogg_sound_manager.html#347b1408256892d872d6454fbe3fb350">pauseAllSounds()</a><p>
+Active sound list 
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01594">1594</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -808,7 +837,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01826">1826</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01943">1943</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -851,7 +880,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01607">1607</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01721">1721</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1189,7 +1218,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01526">1526</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01548">1548</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1231,7 +1260,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01537">1537</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01559">1559</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1253,7 +1282,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01498">1498</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01520">1520</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1275,7 +1304,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01472">1472</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01494">1494</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1296,7 +1325,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01624">1624</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01741">1741</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1327,7 +1356,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02194">2194</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02311">2311</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1358,7 +1387,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02172">2172</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02289">2289</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1389,7 +1418,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02142">2142</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02259">2259</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1411,7 +1440,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02086">2086</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02203">2203</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1433,7 +1462,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01936">1936</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02053">2053</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1454,7 +1483,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01558">1558</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01580">1580</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1476,7 +1505,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02238">2238</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02355">2355</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1498,7 +1527,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02248">2248</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02365">2365</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1779,7 +1808,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02243">2243</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02360">2360</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1853,7 +1882,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01512">1512</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01534">1534</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1875,7 +1904,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01484">1484</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01506">1506</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1896,7 +1925,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01532">1532</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01554">1554</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1918,7 +1947,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02253">2253</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l02370">2370</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1939,7 +1968,7 @@
 
 <p>
 
-<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01715">1715</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ogreoggsoundmanager_8cpp-source.html#l01832">1832</a> of file <a class="el" href="ogreoggsoundmanager_8cpp-source.html">ogreoggsoundmanager.cpp</a>.</p>
 
 </div>
 </div><p>
@@ -1965,7 +1994,7 @@
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Jun 23 12:31:19 2009 for OgreOggSound by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Jun 25 11:00:13 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

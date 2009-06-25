@@ -87,6 +87,6 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name,
 void OgreOggSoundFactory::destroyInstance( MovableObject* obj)
 {
 	// destroy the sound
-	OgreOggSoundManager::getSingletonPtr()->_destroy(static_cast<OgreOggISound*>(obj));
+	OgreOggSoundManager::getSingletonPtr()->_destroySound(static_cast<OgreOggISound*>(obj));
 }
 //-----------------------------------------------------------------------
