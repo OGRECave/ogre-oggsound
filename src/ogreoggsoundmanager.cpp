@@ -1453,20 +1453,42 @@ namespace OgreOggSound
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
 
+		// Destroy any queued sound structures
+		FileOpenList::iterator f = mQueuedSounds.begin();
+		while ( f!=mQueuedSounds.end() )
+		{
+			// Destroy
+			delete (*f);
+			++f;
+		}	
+		mQueuedSounds.clear();
+		// Destroy all sounds
 		SoundMap::iterator i = mSoundMap.begin();
 		while(i != mSoundMap.end())
 		{
-			OGRE_DELETE_T(i->second, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
+			delete i->second;
 			++i;
 		}
 
 		mSoundMap.clear();
-
-		SourceList::iterator it = mSourcePool.begin();
-		while (it != mSourcePool.end())
+		// Shared buffers
+		SharedBufferList::iterator b = mSharedBuffers.begin();
+		while (b != mSharedBuffers.end())
 		{
-			++it;
+			if ( b->second->mRefCount>0 )
+				alDeleteBuffers(1, &b->second->mAudioBuffer);
+			delete b->second;
+			++b;
 		}
+
+		mSharedBuffers.clear();
+
+		// Clear queues
+		mActiveSounds.clear();
+		mPlayQueue.clear();
+		mPauseQueue.clear();
+		mPausedSounds.clear();
+		mStopQueue.clear();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::playSound(const String& sName)
@@ -1569,39 +1591,131 @@ namespace OgreOggSound
 		mPausedSounds.clear();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_destroy(OgreOggISound* sound)
+	void OgreOggSoundManager::_removeFromLists(OgreOggSound::OgreOggISound *sound)
+	{
+		// Remove from reactivate list
+		if ( !mSoundsToReactivate.empty() )
+		{
+			// Remove ALL referneces to this sound..
+			for ( ActiveList::iterator iter=mSoundsToReactivate.begin(); iter!=mSoundsToReactivate.end(); )
+			{
+				if ( sound==(*iter) )
+					mSoundsToReactivate.erase(iter);
+				else
+					++iter;
+			}
+		}
+
+		/** Threaded lists 
+		@remarks
+			The following lists exist for Threaded version ONLY, they are used to prevent
+			blocking of the main thread when creating/loading a sound for the first time
+		*/
+		// Remove from play queue list
+		if ( !mPlayQueue.empty() )
+		{
+			// Remove ALL referneces to this sound..
+			for ( ActiveList::iterator iter=mPlayQueue.begin(); iter!=mPlayQueue.end(); )
+			{
+				if ( sound==(*iter) )
+					mPlayQueue.erase(iter);
+				else
+					++iter;
+			}
+		}
+
+		
+		// Remove from pause queue list
+		if ( !mPauseQueue.empty() )
+		{
+			// Remove ALL referneces to this sound..
+			for ( ActiveList::iterator iter=mPauseQueue.begin(); iter!=mPauseQueue.end(); )
+			{
+				if ( sound==(*iter) )
+					mPauseQueue.erase(iter);
+				else
+					++iter;
+			}
+		}
+
+		
+		// Remove from stop queue list
+		if ( !mStopQueue.empty() )
+		{
+			// Remove ALL referneces to this sound..
+			for ( ActiveList::iterator iter=mStopQueue.begin(); iter!=mStopQueue.end(); )
+			{
+				if ( sound==(*iter) )
+					mStopQueue.erase(iter);
+				else
+					++iter;
+			}
+		}
+
+		
+		/** Queued to play list 
+		*/
+		if ( !mQueuedSounds.empty() )
+		{
+			// Remove ALL referneces to this sound..
+			for ( FileOpenList::iterator iter=mQueuedSounds.begin(); iter!=mQueuedSounds.end(); )
+			{
+				if ( sound==(*iter)->mSound )
+				{
+					OGRE_FREE((*iter), Ogre::MEMCATEGORY_GENERAL);
+					mQueuedSounds.erase(iter);
+				}
+				else
+					++iter;
+			}
+		}	
+		/** Paused sound list - created by a call to pauseAllSounds()
+		*/
+		if ( !mPausedSounds.empty() )
+		{
+			// Remove ALL referneces to this sound..
+			for ( ActiveList::iterator iter=mPausedSounds.begin(); iter!=mPausedSounds.end(); )
+			{
+				if ( sound==(*iter) )
+					mPausedSounds.erase(iter);
+				else
+					++iter;
+			}
+		}
+	
+		/** Active sound list 
+		*/
+		if ( !mActiveSounds.empty() )
+		{
+			// Remove ALL referneces to this sound..
+			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); )
+			{
+				if ( sound==(*iter) )
+					mActiveSounds.erase(iter);
+				else
+					++iter;
+			}
+		}
+		
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_destroySound(OgreOggISound* sound)
 	{
 		if (!sound) return;
 
-	#if OGGSOUND_THREADED
+#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
+#endif
 
-		// Find sound in map
-		SoundMap::iterator i = mSoundMap.find(sound->getName());
-		if (i != mSoundMap.end())
-		{
-			// Remove from reactivate list
-			if ( !mSoundsToReactivate.empty() )
-			{
-				for ( ActiveList::iterator iter=mSoundsToReactivate.begin(); iter!=mSoundsToReactivate.end(); ++iter )
-					if ( sound==(*iter) )
-					{
-						mSoundsToReactivate.erase(iter);
-						break;
-					}
-			}
+		// Delete sound buffer
+		ALuint src = sound->getSource();
+		if ( src!=AL_NONE ) releaseSoundSource(sound);
 
-			// Delete sound
-			ALuint src = sound->getSource();
-			if ( src!=AL_NONE ) releaseSoundSource(sound);
+		// Remove references from lists
+		_removeFromLists(sound);
 
-			// Delete sounds memory
-			OGRE_DELETE_T(sound, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
-
-			// Remove from sound list
-			mSoundMap.erase(i);
-		}
+		// Delete sound 
+		OGRE_DELETE_T(sound, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::destroySound(const Ogre::String& sName)
@@ -1617,7 +1731,10 @@ namespace OgreOggSound
 				i->second->mScnMan->destroyMovableObject(i->second->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
 			// else call _destroy() directly
 			else
-				_destroy(i->second);
+				_destroySound(i->second);
+
+			// Remove from map
+			mSoundMap.erase(i);
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/

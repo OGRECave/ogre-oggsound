@@ -5,6 +5,16 @@
 	* Removed setListenerVolume()/getListenerVolume() from OgreOggSoundListener
 		* use OgreOggSoundManager::setMasterVolume() & OgreOggSound::getMasterVolume() instead.
 
+	* Added OGRE memory allocation tracking.
+
+	* Fixed two memory leaks.
+		* Fixed mem leak when closing down system BEFORE a queued sound has played for the first time.
+		* Fixed mem leak when playing a non-streamed sound
+
+	* Fixed crash in destroyAllSounds() and fixed various destruction bugs relating to lists.
+		* Sound references are now removed from various state lists on destruction.
+		* Active list is updated correctly to reflect the destruction of a previously active sound.
+
 
 
 * version 1.07
