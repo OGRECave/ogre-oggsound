@@ -95,7 +95,7 @@ int MainOgre::Init(){
 
 	mRoot->setFrameSmoothingPeriod(0.5f);
 	miscParams["externalWindowHandle"] = Ogre::StringConverter::toString((UINT)mHwnd); 
-	miscParams["vsync"] = "true";	
+	miscParams["vsync"] = "false";	
 	
 #ifdef _STEREO
 	try

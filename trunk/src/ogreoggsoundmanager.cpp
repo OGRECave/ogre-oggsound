@@ -523,7 +523,7 @@ namespace OgreOggSound
 				}
 			}
 #else
-			delayedFileOpen* fo = OGRE_ALLOC_T(delayedFileOpen, 1, Ogre::MEMCATEGORY_GENERAL);
+			delayedFileOpen* fo = OGRE_NEW_T(delayedFileOpen, Ogre::MEMCATEGORY_GENERAL);
 			fo->mPrebuffer	= preBuffer;		// Prebuffer flag
 			fo->mBuffer		= buffer;			// Shared buffer ref
 			fo->mFileName	= file;				// Filename to register

@@ -176,29 +176,6 @@ bool MainApp::frameStarted( const Ogre::FrameEvent& evt )
 	Ogre::SceneNode *nMonsterAxis = mSceneMgr->getSceneNode("OgreMonsterAxis");
 	mSoundManager->update(evt.timeSinceLastFrame);
 	
-	// Increment
-	if ( dir )
-	{
-		mCurrentPitch+=1.f*evt.timeSinceLastFrame;
-		if ( mCurrentPitch>2.f ) 
-			dir = false;
-	}
-	else
-	{
-		mCurrentPitch-=1.f*evt.timeSinceLastFrame;
-		if ( mCurrentPitch<0.f ) 
-			dir = true;
-	}
-
-	if (mCurrentPitch>0.1f)
-	{
-		mSoundManager->getSound("Two")->play();
-		mSoundManager->getSound("Two")->setPitch(mCurrentPitch);
-	}
-	else
-	{
-		mSoundManager->getSound("Two")->stop();
-	}
 	if (mQuit) return false;	
 
 	return true;
