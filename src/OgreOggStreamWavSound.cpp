@@ -571,7 +571,6 @@ namespace OgreOggSound
 			return;
 		}
 #endif
-
 		if(mSource == AL_NONE) return;
 
 		alSourcePause(mSource);
@@ -581,6 +580,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::play()
 	{
+		if(isPlaying())	return;
+
 #if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 
@@ -598,8 +599,6 @@ namespace OgreOggSound
 			return;
 		}
 #endif
-
-		if(isPlaying())	return;
 
 		// Grab a source if not already attached
 		if (mSource == AL_NONE)

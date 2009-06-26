@@ -287,6 +287,9 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::play()
 	{
+		if(isPlaying())
+			return;
+
 #if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 
@@ -304,9 +307,6 @@ namespace OgreOggSound
 			return;
 		}
 #endif
-
-		if(isPlaying())
-			return;
 
 		if (mSource == AL_NONE)
 			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
