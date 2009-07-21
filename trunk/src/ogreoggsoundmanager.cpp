@@ -59,7 +59,7 @@ namespace OgreOggSound
 		mEffectSlotList(0),
 		mDeviceStrings(0)
 		{
-#ifndef LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 			// Effect objects
 			alGenEffects = NULL;
 			alDeleteEffects = NULL;
@@ -193,7 +193,7 @@ namespace OgreOggSound
 
 		Ogre::LogManager::getSingleton().logMessage("*** --- OpenAL Device successfully created");
 
-#ifndef LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		ALint attribs[2] = {ALC_MAX_AUXILIARY_SENDS, 4};
 
 		mContext = alcCreateContext(mDevice, attribs);
@@ -220,7 +220,7 @@ namespace OgreOggSound
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
 	#endif
 
-#ifndef LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// Recording
 		if (alcIsExtensionPresent(mDevice, "ALC_EXT_CAPTURE") == AL_FALSE)
 			Ogre::LogManager::getSingleton().logMessage("*** --- Recording devices NOT detected!");
@@ -348,7 +348,7 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 
-#ifndef LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// EFX
 		mEFXSupport = _checkEFXSupport();
 		if (mEFXSupport)
@@ -599,7 +599,7 @@ namespace OgreOggSound
 		if(i == mSoundMap.end()) return 0;
 		return i->second;
 	}
-#ifndef LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::isRecordingAvailable()
 	{
@@ -1886,7 +1886,7 @@ namespace OgreOggSound
 		{
 			if ( hasEFXSupport() )
 			{
-#ifndef LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 				// Remove filters/effects
 				alSourcei(static_cast<ALuint>((*it)), AL_DIRECT_FILTER, AL_FILTER_NULL);
 				alSource3i(static_cast<ALuint>((*it)), AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, AL_FILTER_NULL);
@@ -1915,7 +1915,7 @@ namespace OgreOggSound
 		mPauseQueue.clear();
 		mStopQueue.clear();
 
-#ifndef LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// clear EFX effect lists
 		if ( mFilterList )
 		{

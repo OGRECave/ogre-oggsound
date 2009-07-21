@@ -241,7 +241,7 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 
 	if (arg.key == OIS::KC_Q)
 	{
-#ifndef LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		OgreOggSoundRecord* r = 0;
 		if ( r=mSoundManager->getRecorder() )
 			r->startRecording();
