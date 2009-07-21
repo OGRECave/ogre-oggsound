@@ -96,7 +96,7 @@ namespace OgreOggSound
 		while(sizeRead > 0);
 		OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);
 
-#ifndef LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(1, &mBuffer);

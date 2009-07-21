@@ -254,7 +254,7 @@ namespace OgreOggSound
 		if ( alGetError()!=AL_NO_ERROR )
 			throw std::string("Unable to create OpenAL buffer!");
 
-#ifndef LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(1, &mBuffer);

@@ -311,7 +311,7 @@ namespace OgreOggSound
 				fTime Elapsed frametime.
 		 */
 		void update(Ogre::Real fTime=0.f);
-#ifndef LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		/** Sets XRam buffers.
 		@remarks
 			Currently defaults to AL_STORAGE_AUTO.
@@ -595,7 +595,9 @@ namespace OgreOggSound
 			them with the LogManager.
 		 */
 		void _checkFeatureSupport();
-#ifndef LINUX
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+
 		/** Checks for EFX hardware support
 		 */
 		bool _checkEFXSupport();
@@ -690,7 +692,9 @@ namespace OgreOggSound
 		/**	EFX Support
 		*/
 		bool mEFXSupport;						// EFX present flag
-#ifndef LINUX
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+
 		// Effect objects
 		LPALGENEFFECTS alGenEffects;
 		LPALDELETEEFFECTS alDeleteEffects;
