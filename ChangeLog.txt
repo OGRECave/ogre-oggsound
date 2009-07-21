@@ -12,6 +12,7 @@
 
 	* Fixed setVelocity() bug NOT setting velocity, and exposed those settings to OgreOggSoundListener too.
 
+	* Swapped #ifndef LINUX to OGRE variants
 
 
 * version 1.08
