@@ -1228,7 +1228,7 @@ namespace OgreOggSound
 				alFilterf(filter, AL_LOWPASS_GAIN, gain);
 				alFilterf(filter, AL_LOWPASS_GAINHF, hfGain);
 
-				if ( !mFilterList ) mFilterList = OGRE_ALLOC_T(EffectList, 1, Ogre::MEMCATEGORY_GENERAL);
+				if ( !mFilterList ) mFilterList = OGRE_NEW_T(EffectList, Ogre::MEMCATEGORY_GENERAL);
 				(*mFilterList)[fName]=filter;
 			}
 		}
@@ -1272,7 +1272,7 @@ namespace OgreOggSound
 				}
 
 				// Add to list
-				if ( !mEffectList ) mEffectList = OGRE_ALLOC_T(EffectList, 1, Ogre::MEMCATEGORY_GENERAL);
+				if ( !mEffectList ) mEffectList = OGRE_NEW_T(EffectList, Ogre::MEMCATEGORY_GENERAL);
 				(*mEffectList)[eName]=effect;
 			}
 		}
@@ -1298,7 +1298,7 @@ namespace OgreOggSound
 		}
 		else
 		{
-			if ( !mEffectSlotList ) mEffectSlotList = OGRE_ALLOC_T(std::vector<ALuint>, 1, Ogre::MEMCATEGORY_GENERAL);
+			if ( !mEffectSlotList ) mEffectSlotList = OGRE_NEW_T(SourceList, Ogre::MEMCATEGORY_GENERAL);
 			mEffectSlotList->push_back(slot);
 		}
 
@@ -1919,25 +1919,31 @@ namespace OgreOggSound
 		// clear EFX effect lists
 		if ( mFilterList )
 		{
-			for ( EffectList::iterator iter=mFilterList->begin(); iter!=mFilterList->end(); ++iter )
+			EffectList::iterator iter=mFilterList->begin();
+			for ( ; iter!=mFilterList->end(); ++iter )
 			    alDeleteEffects( 1, &iter->second);
-			OGRE_FREE(mFilterList, Ogre::MEMCATEGORY_GENERAL);
+			mFilterList->clear();
+			OGRE_DELETE_T(mFilterList, EffectList, Ogre::MEMCATEGORY_GENERAL);
 			mFilterList=0;
 		}
 
 		if ( mEffectList )
 		{
-			for ( EffectList::iterator iter=mEffectList->begin(); iter!=mEffectList->end(); ++iter )
+			EffectList::iterator iter=mEffectList->begin();
+			for ( ; iter!=mEffectList->end(); ++iter )
 			    alDeleteEffects( 1, &iter->second);
-			OGRE_FREE(mEffectList, Ogre::MEMCATEGORY_GENERAL);
+			mEffectList->clear();
+			OGRE_DELETE_T(mEffectList, EffectList, Ogre::MEMCATEGORY_GENERAL);
 			mEffectList=0;
 		}
 
 		if ( mEffectSlotList )
 		{
-			for ( std::vector<ALuint>::iterator iter=mEffectSlotList->begin(); iter!=mEffectSlotList->end(); ++iter )
+			SourceList::iterator iter=mEffectSlotList->begin();
+			for ( ; iter!=mEffectSlotList->end(); ++iter )
 			    alDeleteEffects( 1, &(*iter));
-			OGRE_FREE(mEffectSlotList, Ogre::MEMCATEGORY_GENERAL);
+			mEffectSlotList->clear();
+			OGRE_DELETE_T(mEffectSlotList, SourceList, Ogre::MEMCATEGORY_GENERAL);
 			mEffectSlotList=0;
 		}
 #endif

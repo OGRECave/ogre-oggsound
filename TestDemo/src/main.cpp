@@ -52,7 +52,14 @@ LRESULT CALLBACK MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 //-----------------------------------------------------------------------
 INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR, INT )
 {
-	// Register the mWindow class
+// First simple memory leak detection for VS2005/VS2008
+#if (defined( WIN32 ) || defined( _WIN32 )) && defined( _MSC_VER ) && defined( _DEBUG ) 
+   // use _crtBreakAlloc to put a breakpoint on the provided memory leak id allocation
+   //_crtBreakAlloc = 55002;     
+   _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+#endif 
+   
+   // Register the mWindow class
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L, 
 		GetModuleHandle(NULL), NULL, LoadCursor(NULL,IDC_ARROW), NULL, NULL,
 		"Ogre Win32", NULL };
