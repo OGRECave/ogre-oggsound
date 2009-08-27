@@ -32,8 +32,7 @@ InputManager::~InputManager( void ) {
             mJoysticks.clear();
         }
 
-       // mInputSystem->destroyInputSystem();
-        mInputSystem = 0;
+		OIS::InputManager::destroyInputSystem(mInputSystem);
 
         // Clear Listeners
         mKeyListeners.clear();

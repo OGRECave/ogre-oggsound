@@ -126,7 +126,7 @@ void MainApp::createScene()
 		mOgreMonster->attachObject(sound);
 		sound->play();
 	}
-	/** Sound three - non streamed, looping, moving *
+	/** Sound three - non streamed, looping, moving */
 	sound = 0;
 	if ( sound = mSoundManager->createSound("Three", "three.ogg", false, true) )
 	{
@@ -135,7 +135,7 @@ void MainApp::createScene()
 		mOgreMonster->attachObject(sound);
 		sound->play();
 	}
-	/** Sound one - streamed, looping, EFX Direct filter *
+	/** Sound one - streamed, looping, EFX Direct filter */
 	mSoundManager->createSound("background", "background.ogg", true, true, true);
 	mSoundManager->getSound("background")->setRelativeToListener(true);
 	mSoundManager->getSound("background")->setVolume(0.2f);
@@ -145,7 +145,7 @@ void MainApp::createScene()
 		mSoundManager->createEFXFilter("LowPassTest", AL_FILTER_LOWPASS, 0.1, 0.5);
 		mSoundManager->attachFilterToSound("background", "LowPassTest");
 	}
-	mSoundManager->getSound("background")->play();*/
+	mSoundManager->getSound("background")->play();
 }
 //-----------------------------------------------------------------------
 void MainApp::finishedCB(OgreOggISound* sound)
