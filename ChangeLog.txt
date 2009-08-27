@@ -14,7 +14,12 @@
 
 	* Swapped #ifndef LINUX to OGRE variants
 
-
+
+	* Fixed allocation crash when allocating effect lists
+	
+	* Fixed memory leak in TestDemo (OIS not cleaned up properly)
+
+	
 * version 1.08
 
 	* Added mute/unmute functions to OgreOggSoundManager
