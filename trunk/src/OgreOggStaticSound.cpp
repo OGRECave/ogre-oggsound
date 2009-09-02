@@ -261,7 +261,7 @@ namespace OgreOggSound
 	void OgreOggStaticSound::pause()
 	{
 #if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
+//		boost::recursive_mutex::scoped_lock l(mMutex);
 
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
@@ -291,7 +291,7 @@ namespace OgreOggSound
 			return;
 
 #if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
+//		boost::recursive_mutex::scoped_lock l(mMutex);
 
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
@@ -324,7 +324,7 @@ namespace OgreOggSound
 	void OgreOggStaticSound::stop()
 	{
 #if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
+//		boost::recursive_mutex::scoped_lock l(mMutex);
 
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
@@ -350,7 +350,8 @@ namespace OgreOggSound
 		mStopDelayed=false;
 
 		// Give up source immediately if specfied
-		if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);
+		if (mGiveUpSource) 
+			OgreOggSoundManager::getSingleton().releaseSoundSource(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::loop(bool loop)

@@ -168,7 +168,7 @@ bool MainApp::frameStarted( const Ogre::FrameEvent& evt )
 		mCamera->getParentSceneNode()->yaw(Ogre::Degree(mYawAngleCamera * mFrameTime));
 	}	
 
-	if ( mInputManager->getMouse()->getMouseState().buttonDown(OIS::MB_Right) )
+//	if ( mInputManager->getMouse()->getMouseState().buttonDown(OIS::MB_Right) )
 	{
 		Ogre::SceneNode *nHeadAxis = mSceneMgr->getSceneNode("OgreHeadAxis");
 		nHeadAxis->rotate(Ogre::Quaternion(Ogre::Degree(20.0f * evt.timeSinceLastFrame),Ogre::Vector3::UNIT_Y));
@@ -239,20 +239,29 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 		mSoundManager->unmuteAllSounds();
 	}
 
-	if (arg.key == OIS::KC_Q)
+
+	if (arg.key == OIS::KC_Z)
 	{
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-		OgreOggSoundRecord* r = 0;
-		if ( r=mSoundManager->getRecorder() )
-			r->startRecording();
-#endif
+		if ( mSoundManager->getSound("Two")->isPlaying() )
+		{
+			mSoundManager->stopSound("Two");
+		}
+		else
+		{
+			mSoundManager->playSound("Two");
+		}
 	}
 
-	if (arg.key == OIS::KC_W)
+	if (arg.key == OIS::KC_X)
 	{
-		OgreOggSoundRecord* r = 0;
-		if ( r=mSoundManager->getRecorder() )
-			r->stopRecording();
+		if ( mSoundManager->getSound("Two")->isPlaying() )
+		{
+			mSoundManager->pauseSound("Two");
+		}
+		else
+		{
+			mSoundManager->playSound("Two");
+		}
 	}
 
 	// Show the statistics

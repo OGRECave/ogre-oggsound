@@ -407,7 +407,7 @@ namespace OgreOggSound
 	void OgreOggStreamSound::pause()
 	{
 #if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
+//		boost::recursive_mutex::scoped_lock l(mMutex);
 
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
@@ -437,7 +437,7 @@ namespace OgreOggSound
 			return;
 
 #if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
+//		boost::recursive_mutex::scoped_lock l(mMutex);
 
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
@@ -474,7 +474,7 @@ namespace OgreOggSound
 	void OgreOggStreamSound::stop()
 	{
 #if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
+//		boost::recursive_mutex::scoped_lock l(mMutex);
 
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
