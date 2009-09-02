@@ -304,7 +304,7 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	Ogre::Real OgreOggISound::getVolume()
+	Ogre::Real OgreOggISound::getVolume() const
 	{
 		Ogre::Real vol=0.f;
 		if(mSource != AL_NONE)
@@ -403,7 +403,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggISound::isPlaying()
+	bool OgreOggISound::isPlaying() const
 	{
 		if(mSource != AL_NONE)
 		{
@@ -418,7 +418,7 @@ namespace OgreOggSound
 		return mPlay;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggISound::isPaused()
+	bool OgreOggISound::isPaused() const
 	{
 		if(mSource != AL_NONE)
 		{
@@ -431,7 +431,7 @@ namespace OgreOggSound
 		return false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggISound::isStopped()
+	bool OgreOggISound::isStopped() const
 	{
 		if(mSource != AL_NONE)
 		{

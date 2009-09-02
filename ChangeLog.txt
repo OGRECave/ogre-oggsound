@@ -1,3 +1,18 @@
+* version 1.1
+
+	* Interface breaking changes made:
+		* Sound control is handled ONLY through manager class
+			* OgreOggISound::play() acces removed use OgreOggSoundManager::playSound() 
+			* OgreOggISound::stop() access removed use OgreOggSoundManager::stopSOund()
+			* OgreOggISound::pause() access removed use OgreOggSoundManager::pauseSOund()
+			* OgreOggISound::startFade() access removed use OgreOggSoundManager::startSoundFade()
+		* OgreOggISound functions allow ONLY property setting/querying.
+	
+	* Fixed bug casuing pauses in multi-threaded mode when playing/stopping/pausing sounds.
+	
+	* Added startSoundFade() to OgreOggSoundManager.
+
+
 * version 1.09
 
 	* Added OGRE memory allocation tracking.

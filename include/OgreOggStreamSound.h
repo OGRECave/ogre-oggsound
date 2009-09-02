@@ -36,7 +36,7 @@ namespace OgreOggSound
 	class _OGGSOUND_EXPORT OgreOggStreamSound : public OgreOggISound
 	{
 
-	public:	
+	protected:	
 
 		/** Opens audio file.
 		@remarks
@@ -82,9 +82,6 @@ namespace OgreOggSound
 			Play position in seconds 
 		 */
 		void setPlayPosition(Ogre::Real seconds);	
-
-	protected:
-
 		/** Constructor
 		@remarks
 			Creates a streamed sound object for playing audio directly from
@@ -135,9 +132,6 @@ namespace OgreOggSound
 			the thread locked update function instead of 'immediate mode' for static sounds.
 		 */
 		void _updatePlayPosition();		
-
-	private:
-
 		/** Releases buffers and OpenAL objects.
 		@remarks
 			Cleans up this sounds OpenAL objects, including buffers

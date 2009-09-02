@@ -37,7 +37,17 @@ namespace OgreOggSound
 	class _OGGSOUND_EXPORT OgreOggStaticWavSound : public OgreOggISound
 	{
 
-	public:	
+	public:
+
+		/** Sets the loop status.
+		@remarks
+			Immediately sets the loop status if a source is associated
+			@param
+				loop true=loop
+		 */
+		void loop(bool loop);
+
+	protected:	
 
 		/** Opens audio file.
 		@remarks
@@ -85,16 +95,6 @@ namespace OgreOggSound
 			within this call.
 		 */
 		void play();	
-		/** Sets the loop status.
-		@remarks
-			Immediately sets the loop status if a source is associated
-			@param
-				loop true=loop
-		 */
-		void loop(bool loop);
-
-	protected:	
-
 		/**
 		 * Constructor
 		 */
@@ -120,9 +120,6 @@ namespace OgreOggSound
 			sound properties.
 		 */
 		bool _queryBufferInfo();		
-
-	private:
-
 		/** Releases buffers and OpenAL objects.
 		@remarks
 			Cleans up this sounds OpenAL objects, including buffers

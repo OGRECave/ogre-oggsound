@@ -1493,22 +1493,25 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::playSound(const String& sName)
 	{
-/*	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-*/
 		OgreOggISound* sound = 0;
 
 		if ( sound = getSound(sName) )
 			sound->play();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::fadeSound(const Ogre::String& sName, bool dir, Ogre::Real fTime, FadeControl actionOnComplete)
+	{
+		if (mActiveSounds.empty()) return;
+
+		OgreOggISound* sound = 0;
+
+		if ( sound = getSound(sName) )
+			sound->startFade(dir, fTime, actionOnComplete);
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::stopSound(const String& sName)
 	{
-/*	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-*/
 		if (mActiveSounds.empty()) return;
 
 		OgreOggISound* sound = 0;
@@ -1519,10 +1522,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::pauseSound(const String& sName)
 	{
-/*	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-*/
 		if (mActiveSounds.empty()) return;
 
 		OgreOggISound* sound = 0;
