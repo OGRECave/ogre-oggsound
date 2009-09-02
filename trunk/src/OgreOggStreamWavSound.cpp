@@ -555,7 +555,6 @@ namespace OgreOggSound
 	void OgreOggStreamWavSound::pause()
 	{
 #if OGGSOUND_THREADED
-//		boost::recursive_mutex::scoped_lock l(mMutex);
 
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
@@ -583,7 +582,6 @@ namespace OgreOggSound
 		if(isPlaying())	return;
 
 #if OGGSOUND_THREADED
-//		boost::recursive_mutex::scoped_lock l(mMutex);
 
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so
@@ -663,7 +661,6 @@ namespace OgreOggSound
 	void OgreOggStreamWavSound::stop()
 	{
 #if OGGSOUND_THREADED
-//		boost::recursive_mutex::scoped_lock l(mMutex);
 
 		// If threaded it may be possible that a sound is trying to be played
 		// before its actually been opened by the thread, if so mark it so

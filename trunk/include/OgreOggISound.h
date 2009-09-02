@@ -25,10 +25,6 @@
 #include <vorbis/vorbisfile.h>
 #include "OgreOggSoundCallback.h"
 	
-#if OGGSOUND_THREADED
-#	include <boost/thread/recursive_mutex.hpp>
-#endif
-
 /**
  * Number of buffers to use for streaming
  */
@@ -418,9 +414,6 @@ namespace OgreOggSound
 				actionOnCompletion Optional action to perform when fading has finished (default: NONE)
 		*/
 		void startFade(bool dir, Ogre::Real fadeTime, FadeControl actionOnCompletion=OgreOggSound::FC_NONE);
-#if OGGSOUND_THREADED
-		boost::recursive_mutex mMutex;
-#endif
 		/** Superclass describing a single sound object.
 		 */
 		OgreOggISound(const Ogre::String& name, bool seekSupport=false);
