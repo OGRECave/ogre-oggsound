@@ -590,11 +590,11 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound* OgreOggSoundManager::getSound(const std::string& name)
 	{
-
+/*
 #if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 #endif
-
+*/
 		SoundMap::iterator i = mSoundMap.find(name);
 		if(i == mSoundMap.end()) return 0;
 		return i->second;
@@ -1438,11 +1438,11 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::hasSound(const std::string& name)
 	{
-
+/*
 	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
-
+*/
 		SoundMap::iterator i = mSoundMap.find(name);
 		if(i == mSoundMap.end()) return false; return true;
 	}
@@ -1493,10 +1493,10 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::playSound(const String& sName)
 	{
-	#if OGGSOUND_THREADED
+/*	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
-
+*/
 		OgreOggISound* sound = 0;
 
 		if ( sound = getSound(sName) )
@@ -1505,10 +1505,10 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::stopSound(const String& sName)
 	{
-	#if OGGSOUND_THREADED
+/*	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
-
+*/
 		if (mActiveSounds.empty()) return;
 
 		OgreOggISound* sound = 0;
@@ -1519,10 +1519,10 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::pauseSound(const String& sName)
 	{
-	#if OGGSOUND_THREADED
+/*	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
-
+*/
 		if (mActiveSounds.empty()) return;
 
 		OgreOggISound* sound = 0;
@@ -1566,7 +1566,7 @@ namespace OgreOggSound
 
 		for (ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
 		{
-			if ( (*iter)->isPlaying() )
+			if ( (*iter)->isPlaying() && !(*iter)->isPaused() )
 			{
 				// Pause sound
 				(*iter)->pause();
