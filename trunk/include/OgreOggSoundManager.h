@@ -191,18 +191,25 @@ namespace OgreOggSound
 		void playSound(const Ogre::String& sName);
 		/** Pauses a sound.
 		@remarks
-			NOTE:- it is essential this function is used to play a sound when using BOOST Threads.
+			NOTE:- it is essential this function is used to pause a sound when using BOOST Threads.
 			Accessing a sound directly and calling its functions by-passes the thread mutex and causes
 			audio artefacts and memory curruption. (Non multi-threaded does not have this problem.)
 		 */
 		void pauseSound(const Ogre::String& sName);
 		/** Stops a sound.
 		@remarks
-			NOTE:- it is essential this function is used to play a sound when using BOOST Threads.
+			NOTE:- it is essential this function is used to stop a sound when using BOOST Threads.
 			Accessing a sound directly and calling its functions by-passes the thread mutex and causes
 			audio artefacts and memory curruption. (Non multi-threaded does not have this problem.)
 		 */
 		void stopSound(const Ogre::String& sName);
+		/** Fades a sound.
+		@remarks
+			NOTE:- it is essential this function is used to fade a sound when using BOOST Threads.
+			Accessing a sound directly and calling its functions by-passes the thread mutex and causes
+			audio artefacts and memory curruption. (Non multi-threaded does not have this problem.)
+		 */
+		void fadeSound(const Ogre::String& sName, bool dir, Ogre::Real fTime, FadeControl actionOnComplete);
 		/** Stops all currently playing sounds.
 		 */
 		void stopAllSounds();

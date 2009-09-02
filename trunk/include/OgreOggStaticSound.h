@@ -37,7 +37,26 @@ namespace OgreOggSound
 	class _OGGSOUND_EXPORT OgreOggStaticSound : public OgreOggISound
 	{
 
-	public:	
+	public:
+
+		/** Sets the loop status.
+		@remarks
+			Immediately sets the loop status if a source is associated
+			@param
+				loop true=loop
+		 */
+		void loop(bool loop);
+
+	protected:	
+
+		/**
+		 * Constructor
+		 */
+		OgreOggStaticSound(const Ogre::String& name);
+		/**
+		 * Destructor
+		 */
+		~OgreOggStaticSound();
 
 		/** Opens audio file.
 		@remarks
@@ -84,25 +103,7 @@ namespace OgreOggSound
 			source hasn't been setup yet it is requested and initialised
 			within this call.
 		 */
-		void play();	
-		/** Sets the loop status.
-		@remarks
-			Immediately sets the loop status if a source is associated
-			@param
-				loop true=loop
-		 */
-		void loop(bool loop);
-
-	protected:	
-
-		/**
-		 * Constructor
-		 */
-		OgreOggStaticSound(const Ogre::String& name);
-		/**
-		 * Destructor
-		 */
-		~OgreOggStaticSound();
+		void play();
 		/** Updates the data buffers with sound information.
 		@remarks
 			This function refills processed buffers with audio data from
@@ -120,9 +121,6 @@ namespace OgreOggSound
 			sound properties.
 		 */
 		bool _queryBufferInfo();		
-
-	private:
-
 		/** Releases buffers and OpenAL objects.
 		@remarks
 			Cleans up this sounds OpenAL objects, including buffers

@@ -61,6 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/NODEFAULTLIB:LIBCMT&#x0D;&#x0A;"
 				AdditionalDependencies="efx-util.lib OpenAL32.lib vorbis_static_d.lib vorbisfile_static_d.lib ogg_static_d.lib OgreMain_d.lib "
 				OutputFile="$(OutDir)\$(ProjectName)_d.dll"
 				AdditionalLibraryDirectories="&quot;$(OPENAL_SDK)\libs\Win32&quot;;.\ogg\win32\Static_Debug;.\vorbis\win32\Vorbis_Static_Debug;.\vorbis\win32\VorbisFile_Static_Debug;&quot;$(OGRE_HOME)\lib&quot;;&quot;$(BOOST_ROOT)/lib&quot;"

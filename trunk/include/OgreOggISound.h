@@ -84,37 +84,6 @@ namespace OgreOggSound
 	{
 
 	public:
-
-		/** Opens audio file.
-		@remarks
-			Abstract function
-		 */
-		virtual void open(Ogre::DataStreamPtr& fileStream) = 0;
-		/** Opens audio file.
-		@remarks
-			Optional opening function for (Static sounds only)
-		 */
-		virtual void open(const Ogre::String& fName, ALuint& buffer) {};
-		/** Sets the source object for playback.
-		@remarks
-			Abstract function
-		 */
-		virtual void setSource(ALuint& src) = 0;
-		/** Plays sound.
-		@remarks
-			Abstract function
-		 */
-		virtual void play() = 0;
-		/** Pauses sound.
-		@remarks
-			Abstract function
-		 */
-		virtual void pause() = 0;
-		/** Stops sound.
-		@remarks
-			Abstract function
-		 */
-		virtual void stop() = 0;
 		/** Sets looping status.
 		@remarks
 			Abstract function
@@ -126,22 +95,22 @@ namespace OgreOggSound
 		@remarks
 			Checks source state for AL_PLAYING
 		 */
-		bool isPlaying();
+		bool isPlaying() const;
 		/** Returns pause status.
 		@remarks
 			Checks source state for AL_PAUSED
 		 */
-		bool isPaused();
+		bool isPaused() const;
 		/** Returns stop status.
 		@remarks
 			Checks source state for AL_STOPPED
 		 */
-		bool isStopped();
+		bool isStopped() const;
 		/** Returns position status.
 		@remarks
 			Returns whether position is local to listener or in world-space
 		 */
-		bool isRelativeToListener() { return mSourceRelative; }
+		bool isRelativeToListener() const { return mSourceRelative; }
 		/** Sets whether source is given up when stopped.
 		@remarks
 			This flag indicates that the sound should immediately give up its source if finished playing
@@ -192,7 +161,7 @@ namespace OgreOggSound
 		@remarks
 			Gets the current gain value.
 		 */
-		Ogre::Real getVolume();
+		Ogre::Real getVolume() const;
 		/** Sets sounds maximum attenuation volume
 		@remarks
 			This value sets the maximum volume level of the sound when closest 
@@ -268,25 +237,13 @@ namespace OgreOggSound
 		void setRelativeToListener(bool relative);
 		/** Gets sounds position
 		*/
-		Ogre::Vector3& getPosition(){return mPosition;};
+		const Ogre::Vector3& getPosition() const {return mPosition;}
 		/** Gets the sounds direction
 		 */
-		Ogre::Vector3& getDirection(){return mDirection;};
-		/** Starts a fade in/out of the sound volume
-		@remarks
-			Triggers a fade in/out of the sounds volume over time.
-
-			@param
-				dir Direction to fade. (true=in | false=out)
-			@param
-				fadeTime Time over which to fade (>0)
-			@param
-				actionOnCompletion Optional action to perform when fading has finished (default: NONE)
-		*/
-		void startFade(bool dir, Ogre::Real fadeTime, FadeControl actionOnCompletion=OgreOggSound::FC_NONE);
+		const Ogre::Vector3& getDirection() const {return mDirection;}
 		/** Returns fade status.
 		 */
-		bool isFading() { return mFade; }
+		bool isFading() const { return mFade; }
 		/** Updates sund
 		@remarks
 			Updates sounds position, buffers and state
@@ -296,13 +253,13 @@ namespace OgreOggSound
 		virtual void update(Ogre::Real fTime);
 		/** Gets the sounds source
 		 */
-		ALuint getSource() { return mSource; }
+		ALuint getSource() const { return mSource; }
 		/** Gets the sounds name
 		 */
 		const Ogre::String& getName( void ) const { return mName; }
 		/** Gets the sounds priority
 		 */
-		Ogre::uint8 getPriority() { return mPriority; }
+		Ogre::uint8 getPriority() const { return mPriority; }
 		/** Sets the sounds priority
 		@remarks
 			This can be used to specify a priority to the sound which
@@ -338,16 +295,11 @@ namespace OgreOggSound
 		/** Returns number of cue points
 		 */
 		unsigned int getNumCuePoints() { return static_cast<int>(mCuePoints.size()); }
-		/** Sets the position of the playback cursor in seconds
-		@param seconds
-			Play position in seconds 
-		 */
-		virtual void setPlayPosition(Ogre::Real seconds);
 		/** Gets the length of the audio file in seconds
 		@remarks
 			Only valid after file has been opened AND file is seekable.
 		 */
-		Ogre::Real getAudioLength() { return mPlayTime; }
+		Ogre::Real getAudioLength() const { return mPlayTime; }
 		/** Gets movable type string
 		@remarks
 			Overridden from MovableObject.
@@ -363,26 +315,6 @@ namespace OgreOggSound
 			Overridden from MovableObject.
 		 */
 		virtual Ogre::Real getBoundingRadius(void) const;
-		/** Updates RenderQueue
-		@remarks
-			Overridden from MovableObject.
-		 */
-		virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
-		/** Notifys object its been attached to a node
-		@remarks
-			Overridden from MovableObject.
-		 */
-		virtual void _notifyAttached(Ogre::Node* node, bool isTagPoint=false);
-		/** Notifys object its been moved
-		@remarks
-			Overridden from MovableObject.
-		 */
-		virtual void _notifyMoved(void);
-		/** Renderable callback
-		@remarks
-			Overridden function from MovableObject.
-		 */
-		virtual void visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables);
 		/** Sets a callback for when sound finishes playing 
 		@remarks
 			Allows custom functions to be notified when this sound finishes playing.
@@ -435,8 +367,86 @@ namespace OgreOggSound
 			This will only be set if the sound was created through the plugin method
 			createMovableobject().
 		*/
-		Ogre::SceneManager* getSceneManager() { return mScnMan; }
+		Ogre::SceneManager* getSceneManager() const { return mScnMan; }
 
+	protected:
+
+		/** Opens audio file.
+		@remarks
+			Abstract function
+		 */
+		virtual void open(Ogre::DataStreamPtr& fileStream) = 0;
+		/** Opens audio file.
+		@remarks
+			Optional opening function for (Static sounds only)
+		 */
+		virtual void open(const Ogre::String& fName, ALuint& buffer) {};
+		/** Sets the source object for playback.
+		@remarks
+			Abstract function
+		 */
+		virtual void setSource(ALuint& src) = 0;
+		/** Plays sound.
+		@remarks
+			Abstract function
+		 */
+		virtual void play() = 0;
+		/** Pauses sound.
+		@remarks
+			Abstract function
+		 */
+		virtual void pause() = 0;
+		/** Stops sound.
+		@remarks
+			Abstract function
+		 */
+		virtual void stop() = 0;
+		/** Release all OpenAL objects
+		@remarks
+			Cleans up buffers and prepares sound for destruction.
+		 */
+		virtual void _release() = 0;
+		/** Starts a fade in/out of the sound volume
+		@remarks
+			Triggers a fade in/out of the sounds volume over time.
+
+			@param
+				dir Direction to fade. (true=in | false=out)
+			@param
+				fadeTime Time over which to fade (>0)
+			@param
+				actionOnCompletion Optional action to perform when fading has finished (default: NONE)
+		*/
+		void startFade(bool dir, Ogre::Real fadeTime, FadeControl actionOnCompletion=OgreOggSound::FC_NONE);
+#if OGGSOUND_THREADED
+		boost::recursive_mutex mMutex;
+#endif
+		/** Superclass describing a single sound object.
+		 */
+		OgreOggISound(const Ogre::String& name, bool seekSupport=false);
+		/** Superclass destructor.
+		 */
+		virtual ~OgreOggISound();
+		/** Updates RenderQueue
+		@remarks
+			Overridden from MovableObject.
+		 */
+		virtual void _updateRenderQueue(Ogre::RenderQueue *queue);
+		/** Notifys object its been attached to a node
+		@remarks
+			Overridden from MovableObject.
+		 */
+		virtual void _notifyAttached(Ogre::Node* node, bool isTagPoint=false);
+		/** Notifys object its been moved
+		@remarks
+			Overridden from MovableObject.
+		 */
+		virtual void _notifyMoved(void);
+		/** Renderable callback
+		@remarks
+			Overridden function from MovableObject.
+		 */
+		virtual void visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables);
 		/** Returns whether file stream is ready for access
 		@remarks
 			To prevent ov_open_callbacks() stalling the calling thread, the file opening is farmed 
@@ -445,31 +455,16 @@ namespace OgreOggSound
 		*/
 		bool _isFileReady() { return mFileOpened; }
 
-	private:
-	
-		/** Release all OpenAL objects
-		@remarks
-			Cleans up buffers and prepares sound for destruction.
-		 */
-		virtual void _release() = 0;
-
-	protected:
-
-#if OGGSOUND_THREADED
-		boost::recursive_mutex mMutex;
-#endif
-
-		/** Superclass describing a single sound object.
-		 */
-		OgreOggISound(const Ogre::String& name, bool seekSupport=false);
-		/** Superclass destructor.
-		 */
-		virtual ~OgreOggISound();
 		/** Inits source object
 		@remarks
 			Initialises all the source objects states ready for playback.
 		 */
 		void _initSource();
+		/** Sets the position of the playback cursor in seconds
+		@param seconds
+			Play position in seconds 
+		 */
+		virtual void setPlayPosition(Ogre::Real seconds);
 		/** Stores the current play position of the sound
 		@remarks
 			Only for static sounds at present so that when re-activated it begins 
