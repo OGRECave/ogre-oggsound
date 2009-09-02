@@ -54,9 +54,6 @@ namespace OgreOggSound
 		mCurrentXRamMode(0),
 		mRecorder(0),
 		mEAXVersion(0),
-		mFilterList(0),
-		mEffectList(0),
-		mEffectSlotList(0),
 		mDeviceStrings(0)
 		{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -1167,10 +1164,10 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	ALuint OgreOggSoundManager::_getEFXFilter(const std::string& fName)
 	{
-		if ( !mFilterList || !hasEFXSupport() || fName.empty() ) return AL_FILTER_NULL;
+		if ( mFilterList.empty() || !hasEFXSupport() || fName.empty() ) return AL_FILTER_NULL;
 
-		EffectList::iterator filter=mFilterList->find(fName);
-		if ( filter==mFilterList->end() )
+		EffectList::iterator filter=mFilterList.find(fName);
+		if ( filter==mFilterList.end() )
 			return AL_FILTER_NULL;
 		else
 			return filter->second;
@@ -1179,10 +1176,10 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	ALuint OgreOggSoundManager::_getEFXEffect(const std::string& eName)
 	{
-		if ( !mEffectList || !hasEFXSupport() || eName.empty() ) return AL_EFFECT_NULL;
+		if ( mEffectList.empty() || !hasEFXSupport() || eName.empty() ) return AL_EFFECT_NULL;
 
-		EffectList::iterator effect=mEffectList->find(eName);
-		if ( effect==mEffectList->end() )
+		EffectList::iterator effect=mEffectList.find(eName);
+		if ( effect==mEffectList.end() )
 			return AL_EFFECT_NULL;
 		else
 			return effect->second;
@@ -1191,9 +1188,9 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	ALuint OgreOggSoundManager::_getEFXSlot(int slotID)
 	{
-		if ( !mEffectSlotList || !hasEFXSupport() || (slotID>=static_cast<int>(mEffectSlotList->size())) ) return AL_NONE;
+		if ( mEffectSlotList.empty() || !hasEFXSupport() || (slotID>=static_cast<int>(mEffectSlotList.size())) ) return AL_NONE;
 
-		return static_cast<ALuint>((*mEffectSlotList)[slotID]);
+		return static_cast<ALuint>(mEffectSlotList[slotID]);
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1227,9 +1224,7 @@ namespace OgreOggSound
 				// Set properties
 				alFilterf(filter, AL_LOWPASS_GAIN, gain);
 				alFilterf(filter, AL_LOWPASS_GAINHF, hfGain);
-
-				if ( !mFilterList ) mFilterList = OGRE_NEW_T(EffectList, Ogre::MEMCATEGORY_GENERAL);
-				(*mFilterList)[fName]=filter;
+				mFilterList[fName]=filter;
 			}
 		}
 		return true;
@@ -1272,8 +1267,7 @@ namespace OgreOggSound
 				}
 
 				// Add to list
-				if ( !mEffectList ) mEffectList = OGRE_NEW_T(EffectList, Ogre::MEMCATEGORY_GENERAL);
-				(*mEffectList)[eName]=effect;
+				mEffectList[eName]=effect;
 			}
 		}
 		return true;
@@ -1298,8 +1292,7 @@ namespace OgreOggSound
 		}
 		else
 		{
-			if ( !mEffectSlotList ) mEffectSlotList = OGRE_NEW_T(SourceList, Ogre::MEMCATEGORY_GENERAL);
-			mEffectSlotList->push_back(slot);
+			mEffectSlotList.push_back(slot);
 		}
 
 		return true;
@@ -1319,9 +1312,9 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	int OgreOggSoundManager::getNumberOfCreatedEffectSlots()
 	{
-		if ( !mEffectSlotList ) return 0;
+		if ( mEffectSlotList.empty() ) return 0;
 
-		return static_cast<int>(mEffectSlotList->size());
+		return static_cast<int>(mEffectSlotList.size());
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1916,34 +1909,28 @@ namespace OgreOggSound
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// clear EFX effect lists
-		if ( mFilterList )
+		if ( !mFilterList.empty() )
 		{
-			EffectList::iterator iter=mFilterList->begin();
-			for ( ; iter!=mFilterList->end(); ++iter )
+			EffectList::iterator iter=mFilterList.begin();
+			for ( ; iter!=mFilterList.end(); ++iter )
 			    alDeleteEffects( 1, &iter->second);
-			mFilterList->clear();
-			OGRE_DELETE_T(mFilterList, EffectList, Ogre::MEMCATEGORY_GENERAL);
-			mFilterList=0;
+			mFilterList.clear();
 		}
 
-		if ( mEffectList )
+		if ( !mEffectList.empty() )
 		{
-			EffectList::iterator iter=mEffectList->begin();
-			for ( ; iter!=mEffectList->end(); ++iter )
+			EffectList::iterator iter=mEffectList.begin();
+			for ( ; iter!=mEffectList.end(); ++iter )
 			    alDeleteEffects( 1, &iter->second);
-			mEffectList->clear();
-			OGRE_DELETE_T(mEffectList, EffectList, Ogre::MEMCATEGORY_GENERAL);
-			mEffectList=0;
+			mEffectList.clear();
 		}
 
-		if ( mEffectSlotList )
+		if ( !mEffectSlotList.empty() )
 		{
-			SourceList::iterator iter=mEffectSlotList->begin();
-			for ( ; iter!=mEffectSlotList->end(); ++iter )
+			SourceList::iterator iter=mEffectSlotList.begin();
+			for ( ; iter!=mEffectSlotList.end(); ++iter )
 			    alDeleteEffects( 1, &(*iter));
-			mEffectSlotList->clear();
-			OGRE_DELETE_T(mEffectSlotList, SourceList, Ogre::MEMCATEGORY_GENERAL);
-			mEffectSlotList=0;
+			mEffectSlotList.clear();
 		}
 #endif
 	}
