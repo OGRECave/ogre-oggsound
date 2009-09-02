@@ -756,9 +756,9 @@ namespace OgreOggSound
 
 		bool mXRamSupport;
 
-		EffectList* mFilterList;				// List of EFX filters
-		EffectList* mEffectList;				// List of EFX effects
-		std::vector<ALuint>* mEffectSlotList;	// List of EFX effect slots
+		EffectList mFilterList;					// List of EFX filters
+		EffectList mEffectList;					// List of EFX effects
+		std::vector<ALuint> mEffectSlotList;	// List of EFX effect slots
 
 		ALint mNumEffectSlots;					// Number of effect slots available
 		ALint mNumSendsPerSource;				// Number of aux sends per source
