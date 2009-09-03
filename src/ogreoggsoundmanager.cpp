@@ -1511,6 +1511,16 @@ namespace OgreOggSound
 			sound->stop();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::setSoundCurrentTime(const String& sName, Real time)
+	{
+		if (mActiveSounds.empty()) return;
+
+		OgreOggISound* sound = 0;
+
+		if ( sound = getSound(sName) )
+			sound->setPlayPosition(time);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::pauseSound(const String& sName)
 	{
 		if (mActiveSounds.empty()) return;
