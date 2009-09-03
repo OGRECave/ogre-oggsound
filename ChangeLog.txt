@@ -10,7 +10,9 @@
 	
 	* Fixed bug casuing pauses in multi-threaded mode when playing/stopping/pausing sounds.
 	
-	* Added startSoundFade() to OgreOggSoundManager.
+	* Added fadeSound() to OgreOggSoundManager.
+
+	* Added setSoundCurrentTime() to OgreOggSoundManager.
 
 
 * version 1.09
