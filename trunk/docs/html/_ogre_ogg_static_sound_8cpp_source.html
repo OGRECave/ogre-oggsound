@@ -286,149 +286,146 @@
 <a name="l00261"></a>00261 <span class="comment">        void OgreOggStaticSound::pause()</span>
 <a name="l00262"></a>00262 <span class="comment">        {</span>
 <a name="l00263"></a>00263 <span class="comment">#if OGGSOUND_THREADED</span>
-<a name="l00264"></a>00264 <span class="comment">//              boost::recursive_mutex::scoped_lock l(mMutex);</span>
-<a name="l00265"></a>00265 <span class="comment"></span>
-<a name="l00266"></a>00266 <span class="comment">                // If threaded it may be possible that a sound is trying to be played</span>
-<a name="l00267"></a>00267 <span class="comment">                // before its actually been opened by the thread, if so mark it so</span>
-<a name="l00268"></a>00268 <span class="comment">                // that it can be automatically played when ready.</span>
-<a name="l00269"></a>00269 <span class="comment">                if (!mFileOpened)</span>
-<a name="l00270"></a>00270 <span class="comment">                {</span>
-<a name="l00271"></a>00271 <span class="comment">                        if ( !mPauseDelayed )</span>
-<a name="l00272"></a>00272 <span class="comment">                        {</span>
-<a name="l00273"></a>00273 <span class="comment">                                mPauseDelayed = true;</span>
-<a name="l00274"></a>00274 <span class="comment">                                // Register this sound with the manager so it can be polled to play when ready</span>
-<a name="l00275"></a>00275 <span class="comment">                                OgreOggSoundManager::getSingletonPtr()-&gt;queueDelayedSound(this, DA_PAUSE);</span>
-<a name="l00276"></a>00276 <span class="comment">                        }</span>
-<a name="l00277"></a>00277 <span class="comment">                        return;</span>
-<a name="l00278"></a>00278 <span class="comment">                }</span>
-<a name="l00279"></a>00279 <span class="comment">#endif</span>
-<a name="l00280"></a>00280 <span class="comment"></span>
-<a name="l00281"></a>00281 <span class="comment">                if ( mSource==AL_NONE ) return;</span>
-<a name="l00282"></a>00282 <span class="comment"></span>
-<a name="l00283"></a>00283 <span class="comment">                alSourcePause(mSource);</span>
-<a name="l00284"></a>00284 <span class="comment"></span>
-<a name="l00285"></a>00285 <span class="comment">                mPauseDelayed=false;</span>
-<a name="l00286"></a>00286 <span class="comment">        }</span>
-<a name="l00287"></a>00287 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l00288"></a>00288 <span class="comment">        void OgreOggStaticSound::play()</span>
-<a name="l00289"></a>00289 <span class="comment">        {</span>
-<a name="l00290"></a>00290 <span class="comment">                if(isPlaying())</span>
-<a name="l00291"></a>00291 <span class="comment">                        return;</span>
-<a name="l00292"></a>00292 <span class="comment"></span>
-<a name="l00293"></a>00293 <span class="comment">#if OGGSOUND_THREADED</span>
-<a name="l00294"></a>00294 <span class="comment">//              boost::recursive_mutex::scoped_lock l(mMutex);</span>
-<a name="l00295"></a>00295 <span class="comment"></span>
-<a name="l00296"></a>00296 <span class="comment">                // If threaded it may be possible that a sound is trying to be played</span>
-<a name="l00297"></a>00297 <span class="comment">                // before its actually been opened by the thread, if so mark it so</span>
-<a name="l00298"></a>00298 <span class="comment">                // that it can be automatically played when ready.</span>
-<a name="l00299"></a>00299 <span class="comment">                if (!mFileOpened)</span>
-<a name="l00300"></a>00300 <span class="comment">                {</span>
-<a name="l00301"></a>00301 <span class="comment">                        if ( !mPlayDelayed )</span>
-<a name="l00302"></a>00302 <span class="comment">                        {</span>
-<a name="l00303"></a>00303 <span class="comment">                                mPlayDelayed = true;</span>
-<a name="l00304"></a>00304 <span class="comment">                                // Register this sound with the manager so it can be polled to play when ready</span>
-<a name="l00305"></a>00305 <span class="comment">                                OgreOggSoundManager::getSingletonPtr()-&gt;queueDelayedSound(this, DA_PLAY);</span>
-<a name="l00306"></a>00306 <span class="comment">                        }</span>
-<a name="l00307"></a>00307 <span class="comment">                        return;</span>
-<a name="l00308"></a>00308 <span class="comment">                }</span>
-<a name="l00309"></a>00309 <span class="comment">#endif</span>
-<a name="l00310"></a>00310 <span class="comment"></span>
-<a name="l00311"></a>00311 <span class="comment">                if (mSource == AL_NONE)</span>
-<a name="l00312"></a>00312 <span class="comment">                        if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )</span>
-<a name="l00313"></a>00313 <span class="comment">                                return;</span>
-<a name="l00314"></a>00314 <span class="comment"></span>
-<a name="l00315"></a>00315 <span class="comment">                // Pick up playback position change..</span>
-<a name="l00316"></a>00316 <span class="comment">                if ( mPlayPosChanged )</span>
-<a name="l00317"></a>00317 <span class="comment">                        setPlayPosition(mPlayPos);</span>
-<a name="l00318"></a>00318 <span class="comment"></span>
-<a name="l00319"></a>00319 <span class="comment">                alSourcePlay(mSource);</span>
-<a name="l00320"></a>00320 <span class="comment">                mPlay = true;</span>
-<a name="l00321"></a>00321 <span class="comment">                mPlayDelayed=false;</span>
-<a name="l00322"></a>00322 <span class="comment">        }</span>
-<a name="l00323"></a>00323 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l00324"></a>00324 <span class="comment">        void OgreOggStaticSound::stop()</span>
-<a name="l00325"></a>00325 <span class="comment">        {</span>
-<a name="l00326"></a>00326 <span class="comment">#if OGGSOUND_THREADED</span>
-<a name="l00327"></a>00327 <span class="comment">//              boost::recursive_mutex::scoped_lock l(mMutex);</span>
-<a name="l00328"></a>00328 <span class="comment"></span>
-<a name="l00329"></a>00329 <span class="comment">                // If threaded it may be possible that a sound is trying to be played</span>
-<a name="l00330"></a>00330 <span class="comment">                // before its actually been opened by the thread, if so mark it so</span>
-<a name="l00331"></a>00331 <span class="comment">                // that it can be automatically played when ready.</span>
-<a name="l00332"></a>00332 <span class="comment">                if (!mFileOpened)</span>
-<a name="l00333"></a>00333 <span class="comment">                {</span>
-<a name="l00334"></a>00334 <span class="comment">                        if ( !mPlayDelayed )</span>
-<a name="l00335"></a>00335 <span class="comment">                        {</span>
-<a name="l00336"></a>00336 <span class="comment">                                mPlayDelayed = true;</span>
-<a name="l00337"></a>00337 <span class="comment">                                // Register this sound with the manager so it can be polled to play when ready</span>
-<a name="l00338"></a>00338 <span class="comment">                                OgreOggSoundManager::getSingletonPtr()-&gt;queueDelayedSound(this, DA_PLAY);</span>
-<a name="l00339"></a>00339 <span class="comment">                        }</span>
-<a name="l00340"></a>00340 <span class="comment">                        return;</span>
-<a name="l00341"></a>00341 <span class="comment">                }</span>
-<a name="l00342"></a>00342 <span class="comment">#endif</span>
-<a name="l00343"></a>00343 <span class="comment"></span>
-<a name="l00344"></a>00344 <span class="comment">                if ( mSource==AL_NONE ) return;</span>
-<a name="l00345"></a>00345 <span class="comment"></span>
-<a name="l00346"></a>00346 <span class="comment">                alSourceStop(mSource);</span>
-<a name="l00347"></a>00347 <span class="comment">                alSourceRewind(mSource);</span>
-<a name="l00348"></a>00348 <span class="comment">                mPlay=false;</span>
-<a name="l00349"></a>00349 <span class="comment">                mPreviousOffset=0;</span>
-<a name="l00350"></a>00350 <span class="comment">                mStopDelayed=false;</span>
-<a name="l00351"></a>00351 <span class="comment"></span>
-<a name="l00352"></a>00352 <span class="comment">                // Give up source immediately if specfied</span>
-<a name="l00353"></a>00353 <span class="comment">                if (mGiveUpSource) </span>
-<a name="l00354"></a>00354 <span class="comment">                        OgreOggSoundManager::getSingleton().releaseSoundSource(this);</span>
-<a name="l00355"></a>00355 <span class="comment">        }</span>
-<a name="l00356"></a>00356 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l00357"></a>00357 <span class="comment">        void OgreOggStaticSound::loop(bool loop)</span>
-<a name="l00358"></a>00358 <span class="comment">        {</span>
-<a name="l00359"></a>00359 <span class="comment">                OgreOggISound::loop(loop);</span>
-<a name="l00360"></a>00360 <span class="comment"></span>
-<a name="l00361"></a>00361 <span class="comment">                if(mSource != AL_NONE)</span>
-<a name="l00362"></a>00362 <span class="comment">                {</span>
-<a name="l00363"></a>00363 <span class="comment">                        alSourcei(mSource,AL_LOOPING, loop);</span>
-<a name="l00364"></a>00364 <span class="comment">                }</span>
-<a name="l00365"></a>00365 <span class="comment">        }</span>
-<a name="l00366"></a>00366 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l00367"></a>00367 <span class="comment">        void OgreOggStaticSound::_updateAudioBuffers()</span>
-<a name="l00368"></a>00368 <span class="comment">        {</span>
-<a name="l00369"></a>00369 <span class="comment">                // Automatically play if ready.</span>
-<a name="l00370"></a>00370 <span class="comment">                if (mPlayDelayed)</span>
-<a name="l00371"></a>00371 <span class="comment">                        play();</span>
+<a name="l00264"></a>00264 <span class="comment"></span>
+<a name="l00265"></a>00265 <span class="comment">                // If threaded it may be possible that a sound is trying to be played</span>
+<a name="l00266"></a>00266 <span class="comment">                // before its actually been opened by the thread, if so mark it so</span>
+<a name="l00267"></a>00267 <span class="comment">                // that it can be automatically played when ready.</span>
+<a name="l00268"></a>00268 <span class="comment">                if (!mFileOpened)</span>
+<a name="l00269"></a>00269 <span class="comment">                {</span>
+<a name="l00270"></a>00270 <span class="comment">                        if ( !mPauseDelayed )</span>
+<a name="l00271"></a>00271 <span class="comment">                        {</span>
+<a name="l00272"></a>00272 <span class="comment">                                mPauseDelayed = true;</span>
+<a name="l00273"></a>00273 <span class="comment">                                // Register this sound with the manager so it can be polled to play when ready</span>
+<a name="l00274"></a>00274 <span class="comment">                                OgreOggSoundManager::getSingletonPtr()-&gt;queueDelayedSound(this, DA_PAUSE);</span>
+<a name="l00275"></a>00275 <span class="comment">                        }</span>
+<a name="l00276"></a>00276 <span class="comment">                        return;</span>
+<a name="l00277"></a>00277 <span class="comment">                }</span>
+<a name="l00278"></a>00278 <span class="comment">#endif</span>
+<a name="l00279"></a>00279 <span class="comment"></span>
+<a name="l00280"></a>00280 <span class="comment">                if ( mSource==AL_NONE ) return;</span>
+<a name="l00281"></a>00281 <span class="comment"></span>
+<a name="l00282"></a>00282 <span class="comment">                alSourcePause(mSource);</span>
+<a name="l00283"></a>00283 <span class="comment"></span>
+<a name="l00284"></a>00284 <span class="comment">                mPauseDelayed=false;</span>
+<a name="l00285"></a>00285 <span class="comment">        }</span>
+<a name="l00286"></a>00286 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l00287"></a>00287 <span class="comment">        void OgreOggStaticSound::play()</span>
+<a name="l00288"></a>00288 <span class="comment">        {</span>
+<a name="l00289"></a>00289 <span class="comment">                if(isPlaying())</span>
+<a name="l00290"></a>00290 <span class="comment">                        return;</span>
+<a name="l00291"></a>00291 <span class="comment"></span>
+<a name="l00292"></a>00292 <span class="comment">#if OGGSOUND_THREADED</span>
+<a name="l00293"></a>00293 <span class="comment"></span>
+<a name="l00294"></a>00294 <span class="comment">                // If threaded it may be possible that a sound is trying to be played</span>
+<a name="l00295"></a>00295 <span class="comment">                // before its actually been opened by the thread, if so mark it so</span>
+<a name="l00296"></a>00296 <span class="comment">                // that it can be automatically played when ready.</span>
+<a name="l00297"></a>00297 <span class="comment">                if (!mFileOpened)</span>
+<a name="l00298"></a>00298 <span class="comment">                {</span>
+<a name="l00299"></a>00299 <span class="comment">                        if ( !mPlayDelayed )</span>
+<a name="l00300"></a>00300 <span class="comment">                        {</span>
+<a name="l00301"></a>00301 <span class="comment">                                mPlayDelayed = true;</span>
+<a name="l00302"></a>00302 <span class="comment">                                // Register this sound with the manager so it can be polled to play when ready</span>
+<a name="l00303"></a>00303 <span class="comment">                                OgreOggSoundManager::getSingletonPtr()-&gt;queueDelayedSound(this, DA_PLAY);</span>
+<a name="l00304"></a>00304 <span class="comment">                        }</span>
+<a name="l00305"></a>00305 <span class="comment">                        return;</span>
+<a name="l00306"></a>00306 <span class="comment">                }</span>
+<a name="l00307"></a>00307 <span class="comment">#endif</span>
+<a name="l00308"></a>00308 <span class="comment"></span>
+<a name="l00309"></a>00309 <span class="comment">                if (mSource == AL_NONE)</span>
+<a name="l00310"></a>00310 <span class="comment">                        if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )</span>
+<a name="l00311"></a>00311 <span class="comment">                                return;</span>
+<a name="l00312"></a>00312 <span class="comment"></span>
+<a name="l00313"></a>00313 <span class="comment">                // Pick up playback position change..</span>
+<a name="l00314"></a>00314 <span class="comment">                if ( mPlayPosChanged )</span>
+<a name="l00315"></a>00315 <span class="comment">                        setPlayPosition(mPlayPos);</span>
+<a name="l00316"></a>00316 <span class="comment"></span>
+<a name="l00317"></a>00317 <span class="comment">                alSourcePlay(mSource);</span>
+<a name="l00318"></a>00318 <span class="comment">                mPlay = true;</span>
+<a name="l00319"></a>00319 <span class="comment">                mPlayDelayed=false;</span>
+<a name="l00320"></a>00320 <span class="comment">        }</span>
+<a name="l00321"></a>00321 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l00322"></a>00322 <span class="comment">        void OgreOggStaticSound::stop()</span>
+<a name="l00323"></a>00323 <span class="comment">        {</span>
+<a name="l00324"></a>00324 <span class="comment">#if OGGSOUND_THREADED</span>
+<a name="l00325"></a>00325 <span class="comment"></span>
+<a name="l00326"></a>00326 <span class="comment">                // If threaded it may be possible that a sound is trying to be played</span>
+<a name="l00327"></a>00327 <span class="comment">                // before its actually been opened by the thread, if so mark it so</span>
+<a name="l00328"></a>00328 <span class="comment">                // that it can be automatically played when ready.</span>
+<a name="l00329"></a>00329 <span class="comment">                if (!mFileOpened)</span>
+<a name="l00330"></a>00330 <span class="comment">                {</span>
+<a name="l00331"></a>00331 <span class="comment">                        if ( !mPlayDelayed )</span>
+<a name="l00332"></a>00332 <span class="comment">                        {</span>
+<a name="l00333"></a>00333 <span class="comment">                                mPlayDelayed = true;</span>
+<a name="l00334"></a>00334 <span class="comment">                                // Register this sound with the manager so it can be polled to play when ready</span>
+<a name="l00335"></a>00335 <span class="comment">                                OgreOggSoundManager::getSingletonPtr()-&gt;queueDelayedSound(this, DA_PLAY);</span>
+<a name="l00336"></a>00336 <span class="comment">                        }</span>
+<a name="l00337"></a>00337 <span class="comment">                        return;</span>
+<a name="l00338"></a>00338 <span class="comment">                }</span>
+<a name="l00339"></a>00339 <span class="comment">#endif</span>
+<a name="l00340"></a>00340 <span class="comment"></span>
+<a name="l00341"></a>00341 <span class="comment">                if ( mSource==AL_NONE ) return;</span>
+<a name="l00342"></a>00342 <span class="comment"></span>
+<a name="l00343"></a>00343 <span class="comment">                alSourceStop(mSource);</span>
+<a name="l00344"></a>00344 <span class="comment">                alSourceRewind(mSource);</span>
+<a name="l00345"></a>00345 <span class="comment">                mPlay=false;</span>
+<a name="l00346"></a>00346 <span class="comment">                mPreviousOffset=0;</span>
+<a name="l00347"></a>00347 <span class="comment">                mStopDelayed=false;</span>
+<a name="l00348"></a>00348 <span class="comment"></span>
+<a name="l00349"></a>00349 <span class="comment">                // Give up source immediately if specfied</span>
+<a name="l00350"></a>00350 <span class="comment">                if (mGiveUpSource) </span>
+<a name="l00351"></a>00351 <span class="comment">                        OgreOggSoundManager::getSingleton().releaseSoundSource(this);</span>
+<a name="l00352"></a>00352 <span class="comment">        }</span>
+<a name="l00353"></a>00353 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l00354"></a>00354 <span class="comment">        void OgreOggStaticSound::loop(bool loop)</span>
+<a name="l00355"></a>00355 <span class="comment">        {</span>
+<a name="l00356"></a>00356 <span class="comment">                OgreOggISound::loop(loop);</span>
+<a name="l00357"></a>00357 <span class="comment"></span>
+<a name="l00358"></a>00358 <span class="comment">                if(mSource != AL_NONE)</span>
+<a name="l00359"></a>00359 <span class="comment">                {</span>
+<a name="l00360"></a>00360 <span class="comment">                        alSourcei(mSource,AL_LOOPING, loop);</span>
+<a name="l00361"></a>00361 <span class="comment">                }</span>
+<a name="l00362"></a>00362 <span class="comment">        }</span>
+<a name="l00363"></a>00363 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l00364"></a>00364 <span class="comment">        void OgreOggStaticSound::_updateAudioBuffers()</span>
+<a name="l00365"></a>00365 <span class="comment">        {</span>
+<a name="l00366"></a>00366 <span class="comment">                // Automatically play if ready.</span>
+<a name="l00367"></a>00367 <span class="comment">                if (mPlayDelayed)</span>
+<a name="l00368"></a>00368 <span class="comment">                        play();</span>
+<a name="l00369"></a>00369 <span class="comment"></span>
+<a name="l00370"></a>00370 <span class="comment">                if(mSource == AL_NONE || !mPlay)</span>
+<a name="l00371"></a>00371 <span class="comment">                        return;</span>
 <a name="l00372"></a>00372 <span class="comment"></span>
-<a name="l00373"></a>00373 <span class="comment">                if(mSource == AL_NONE || !mPlay)</span>
-<a name="l00374"></a>00374 <span class="comment">                        return;</span>
+<a name="l00373"></a>00373 <span class="comment">                ALenum state;</span>
+<a name="l00374"></a>00374 <span class="comment">                alGetSourcei(mSource, AL_SOURCE_STATE, &amp;state);</span>
 <a name="l00375"></a>00375 <span class="comment"></span>
-<a name="l00376"></a>00376 <span class="comment">                ALenum state;</span>
-<a name="l00377"></a>00377 <span class="comment">                alGetSourcei(mSource, AL_SOURCE_STATE, &amp;state);</span>
-<a name="l00378"></a>00378 <span class="comment"></span>
-<a name="l00379"></a>00379 <span class="comment">                if (state == AL_STOPPED)</span>
-<a name="l00380"></a>00380 <span class="comment">                {</span>
-<a name="l00381"></a>00381 <span class="comment">                        stop();</span>
-<a name="l00382"></a>00382 <span class="comment">                        // Finished callback</span>
-<a name="l00383"></a>00383 <span class="comment">                        if ( mFinishedCB &amp;&amp; mFinCBEnabled )</span>
-<a name="l00384"></a>00384 <span class="comment">                                mFinishedCB-&gt;execute(static_cast&lt;OgreOggISound*&gt;(this));</span>
-<a name="l00385"></a>00385 <span class="comment">                }</span>
-<a name="l00386"></a>00386 <span class="comment">                else</span>
-<a name="l00387"></a>00387 <span class="comment">                {</span>
-<a name="l00388"></a>00388 <span class="comment">                        ALint bytes=0;</span>
+<a name="l00376"></a>00376 <span class="comment">                if (state == AL_STOPPED)</span>
+<a name="l00377"></a>00377 <span class="comment">                {</span>
+<a name="l00378"></a>00378 <span class="comment">                        stop();</span>
+<a name="l00379"></a>00379 <span class="comment">                        // Finished callback</span>
+<a name="l00380"></a>00380 <span class="comment">                        if ( mFinishedCB &amp;&amp; mFinCBEnabled )</span>
+<a name="l00381"></a>00381 <span class="comment">                                mFinishedCB-&gt;execute(static_cast&lt;OgreOggISound*&gt;(this));</span>
+<a name="l00382"></a>00382 <span class="comment">                }</span>
+<a name="l00383"></a>00383 <span class="comment">                else</span>
+<a name="l00384"></a>00384 <span class="comment">                {</span>
+<a name="l00385"></a>00385 <span class="comment">                        ALint bytes=0;</span>
+<a name="l00386"></a>00386 <span class="comment"></span>
+<a name="l00387"></a>00387 <span class="comment">                        // Use byte offset to work out current position</span>
+<a name="l00388"></a>00388 <span class="comment">                        alGetSourcei(mSource, AL_BYTE_OFFSET, &amp;bytes);</span>
 <a name="l00389"></a>00389 <span class="comment"></span>
-<a name="l00390"></a>00390 <span class="comment">                        // Use byte offset to work out current position</span>
-<a name="l00391"></a>00391 <span class="comment">                        alGetSourcei(mSource, AL_BYTE_OFFSET, &amp;bytes);</span>
-<a name="l00392"></a>00392 <span class="comment"></span>
-<a name="l00393"></a>00393 <span class="comment">                        // Has the audio looped?</span>
-<a name="l00394"></a>00394 <span class="comment">                        if ( mPreviousOffset&gt;bytes )</span>
-<a name="l00395"></a>00395 <span class="comment">                        {</span>
-<a name="l00396"></a>00396 <span class="comment">                                if ( mLoopCB &amp;&amp; mLoopCBEnabled )</span>
-<a name="l00397"></a>00397 <span class="comment">                                        mLoopCB-&gt;execute(static_cast&lt;OgreOggISound*&gt;(this));</span>
-<a name="l00398"></a>00398 <span class="comment">                        }</span>
-<a name="l00399"></a>00399 <span class="comment"></span>
-<a name="l00400"></a>00400 <span class="comment">                        // Store current offset position</span>
-<a name="l00401"></a>00401 <span class="comment">                        mPreviousOffset=bytes;</span>
-<a name="l00402"></a>00402 <span class="comment">                }</span>
-<a name="l00403"></a>00403 <span class="comment">        }</span>
-<a name="l00404"></a>00404 <span class="comment">}</span>
+<a name="l00390"></a>00390 <span class="comment">                        // Has the audio looped?</span>
+<a name="l00391"></a>00391 <span class="comment">                        if ( mPreviousOffset&gt;bytes )</span>
+<a name="l00392"></a>00392 <span class="comment">                        {</span>
+<a name="l00393"></a>00393 <span class="comment">                                if ( mLoopCB &amp;&amp; mLoopCBEnabled )</span>
+<a name="l00394"></a>00394 <span class="comment">                                        mLoopCB-&gt;execute(static_cast&lt;OgreOggISound*&gt;(this));</span>
+<a name="l00395"></a>00395 <span class="comment">                        }</span>
+<a name="l00396"></a>00396 <span class="comment"></span>
+<a name="l00397"></a>00397 <span class="comment">                        // Store current offset position</span>
+<a name="l00398"></a>00398 <span class="comment">                        mPreviousOffset=bytes;</span>
+<a name="l00399"></a>00399 <span class="comment">                }</span>
+<a name="l00400"></a>00400 <span class="comment">        }</span>
+<a name="l00401"></a>00401 <span class="comment">}</span>
 </pre></div></div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 2 15:58:43 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 3 16:56:00 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

@@ -105,6 +105,7 @@ namespace OgreOggSound
 	mPlayDelayed(false),
 	mStopDelayed(false),
 	mPauseDelayed(false),
+	mDisable3D(false),
 	mSeekable(true),
 	mSourceRelative(false)
 	{
@@ -118,6 +119,50 @@ namespace OgreOggSound
 	OgreOggISound::~OgreOggISound() 
 	{
 		mAudioStream.setNull();
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::disable3D(bool disable)
+	{
+		// Set flag
+		mDisable3D = disable;
+
+		/** Disable 3D
+		@remarks
+			Requires setting listener relative to AL_TRUE
+			Position to ZERO.
+			Reference distance is set to 1.
+			If Source available then settings are applied immediately
+			else they are applied next time the sound is initialised.
+		*/
+		if ( mDisable3D )
+		{
+			mSourceRelative = true;
+			mReferenceDistance = 1.f;
+			mPosition = Ogre::Vector3::ZERO;
+
+			if ( mSource!=AL_NONE ) 
+			{
+				alSourcei(mSource, AL_SOURCE_RELATIVE, mSourceRelative);
+				alSourcef(mSource, AL_REFERENCE_DISTANCE, mReferenceDistance);
+			}
+		}
+		/** Enable 3D
+		@remarks
+			Set listener relative to AL_FALSE
+			If Source available then settings are applied immediately
+			else they are applied next time the sound is initialised.
+			NOTE:- If previously disabled, Reference distance will still be set to 1.
+			Should be reset as required by user AFTER calling this function.
+		*/
+		else
+		{
+			mSourceRelative = false;
+
+			if ( mSource!=AL_NONE ) 
+			{
+				alSourcei(mSource, AL_SOURCE_RELATIVE, mSourceRelative);
+			}
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setPosition(float posx,float posy, float posz)
@@ -525,7 +570,7 @@ namespace OgreOggSound
 		
 		if(mSource != AL_NONE)
 		{
-			alSourcei(mSource,AL_SOURCE_RELATIVE,mSourceRelative);
+			alSourcei(mSource, AL_SOURCE_RELATIVE, mSourceRelative);
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -533,7 +578,7 @@ namespace OgreOggSound
 	{
 		if (mLocalTransformDirty)
 		{
-			if (mParentNode)
+			if (!mDisable3D && mParentNode)
 			{
 				mPosition = mParentNode->_getDerivedPosition();
 				mDirection = -mParentNode->_getDerivedOrientation().zAxis();
