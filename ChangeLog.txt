@@ -5,7 +5,7 @@
 			* OgreOggISound::play() acces removed use OgreOggSoundManager::playSound() 
 			* OgreOggISound::stop() access removed use OgreOggSoundManager::stopSOund()
 			* OgreOggISound::pause() access removed use OgreOggSoundManager::pauseSOund()
-			* OgreOggISound::startFade() access removed use OgreOggSoundManager::startSoundFade()
+			* OgreOggISound::startFade() access removed use OgreOggSoundManager::fadeSound()
 		* OgreOggISound functions allow ONLY property setting/querying.
 	
 	* Fixed bug casuing pauses in multi-threaded mode when playing/stopping/pausing sounds.
