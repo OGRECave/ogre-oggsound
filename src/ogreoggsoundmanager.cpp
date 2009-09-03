@@ -38,23 +38,23 @@ namespace OgreOggSound
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::OgreOggSoundManager() :
-		mNumSources(0),
-		mOrigVolume(1.f),
-		mDevice(0),
-		mContext(0),
-		mListener(0),
-		mEAXSupport(false),
-		mEFXSupport(false),
-		mXRamSupport(false),
-		mXRamSize(0),
-		mXRamFree(0),
-		mXRamAuto(0),
-		mXRamHardware(0),
-		mXRamAccessible(0),
-		mCurrentXRamMode(0),
-		mRecorder(0),
-		mEAXVersion(0),
-		mDeviceStrings(0)
+		mNumSources(0)
+		,mOrigVolume(1.f)
+		,mDevice(0)
+		,mContext(0)
+		,mListener(0)
+		,mEAXSupport(false)
+		,mEFXSupport(false)
+		,mXRamSupport(false)
+		,mXRamSize(0)
+		,mXRamFree(0)
+		,mXRamAuto(0)
+		,mXRamHardware(0)
+		,mXRamAccessible(0)
+		,mCurrentXRamMode(0)
+		,mRecorder(0)
+		,mEAXVersion(0)
+		,mDeviceStrings(0)
 		{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 			// Effect objects
@@ -541,16 +541,14 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::setMasterVolume(ALfloat vol)
 	{
-		if		( vol<0.f ) vol=0.f;
-		else if ( vol>1.f ) vol=1.f;
-
-		alListenerf(AL_GAIN, vol);
+		if ( (vol>=0.f) && (vol<=1.f) )
+			alListenerf(AL_GAIN, vol);
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
 	ALfloat OgreOggSoundManager::getMasterVolume()
 	{
-		ALfloat vol=1.0;
+		ALfloat vol=0.0;
 		alGetListenerf(AL_GAIN, &vol);
 		return vol;
 	}
