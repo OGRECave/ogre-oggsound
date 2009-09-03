@@ -203,6 +203,13 @@ namespace OgreOggSound
 			audio artefacts and memory curruption. (Non multi-threaded does not have this problem.)
 		 */
 		void stopSound(const Ogre::String& sName);
+		/** Sets a sounds current time position.
+		@param
+			sName - Name of sound
+		@param
+			time - Time in seconds to skip to, NOTE:- Value will be wrapped
+		*/
+		void setSoundCurrentTime(const Ogre::String& sName, Ogre::Real time);
 		/** Fades a sound.
 		@remarks
 			NOTE:- it is essential this function is used to fade a sound when using BOOST Threads.
