@@ -80,6 +80,7 @@ namespace OgreOggSound
 	{
 
 	public:
+	
 		/** Sets looping status.
 		@remarks
 			Abstract function
@@ -87,6 +88,16 @@ namespace OgreOggSound
 				Boolean: true == loop
 		 */
 		virtual void loop(bool loop){ mLoop = loop; }
+		/** Allows switchable spatialisation for this sound.
+		@remarks
+			Switch's spatialisation on/off for mono sounds, no-effect for stereo sounds.
+			NOTE:- If disabling spatialisation, reference distance is set to 1 and Positon is set to ZERO, so 
+			may need resetting should spatialisation be re-enabled later. 
+			Note also that node inherited positioning/orientation is disabled in this mode,
+			however manual positioning/orientation is still available allowing some control
+			over speaker output.
+		 */
+		void disable3D(bool disable);
 		/** Returns play status.
 		@remarks
 			Checks source state for AL_PLAYING
@@ -537,6 +548,7 @@ namespace OgreOggSound
 		Ogre::String mName;				// Sound name
 		bool mLoop;						// Loop status
 		bool mPlay;						// Play status
+		bool mDisable3D;				// 3D status
 		bool mGiveUpSource;				// Flag to indicate whether sound should release its source when stopped
 		bool mStream;					// Stream flag
 		bool mFileOpened;				// File status flag (multi-threaded ONLY)

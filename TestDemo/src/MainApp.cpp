@@ -124,6 +124,7 @@ void MainApp::createScene()
 		sound->setMaxDistance(300);
 		sound->setReferenceDistance(100);
 		mOgreMonster->attachObject(sound);
+		sound->disable3D(true);
 		mSoundManager->playSound("Two");
 	}
 	/** Sound three - non streamed, looping, moving */
