@@ -144,6 +144,7 @@ namespace OgreOggSound
 			{
 				alSourcei(mSource, AL_SOURCE_RELATIVE, mSourceRelative);
 				alSourcef(mSource, AL_REFERENCE_DISTANCE, mReferenceDistance);
+				alSource3f(mSource, AL_POSITION, mPosition.x, mPosition.y, mPosition.z);
 			}
 		}
 		/** Enable 3D
