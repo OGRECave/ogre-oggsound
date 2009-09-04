@@ -34,8 +34,6 @@
 #	include <boost/thread/xtime.hpp>
 #endif
 
-#define MAX_SOURCES 100
-
 namespace OgreOggSound
 {
 	typedef std::map<std::string, OgreOggISound*> SoundMap;
@@ -83,9 +81,9 @@ namespace OgreOggSound
 
 	public:
 
-		/** Creates a manager for all sounds within the application.
+		/** Creates a manager for all sounds within the application with optional source limit
 		 */
-		OgreOggSoundManager();
+		OgreOggSoundManager(unsigned int maxSources=100);
 		/** Gets a singleton reference.
 		 */
 		static OgreOggSoundManager& getSingleton(void);
@@ -110,11 +108,20 @@ namespace OgreOggSound
 				found.
 		 */
 		bool init(const std::string &deviceName = "");
+		/** Sets the maximum number of sources to allocate.
+		@remarks
+			This limit is hardware dependent but you can set a 'request' value
+			here to change the default limit of 100 sources. This function only
+			exists for users using the library plugin() method, if instantiating
+			manually you can pass a limit value to the constructor.
+			NOTE:- MUST be called PRIOR to init(), has no effect any other time. 
+		*/
+		void setMaxSources(unsigned int maxSources) { mMaxSources=maxSources; }
 		/** Creates a pool of OpenAL sources for playback.
 		@remarks
 			Attempts to create a pool of source objects which allow
 			simultaneous audio playback. The number of sources will be
-			clamped to either the hardware maximum or [MAX_SOURCES]
+			clamped to either the hardware maximum or [mMaxSources]
 			whichever comes first.
 		 */
 		int createSourcePool();
@@ -694,7 +701,8 @@ namespace OgreOggSound
 		 */
 		static OgreOggSoundManager *pInstance;	// OgreOggSoundManager instance pointer
 		ALCchar* mDeviceStrings;				// List of available devices strings
-		int mNumSources;						// Number of sources available for sounds
+		unsigned int mNumSources;				// Number of sources available for sounds
+		unsigned int mMaxSources;				// Maximum Number of sources to allocate
 
 		OgreOggSoundRecord* mRecorder;			// recorder object
 
