@@ -37,7 +37,7 @@ namespace OgreOggSound
 	using namespace Ogre;
 
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggSoundManager::OgreOggSoundManager() :
+	OgreOggSoundManager::OgreOggSoundManager(unsigned int maxSources) :
 		mNumSources(0)
 		,mOrigVolume(1.f)
 		,mDevice(0)
@@ -55,6 +55,7 @@ namespace OgreOggSound
 		,mRecorder(0)
 		,mEAXVersion(0)
 		,mDeviceStrings(0)
+		,mMaxSources(maxSources)
 		{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 			// Effect objects
@@ -1946,9 +1947,9 @@ namespace OgreOggSound
 	int OgreOggSoundManager::createSourcePool()
 	{
 		ALuint source;
-		int numSources = 0;
+		unsigned int numSources = 0;
 
-		while(alGetError() == AL_NO_ERROR && numSources < MAX_SOURCES)
+		while(alGetError() == AL_NO_ERROR && numSources < mMaxSources)
 		{
 			source = 0;
 			alGenSources(1,&source);
