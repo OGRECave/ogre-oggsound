@@ -592,11 +592,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound* OgreOggSoundManager::getSound(const std::string& name)
 	{
-/*
-#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-#endif
-*/
 		SoundMap::iterator i = mSoundMap.find(name);
 		if(i == mSoundMap.end()) return 0;
 		return i->second;
@@ -963,11 +958,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::attachEffectToSound(const std::string& sName, ALuint slotID, const Ogre::String& effectName, const Ogre::String& filterName)
 	{
-
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-
 		if ( !hasEFXSupport() && sName.empty() ) return false;
 
 		ALuint effect;
@@ -1018,10 +1008,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::attachFilterToSound(const std::string& sName, const Ogre::String& filterName)
 	{
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-
 		if ( !hasEFXSupport() && sName.empty() ) return false;
 
 		ALuint filter = _getEFXFilter(filterName);
@@ -1065,10 +1051,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::detachEffectFromSound(const std::string& sName, ALuint slotID)
 	{
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-
 		if ( !hasEFXSupport() && sName.empty() ) return false;
 
 		ALuint slot;
@@ -1115,10 +1097,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::detachFilterFromSound(const std::string& sName)
 	{
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-
 		if ( !hasEFXSupport() && sName.empty() ) return false;
 
 		OgreOggISound* sound = getSound(sName);
@@ -1387,10 +1365,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::setEFXSoundProperties(const std::string& sName, Ogre::Real airAbsorption, Ogre::Real roomRolloff, Ogre::Real coneOuterHF)
 	{
-#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-#endif
-
 		OgreOggISound* sound = getSound(sName);
 
 		if ( sound )
@@ -1436,11 +1410,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::hasSound(const std::string& name)
 	{
-/*
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-*/
 		SoundMap::iterator i = mSoundMap.find(name);
 		if(i == mSoundMap.end()) return false; return true;
 	}
