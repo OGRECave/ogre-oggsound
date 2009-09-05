@@ -36,8 +36,10 @@ namespace OgreOggSound
 {
 	using namespace Ogre;
 
+	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.1";
+
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggSoundManager::OgreOggSoundManager(unsigned int maxSources) :
+	OgreOggSoundManager::OgreOggSoundManager() :
 		mNumSources(0)
 		,mOrigVolume(1.f)
 		,mDevice(0)
@@ -55,7 +57,7 @@ namespace OgreOggSound
 		,mRecorder(0)
 		,mEAXVersion(0)
 		,mDeviceStrings(0)
-		,mMaxSources(maxSources)
+		,mMaxSources(100)
 		{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 			// Effect objects
@@ -136,11 +138,15 @@ namespace OgreOggSound
 		assert( ms_Singleton );  return ( *ms_Singleton );
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::init(const std::string &deviceName)
+	bool OgreOggSoundManager::init(const std::string &deviceName, unsigned int maxSources)
 	{
-		Ogre::LogManager::getSingleton().logMessage("***********************************");
-		Ogre::LogManager::getSingleton().logMessage("*** --- Initialising OpenAL --- ***");
-		Ogre::LogManager::getSingleton().logMessage("***********************************");
+		Ogre::LogManager::getSingleton().logMessage("*****************************************");
+		Ogre::LogManager::getSingleton().logMessage("*** --- Initialising OgreOggSound --- ***");
+		Ogre::LogManager::getSingleton().logMessage("*** ---     "+OGREOGGSOUND_VERSION_STRING+"     --- ***");
+		Ogre::LogManager::getSingleton().logMessage("*****************************************");
+
+		// Set source limit
+		mMaxSources = maxSources;
 
 		// Get an internal list of audio device strings
 		_enumDevices();
@@ -235,9 +241,9 @@ namespace OgreOggSound
 			}
 		}
 #endif
-		Ogre::LogManager::getSingleton().logMessage("***********************************");
-		Ogre::LogManager::getSingleton().logMessage("*** ---  OpenAL Initialised --- ***");
-		Ogre::LogManager::getSingleton().logMessage("***********************************");
+		Ogre::LogManager::getSingleton().logMessage("*****************************************");
+		Ogre::LogManager::getSingleton().logMessage("*** ---  OgreOggSound Initialised --- ***");
+		Ogre::LogManager::getSingleton().logMessage("*****************************************");
 
 		return true;
 	}
