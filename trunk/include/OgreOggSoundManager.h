@@ -81,9 +81,12 @@ namespace OgreOggSound
 
 	public:
 
-		/** Creates a manager for all sounds within the application with optional source limit
+		// Version string
+		static const Ogre::String OGREOGGSOUND_VERSION_STRING;
+
+		/** Creates a manager for all sounds within the application.
 		 */
-		OgreOggSoundManager(unsigned int maxSources=100);
+		OgreOggSoundManager();
 		/** Gets a singleton reference.
 		 */
 		static OgreOggSoundManager& getSingleton(void);
@@ -103,20 +106,12 @@ namespace OgreOggSound
 			Internally some logging is done to list features supported as
 			well as creating a pool of sources from which sounds can be
 			attached and played.
-			@param
-				Audio device string to open, will use default device if not
-				found.
+			@param deviceName
+				Audio device string to open, will use default device if not found.
+			@param maxSources
+				maximum number of sources to allocate (optional)
 		 */
-		bool init(const std::string &deviceName = "");
-		/** Sets the maximum number of sources to allocate.
-		@remarks
-			This limit is hardware dependent but you can set a 'request' value
-			here to change the default limit of 100 sources. This function only
-			exists for users using the library plugin() method, if instantiating
-			manually you can pass a limit value to the constructor.
-			NOTE:- MUST be called PRIOR to init(), has no effect any other time. 
-		*/
-		void setMaxSources(unsigned int maxSources) { mMaxSources=maxSources; }
+		bool init(const std::string &deviceName = "", unsigned int maxSources=100);
 		/** Creates a pool of OpenAL sources for playback.
 		@remarks
 			Attempts to create a pool of source objects which allow
