@@ -598,7 +598,7 @@ namespace OgreOggSound
 	}
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::isRecordingAvailable()
+	bool OgreOggSoundManager::isRecordingAvailable() const
 	{
 		if ( mRecorder ) return mRecorder->isCaptureAvailable();
 		return false;
