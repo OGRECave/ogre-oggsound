@@ -499,7 +499,7 @@ namespace OgreOggSound
 		OgreOggSoundRecord* getRecorder() { return mRecorder; }
 		/** Returns whether a capture device is available
 		 */
-		bool isRecordingAvailable();
+		bool isRecordingAvailable() const;
 		/** Creates a recordable object
 		 */
 		OgreOggSoundRecord* createRecorder();
