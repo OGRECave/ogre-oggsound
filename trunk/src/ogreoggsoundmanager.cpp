@@ -2284,12 +2284,12 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::queueDelayedSound(OgreOggISound* sound, DELAYED_ACTION action)
 	{
+		// Valid?
+		if ( !sound ) return;
+
 	#if OGGSOUND_THREADED
 		boost::recursive_mutex::scoped_lock l(mMutex);
 	#endif
-
-		// Valid?
-		if ( !sound ) return;
 
 		switch ( action )
 		{
