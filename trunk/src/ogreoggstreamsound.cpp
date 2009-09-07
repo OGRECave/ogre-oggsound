@@ -27,7 +27,6 @@ using namespace std;
 
 namespace OgreOggSound
 {
-
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamSound::OgreOggStreamSound(const Ogre::String& name) : OgreOggISound(name)
 	,mVorbisInfo(0)

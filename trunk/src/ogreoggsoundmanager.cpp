@@ -1521,17 +1521,6 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::muteAllSounds()
-	{
-		alGetListenerf(AL_GAIN, &mOrigVolume);
-		alListenerf(AL_GAIN, 0.f);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::unmuteAllSounds()
-	{
-		alListenerf(AL_GAIN, mOrigVolume);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::pauseAllSounds()
 	{
 	#if OGGSOUND_THREADED
@@ -1565,6 +1554,17 @@ namespace OgreOggSound
 			(*iter)->play();
 
 		mPausedSounds.clear();
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::muteAllSounds()
+	{
+		alGetListenerf(AL_GAIN, &mOrigVolume);
+		alListenerf(AL_GAIN, 0.f);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::unmuteAllSounds()
+	{
+		alListenerf(AL_GAIN, mOrigVolume);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_removeFromLists(OgreOggSound::OgreOggISound *sound)
@@ -1716,9 +1716,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::processQueuedSounds()
 	{
-#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-
 		if (mPlayQueue.empty() && mPauseQueue.empty() && mStopQueue.empty() && mQueuedSounds.empty()) return;
 
 		/** Queue will only be used when library is compiled with Thread support. 
@@ -1805,7 +1802,6 @@ namespace OgreOggSound
 					++i;
 			}
 		}
-#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::updateBuffers()
