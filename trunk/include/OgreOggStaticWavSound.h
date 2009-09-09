@@ -46,35 +46,6 @@ namespace OgreOggSound
 				loop true=loop
 		 */
 		void loop(bool loop);
-
-	protected:	
-
-		/** Opens audio file.
-		@remarks
-			Opens a specified file and checks validity. Reads first chunks
-			of audio data into buffers.
-			@param
-				file path string
-		 */
-		void open(Ogre::DataStreamPtr& fileStream);
-		/** Opens audio file.
-		@remarks
-			Uses a shared buffer.
-			@param buffer
-				shared buffer reference
-		 */
-		void open(const Ogre::String& fName, ALuint& buffer);
-		/** Releases buffers.
-		@remarks
-			Cleans up and releases OpenAL buffer objects.
-		 */
-		void release();	
-		/** Stops playing sound.
-		@remarks
-			Stops playing audio immediately. If specified to do so its source
-			will be released also.
-		*/
-		void stop();
 		/** Sets the source to use for playback.
 		@remarks
 			Sets the source object this sound will use to queue buffers onto
@@ -83,18 +54,9 @@ namespace OgreOggSound
 				src Source id.
 		 */
 		void setSource(ALuint& src);	
-		/** Pauses sound.
-		@remarks
-			Pauses playback on the source.
-		 */
-		void pause();
-		/** Plays the sound.
-		@remarks
-			Begins playback of all buffers queued on the source. If a
-			source hasn't been setup yet it is requested and initialised
-			within this call.
-		 */
-		void play();	
+
+	protected:	
+
 		/**
 		 * Constructor
 		 */
@@ -103,6 +65,44 @@ namespace OgreOggSound
 		 * Destructor
 		 */
 		~OgreOggStaticWavSound();
+		/** Releases buffers.
+		@remarks
+			Cleans up and releases OpenAL buffer objects.
+		 */
+		void release();	
+		/** Opens audio file.
+		@remarks
+			Opens a specified file and checks validity. Reads first chunks
+			of audio data into buffers.
+			@param
+				file path string
+		 */
+		void _openImpl(Ogre::DataStreamPtr& fileStream);
+		/** Opens audio file.
+		@remarks
+			Uses a shared buffer.
+			@param buffer
+				shared buffer reference
+		 */
+		void _openImpl(const Ogre::String& fName, ALuint& buffer);
+		/** Stops playing sound.
+		@remarks
+			Stops playing audio immediately. If specified to do so its source
+			will be released also.
+		*/
+		void _stopImpl();
+		/** Pauses sound.
+		@remarks
+			Pauses playback on the source.
+		 */
+		void _pauseImpl();
+		/** Plays the sound.
+		@remarks
+			Begins playback of all buffers queued on the source. If a
+			source hasn't been setup yet it is requested and initialised
+			within this call.
+		 */
+		void _playImpl();	
 		/** Updates the data buffers with sound information.
 		@remarks
 			This function refills processed buffers with audio data from

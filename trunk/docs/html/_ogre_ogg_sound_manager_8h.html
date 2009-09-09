@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>OgreOggSound: F:/Programming/ogreoggsound/include/OgreOggSoundManager.h File Reference</title>
+<title>OgreOggSound: D:/Work/ogreoggsound_test/include/OgreOggSoundManager.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -25,17 +25,19 @@
   </div>
 </div>
 <div class="contents">
-<h1>F:/Programming/ogreoggsound/include/OgreOggSoundManager.h File Reference</h1><code>#include &quot;<a class="el" href="_ogre_ogg_sound_prereqs_8h_source.html">OgreOggSoundPrereqs.h</a>&quot;</code><br/>
+<h1>D:/Work/ogreoggsound_test/include/OgreOggSoundManager.h File Reference</h1><code>#include &quot;<a class="el" href="_ogre_ogg_sound_prereqs_8h_source.html">OgreOggSoundPrereqs.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_ogre_ogg_listener_8h_source.html">OgreOggListener.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_ogre_ogg_sound_record_8h_source.html">OgreOggSoundRecord.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>&quot;</code><br/>
 <code>#include &lt;map&gt;</code><br/>
 <code>#include &lt;string&gt;</code><br/>
 
 <p><a href="_ogre_ogg_sound_manager_8h_source.html">Go to the source code of this file.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Classes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1delayed_file_open.html">OgreOggSound::delayedFileOpen</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_sound_action.html">OgreOggSound::SoundAction</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1c_sound.html">OgreOggSound::cSound</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1shared_audio_buffer.html">OgreOggSound::sharedAudioBuffer</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html">OgreOggSound::OgreOggSoundManager</a></td></tr>
 <tr><td colspan="2"><h2>Namespaces</h2></td></tr>
@@ -49,18 +51,27 @@ ALuint &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr><td class="memItemLeft" align="right" valign="top">typedef std::vector<br class="typebreak"/>
 &lt; OgreOggISound * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a7cf9e279b0e175eb8535dede22947223">OgreOggSound::ActiveList</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; ALuint &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a5bb349cdaa82110c2368669db3597b45">OgreOggSound::SourceList</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef std::deque<br class="typebreak"/>
-&lt; delayedFileOpen * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a44588c71d398921e6a3e0b03083c8884">OgreOggSound::FileOpenList</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, <br class="typebreak"/>
 sharedAudioBuffer * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a43c7af78bc795f22d7b01a23ec2d4c0a">OgreOggSound::SharedBufferList</a></td></tr>
 <tr><td colspan="2"><h2>Enumerations</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a756426329926c6833439197daeda84ac">OgreOggSound::DELAYED_ACTION</a> { <a class="el" href="namespace_ogre_ogg_sound.html#a756426329926c6833439197daeda84acacd57937f9ea50da59d0c00a2f32a0b50">OgreOggSound::DA_PLAY</a>, 
-<a class="el" href="namespace_ogre_ogg_sound.html#a756426329926c6833439197daeda84aca2624e2b57ba85353e92f0398716589c8">OgreOggSound::DA_STOP</a>, 
-<a class="el" href="namespace_ogre_ogg_sound.html#a756426329926c6833439197daeda84aca4deb71f98c75fad2d7ecf59d3d46600a">OgreOggSound::DA_PAUSE</a>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273db">OgreOggSound::SOUND_ACTION</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dba806035f104e0d7f96eb91939fd12e7d7">OgreOggSound::LQ_PLAY</a>, 
+<a class="el" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dbacfb8ebbbabf96dd65a6a506c2033e97d">OgreOggSound::LQ_STOP</a>, 
+<a class="el" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dbaa7c72a2256e135d97da75ef9640dbccc">OgreOggSound::LQ_PAUSE</a>, 
+<a class="el" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dbad1bcc52e5d54303b822f3d06f42567a3">OgreOggSound::LQ_LOAD</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dba911a7511deb2933b48ab3e23eb0aeb2d">OgreOggSound::LQ_DESTROY</a>, 
+<a class="el" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dba40c5884ebed8b3d1d6c585666c9ebf0f">OgreOggSound::LQ_DESTROY_ALL</a>, 
+<a class="el" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dba71ad4cd9a125b3a06a7284a817f3c664">OgreOggSound::LQ_STOP_ALL</a>, 
+<a class="el" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dbad7aab1df1aa8cdea35ba968e9f534234">OgreOggSound::LQ_PAUSE_ALL</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dba7efdd665a09e6fe90a8c585de533f8d4">OgreOggSound::LQ_RESUME_ALL</a>, 
+<a class="el" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dba4f2412e137601660444bdb407bbcc88d">OgreOggSound::LQ_REACTIVATE</a>
+<br/>
  }</td></tr>
 </table>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Sat Sep 5 10:23:07 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 10 00:16:13 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

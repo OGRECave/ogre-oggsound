@@ -36,27 +36,13 @@ namespace OgreOggSound
 	class _OGGSOUND_EXPORT OgreOggStreamSound : public OgreOggISound
 	{
 
-	protected:	
+	public:
 
-		/** Opens audio file.
-		@remarks
-			Opens a specified file and checks validity. Reads first chunks
-			of audio data into buffers.
-			@param
-				file path string
+		/** Sets the position of the playback cursor in seconds
+		@param seconds
+			Play position in seconds 
 		 */
-		void open(Ogre::DataStreamPtr& fileStream);
-		/** Releases buffers.
-		@remarks
-			Cleans up and releases OpenAL buffer objects.
-		 */
-		void release();	
-		/** Stops playing sound.
-		@remarks
-			Stops playing audio immediately and resets playback. 
-			If specified to do so its source will be released also.
-		*/
-		void stop();
+		void setPlayPosition(Ogre::Real seconds);	
 		/** Sets the source to use for playback.
 		@remarks
 			Sets the source object this sound will use to queue buffers onto
@@ -65,23 +51,9 @@ namespace OgreOggSound
 				src Source id.
 		 */
 		void setSource(ALuint& src);	
-		/** Pauses sound.
-		@remarks
-			Pauses playback on the source.
-		 */
-		void pause();
-		/** Plays the sound.
-		@remarks
-			Begins playback of all buffers queued on the source. If a
-			source hasn't been setup yet it is requested and initialised
-			within this call.
-		 */
-		void play();	
-		/** Sets the position of the playback cursor in seconds
-		@param seconds
-			Play position in seconds 
-		 */
-		void setPlayPosition(Ogre::Real seconds);	
+
+	protected:	
+
 		/** Constructor
 		@remarks
 			Creates a streamed sound object for playing audio directly from
@@ -94,6 +66,37 @@ namespace OgreOggSound
 		 * Destructor
 		 */
 		~OgreOggStreamSound();
+		/** Releases buffers.
+		@remarks
+			Cleans up and releases OpenAL buffer objects.
+		 */
+		void release();	
+		/** Opens audio file.
+		@remarks
+			Opens a specified file and checks validity. Reads first chunks
+			of audio data into buffers.
+			@param
+				file path string
+		 */
+		void _openImpl(Ogre::DataStreamPtr& fileStream);
+		/** Stops playing sound.
+		@remarks
+			Stops playing audio immediately and resets playback. 
+			If specified to do so its source will be released also.
+		*/
+		void _stopImpl();
+		/** Pauses sound.
+		@remarks
+			Pauses playback on the source.
+		 */
+		void _pauseImpl();
+		/** Plays the sound.
+		@remarks
+			Begins playback of all buffers queued on the source. If a
+			source hasn't been setup yet it is requested and initialised
+			within this call.
+		 */
+		void _playImpl();	
 		/** Loads data from the stream into a buffer.
 		@remarks
 			Reads a specified chunk of data from the file stream into a

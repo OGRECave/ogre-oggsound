@@ -50,7 +50,7 @@ namespace OgreOggSound
 		if (mFormatData) OGRE_FREE(mFormatData, Ogre::MEMCATEGORY_GENERAL);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void	OgreOggStaticWavSound::open(Ogre::DataStreamPtr& fileStream)
+	void	OgreOggStaticWavSound::_openImpl(Ogre::DataStreamPtr& fileStream)
 	{
 		// WAVE descriptor vars
 		char*			sound_buffer=0;
@@ -276,23 +276,17 @@ namespace OgreOggSound
 		OGRE_FREE(sound_buffer, Ogre::MEMCATEGORY_GENERAL);
 
 		// Register shared buffer
-		OgreOggSoundManager::getSingleton().registerSharedBuffer(mAudioName, mBuffer);
-
-		// Set ready flag
-		mFileOpened = true;
+		OgreOggSoundManager::getSingleton()._registerSharedBuffer(mAudioName, mBuffer);
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	void	OgreOggStaticWavSound::open(const Ogre::String& fName, ALuint& buffer)
+	void	OgreOggStaticWavSound::_openImpl(const Ogre::String& fName, ALuint& buffer)
 	{
 		// Set buffer
 		mBuffer = buffer;
 
 		// Filename
 		mAudioName = fName;
-
-		// Set ready flag
-		mFileOpened = true;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -426,7 +420,7 @@ namespace OgreOggSound
 	{
 		ALuint src=AL_NONE;
 		setSource(src);
-		OgreOggSoundManager::getSingleton().releaseSharedBuffer(mAudioName, mBuffer);
+		OgreOggSoundManager::getSingleton()._releaseSharedBuffer(mAudioName, mBuffer);
 		mPlayPosChanged = false;
 		mPlayPos = 0.f;
 	}
@@ -466,56 +460,20 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void	OgreOggStaticWavSound::pause()
+	void	OgreOggStaticWavSound::_pauseImpl()
 	{
-#if OGGSOUND_THREADED
-
-		// If threaded it may be possible that a sound is trying to be played
-		// before its actually been opened by the thread, if so mark it so
-		// that it can be automatically played when ready.
-		if (!mFileOpened)
-		{
-			if ( !mPauseDelayed )
-			{
-				mPauseDelayed = true;
-				// Register this sound with the manager so it can be polled to play when ready
-				OgreOggSoundManager::getSingletonPtr()->queueDelayedSound(this, DA_PAUSE);
-			}
-			return;
-		}
-#endif
-
 		if ( mSource==AL_NONE ) return;
 
 		alSourcePause(mSource);
-
-		mPauseDelayed = false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void	OgreOggStaticWavSound::play()
+	void	OgreOggStaticWavSound::_playImpl()
 	{
 		if(isPlaying())
 			return;
 
-#if OGGSOUND_THREADED
-
-		// If threaded it may be possible that a sound is trying to be played
-		// before its actually been opened by the thread, if so mark it so
-		// that it can be automatically played when ready.
-		if (!mFileOpened)
-		{
-			if ( !mPlayDelayed )
-			{
-				mPlayDelayed = true;
-				// Register this sound with the manager so it can be polled to play when ready
-				OgreOggSoundManager::getSingletonPtr()->queueDelayedSound(this, DA_PLAY);
-			}
-			return;
-		}
-#endif
-
 		if (mSource == AL_NONE)
-			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
+			if ( !OgreOggSoundManager::getSingleton()._requestSoundSource(this) )
 				return;
 
 		// Pick up position change
@@ -524,38 +482,19 @@ namespace OgreOggSound
 
 		alSourcePlay(mSource);
 		mPlay = true;
-		mPlayDelayed = false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void	OgreOggStaticWavSound::stop()
+	void	OgreOggStaticWavSound::_stopImpl()
 	{
-#if OGGSOUND_THREADED
-
-		// If threaded it may be possible that a sound is trying to be played
-		// before its actually been opened by the thread, if so mark it so
-		// that it can be automatically played when ready.
-		if (!mFileOpened)
-		{
-			if ( !mStopDelayed )
-			{
-				mStopDelayed = true;
-				// Register this sound with the manager so it can be polled to play when ready
-				OgreOggSoundManager::getSingletonPtr()->queueDelayedSound(this, DA_STOP);
-			}
-			return;
-		}
-#endif
-
 		if ( mSource==AL_NONE ) return;
 
 		alSourceStop(mSource);
 		alSourceRewind(mSource);
 		mPlay=false;
 		mPreviousOffset=0;
-		mStopDelayed=false;
 
 		// Give up source immediately if specfied
-		if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);
+		if (mGiveUpSource) OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void	OgreOggStaticWavSound::loop(bool loop)
@@ -570,10 +509,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void	OgreOggStaticWavSound::_updateAudioBuffers()
 	{
-		// Automatically play if previously delayed
-		if (mPlayDelayed)
-			play();
-
 		if(mSource == AL_NONE || !mPlay)
 			return;
 

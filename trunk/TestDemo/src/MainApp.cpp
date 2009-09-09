@@ -125,18 +125,18 @@ void MainApp::createScene()
 		sound->setReferenceDistance(100);
 		mOgreMonster->attachObject(sound);
 		sound->disable3D(true);
-		mSoundManager->playSound("Two");
+		sound->play();
 	}
-	/** Sound three - non streamed, looping, moving */
+	/** Sound three - non streamed, looping, moving *
 	sound = 0;
 	if ( sound = mSoundManager->createSound("Three", "three.ogg", false, true) )
 	{
 		sound->setMaxDistance(50);
 		sound->setReferenceDistance(1);
 		mOgreMonster->attachObject(sound);
-		mSoundManager->playSound("Three");
+		sound->play();
 	}
-	/** Sound one - streamed, looping, EFX Direct filter */
+	/** Sound one - streamed, looping, EFX Direct filter *
 	mSoundManager->createSound("background", "background.ogg", true, true, true);
 	mSoundManager->getSound("background")->setRelativeToListener(true);
 	mSoundManager->getSound("background")->setVolume(0.2f);
@@ -146,7 +146,7 @@ void MainApp::createScene()
 		mSoundManager->createEFXFilter("LowPassTest", AL_FILTER_LOWPASS, 0.1, 0.5);
 		mSoundManager->attachFilterToSound("background", "LowPassTest");
 	}
-	mSoundManager->playSound("background");
+	mSoundManager->getSound("background")->play();		  */
 }
 //-----------------------------------------------------------------------
 void MainApp::finishedCB(OgreOggISound* sound)
@@ -243,26 +243,12 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 
 	if (arg.key == OIS::KC_Z)
 	{
-		if ( mSoundManager->getSound("Two")->isPlaying() )
-		{
-			mSoundManager->stopSound("Two");
-		}
-		else
-		{
-			mSoundManager->playSound("Two");
-		}
+		mSoundManager->pauseAllSounds();
 	}
 
 	if (arg.key == OIS::KC_X)
 	{
-		if ( mSoundManager->getSound("Two")->isPlaying() )
-		{
-			mSoundManager->pauseSound("Two");
-		}
-		else
-		{
-			mSoundManager->playSound("Two");
-		}
+		mSoundManager->resumeAllPausedSounds();
 	}
 
 	// Show the statistics
