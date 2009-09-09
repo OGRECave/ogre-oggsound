@@ -99,12 +99,8 @@ namespace OgreOggSound
 	mPriority(0), 
 	mFinishedCB(0), 
 	mLoopCB(0), 
-	mFileOpened(false),
 	mScnMan(0),
 	mLocalTransformDirty(true),
-	mPlayDelayed(false),
-	mStopDelayed(false),
-	mPauseDelayed(false),
 	mDisable3D(false),
 	mSeekable(true),
 	mSourceRelative(false)
@@ -119,6 +115,45 @@ namespace OgreOggSound
 	OgreOggISound::~OgreOggISound() 
 	{
 		mAudioStream.setNull();
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::play()
+	{
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mSound = this;
+		action.mAction = LQ_PLAY;
+		action.mParams = 0;
+		OgreOggSoundManager::getSingletonPtr()->_requestSoundAction(action);
+#else
+		_playImpl();
+#endif
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::stop()
+	{
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mSound = this;
+		action.mAction = LQ_STOP;
+		action.mParams = 0;
+		OgreOggSoundManager::getSingletonPtr()->_requestSoundAction(action);
+#else
+		_stopImpl();
+#endif
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::pause()
+	{
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mSound = this;
+		action.mAction = LQ_PAUSE;
+		action.mParams = 0;
+		OgreOggSoundManager::getSingletonPtr()->_requestSoundAction(action);
+#else
+		_pauseImpl();
+#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::disable3D(bool disable)
@@ -373,11 +408,7 @@ namespace OgreOggSound
 		// Automatically start if not currently playing
 		if ( mFadeEndVol==1 )
 			if ( !isPlaying() )
-#if OGGSOUND_THREADED==0
 				this->play();
-#else
-				OgreOggSoundManager::getSingleton().playSound(this->getName());
-#endif
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -395,20 +426,14 @@ namespace OgreOggSound
 				{
 				case FC_PAUSE: 
 					{ 
-#if OGGSOUND_THREADED==0
 						pause(); 
-#else
-						OgreOggSoundManager::getSingleton().pauseSound(getName());
-#endif
-					} break;
+					} 
+					break;
 				case FC_STOP: 
 					{ 
-#if OGGSOUND_THREADED==0
 						stop(); 
-#else
-						OgreOggSoundManager::getSingleton().stopSound(getName());
-#endif
-					} break;
+					} 
+					break;
 				}
 			}
 			else

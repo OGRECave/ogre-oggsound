@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>OgreOggSound: F:/Programming/ogreoggsound/src/OgreOggSoundFactory.cpp Source File</title>
+<title>OgreOggSound: D:/Work/ogreoggsound_test/src/OgreOggSoundFactory.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -23,7 +23,7 @@
       <li><a href="globals.html"><span>File&nbsp;Members</span></a></li>
     </ul>
   </div>
-<h1>F:/Programming/ogreoggsound/src/OgreOggSoundFactory.cpp</h1><a href="_ogre_ogg_sound_factory_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*---------------------------------------------------------------------------*\</span>
+<h1>D:/Work/ogreoggsound_test/src/OgreOggSoundFactory.cpp</h1><a href="_ogre_ogg_sound_factory_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*---------------------------------------------------------------------------*\</span>
 <a name="l00002"></a>00002 <span class="comment">** This source file is part of OgreOggSound, an OpenAL wrapper library for   </span>
 <a name="l00003"></a>00003 <span class="comment">** use with the Ogre Rendering Engine.                                                                           </span>
 <a name="l00004"></a>00004 <span class="comment">**                                                                           </span>
@@ -112,11 +112,11 @@
 <a name="l00087"></a>00087 <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html#ab00eb90ab58356feb360e66bb66375f3">OgreOggSoundFactory::destroyInstance</a>( MovableObject* obj)
 <a name="l00088"></a>00088 {
 <a name="l00089"></a>00089         <span class="comment">// destroy the sound</span>
-<a name="l00090"></a>00090         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac84f9254a31a94eec5b93069288793f5">OgreOggSoundManager::getSingletonPtr</a>()-&gt;<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#a32a7f9bd142a6f6bca6f3886f888ac56">_destroySound</a>(static_cast&lt;OgreOggISound*&gt;(obj));
+<a name="l00090"></a>00090         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac84f9254a31a94eec5b93069288793f5">OgreOggSoundManager::getSingletonPtr</a>()-&gt;<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#a1b78097d97433a6dac279f4a459734d6">_releaseSoundImpl</a>(static_cast&lt;OgreOggISound*&gt;(obj));
 <a name="l00091"></a>00091 }
 <a name="l00092"></a>00092 <span class="comment">//-----------------------------------------------------------------------</span>
 </pre></div></div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Sat Sep 5 10:23:07 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 10 00:16:13 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

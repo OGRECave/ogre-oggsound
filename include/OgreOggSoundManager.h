@@ -24,6 +24,7 @@
 #include "OgreOggISound.h"
 #include "OgreOggListener.h"
 #include "OgreOggSoundRecord.h"
+#include "LocklessQueue.h"
 
 #include <map>
 #include <string>
@@ -41,16 +42,40 @@ namespace OgreOggSound
 	typedef std::map<ALenum, bool> FeatureList;
 	typedef std::vector<OgreOggISound*> ActiveList;
 	typedef std::vector<ALuint> SourceList;
-
-	/** Structure holding information for a threaded file open operation.
+	
+	/** Enumeration describing a sound action
 	*/
-	struct delayedFileOpen
+	enum SOUND_ACTION
+	{
+		LQ_PLAY,
+		LQ_STOP,
+		LQ_PAUSE,
+		LQ_LOAD,
+		LQ_DESTROY,
+		LQ_DESTROY_ALL,
+		LQ_STOP_ALL,
+		LQ_PAUSE_ALL,
+		LQ_RESUME_ALL,
+		LQ_REACTIVATE
+	};
+
+	/** Structure describing a sound action request
+	*/
+	typedef struct 
+	{
+		OgreOggISound*	mSound;
+		SOUND_ACTION	mAction;
+		void*			mParams;
+	} SoundAction;
+
+	/** Structure holding information about a create sound request.
+	*/
+	struct cSound
 	{
 		bool mPrebuffer;
-		Ogre::DataStreamPtr mFile;
 		Ogre::String mFileName;
 		ALuint mBuffer;
-		OgreOggISound* mSound;
+		Ogre::DataStreamPtr mStream;
 	};
 
 	/** Structure holding information for a static shared audio buffer.
@@ -62,17 +87,7 @@ namespace OgreOggSound
 
 	};
 
-	typedef std::deque<delayedFileOpen*> FileOpenList;
 	typedef std::map<std::string, sharedAudioBuffer*> SharedBufferList;
-
-	/** Enumeration describing action to perform once a file has been loaded
-	 */
-	enum DELAYED_ACTION
-	{
-		DA_PLAY,
-		DA_STOP,
-		DA_PAUSE
-	};
 
 	/** Handles ALL sounds
 	 */
@@ -112,14 +127,6 @@ namespace OgreOggSound
 				maximum number of sources to allocate (optional)
 		 */
 		bool init(const std::string &deviceName = "", unsigned int maxSources=100);
-		/** Creates a pool of OpenAL sources for playback.
-		@remarks
-			Attempts to create a pool of source objects which allow
-			simultaneous audio playback. The number of sources will be
-			clamped to either the hardware maximum or [mMaxSources]
-			whichever comes first.
-		 */
-		int createSourcePool();
 		/** Sets the global volume for all sounds
 			@param
 				vol global attenuation for all sounds.
@@ -176,7 +183,7 @@ namespace OgreOggSound
 		@remarks
 			Returns a vector of sound name strings.
 		 */
-		Ogre::StringVector getSoundList();
+		const Ogre::StringVector getSoundList() const;
 		/** Returns whether named sound exists.
 		@remarks
 			Checks sound map for a named sound.
@@ -184,41 +191,6 @@ namespace OgreOggSound
 				name Sound name.
 		 */
 		bool hasSound(const std::string& name);
-		/** Plays a sound.
-		@remarks
-			NOTE:- it is essential this function is used to play a sound when using BOOST Threads.
-			Accessing a sound directly and calling its functions by-passes the thread mutex and causes
-			audio artefacts and memory curruption. (Non multi-threaded does not have this problem.)
-		 */
-		void playSound(const Ogre::String& sName);
-		/** Pauses a sound.
-		@remarks
-			NOTE:- it is essential this function is used to pause a sound when using BOOST Threads.
-			Accessing a sound directly and calling its functions by-passes the thread mutex and causes
-			audio artefacts and memory curruption. (Non multi-threaded does not have this problem.)
-		 */
-		void pauseSound(const Ogre::String& sName);
-		/** Stops a sound.
-		@remarks
-			NOTE:- it is essential this function is used to stop a sound when using BOOST Threads.
-			Accessing a sound directly and calling its functions by-passes the thread mutex and causes
-			audio artefacts and memory curruption. (Non multi-threaded does not have this problem.)
-		 */
-		void stopSound(const Ogre::String& sName);
-		/** Sets a sounds current time position.
-		@param
-			sName - Name of sound
-		@param
-			time - Time in seconds to skip to, NOTE:- Value will be wrapped
-		*/
-		void setSoundCurrentTime(const Ogre::String& sName, Ogre::Real time);
-		/** Fades a sound.
-		@remarks
-			NOTE:- it is essential this function is used to fade a sound when using BOOST Threads.
-			Accessing a sound directly and calling its functions by-passes the thread mutex and causes
-			audio artefacts and memory curruption. (Non multi-threaded does not have this problem.)
-		 */
-		void fadeSound(const Ogre::String& sName, bool dir, Ogre::Real fTime, FadeControl actionOnComplete);
 		/** Stops all currently playing sounds.
 		 */
 		void stopAllSounds();
@@ -235,8 +207,6 @@ namespace OgreOggSound
 		 */
 		void resumeAllPausedSounds();
 		/** Destroys all sounds within manager.
-		@remarks
-			Destroys all sound objects created by this manager.
 		 */
 		void destroyAllSounds();
 		/** Returns XRAM support status.
@@ -255,13 +225,16 @@ namespace OgreOggSound
 				name Sound name to destroy.
 		 */
 		void destroySound(const std::string& name="");
-		/** Updates all sound buffers.
+		/** Destroys a single sound.
 		@remarks
-			Iterates all sounds and updates their buffers.
+			Destroys a single sound object.
+			@param
+				name Sound name to destroy.
 		 */
-		void updateBuffers();
+		void destroySound(OgreOggISound* sound);
 		/** Requests a free source object.
 		@remarks
+			Internal function - SHOULD NOT BE CALLED BY USER CODE
 			Retrieves a free source object and attaches it to the
 			specified sound object. Internally checks for any currently
 			available sources, then checks stopped sounds and finally
@@ -269,15 +242,39 @@ namespace OgreOggSound
 			@param
 				sound Sound pointer.
 		 */
-		bool requestSoundSource(OgreOggISound* sound=0);
+		bool _requestSoundSource(OgreOggISound* sound=0);
 		/** Release a sounds source.
 		@remarks
+			Internal function - SHOULD NOT BE CALLED BY USER CODE
 			Releases a specified sounds source object back to the system,
 			allowing it to be re-used by another sound.
 			@param
 				sound Sound pointer.
 		 */
-		bool releaseSoundSource(OgreOggISound* sound=0);
+		bool _releaseSoundSource(OgreOggISound* sound=0);
+		/** Releases a shared audio buffer
+		@remarks
+			Internal function - SHOULD NOT BE CALLED BY USER CODE
+			Each shared audio buffer is reference counted so destruction is handled correctly,
+			this function merely decrements the reference count, only destroying when no sounds
+			are referencing buffer.
+			@param sName
+				Name of audio file
+		*/
+		bool _releaseSharedBuffer(const Ogre::String& sName, ALuint& buffer);
+		/** Registers a shared audio buffer
+		@remarks
+			Internal function - SHOULD NOT BE CALLED BY USER CODE
+			Its possible to share audio buffer data among many sources so this function
+			registers an audio buffer as 'sharable', meaning if a the same audio file is
+			created more then once, it will simply use the original buffer data instead of
+			creating/loading the same data again.
+			@param sName
+				Name of audio file
+			@param buffer
+				OpenAL buffer ID holding audio data
+		 */
+		bool _registerSharedBuffer(const Ogre::String& sName, ALuint& buffer);
 		/** Sets distance model.
 		@remarks
 			Sets the global distance attenuation algorithm used by all
@@ -306,20 +303,13 @@ namespace OgreOggSound
 		@remarks
 			Creates a list of available audio device strings
 		 */
-		Ogre::StringVector getDeviceList();
+		const Ogre::StringVector getDeviceList() const;
 		/** Returns pointer to listener.
 		 */
 		OgreOggListener *getListener(){return mListener;};
 		/** Returns number of sources created.
 		 */
-		int getNumSources() { return mNumSources; }
-		/** Opens all queued sounds.
-		@remarks
-			To prevent calling thread blocking when using ov_open_callbacks() we offload this call
-			onto the update thread. This function basically opens an ogg file for reading and notifys
-			its parent sound that its ready to be used.
-		 */
-		void processQueuedSounds(void);
+		int getNumSources() const { return mNumSources; }
 		/** Updates system.
 		@remarks
 			Iterates all sounds and updates them.
@@ -504,44 +494,34 @@ namespace OgreOggSound
 		 */
 		OgreOggSoundRecord* createRecorder();
 #endif
-		/** Releases a shared audio buffer
-		@remarks
-			Each shared audio buffer is reference counted so destruction is handled correctly,
-			this function merely decrements the reference count, only destroying when no sounds
-			are referencing buffer.
-			@param sName
-				Name of audio file
-		*/
-		bool releaseSharedBuffer(const Ogre::String& sName, ALuint& buffer);
-		/** Registers a shared audio buffer
-		@remarks
-			Its possible to share audio buffer data among many sources so this function
-			registers an audio buffer as 'sharable', meaning if a the same audio file is
-			created more then once, it will simply use the original buffer data instead of
-			creating/loading the same data again.
-			@param sName
-				Name of audio file
-			@param buffer
-				OpenAL buffer ID holding audio data
-		 */
-		bool registerSharedBuffer(const Ogre::String& sName, ALuint& buffer);
-		/** Queues a sound to play
-		@remarks
-			Synchronisation function for Threaded version of library, fixes the bug where creating 
-			and immediately playing a sound through OgreOggISound::play() results in no sound. This 
-			is because theres no facilty to re-check a play delayed sound after it has been opened.
-			This function therefore adds the specified sound to an internal list which is checked 
-			in update() and an attempt is made to play() the sound.
-			NOTE (Multithreaded version ONLY):- calling OgreOggISound::play()/stop()/pause() directly 
-			still has the potential to crash out as these functions are not mutex locked. If Threading
-			is enabled you SHOULD use the OgreOggSoundManager::playSound()/pauseSound()/stopSound() functions.
-			This will be addressed in the near future.
-		 */
-		void queueDelayedSound(OgreOggISound* sound=0, DELAYED_ACTION action=DA_PLAY);
 
 #if OGGSOUND_THREADED
 
+		/** Pushes a sound action request onto the queue
+		@remarks
+			Internal function - SHOULD NOT BE CALLED BY USER CODE!
+			Sound actions are queued through the manager to be operated on in an efficient and
+			non-blocking manner, this function adds a request to the list to be processed.
+			@param sound
+				Sound object to perform action upon
+			@param action
+				Action to perform.
+		*/
+		void _requestSoundAction(const SoundAction& action);
+		/** Processes queued sound actions.
+		@remarks
+			Presently executes a maximum of 5 actions in a single iteration.
+		 */
+		void _processQueuedSounds(void);
+		/** Updates all sound buffers.
+		@remarks
+			Iterates all sounds and updates their buffers.
+		 */
+		void _updateBuffers();
+
 		boost::recursive_mutex mMutex;
+
+		LocklessQueue<SoundAction>* mActionsList;
 
 		static::boost::thread *mUpdateThread;
 		static bool mShuttingDown;
@@ -561,15 +541,89 @@ namespace OgreOggSound
 		{
 			while(!mShuttingDown)
 			{
-				OgreOggSoundManager::getSingleton().processQueuedSounds();
-				OgreOggSoundManager::getSingleton().updateBuffers();
+				OgreOggSoundManager::getSingleton()._processQueuedSounds();
+				OgreOggSoundManager::getSingleton()._updateBuffers();
+#if OGGSOUND_THREADED
+#	ifndef LINUX
+				Sleep(2);
+#	else
+				sleep(2);
+#	endif
+#endif
 				mUpdateThread->yield();
 			}
 		}
 
 #endif
-	protected:
+	private:
 
+		/** Implementation of sound loading
+		@param file
+			name of sound file.
+		@param buf
+			OpenAL shared buffer index.
+		@param prebuffer
+			Prebuffer flag.
+		*/
+		void _loadSoundImpl(OgreOggISound* sound, const Ogre::String& file, ALuint buf, bool prebuffer);
+		/** Implementation of sound loading
+		@param stream
+			File stream pointer.
+		@param prebuffer
+			Prebuffer flag.
+		*/
+		void _loadSoundImpl(OgreOggISound* sound, Ogre::DataStreamPtr& stream, bool prebuffer);
+		/** Creates a single sound object.
+		@remarks
+			Creates and inits a single sound object, depending on passed
+			parameters this function will create a static/streamed sound.
+			Each sound must have a unique name within the manager.
+			@param
+				name Unique name of sound
+			@param
+				file Audio file path string
+			@param
+				stream Flag indicating if the sound sound be streamed.
+			@param
+				loop Flag indicating if the file should loop.
+			@param
+				preBuffer Flag indicating if a source should be attached at creation.
+		 */
+		OgreOggISound* _createSoundImpl(const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);
+		/** Creates a single sound object.
+		@remarks
+			Plugin specific version of createSound, uses createMovableObject() to instantiate
+			a sound automatically registered with the supplied SceneManager, allows OGRE to automatically
+			cleanup/manage this sound.
+			Each sound must have a unique name within the manager.
+			@param
+				scnMgr SceneManager to use to create sound
+			@param
+				name Unique name of sound
+			@param
+				file Audio file path string
+			@param
+				stream Flag indicating if the sound sound be streamed.
+			@param
+				loop Flag indicating if the file should loop.
+			@param
+				preBuffer Flag indicating if a source should be attached at creation.
+		 */
+		OgreOggISound* _createSoundImpl(Ogre::SceneManager& scnMgr, const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);
+		/** Destroys a single sound.
+		@remarks
+			Destroys a single sound object.
+			@param
+				name Sound name to destroy.
+		 */
+		void _destroySoundImpl(const Ogre::String& sName="");
+		/** Destroys a single sound.
+		@remarks
+			Destroys a single sound object.
+			@param sound
+				Sound object to destroy.
+		 */
+		void _destroySoundImpl(OgreOggISound* sound=0);
 		/** Destroys a single sound.
 		@remarks
 			Destroys a single sound object.
@@ -577,7 +631,7 @@ namespace OgreOggSound
 				sound
 					Sound to destroy.
 		 */
-		void _destroySound(OgreOggISound* sound=0);
+		void _releaseSoundImpl(OgreOggISound* sound=0);
 		/** Removes references of a sound from all possible internal lists.
 		@remarks
 			Various lists exist to manage numerous states of a sound, this
@@ -587,9 +641,26 @@ namespace OgreOggSound
 				Sound to destroy.
 		 */
 		void _removeFromLists(OgreOggISound* sound=0);
-
-	private:
-
+		/** Stops all currently playing sounds.
+		 */
+		void _stopAllSoundsImpl();
+		/** Pauses all currently playing sounds.
+		 */
+		void _pauseAllSoundsImpl();
+		/** Resumes all previously playing sounds.
+		 */
+		void _resumeAllPausedSoundsImpl();
+		/** Destroys all sounds.
+		 */
+		void _destroyAllSoundsImpl();
+		/** Creates a pool of OpenAL sources for playback.
+		@remarks
+			Attempts to create a pool of source objects which allow
+			simultaneous audio playback. The number of sources will be
+			clamped to either the hardware maximum or [mMaxSources]
+			whichever comes first.
+		 */
+		int _createSourcePool();
 		/** Gets a shared audio buffer
 		@remarks
 			Returns a previously loaded shared buffer reference if available.
@@ -604,7 +675,7 @@ namespace OgreOggSound
 			Release all sounds and their associated OpenAL objects
 			from the system.
 		 */
-		void _release();
+		void _releaseAll();
 		/** Checks and Logs a supported feature list
 		@remarks
 			Queries OpenAL for various supported features and lists
@@ -654,6 +725,9 @@ namespace OgreOggSound
 		bool _attachEffectToSlot(ALuint slot, ALuint effect);
 #endif
 		/** Re-activates any sounds which had their source stolen.
+		 */
+		void _reactivateQueuedSounds();
+		/** Re-activates any sounds which had their source stolen, implementation methods.
 		@remarks
 			When all sources are in use the sounds begin to give up
 			their source objects to higher priority sounds. When this
@@ -663,7 +737,7 @@ namespace OgreOggSound
 			sounds which were originally playing when forced to give up
 			their source object.
 		 */
-		void _reactivateQueuedSounds();
+		void _reactivateQueuedSoundsImpl();
 		/** Enumerates audio devices.
 		@remarks
 			Gets a list of audio device available.
@@ -682,10 +756,6 @@ namespace OgreOggSound
 		 */
 		SoundMap mSoundMap;						// Map of all sounds
 		ActiveList mActiveSounds;				// list of sounds currently active
-		FileOpenList mQueuedSounds;				// list of sounds queued to be opened (multi-threaded ONLY)
-		ActiveList mPlayQueue;					// list of sounds waiting to play	(only used prior to file loaded)
-		ActiveList mPauseQueue;					// list of sounds waiting to pause	(only used prior to file loaded)
-		ActiveList mStopQueue;					// list of sounds waiting to stop	(only used prior to file loaded)
 		ActiveList mPausedSounds;				// list of sounds currently paused
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		SourceList mSourcePool;					// List of available sources

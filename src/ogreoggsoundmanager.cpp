@@ -58,6 +58,9 @@ namespace OgreOggSound
 		,mEAXVersion(0)
 		,mDeviceStrings(0)
 		,mMaxSources(100)
+#if OGGSOUND_THREADED
+		,mActionsList(0)
+#endif
 		{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 			// Effect objects
@@ -105,7 +108,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::~OgreOggSoundManager()
 	{
-	#if OGGSOUND_THREADED
+#if OGGSOUND_THREADED
 		mShuttingDown = true;
 		if (mUpdateThread)
 		{
@@ -113,9 +116,10 @@ namespace OgreOggSound
 			OGRE_FREE(mUpdateThread, Ogre::MEMCATEGORY_GENERAL);
 			mUpdateThread = 0;
 		}
+		if ( mActionsList ) delete mActionsList;
 #endif
 
-		_release();
+		_releaseAll();
 
 		if ( mRecorder ) OGRE_DELETE_T(mRecorder, OgreOggSoundRecord, Ogre::MEMCATEGORY_GENERAL);
 
@@ -140,6 +144,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::init(const std::string &deviceName, unsigned int maxSources)
 	{
+		if (mDevice) return true;
+
 		Ogre::LogManager::getSingleton().logMessage("*****************************************");
 		Ogre::LogManager::getSingleton().logMessage("*** --- Initialising OgreOggSound --- ***");
 		Ogre::LogManager::getSingleton().logMessage("*** ---     "+OGREOGGSOUND_VERSION_STRING+"     --- ***");
@@ -214,15 +220,16 @@ namespace OgreOggSound
 
 		mListener = OGRE_NEW_T(OgreOggListener, Ogre::MEMCATEGORY_GENERAL)();
 
-		mNumSources = createSourcePool();
+		mNumSources = _createSourcePool();
 
 		msg="*** --- Created " + Ogre::StringConverter::toString(mNumSources) + " sources for simultaneous sounds";
 		Ogre::LogManager::getSingleton().logMessage(msg);
 
-	#if OGGSOUND_THREADED
+#	if OGGSOUND_THREADED
 		mUpdateThread = OGRE_NEW_T(boost::thread,Ogre::MEMCATEGORY_GENERAL)(boost::function0<void>(&OgreOggSoundManager::threadUpdate));
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
-	#endif
+		mActionsList = new LocklessQueue<SoundAction>(32);
+#	endif
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// Recording
@@ -249,7 +256,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	Ogre::StringVector OgreOggSoundManager::getDeviceList()
+	const StringVector OgreOggSoundManager::getDeviceList() const
 	{
 		const ALCchar* deviceList = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
 
@@ -301,107 +308,30 @@ namespace OgreOggSound
 		return deviceVector;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	StringVector OgreOggSoundManager::getSoundList()
+	const StringVector OgreOggSoundManager::getSoundList() const
 	{ 
-		Ogre::StringVector list;
-		for ( SoundMap::iterator iter=mSoundMap.begin(); iter!=mSoundMap.end(); ++iter )
+		StringVector list;
+		for ( SoundMap::const_iterator iter=mSoundMap.begin(); iter!=mSoundMap.end(); ++iter )
 			list.push_back((*iter).first);
 		return list; 
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_checkFeatureSupport()
+	void OgreOggSoundManager::setMasterVolume(ALfloat vol)
 	{
-		Ogre::String msg="";
-		// Supported Formats Info
-		Ogre::LogManager::getSingleton().logMessage("*** --- SUPPORTED FORMATS");
-		ALenum eBufferFormat = 0;
-		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_MONO16");
-		if(eBufferFormat)
-		{
-			msg="*** --- AL_FORMAT_MONO16 -- Monophonic Sound";
-			Ogre::LogManager::getSingleton().logMessage(msg);
-		}
-		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_STEREO16");
-		if(eBufferFormat)
-		{
-			msg="*** --- AL_FORMAT_STEREO16 -- Stereo Sound";
-			Ogre::LogManager::getSingleton().logMessage(msg);
-		}
-		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_QUAD16");
-		if(eBufferFormat)
-		{
-			msg="*** --- AL_FORMAT_QUAD16 -- 4 Channel Sound";
-			Ogre::LogManager::getSingleton().logMessage(msg);
-		}
-		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_51CHN16");
-		if(eBufferFormat)
-		{
-			msg="*** --- AL_FORMAT_51CHN16 -- 5.1 Surround Sound";
-			Ogre::LogManager::getSingleton().logMessage(msg);
-		}
-		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_61CHN16");
-		if(eBufferFormat)
-		{
-			msg="*** --- AL_FORMAT_61CHN16 -- 6.1 Surround Sound";
-			Ogre::LogManager::getSingleton().logMessage(msg);
-		}
-		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_71CHN16");
-		if(eBufferFormat)
-		{
-			msg="*** --- AL_FORMAT_71CHN16 -- 7.1 Surround Sound";
-			Ogre::LogManager::getSingleton().logMessage(msg);
-		}
-
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-		// EFX
-		mEFXSupport = _checkEFXSupport();
-		if (mEFXSupport)
-		{
-			Ogre::LogManager::getSingleton().logMessage("*** --- EFX Detected");
-			_determineAuxEffectSlots();
-		}
-		else
-			Ogre::LogManager::getSingleton().logMessage("*** --- EFX NOT Detected");
-
-		// XRAM
-		mXRamSupport = _checkXRAMSupport();
-		if (mXRamSupport)
-		{
-			// Log message
-			Ogre::LogManager::getSingleton().logMessage("*** --- X-RAM Detected");
-			Ogre::LogManager::getSingleton().logMessage("*** --- X-RAM Size(MB): " + Ogre::StringConverter::toString(mXRamSizeMB) +
-				" Free(MB):" + Ogre::StringConverter::toString(mXRamFreeMB));
-		}
-		else
-			Ogre::LogManager::getSingleton().logMessage("*** --- XRAM NOT Detected");
-
-		// EAX
-		for(int version = 5; version >= 2; version--)
-		{
-			Ogre::String eaxName="EAX"+Ogre::StringConverter::toString(version)+".0";
-			if(alIsExtensionPresent(eaxName.c_str()) == AL_TRUE)
-			{
-				mEAXSupport = true;
-				mEAXVersion = version;
-				eaxName="*** --- EAX "+Ogre::StringConverter::toString(version)+".0 Detected";
-				Ogre::LogManager::getSingleton().logMessage(eaxName);
-				break;
-			}
-		}
-#endif
+		if ( (vol>=0.f) && (vol<=1.f) )
+			alListenerf(AL_GAIN, vol);
 	}
+
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_enumDevices()
+	ALfloat OgreOggSoundManager::getMasterVolume()
 	{
-		mDeviceStrings = const_cast<ALCchar*>(alcGetString(0,ALC_DEVICE_SPECIFIER));
+		ALfloat vol=0.0;
+		alGetListenerf(AL_GAIN, &vol);
+		return vol;
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer)
 	{
-#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-#endif
 		Ogre::ResourceGroupManager* groupManager = 0;
 		Ogre::String group;
 		Ogre::DataStreamPtr soundData;
@@ -465,30 +395,23 @@ namespace OgreOggSound
 			// Set loop flag
 			mSoundMap[name]->loop(loop);
 
-#if OGGSOUND_THREADED==0
+#if OGGSOUND_THREADED
+			SoundAction action;
+			cSound* c		= OGRE_NEW_T(cSound, Ogre::MEMCATEGORY_GENERAL);
+			c->mFileName	= file;
+			c->mBuffer		= buffer;
+			c->mStream		= soundData;
+			action.mAction	= LQ_LOAD;
+			action.mParams	= c;
+			action.mSound	= mSoundMap[name];
+			_requestSoundAction(action);
+#else
 			// Use shared buffer if available
 			if ( buffer!=AL_NONE )
-				mSoundMap[name]->open(file, buffer);
+				_loadSoundImpl(mSoundMap[name], file, buffer, preBuffer);
 			else
+				_loadSoundImpl(mSoundMap[name], soundData, preBuffer);
 				// Load audio file
-				mSoundMap[name]->open(soundData);
-			// If requested to preBuffer - grab free source and init
-			if (preBuffer)
-			{
-				if ( !requestSoundSource(mSoundMap[name]) )
-				{
-					Ogre::String msg="*** OgreOggSoundManager::createSound() - Failed to preBuffer sound: "+name;
-					Ogre::LogManager::getSingleton().logMessage(msg);
-				}
-			}
-#else
-			delayedFileOpen* fo = OGRE_NEW_T(delayedFileOpen, Ogre::MEMCATEGORY_GENERAL);
-			fo->mPrebuffer	= preBuffer;		// Prebuffer flag
-			fo->mBuffer		= buffer;			// Shared buffer ref
-			fo->mFileName	= file;				// Filename to register
-			fo->mFile		= soundData;		// DatastreamPtr
-			fo->mSound		= mSoundMap[name];	// Sound object
-			mQueuedSounds.push_back(fo);
 #endif
 			return mSoundMap[name];
 		}
@@ -510,30 +433,23 @@ namespace OgreOggSound
 			// Set loop flag
 			mSoundMap[name]->loop(loop);
 
-#if OGGSOUND_THREADED==0
+#if OGGSOUND_THREADED
+			SoundAction action;
+			cSound* c		= OGRE_NEW_T(cSound, Ogre::MEMCATEGORY_GENERAL);
+			c->mFileName	= file;
+			c->mBuffer		= buffer;
+			c->mStream		= soundData;
+			action.mAction	= LQ_LOAD;
+			action.mParams	= c;
+			action.mSound	= mSoundMap[name];
+			_requestSoundAction(action);
+#else
 			// Use shared buffer if available
 			if ( buffer!=AL_NONE )
-				mSoundMap[name]->open(file, buffer);
+				_loadSoundImpl(mSoundMap[name], file, buffer, preBuffer);
 			else
+				_loadSoundImpl(mSoundMap[name], soundData, preBuffer);
 				// Load audio file
-				mSoundMap[name]->open(soundData);
-			// If requested to preBuffer - grab free source and init
-			if (preBuffer)
-			{
-				if ( !requestSoundSource(mSoundMap[name]) )
-				{
-					Ogre::String msg="*** OgreOggSoundManager::createSound() - Failed to preBuffer sound: "+name;
-					Ogre::LogManager::getSingleton().logMessage(msg);
-				}
-			}
-#else
-			delayedFileOpen* fo = OGRE_NEW_T(delayedFileOpen, Ogre::MEMCATEGORY_GENERAL);
-			fo->mPrebuffer	= preBuffer;		// Prebuffer flag
-			fo->mBuffer		= buffer;			// Shared buffer ref
-			fo->mFileName	= file;				// Filename to register
-			fo->mFile		= soundData;		// DatastreamPtr
-			fo->mSound		= mSoundMap[name];	// Sound object
-			mQueuedSounds.push_back(fo);
 #endif
 			return mSoundMap[name];
 		}
@@ -546,27 +462,8 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::setMasterVolume(ALfloat vol)
-	{
-		if ( (vol>=0.f) && (vol<=1.f) )
-			alListenerf(AL_GAIN, vol);
-	}
-
-	/*/////////////////////////////////////////////////////////////////*/
-	ALfloat OgreOggSoundManager::getMasterVolume()
-	{
-		ALfloat vol=0.0;
-		alGetListenerf(AL_GAIN, &vol);
-		return vol;
-	}
-
-	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound* OgreOggSoundManager::createSound(SceneManager& scnMgr, const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer)
 	{
-#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-#endif
-
 		Ogre::NameValuePairList params;
 		params["fileName"]	= file;
 		params["stream"]	= stream	? "true" : "false";
@@ -596,6 +493,383 @@ namespace OgreOggSound
 		if(i == mSoundMap.end()) return 0;
 		return i->second;
 	}
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::hasSound(const std::string& name)
+	{
+		SoundMap::iterator i = mSoundMap.find(name);
+		if(i == mSoundMap.end()) return false; return true;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::destroyAllSounds()
+	{
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mAction = LQ_DESTROY_ALL;
+		_requestSoundAction(action);
+#else
+		_destroyAllSoundsImpl();
+#endif
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::stopAllSounds()
+	{
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mAction = LQ_STOP_ALL;
+		_requestSoundAction(action);
+#else
+		_stopAllSoundsImpl();
+#endif
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::pauseAllSounds()
+	{
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mAction = LQ_PAUSE_ALL;
+		_requestSoundAction(action);
+#else
+		_pauseAllSoundsImpl();
+#endif
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::resumeAllPausedSounds()
+	{
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mAction = LQ_RESUME_ALL;
+		_requestSoundAction(action);
+#else
+		_resumeAllPausedSoundsImpl();
+#endif
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::muteAllSounds()
+	{
+		alGetListenerf(AL_GAIN, &mOrigVolume);
+		alListenerf(AL_GAIN, 0.f);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::unmuteAllSounds()
+	{
+		alListenerf(AL_GAIN, mOrigVolume);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::destroySound(const Ogre::String& sName)
+	{
+		OgreOggISound* sound=0;
+		if ( !(sound = getSound(sName)) ) return;
+
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mAction	= LQ_DESTROY;
+		action.mSound	= sound;
+		action.mParams  = 0;
+		_requestSoundAction(action);
+#else
+		_destroySoundImpl(sound);
+#endif
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::destroySound(OgreOggISound* sound)
+	{
+		if ( !sound ) return;
+
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mAction	= LQ_DESTROY;
+		action.mSound	= sound;
+		action.mParams  = 0;
+		_requestSoundAction(action);
+#else
+		_destroySoundImpl(sound);
+#endif
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::setDistanceModel(ALenum value)
+	{
+		alDistanceModel(value);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::setSpeedOfSound(Ogre::Real speed)
+	{
+		alSpeedOfSound(speed);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::setDopplerFactor(Ogre::Real factor)
+	{
+		alDopplerFactor(factor);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::update(Ogre::Real fTime)
+	{
+		static Real rTime=0.f;
+
+		// Update ALL active sounds
+		ActiveList::iterator i = mActiveSounds.begin();
+		while( i != mActiveSounds.end() )
+		{
+			(*i)->update(fTime);
+	#if !OGGSOUND_THREADED 
+			(*i)->_updateAudioBuffers();
+	#endif
+			++i;
+		}
+
+		// Limit re-activation
+		if ( (rTime+=fTime) > 0.1 )
+		{
+			// try to reactivate any
+			_reactivateQueuedSounds();
+
+			// Reset timer
+			rTime=0.f;
+		}
+
+		// Update listener
+		mListener->update();
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	struct OgreOggSoundManager::_sortNearToFar
+	{
+		bool operator()(OgreOggISound* sound1, OgreOggISound* sound2)
+		{
+			Real	d1=0.f,
+					d2=0.f;
+			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
+
+			if ( sound1->isRelativeToListener() )
+				d1 = sound1->getPosition().length();
+			else
+				d1 = sound1->getPosition().distance(lPos);
+
+			if ( sound2->isRelativeToListener() )
+				d2 = sound2->getPosition().length();
+			else
+				d2 = sound2->getPosition().distance(lPos);
+
+			// Check sort order
+			if ( d1<d2 )	return true;
+			if ( d1>d2 )	return false;
+
+			// Equal - don't sort
+			return false;
+		}
+	};
+	/*/////////////////////////////////////////////////////////////////*/
+	struct OgreOggSoundManager::_sortFarToNear
+	{
+		bool operator()(OgreOggISound* sound1, OgreOggISound* sound2)
+		{
+			Real	d1=0.f,
+					d2=0.f;
+			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
+
+			if ( sound1->isRelativeToListener() )
+				d1 = sound1->getPosition().length();
+			else
+				d1 = sound1->getPosition().distance(lPos);
+
+			if ( sound2->isRelativeToListener() )
+				d2 = sound2->getPosition().length();
+			else
+				d2 = sound2->getPosition().distance(lPos);
+
+			// Check sort order
+			if ( d1>d2 )	return true;
+			if ( d1<d2 )	return false;
+
+			// Equal - don't sort
+			return false;
+		}
+	};
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::_requestSoundSource(OgreOggISound* sound)
+	{
+		// Does sound need a source?
+		if (!sound) return false;
+
+		if (sound->getSource()!=AL_NONE) return true;
+
+		ALuint src = AL_NONE;
+
+		// If there are still sources available
+		// Pop next available off list
+		if ( !mSourcePool.empty() )
+		{
+			// Get next available source
+			src = static_cast<ALuint>(mSourcePool.back());
+			// Remove from available list
+			mSourcePool.pop_back();
+			// Set sounds source
+			sound->setSource(src);
+			// Add to active list
+			mActiveSounds.push_back(sound);
+			// Remove from reactivate list if reactivating..
+			if ( !mSoundsToReactivate.empty() )
+			{
+				for ( ActiveList::iterator rIter=mSoundsToReactivate.begin(); rIter!=mSoundsToReactivate.end(); )
+				{
+					if ( (*rIter)==sound )
+						rIter = mSoundsToReactivate.erase(rIter);
+					else
+						++rIter;
+				}
+			}
+			return true;
+		}
+		// All sources in use
+		// Re-use an active source
+		// Use either a non-playing source or a lower priority source
+		else
+		{
+			// Get iterator for list
+			ActiveList::iterator iter = mActiveSounds.begin();
+
+			// Search for a stopped sound
+			while ( iter!=mActiveSounds.end() )
+			{
+				// Find a stopped sound - reuse its source
+				if ( (*iter)->isStopped() )
+				{
+					ALuint src = (*iter)->getSource();
+					ALuint nullSrc = AL_NONE;
+					// Pause sounds
+					(*iter)->pause();
+					// Remove source
+					(*iter)->setSource(nullSrc);
+					// Attach source to new sound
+					sound->setSource(src);
+					// Add to reactivate list
+					mSoundsToReactivate.push_back((*iter));
+					// Remove relinquished sound from active list
+					mActiveSounds.erase(iter);
+					// Add new sound to active list
+					mActiveSounds.push_back(sound);
+					// Return success
+					return true;
+				}
+				else
+					++iter;
+			}
+
+			// Check priority...
+			Ogre::uint8 priority = sound->getPriority();
+			iter = mActiveSounds.begin();
+
+			// Search for a stopped sound
+			while ( iter!=mActiveSounds.end() )
+			{
+				// Find a stopped sound - reuse its source
+				if ( (*iter)->getPriority()<sound->getPriority() )
+				{
+					ALuint src = (*iter)->getSource();
+					ALuint nullSrc = AL_NONE;
+					// Pause sounds
+					(*iter)->pause();
+					// Remove source
+					(*iter)->setSource(nullSrc);
+					// Attach source to new sound
+					sound->setSource(src);
+					// Add to reactivate list
+					mSoundsToReactivate.push_back((*iter));
+					// Remove relinquished sound from active list
+					mActiveSounds.erase(iter);
+					// Add new sound to active list
+					mActiveSounds.push_back(sound);
+					// Return success
+					return true;
+				}
+				else
+					++iter;
+			}
+
+			// Sort by distance
+			Real	d1 = 0.f,
+					d2 = 0.f;
+
+			// Sort list by distance
+			std::sort(mActiveSounds.begin(), mActiveSounds.end(), _sortFarToNear());
+
+			// Lists should be sorted:	Active-->furthest to Nearest
+			//							Reactivate-->Nearest to furthest
+			OgreOggISound* snd1 = mActiveSounds.front();
+
+			if ( snd1->isRelativeToListener() )
+				d1 = snd1->getPosition().length();
+			else
+				d1 = snd1->getPosition().distance(mListener->getPosition());
+
+			if ( sound->isRelativeToListener() )
+				d1 = sound->getPosition().length();
+			else
+				d1 = sound->getPosition().distance(mListener->getPosition());
+
+			// Needs swapping?
+			if ( d1>d2 )
+			{
+				ALuint src = snd1->getSource();
+				ALuint nullSrc = AL_NONE;
+				// Pause sounds
+				snd1->pause();
+				snd1->_markPlayPosition();
+				// Remove source
+				snd1->setSource(nullSrc);
+				// Attach source to new sound
+				sound->setSource(src);
+				sound->_recoverPlayPosition();
+				// Add to reactivate list
+				mSoundsToReactivate.push_back(snd1);
+				// Remove relinquished sound from active list
+				mActiveSounds.erase(mActiveSounds.begin());
+				// Add new sound to active list
+				mActiveSounds.push_back(sound);
+				// Return success
+				return true;
+			}
+		}
+		// Uh oh - won't be played
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::_releaseSoundSource(OgreOggISound* sound)
+	{
+		if (!sound) return false;
+
+		if (sound->getSource()==AL_NONE) return true;
+
+		// Get source
+		ALuint src = sound->getSource();
+
+		// Valid source?
+		if(src!=AL_NONE)
+		{
+			ALuint source=AL_NONE;
+
+			// Detach source from sound
+			sound->setSource(source);
+
+			// Make source available
+			mSourcePool.push_back(src);
+
+			// Remove from actives list
+			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); )
+			{
+				// Find sound in actives list
+				if ( (*iter)==sound )
+				{
+					// Remove from list
+					iter = mActiveSounds.erase(iter);
+				}
+				else
+					++iter;
+			}
+			return true;
+		}
+
+		return false;
+	}
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::isRecordingAvailable() const
@@ -621,236 +895,6 @@ namespace OgreOggSound
 		else
 			Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::isEffectSupported() - Invalid effectID!");
 
-		return false;
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_determineAuxEffectSlots()
-	{
-		ALuint		uiEffectSlots[128] = { 0 };
-		ALuint		uiEffects[1] = { 0 };
-		ALuint		uiFilters[1] = { 0 };
-		Ogre::String msg="";
-
-		// To determine how many Auxiliary Effects Slots are available, create as many as possible (up to 128)
-		// until the call fails.
-		for (mNumEffectSlots = 0; mNumEffectSlots < 128; mNumEffectSlots++)
-		{
-			alGenAuxiliaryEffectSlots(1, &uiEffectSlots[mNumEffectSlots]);
-			if (alGetError() != AL_NO_ERROR)
-				break;
-		}
-
-		msg="*** --- "+Ogre::StringConverter::toString(mNumEffectSlots)+ " Auxiliary Effect Slot(s)";
-		Ogre::LogManager::getSingleton().logMessage(msg);
-
-		// Retrieve the number of Auxiliary Effect Slots Sends available on each Source
-		alcGetIntegerv(mDevice, ALC_MAX_AUXILIARY_SENDS, 1, &mNumSendsPerSource);
-		msg="*** --- "+Ogre::StringConverter::toString(mNumSendsPerSource)+" Auxiliary Send(s) per Source";
-		Ogre::LogManager::getSingleton().logMessage(msg);
-
-		Ogre::LogManager::getSingleton().logMessage("*** --- EFFECTS SUPPORTED:");
-		alGenEffects(1, &uiEffects[0]);
-		if (alGetError() == AL_NO_ERROR)
-		{
-			// Try setting Effect Type to known Effects
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_REVERB);
-			if ( mEFXSupportList[AL_EFFECT_REVERB] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Reverb' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Reverb' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
-			if ( mEFXSupportList[AL_EFFECT_EAXREVERB] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'EAX Reverb' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'EAX Reverb' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_CHORUS);
-			if ( mEFXSupportList[AL_EFFECT_CHORUS] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Chorus' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Chorus' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
-			if ( mEFXSupportList[AL_EFFECT_DISTORTION] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Distortion' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Distortion' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_ECHO);
-			if ( mEFXSupportList[AL_EFFECT_ECHO] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Echo' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Echo' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_FLANGER);
-			if ( mEFXSupportList[AL_EFFECT_FLANGER] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Flanger' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Flanger' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_FREQUENCY_SHIFTER);
-			if ( mEFXSupportList[AL_EFFECT_FREQUENCY_SHIFTER] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Frequency shifter' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Frequency shifter' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_VOCAL_MORPHER);
-			if ( mEFXSupportList[AL_EFFECT_VOCAL_MORPHER] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Vocal Morpher' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Vocal Morpher' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_PITCH_SHIFTER);
-			if ( mEFXSupportList[AL_EFFECT_PITCH_SHIFTER] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Pitch shifter' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Pitch shifter' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_RING_MODULATOR);
-			if ( mEFXSupportList[AL_EFFECT_RING_MODULATOR] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Ring modulator' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Ring modulator' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_AUTOWAH);
-			if ( mEFXSupportList[AL_EFFECT_AUTOWAH] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Autowah' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Autowah' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_COMPRESSOR);
-			if ( mEFXSupportList[AL_EFFECT_COMPRESSOR] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Compressor' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Compressor' Support: NO");
-
-			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_EQUALIZER);
-			if ( mEFXSupportList[AL_EFFECT_EQUALIZER] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Equalizer' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Equalizer' Support: NO");
-		}
-
-
-		// To determine which Filters are supported, generate a Filter Object, and try to set its type to
-		// the various Filter enum values
-		Ogre::LogManager::getSingleton().logMessage("*** --- FILTERS SUPPORTED: ");
-
-		// Generate a Filter to use to determine what Filter Types are supported
-		alGenFilters(1, &uiFilters[0]);
-		if (alGetError() == AL_NO_ERROR)
-		{
-			// Try setting the Filter type to known Filters
-			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_LOWPASS);
-			if ( mEFXSupportList[AL_FILTER_LOWPASS] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Low Pass' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Low Pass' Support: NO");
-
-			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_HIGHPASS);
-			if ( mEFXSupportList[AL_FILTER_HIGHPASS] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'High Pass' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'High Pass' Support: NO");
-
-			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_BANDPASS);
-			if ( mEFXSupportList[AL_FILTER_BANDPASS] = (alGetError() == AL_NO_ERROR) )
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Band Pass' Support: YES");
-			else
-				Ogre::LogManager::getSingleton().logMessage("*** --- 'Band Pass' Support: NO");
-		}
-
-		// Delete Filter
-		alDeleteFilters(1, &uiFilters[0]);
-
-		// Delete Effect
-		alDeleteEffects(1, &uiEffects[0]);
-
-		// Delete Auxiliary Effect Slots
-		alDeleteAuxiliaryEffectSlots(mNumEffectSlots, uiEffectSlots);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::_checkEFXSupport()
-	{
-		if (alcIsExtensionPresent(mDevice, "ALC_EXT_EFX"))
-		{
-			// Get function pointers
-			alGenEffects = (LPALGENEFFECTS)alGetProcAddress("alGenEffects");
-			alDeleteEffects = (LPALDELETEEFFECTS )alGetProcAddress("alDeleteEffects");
-			alIsEffect = (LPALISEFFECT )alGetProcAddress("alIsEffect");
-			alEffecti = (LPALEFFECTI)alGetProcAddress("alEffecti");
-			alEffectiv = (LPALEFFECTIV)alGetProcAddress("alEffectiv");
-			alEffectf = (LPALEFFECTF)alGetProcAddress("alEffectf");
-			alEffectfv = (LPALEFFECTFV)alGetProcAddress("alEffectfv");
-			alGetEffecti = (LPALGETEFFECTI)alGetProcAddress("alGetEffecti");
-			alGetEffectiv = (LPALGETEFFECTIV)alGetProcAddress("alGetEffectiv");
-			alGetEffectf = (LPALGETEFFECTF)alGetProcAddress("alGetEffectf");
-			alGetEffectfv = (LPALGETEFFECTFV)alGetProcAddress("alGetEffectfv");
-			alGenFilters = (LPALGENFILTERS)alGetProcAddress("alGenFilters");
-			alDeleteFilters = (LPALDELETEFILTERS)alGetProcAddress("alDeleteFilters");
-			alIsFilter = (LPALISFILTER)alGetProcAddress("alIsFilter");
-			alFilteri = (LPALFILTERI)alGetProcAddress("alFilteri");
-			alFilteriv = (LPALFILTERIV)alGetProcAddress("alFilteriv");
-			alFilterf = (LPALFILTERF)alGetProcAddress("alFilterf");
-			alFilterfv = (LPALFILTERFV)alGetProcAddress("alFilterfv");
-			alGetFilteri = (LPALGETFILTERI )alGetProcAddress("alGetFilteri");
-			alGetFilteriv= (LPALGETFILTERIV )alGetProcAddress("alGetFilteriv");
-			alGetFilterf = (LPALGETFILTERF )alGetProcAddress("alGetFilterf");
-			alGetFilterfv= (LPALGETFILTERFV )alGetProcAddress("alGetFilterfv");
-			alGenAuxiliaryEffectSlots = (LPALGENAUXILIARYEFFECTSLOTS)alGetProcAddress("alGenAuxiliaryEffectSlots");
-			alDeleteAuxiliaryEffectSlots = (LPALDELETEAUXILIARYEFFECTSLOTS)alGetProcAddress("alDeleteAuxiliaryEffectSlots");
-			alIsAuxiliaryEffectSlot = (LPALISAUXILIARYEFFECTSLOT)alGetProcAddress("alIsAuxiliaryEffectSlot");
-			alAuxiliaryEffectSloti = (LPALAUXILIARYEFFECTSLOTI)alGetProcAddress("alAuxiliaryEffectSloti");
-			alAuxiliaryEffectSlotiv = (LPALAUXILIARYEFFECTSLOTIV)alGetProcAddress("alAuxiliaryEffectSlotiv");
-			alAuxiliaryEffectSlotf = (LPALAUXILIARYEFFECTSLOTF)alGetProcAddress("alAuxiliaryEffectSlotf");
-			alAuxiliaryEffectSlotfv = (LPALAUXILIARYEFFECTSLOTFV)alGetProcAddress("alAuxiliaryEffectSlotfv");
-			alGetAuxiliaryEffectSloti = (LPALGETAUXILIARYEFFECTSLOTI)alGetProcAddress("alGetAuxiliaryEffectSloti");
-			alGetAuxiliaryEffectSlotiv = (LPALGETAUXILIARYEFFECTSLOTIV)alGetProcAddress("alGetAuxiliaryEffectSlotiv");
-			alGetAuxiliaryEffectSlotf = (LPALGETAUXILIARYEFFECTSLOTF)alGetProcAddress("alGetAuxiliaryEffectSlotf");
-			alGetAuxiliaryEffectSlotfv = (LPALGETAUXILIARYEFFECTSLOTFV)alGetProcAddress("alGetAuxiliaryEffectSlotfv");
-
-			if (alGenEffects &&	alDeleteEffects && alIsEffect && alEffecti && alEffectiv &&	alEffectf &&
-				alEffectfv && alGetEffecti && alGetEffectiv && alGetEffectf && alGetEffectfv &&	alGenFilters &&
-				alDeleteFilters && alIsFilter && alFilteri && alFilteriv &&	alFilterf && alFilterfv &&
-				alGetFilteri &&	alGetFilteriv && alGetFilterf && alGetFilterfv && alGenAuxiliaryEffectSlots &&
-				alDeleteAuxiliaryEffectSlots &&	alIsAuxiliaryEffectSlot && alAuxiliaryEffectSloti &&
-				alAuxiliaryEffectSlotiv && alAuxiliaryEffectSlotf && alAuxiliaryEffectSlotfv &&
-				alGetAuxiliaryEffectSloti && alGetAuxiliaryEffectSlotiv && alGetAuxiliaryEffectSlotf &&
-				alGetAuxiliaryEffectSlotfv)
-				return true;
-		}
-
-		return false;
-	}
-
-	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::_checkXRAMSupport()
-	{
-		// Check for X-RAM extension
-		if(alIsExtensionPresent("EAX-RAM") == AL_TRUE)
-		{
-			// Get X-RAM Function pointers
-			mEAXSetBufferMode = (EAXSetBufferMode)alGetProcAddress("EAXSetBufferMode");
-			mEAXGetBufferMode = (EAXGetBufferMode)alGetProcAddress("EAXGetBufferMode");
-
-			if (mEAXSetBufferMode && mEAXGetBufferMode)
-			{
-				mXRamSize = alGetEnumValue("AL_EAX_RAM_SIZE");
-				mXRamFree = alGetEnumValue("AL_EAX_RAM_FREE");
-				mXRamAuto = alGetEnumValue("AL_STORAGE_AUTOMATIC");
-				mXRamHardware = alGetEnumValue("AL_STORAGE_HARDWARE");
-				mXRamAccessible = alGetEnumValue("AL_STORAGE_ACCESSIBLE");
-
-				if (mXRamSize && mXRamFree && mXRamAuto && mXRamHardware && mXRamAccessible)
-				{
-					// Support available
-					mXRamSizeMB = alGetInteger(mXRamSize) / (1024*1024);
-					mXRamFreeMB = alGetInteger(mXRamFree) / (1024*1024);
-					return true;
-				}
-			}
-		}
 		return false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1129,54 +1173,6 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::_attachEffectToSlot(ALuint slot, ALuint effect)
-	{
-		if ( !hasEFXSupport() || slot==AL_NONE ) return false;
-
-		/* Attach Effect to Auxiliary Effect Slot */
-		/* slot is the ID of an Aux Effect Slot */
-		/* effect is the ID of an Effect */
-		alAuxiliaryEffectSloti(slot, AL_EFFECTSLOT_EFFECT, effect);
-		if (alGetError() != AL_NO_ERROR)
-		{
-			Ogre::LogManager::getSingleton().logMessage("*** Cannot attach effect to slot!");
-			return false;
-		}
-		return true;
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	ALuint OgreOggSoundManager::_getEFXFilter(const std::string& fName)
-	{
-		if ( mFilterList.empty() || !hasEFXSupport() || fName.empty() ) return AL_FILTER_NULL;
-
-		EffectList::iterator filter=mFilterList.find(fName);
-		if ( filter==mFilterList.end() )
-			return AL_FILTER_NULL;
-		else
-			return filter->second;
-	}
-
-	/*/////////////////////////////////////////////////////////////////*/
-	ALuint OgreOggSoundManager::_getEFXEffect(const std::string& eName)
-	{
-		if ( mEffectList.empty() || !hasEFXSupport() || eName.empty() ) return AL_EFFECT_NULL;
-
-		EffectList::iterator effect=mEffectList.find(eName);
-		if ( effect==mEffectList.end() )
-			return AL_EFFECT_NULL;
-		else
-			return effect->second;
-	}
-
-	/*/////////////////////////////////////////////////////////////////*/
-	ALuint OgreOggSoundManager::_getEFXSlot(int slotID)
-	{
-		if ( mEffectSlotList.empty() || !hasEFXSupport() || (slotID>=static_cast<int>(mEffectSlotList.size())) ) return AL_NONE;
-
-		return static_cast<ALuint>(mEffectSlotList[slotID]);
-	}
-
-	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::createEFXFilter(const std::string& fName, ALint filterType, ALfloat gain, ALfloat hfGain)
 	{
 		if ( !hasEFXSupport() || fName.empty() || !isEffectSupported(filterType) )
@@ -1301,6 +1297,116 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::setEFXSoundProperties(const std::string& sName, Ogre::Real airAbsorption, Ogre::Real roomRolloff, Ogre::Real coneOuterHF)
+	{
+		OgreOggISound* sound = getSound(sName);
+
+		if ( sound )
+		{
+			ALuint src = sound->getSource();
+
+			if ( src!=AL_NONE )
+			{
+				alGetError();
+
+				alSourcef(src, AL_AIR_ABSORPTION_FACTOR, airAbsorption);
+				alSourcef(src, AL_ROOM_ROLLOFF_FACTOR, roomRolloff);
+				alSourcef(src, AL_CONE_OUTER_GAINHF, coneOuterHF);
+
+				if ( alGetError()==AL_NO_ERROR )
+				{
+					return true;
+				}
+				else
+				{
+					Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXSoundProperties() - Unable to set EFX sound properties!");
+					return false;
+				}
+			}
+			else
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXSoundProperties() - No source attached to sound!");
+				return false;
+			}
+		}
+
+		Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXSoundProperties() - Sound does not exist!");
+		return false;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::setEFXDistanceUnits(Ogre::Real units)
+	{
+		if ( !hasEFXSupport() || units<=0 ) return;
+
+		alListenerf(AL_METERS_PER_UNIT, units);
+	}
+#endif
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_destroyAllSoundsImpl()
+	{
+		// Destroy all sounds
+		SoundMap::iterator i = mSoundMap.begin();
+		while(i != mSoundMap.end())
+		{
+			delete i->second;
+			++i;
+		}
+
+		mSoundMap.clear();
+		// Shared buffers
+		SharedBufferList::iterator b = mSharedBuffers.begin();
+		while (b != mSharedBuffers.end())
+		{
+			if ( b->second->mRefCount>0 )
+				alDeleteBuffers(1, &b->second->mAudioBuffer);
+			delete b->second;
+			++b;
+		}
+
+		mSharedBuffers.clear();
+
+		// Clear queues
+		mActiveSounds.clear();
+		mPausedSounds.clear();
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_stopAllSoundsImpl()
+	{
+		if (mActiveSounds.empty()) return;
+
+		for (ActiveList::const_iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
+		{
+			(*iter)->stop();
+		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_pauseAllSoundsImpl()
+	{
+		if (mActiveSounds.empty()) return;
+
+		for (ActiveList::const_iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
+		{
+			if ( (*iter)->isPlaying() && !(*iter)->isPaused() )
+			{
+				// Pause sound
+				(*iter)->pause();
+
+				// Add to list to allow resuming
+				mPausedSounds.push_back((*iter));
+			}
+		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_resumeAllPausedSoundsImpl()
+	{
+		if (mPausedSounds.empty()) return;
+
+		for (ActiveList::const_iterator iter=mPausedSounds.begin(); iter!=mPausedSounds.end(); ++iter)
+			(*iter)->play();
+
+		mPausedSounds.clear();
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_setEAXReverbProperties(EFXEAXREVERBPROPERTIES *pEFXEAXReverb, ALuint uiEffect)
 	{
 		if (pEFXEAXReverb)
@@ -1363,208 +1469,318 @@ namespace OgreOggSound
 		return false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::setEFXSoundProperties(const std::string& sName, Ogre::Real airAbsorption, Ogre::Real roomRolloff, Ogre::Real coneOuterHF)
+	bool OgreOggSoundManager::_attachEffectToSlot(ALuint slot, ALuint effect)
 	{
-		OgreOggISound* sound = getSound(sName);
+		if ( !hasEFXSupport() || slot==AL_NONE ) return false;
 
-		if ( sound )
+		/* Attach Effect to Auxiliary Effect Slot */
+		/* slot is the ID of an Aux Effect Slot */
+		/* effect is the ID of an Effect */
+		alAuxiliaryEffectSloti(slot, AL_EFFECTSLOT_EFFECT, effect);
+		if (alGetError() != AL_NO_ERROR)
 		{
-			ALuint src = sound->getSource();
+			Ogre::LogManager::getSingleton().logMessage("*** Cannot attach effect to slot!");
+			return false;
+		}
+		return true;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	ALuint OgreOggSoundManager::_getEFXFilter(const std::string& fName)
+	{
+		if ( mFilterList.empty() || !hasEFXSupport() || fName.empty() ) return AL_FILTER_NULL;
 
-			if ( src!=AL_NONE )
-			{
-				alGetError();
+		EffectList::iterator filter=mFilterList.find(fName);
+		if ( filter==mFilterList.end() )
+			return AL_FILTER_NULL;
+		else
+			return filter->second;
+	}
 
-				alSourcef(src, AL_AIR_ABSORPTION_FACTOR, airAbsorption);
-				alSourcef(src, AL_ROOM_ROLLOFF_FACTOR, roomRolloff);
-				alSourcef(src, AL_CONE_OUTER_GAINHF, coneOuterHF);
+	/*/////////////////////////////////////////////////////////////////*/
+	ALuint OgreOggSoundManager::_getEFXEffect(const std::string& eName)
+	{
+		if ( mEffectList.empty() || !hasEFXSupport() || eName.empty() ) return AL_EFFECT_NULL;
 
-				if ( alGetError()==AL_NO_ERROR )
-				{
-					return true;
-				}
-				else
-				{
-					Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXSoundProperties() - Unable to set EFX sound properties!");
-					return false;
-				}
-			}
-			else
-			{
-				Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXSoundProperties() - No source attached to sound!");
-				return false;
-			}
+		EffectList::iterator effect=mEffectList.find(eName);
+		if ( effect==mEffectList.end() )
+			return AL_EFFECT_NULL;
+		else
+			return effect->second;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	ALuint OgreOggSoundManager::_getEFXSlot(int slotID)
+	{
+		if ( mEffectSlotList.empty() || !hasEFXSupport() || (slotID>=static_cast<int>(mEffectSlotList.size())) ) return AL_NONE;
+
+		return static_cast<ALuint>(mEffectSlotList[slotID]);
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_determineAuxEffectSlots()
+	{
+		ALuint		uiEffectSlots[128] = { 0 };
+		ALuint		uiEffects[1] = { 0 };
+		ALuint		uiFilters[1] = { 0 };
+		Ogre::String msg="";
+
+		// To determine how many Auxiliary Effects Slots are available, create as many as possible (up to 128)
+		// until the call fails.
+		for (mNumEffectSlots = 0; mNumEffectSlots < 128; mNumEffectSlots++)
+		{
+			alGenAuxiliaryEffectSlots(1, &uiEffectSlots[mNumEffectSlots]);
+			if (alGetError() != AL_NO_ERROR)
+				break;
 		}
 
-		Ogre::LogManager::getSingleton().logMessage("*** OgreOggSoundManager::setEFXSoundProperties() - Sound does not exist!");
+		msg="*** --- "+Ogre::StringConverter::toString(mNumEffectSlots)+ " Auxiliary Effect Slot(s)";
+		Ogre::LogManager::getSingleton().logMessage(msg);
+
+		// Retrieve the number of Auxiliary Effect Slots Sends available on each Source
+		alcGetIntegerv(mDevice, ALC_MAX_AUXILIARY_SENDS, 1, &mNumSendsPerSource);
+		msg="*** --- "+Ogre::StringConverter::toString(mNumSendsPerSource)+" Auxiliary Send(s) per Source";
+		Ogre::LogManager::getSingleton().logMessage(msg);
+
+		Ogre::LogManager::getSingleton().logMessage("*** --- EFFECTS SUPPORTED:");
+		alGenEffects(1, &uiEffects[0]);
+		if (alGetError() == AL_NO_ERROR)
+		{
+			// Try setting Effect Type to known Effects
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_REVERB);
+			if ( mEFXSupportList[AL_EFFECT_REVERB] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Reverb' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Reverb' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
+			if ( mEFXSupportList[AL_EFFECT_EAXREVERB] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'EAX Reverb' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'EAX Reverb' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_CHORUS);
+			if ( mEFXSupportList[AL_EFFECT_CHORUS] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Chorus' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Chorus' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
+			if ( mEFXSupportList[AL_EFFECT_DISTORTION] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Distortion' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Distortion' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_ECHO);
+			if ( mEFXSupportList[AL_EFFECT_ECHO] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Echo' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Echo' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_FLANGER);
+			if ( mEFXSupportList[AL_EFFECT_FLANGER] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Flanger' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Flanger' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_FREQUENCY_SHIFTER);
+			if ( mEFXSupportList[AL_EFFECT_FREQUENCY_SHIFTER] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Frequency shifter' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Frequency shifter' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_VOCAL_MORPHER);
+			if ( mEFXSupportList[AL_EFFECT_VOCAL_MORPHER] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Vocal Morpher' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Vocal Morpher' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_PITCH_SHIFTER);
+			if ( mEFXSupportList[AL_EFFECT_PITCH_SHIFTER] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Pitch shifter' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Pitch shifter' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_RING_MODULATOR);
+			if ( mEFXSupportList[AL_EFFECT_RING_MODULATOR] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Ring modulator' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Ring modulator' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_AUTOWAH);
+			if ( mEFXSupportList[AL_EFFECT_AUTOWAH] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Autowah' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Autowah' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_COMPRESSOR);
+			if ( mEFXSupportList[AL_EFFECT_COMPRESSOR] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Compressor' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Compressor' Support: NO");
+
+			alEffecti(uiEffects[0], AL_EFFECT_TYPE, AL_EFFECT_EQUALIZER);
+			if ( mEFXSupportList[AL_EFFECT_EQUALIZER] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Equalizer' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Equalizer' Support: NO");
+		}
+
+
+		// To determine which Filters are supported, generate a Filter Object, and try to set its type to
+		// the various Filter enum values
+		Ogre::LogManager::getSingleton().logMessage("*** --- FILTERS SUPPORTED: ");
+
+		// Generate a Filter to use to determine what Filter Types are supported
+		alGenFilters(1, &uiFilters[0]);
+		if (alGetError() == AL_NO_ERROR)
+		{
+			// Try setting the Filter type to known Filters
+			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_LOWPASS);
+			if ( mEFXSupportList[AL_FILTER_LOWPASS] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Low Pass' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Low Pass' Support: NO");
+
+			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_HIGHPASS);
+			if ( mEFXSupportList[AL_FILTER_HIGHPASS] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'High Pass' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'High Pass' Support: NO");
+
+			alFilteri(uiFilters[0], AL_FILTER_TYPE, AL_FILTER_BANDPASS);
+			if ( mEFXSupportList[AL_FILTER_BANDPASS] = (alGetError() == AL_NO_ERROR) )
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Band Pass' Support: YES");
+			else
+				Ogre::LogManager::getSingleton().logMessage("*** --- 'Band Pass' Support: NO");
+		}
+
+		// Delete Filter
+		alDeleteFilters(1, &uiFilters[0]);
+
+		// Delete Effect
+		alDeleteEffects(1, &uiEffects[0]);
+
+		// Delete Auxiliary Effect Slots
+		alDeleteAuxiliaryEffectSlots(mNumEffectSlots, uiEffectSlots);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::_checkEFXSupport()
+	{
+		if (alcIsExtensionPresent(mDevice, "ALC_EXT_EFX"))
+		{
+			// Get function pointers
+			alGenEffects = (LPALGENEFFECTS)alGetProcAddress("alGenEffects");
+			alDeleteEffects = (LPALDELETEEFFECTS )alGetProcAddress("alDeleteEffects");
+			alIsEffect = (LPALISEFFECT )alGetProcAddress("alIsEffect");
+			alEffecti = (LPALEFFECTI)alGetProcAddress("alEffecti");
+			alEffectiv = (LPALEFFECTIV)alGetProcAddress("alEffectiv");
+			alEffectf = (LPALEFFECTF)alGetProcAddress("alEffectf");
+			alEffectfv = (LPALEFFECTFV)alGetProcAddress("alEffectfv");
+			alGetEffecti = (LPALGETEFFECTI)alGetProcAddress("alGetEffecti");
+			alGetEffectiv = (LPALGETEFFECTIV)alGetProcAddress("alGetEffectiv");
+			alGetEffectf = (LPALGETEFFECTF)alGetProcAddress("alGetEffectf");
+			alGetEffectfv = (LPALGETEFFECTFV)alGetProcAddress("alGetEffectfv");
+			alGenFilters = (LPALGENFILTERS)alGetProcAddress("alGenFilters");
+			alDeleteFilters = (LPALDELETEFILTERS)alGetProcAddress("alDeleteFilters");
+			alIsFilter = (LPALISFILTER)alGetProcAddress("alIsFilter");
+			alFilteri = (LPALFILTERI)alGetProcAddress("alFilteri");
+			alFilteriv = (LPALFILTERIV)alGetProcAddress("alFilteriv");
+			alFilterf = (LPALFILTERF)alGetProcAddress("alFilterf");
+			alFilterfv = (LPALFILTERFV)alGetProcAddress("alFilterfv");
+			alGetFilteri = (LPALGETFILTERI )alGetProcAddress("alGetFilteri");
+			alGetFilteriv= (LPALGETFILTERIV )alGetProcAddress("alGetFilteriv");
+			alGetFilterf = (LPALGETFILTERF )alGetProcAddress("alGetFilterf");
+			alGetFilterfv= (LPALGETFILTERFV )alGetProcAddress("alGetFilterfv");
+			alGenAuxiliaryEffectSlots = (LPALGENAUXILIARYEFFECTSLOTS)alGetProcAddress("alGenAuxiliaryEffectSlots");
+			alDeleteAuxiliaryEffectSlots = (LPALDELETEAUXILIARYEFFECTSLOTS)alGetProcAddress("alDeleteAuxiliaryEffectSlots");
+			alIsAuxiliaryEffectSlot = (LPALISAUXILIARYEFFECTSLOT)alGetProcAddress("alIsAuxiliaryEffectSlot");
+			alAuxiliaryEffectSloti = (LPALAUXILIARYEFFECTSLOTI)alGetProcAddress("alAuxiliaryEffectSloti");
+			alAuxiliaryEffectSlotiv = (LPALAUXILIARYEFFECTSLOTIV)alGetProcAddress("alAuxiliaryEffectSlotiv");
+			alAuxiliaryEffectSlotf = (LPALAUXILIARYEFFECTSLOTF)alGetProcAddress("alAuxiliaryEffectSlotf");
+			alAuxiliaryEffectSlotfv = (LPALAUXILIARYEFFECTSLOTFV)alGetProcAddress("alAuxiliaryEffectSlotfv");
+			alGetAuxiliaryEffectSloti = (LPALGETAUXILIARYEFFECTSLOTI)alGetProcAddress("alGetAuxiliaryEffectSloti");
+			alGetAuxiliaryEffectSlotiv = (LPALGETAUXILIARYEFFECTSLOTIV)alGetProcAddress("alGetAuxiliaryEffectSlotiv");
+			alGetAuxiliaryEffectSlotf = (LPALGETAUXILIARYEFFECTSLOTF)alGetProcAddress("alGetAuxiliaryEffectSlotf");
+			alGetAuxiliaryEffectSlotfv = (LPALGETAUXILIARYEFFECTSLOTFV)alGetProcAddress("alGetAuxiliaryEffectSlotfv");
+
+			if (alGenEffects &&	alDeleteEffects && alIsEffect && alEffecti && alEffectiv &&	alEffectf &&
+				alEffectfv && alGetEffecti && alGetEffectiv && alGetEffectf && alGetEffectfv &&	alGenFilters &&
+				alDeleteFilters && alIsFilter && alFilteri && alFilteriv &&	alFilterf && alFilterfv &&
+				alGetFilteri &&	alGetFilteriv && alGetFilterf && alGetFilterfv && alGenAuxiliaryEffectSlots &&
+				alDeleteAuxiliaryEffectSlots &&	alIsAuxiliaryEffectSlot && alAuxiliaryEffectSloti &&
+				alAuxiliaryEffectSlotiv && alAuxiliaryEffectSlotf && alAuxiliaryEffectSlotfv &&
+				alGetAuxiliaryEffectSloti && alGetAuxiliaryEffectSlotiv && alGetAuxiliaryEffectSlotf &&
+				alGetAuxiliaryEffectSlotfv)
+				return true;
+		}
+
+		return false;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::_checkXRAMSupport()
+	{
+		// Check for X-RAM extension
+		if(alIsExtensionPresent("EAX-RAM") == AL_TRUE)
+		{
+			// Get X-RAM Function pointers
+			mEAXSetBufferMode = (EAXSetBufferMode)alGetProcAddress("EAXSetBufferMode");
+			mEAXGetBufferMode = (EAXGetBufferMode)alGetProcAddress("EAXGetBufferMode");
+
+			if (mEAXSetBufferMode && mEAXGetBufferMode)
+			{
+				mXRamSize = alGetEnumValue("AL_EAX_RAM_SIZE");
+				mXRamFree = alGetEnumValue("AL_EAX_RAM_FREE");
+				mXRamAuto = alGetEnumValue("AL_STORAGE_AUTOMATIC");
+				mXRamHardware = alGetEnumValue("AL_STORAGE_HARDWARE");
+				mXRamAccessible = alGetEnumValue("AL_STORAGE_ACCESSIBLE");
+
+				if (mXRamSize && mXRamFree && mXRamAuto && mXRamHardware && mXRamAccessible)
+				{
+					// Support available
+					mXRamSizeMB = alGetInteger(mXRamSize) / (1024*1024);
+					mXRamFreeMB = alGetInteger(mXRamFree) / (1024*1024);
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::setEFXDistanceUnits(Ogre::Real units)
+	void OgreOggSoundManager::_loadSoundImpl(OgreOggISound* sound, const Ogre::String& file, ALuint buf, bool prebuffer)
 	{
-		if ( !hasEFXSupport() || units<=0 ) return;
+		if ( !sound ) return;
 
-		alListenerf(AL_METERS_PER_UNIT, units);
-	}
-#endif
-	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::hasSound(const std::string& name)
-	{
-		SoundMap::iterator i = mSoundMap.find(name);
-		if(i == mSoundMap.end()) return false; return true;
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::destroyAllSounds()
-	{
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
+		// Use shared buffer if available
+		sound->_openImpl(file, buf);
 
-		// Destroy any queued sound structures
-		FileOpenList::iterator f = mQueuedSounds.begin();
-		while ( f!=mQueuedSounds.end() )
+		// If requested to preBuffer - grab free source and init
+		if (prebuffer)
 		{
-			// Destroy
-			delete (*f);
-			++f;
-		}	
-		mQueuedSounds.clear();
-		// Destroy all sounds
-		SoundMap::iterator i = mSoundMap.begin();
-		while(i != mSoundMap.end())
-		{
-			delete i->second;
-			++i;
-		}
-
-		mSoundMap.clear();
-		// Shared buffers
-		SharedBufferList::iterator b = mSharedBuffers.begin();
-		while (b != mSharedBuffers.end())
-		{
-			if ( b->second->mRefCount>0 )
-				alDeleteBuffers(1, &b->second->mAudioBuffer);
-			delete b->second;
-			++b;
-		}
-
-		mSharedBuffers.clear();
-
-		// Clear queues
-		mActiveSounds.clear();
-		mPlayQueue.clear();
-		mPauseQueue.clear();
-		mPausedSounds.clear();
-		mStopQueue.clear();
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::playSound(const String& sName)
-	{
-		OgreOggISound* sound = 0;
-
-		if ( sound = getSound(sName) )
-			sound->play();
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::fadeSound(const Ogre::String& sName, bool dir, Ogre::Real fTime, FadeControl actionOnComplete)
-	{
-		if (mActiveSounds.empty()) return;
-
-		OgreOggISound* sound = 0;
-
-		if ( sound = getSound(sName) )
-			sound->startFade(dir, fTime, actionOnComplete);
-	}
-
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::stopSound(const String& sName)
-	{
-		if (mActiveSounds.empty()) return;
-
-		OgreOggISound* sound = 0;
-
-		if ( sound = getSound(sName) )
-			sound->stop();
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::setSoundCurrentTime(const String& sName, Real time)
-	{
-		if (mActiveSounds.empty()) return;
-
-		OgreOggISound* sound = 0;
-
-		if ( sound = getSound(sName) )
-			sound->setPlayPosition(time);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::pauseSound(const String& sName)
-	{
-		if (mActiveSounds.empty()) return;
-
-		OgreOggISound* sound = 0;
-
-		if ( sound = getSound(sName) )
-			sound->pause();
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::stopAllSounds()
-	{
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-
-		if (mActiveSounds.empty()) return;
-
-		for (ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
-		{
-			(*iter)->stop();
-		}
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::pauseAllSounds()
-	{
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-
-		if (mActiveSounds.empty()) return;
-
-		for (ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
-		{
-			if ( (*iter)->isPlaying() && !(*iter)->isPaused() )
+			if ( !_requestSoundSource(sound) )
 			{
-				// Pause sound
-				(*iter)->pause();
-
-				// Add to list to allow resuming
-				mPausedSounds.push_back((*iter));
+				Ogre::String msg="*** OgreOggSoundManager::createSound() - Failed to preBuffer sound: "+sound->getName();
+				Ogre::LogManager::getSingleton().logMessage(msg);
 			}
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::resumeAllPausedSounds()
+	void OgreOggSoundManager::_loadSoundImpl(OgreOggISound* sound, Ogre::DataStreamPtr& stream, bool prebuffer)
 	{
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
+		if ( !sound ) return;
 
-		if (mPausedSounds.empty()) return;
-
-		for (ActiveList::iterator iter=mPausedSounds.begin(); iter!=mPausedSounds.end(); ++iter)
-			(*iter)->play();
-
-		mPausedSounds.clear();
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::muteAllSounds()
-	{
-		alGetListenerf(AL_GAIN, &mOrigVolume);
-		alListenerf(AL_GAIN, 0.f);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::unmuteAllSounds()
-	{
-		alListenerf(AL_GAIN, mOrigVolume);
+		// Load audio file
+		sound->_openImpl(stream);
+	
+		// If requested to preBuffer - grab free source and init
+		if (prebuffer)
+		{
+			if ( !_requestSoundSource(sound) )
+			{
+				Ogre::String msg="*** OgreOggSoundManager::createSound() - Failed to preBuffer sound: "+sound->getName();
+				Ogre::LogManager::getSingleton().logMessage(msg);
+			}
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_removeFromLists(OgreOggSound::OgreOggISound *sound)
@@ -1582,69 +1798,6 @@ namespace OgreOggSound
 			}
 		}
 
-		/** Threaded lists 
-		@remarks
-			The following lists exist for Threaded version ONLY, they are used to prevent
-			blocking of the main thread when creating/loading a sound for the first time
-		*/
-		// Remove from play queue list
-		if ( !mPlayQueue.empty() )
-		{
-			// Remove ALL referneces to this sound..
-			for ( ActiveList::iterator iter=mPlayQueue.begin(); iter!=mPlayQueue.end(); )
-			{
-				if ( sound==(*iter) )
-					mPlayQueue.erase(iter);
-				else
-					++iter;
-			}
-		}
-
-		
-		// Remove from pause queue list
-		if ( !mPauseQueue.empty() )
-		{
-			// Remove ALL referneces to this sound..
-			for ( ActiveList::iterator iter=mPauseQueue.begin(); iter!=mPauseQueue.end(); )
-			{
-				if ( sound==(*iter) )
-					mPauseQueue.erase(iter);
-				else
-					++iter;
-			}
-		}
-
-		
-		// Remove from stop queue list
-		if ( !mStopQueue.empty() )
-		{
-			// Remove ALL referneces to this sound..
-			for ( ActiveList::iterator iter=mStopQueue.begin(); iter!=mStopQueue.end(); )
-			{
-				if ( sound==(*iter) )
-					mStopQueue.erase(iter);
-				else
-					++iter;
-			}
-		}
-
-		
-		/** Queued to play list 
-		*/
-		if ( !mQueuedSounds.empty() )
-		{
-			// Remove ALL referneces to this sound..
-			for ( FileOpenList::iterator iter=mQueuedSounds.begin(); iter!=mQueuedSounds.end(); )
-			{
-				if ( sound==(*iter)->mSound )
-				{
-					OGRE_FREE((*iter), Ogre::MEMCATEGORY_GENERAL);
-					mQueuedSounds.erase(iter);
-				}
-				else
-					++iter;
-			}
-		}	
 		/** Paused sound list - created by a call to pauseAllSounds()
 		*/
 		if ( !mPausedSounds.empty() )
@@ -1657,8 +1810,7 @@ namespace OgreOggSound
 				else
 					++iter;
 			}
-		}
-	
+		}	
 		/** Active sound list 
 		*/
 		if ( !mActiveSounds.empty() )
@@ -1671,21 +1823,16 @@ namespace OgreOggSound
 				else
 					++iter;
 			}
-		}
-		
+		}	
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_destroySound(OgreOggISound* sound)
+	void OgreOggSoundManager::_releaseSoundImpl(OgreOggISound* sound)
 	{
 		if (!sound) return;
 
-#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-#endif
-
 		// Delete sound buffer
 		ALuint src = sound->getSource();
-		if ( src!=AL_NONE ) releaseSoundSource(sound);
+		if ( src!=AL_NONE ) _releaseSoundSource(sound);
 
 		// Remove references from lists
 		_removeFromLists(sound);
@@ -1694,155 +1841,117 @@ namespace OgreOggSound
 		OGRE_DELETE_T(sound, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::destroySound(const Ogre::String& sName)
+	void OgreOggSoundManager::_destroySoundImpl(OgreOggISound* sound)
 	{
-		if ( sName.empty() ) return;
+		if ( !sound ) return;
 
 		// Find sound in map
-		SoundMap::iterator i = mSoundMap.find(sName);
+		SoundMap::iterator i = mSoundMap.find(sound->getName());
+
+		// If created via plugin call destroyMovableObject() which will call _destroy()
+		if (sound->mScnMan)
+			sound->mScnMan->destroyMovableObject(sound->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
+		// else call _destroy() directly
+		else
+			_releaseSoundImpl(sound);
+	
 		if (i != mSoundMap.end())
 		{
-			// If created via plugin call destroyMovableObject() which will call _destroy()
-			if (i->second->mScnMan)
-				i->second->mScnMan->destroyMovableObject(i->second->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
-			// else call _destroy() directly
-			else
-				_destroySound(i->second);
-
 			// Remove from map
 			mSoundMap.erase(i);
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::processQueuedSounds()
+	void OgreOggSoundManager::_checkFeatureSupport()
 	{
-		if (mPlayQueue.empty() && mPauseQueue.empty() && mStopQueue.empty() && mQueuedSounds.empty()) return;
-
-		/** Queue will only be used when library is compiled with Thread support. 
-			Its used to farm file opening operations onto the second Thread which
-			prevents stalling in the main thread.
-		*/
-		if ( !mQueuedSounds.empty() )
+		Ogre::String msg="";
+		// Supported Formats Info
+		Ogre::LogManager::getSingleton().logMessage("*** --- SUPPORTED FORMATS");
+		ALenum eBufferFormat = 0;
+		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_MONO16");
+		if(eBufferFormat)
 		{
-			FileOpenList::iterator i = mQueuedSounds.begin();
-			while( i != mQueuedSounds.end())
-			{
-				if ( (*i)->mBuffer!=AL_NONE )
-					// Open file for reading
-					(*i)->mSound->open((*i)->mFileName, (*i)->mBuffer);
-				else
-					// Open file for reading
-					(*i)->mSound->open((*i)->mFile);
-
-				// Prebuffer if requested
-				if ((*i)->mPrebuffer ) requestSoundSource((*i)->mSound);
-
-				// Delete struct
-				(*i)->mFile.setNull();
-				OGRE_FREE((*i), Ogre::MEMCATEGORY_GENERAL);
-
-				// Remove from queue
-				i=mQueuedSounds.erase(i);
-			}
-		}	
-
-		/** The following queues will only be used when library is compiled with
-			Thread support. They are required because file opening is handled in the
-			second Thread, therefore its possible to play/pause/stop a sound before its
-			actually been loaded, these lists handle that scenario.
-		*/
-		if ( !mPlayQueue.empty() )
-		{
-			ActiveList::iterator i = mPlayQueue.begin();
-			while( i != mPlayQueue.end())
-			{
-				// Perform requested action
-				(*i)->play();
-
-				// If successful remove from list
-				if ( (*i)->isPlaying() )
-				{
-					i=mPlayQueue.erase(i);
-				}
-				else
-					++i;
-			}
+			msg="*** --- AL_FORMAT_MONO16 -- Monophonic Sound";
+			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
-		if ( !mPauseQueue.empty() )
+		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_STEREO16");
+		if(eBufferFormat)
 		{
-			ActiveList::iterator i = mPauseQueue.begin();
-			while( i != mPauseQueue.end())
-			{
-				// Perform requested action
-				(*i)->pause();
-
-				// If successful remove from list
-				if ( (*i)->isPaused() )
-				{
-					i=mPauseQueue.erase(i);
-				}
-				else
-					++i;
-			}
+			msg="*** --- AL_FORMAT_STEREO16 -- Stereo Sound";
+			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
-		if ( !mStopQueue.empty() )
+		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_QUAD16");
+		if(eBufferFormat)
 		{
-			ActiveList::iterator i = mStopQueue.begin();
-			while( i != mStopQueue.end())
-			{
-				// Perform requested action
-				(*i)->stop();
-
-				// If successful remove from list
-				if ( !(*i)->isPlaying() )
-				{
-					i=mStopQueue.erase(i);
-				}
-				else
-					++i;
-			}
+			msg="*** --- AL_FORMAT_QUAD16 -- 4 Channel Sound";
+			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::updateBuffers()
-	{
-#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-#endif
-		ActiveList::iterator i = mActiveSounds.begin();
-		while( i != mActiveSounds.end())
+		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_51CHN16");
+		if(eBufferFormat)
 		{
-			(*i)->_updateAudioBuffers();
-			// Update recorder
-			if ( mRecorder ) mRecorder->_updateRecording();
-			++i;
+			msg="*** --- AL_FORMAT_51CHN16 -- 5.1 Surround Sound";
+			Ogre::LogManager::getSingleton().logMessage(msg);
+		}
+		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_61CHN16");
+		if(eBufferFormat)
+		{
+			msg="*** --- AL_FORMAT_61CHN16 -- 6.1 Surround Sound";
+			Ogre::LogManager::getSingleton().logMessage(msg);
+		}
+		eBufferFormat = alcGetEnumValue(mDevice, "AL_FORMAT_71CHN16");
+		if(eBufferFormat)
+		{
+			msg="*** --- AL_FORMAT_71CHN16 -- 7.1 Surround Sound";
+			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 
-#if OGGSOUND_THREADED
-#	ifndef LINUX
-		Sleep(2);
-#	else
-		sleep(2);
-#	endif
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+		// EFX
+		mEFXSupport = _checkEFXSupport();
+		if (mEFXSupport)
+		{
+			Ogre::LogManager::getSingleton().logMessage("*** --- EFX Detected");
+			_determineAuxEffectSlots();
+		}
+		else
+			Ogre::LogManager::getSingleton().logMessage("*** --- EFX NOT Detected");
+
+		// XRAM
+		mXRamSupport = _checkXRAMSupport();
+		if (mXRamSupport)
+		{
+			// Log message
+			Ogre::LogManager::getSingleton().logMessage("*** --- X-RAM Detected");
+			Ogre::LogManager::getSingleton().logMessage("*** --- X-RAM Size(MB): " + Ogre::StringConverter::toString(mXRamSizeMB) +
+				" Free(MB):" + Ogre::StringConverter::toString(mXRamFreeMB));
+		}
+		else
+			Ogre::LogManager::getSingleton().logMessage("*** --- XRAM NOT Detected");
+
+		// EAX
+		for(int version = 5; version >= 2; version--)
+		{
+			Ogre::String eaxName="EAX"+Ogre::StringConverter::toString(version)+".0";
+			if(alIsExtensionPresent(eaxName.c_str()) == AL_TRUE)
+			{
+				mEAXSupport = true;
+				mEAXVersion = version;
+				eaxName="*** --- EAX "+Ogre::StringConverter::toString(version)+".0 Detected";
+				Ogre::LogManager::getSingleton().logMessage(eaxName);
+				break;
+			}
+		}
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_release()
+	void OgreOggSoundManager::_enumDevices()
 	{
+		mDeviceStrings = const_cast<ALCchar*>(alcGetString(0,ALC_DEVICE_SPECIFIER));
+	}
 
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-
-		// Destroy any queued sound structures
-		FileOpenList::iterator f = mQueuedSounds.begin();
-		while ( f!=mQueuedSounds.end() )
-		{
-			// Destroy
-			OGRE_DELETE_T((*f), delayedFileOpen, Ogre::MEMCATEGORY_GENERAL);
-			++f;
-		}	
-
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_releaseAll()
+	{
 		// Destroy all sounds
 		SoundMap::iterator i = mSoundMap.begin();
 		while(i != mSoundMap.end())
@@ -1882,11 +1991,6 @@ namespace OgreOggSound
 
 		mSharedBuffers.clear();
 
-		// Clear queues
-		mPlayQueue.clear();
-		mPauseQueue.clear();
-		mStopQueue.clear();
-
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// clear EFX effect lists
 		if ( !mFilterList.empty() )
@@ -1915,7 +2019,7 @@ namespace OgreOggSound
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	int OgreOggSoundManager::createSourcePool()
+	int OgreOggSoundManager::_createSourcePool()
 	{
 		ALuint source;
 		unsigned int numSources = 0;
@@ -1939,68 +2043,10 @@ namespace OgreOggSound
 		return static_cast<int>(mSourcePool.size());
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	struct OgreOggSoundManager::_sortNearToFar
-	{
-		bool operator()(OgreOggISound* sound1, OgreOggISound* sound2)
-		{
-			Real	d1=0.f,
-					d2=0.f;
-			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
-
-			if ( sound1->isRelativeToListener() )
-				d1 = sound1->getPosition().length();
-			else
-				d1 = sound1->getPosition().distance(lPos);
-
-			if ( sound2->isRelativeToListener() )
-				d2 = sound2->getPosition().length();
-			else
-				d2 = sound2->getPosition().distance(lPos);
-
-			// Check sort order
-			if ( d1<d2 )	return true;
-			if ( d1>d2 )	return false;
-
-			// Equal - don't sort
-			return false;
-		}
-	};
-	/*/////////////////////////////////////////////////////////////////*/
-	struct OgreOggSoundManager::_sortFarToNear
-	{
-		bool operator()(OgreOggISound* sound1, OgreOggISound* sound2)
-		{
-			Real	d1=0.f,
-					d2=0.f;
-			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
-
-			if ( sound1->isRelativeToListener() )
-				d1 = sound1->getPosition().length();
-			else
-				d1 = sound1->getPosition().distance(lPos);
-
-			if ( sound2->isRelativeToListener() )
-				d2 = sound2->getPosition().length();
-			else
-				d2 = sound2->getPosition().distance(lPos);
-
-			// Check sort order
-			if ( d1>d2 )	return true;
-			if ( d1<d2 )	return false;
-
-			// Equal - don't sort
-			return false;
-		}
-	};
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_reactivateQueuedSounds()
+	void OgreOggSoundManager::_reactivateQueuedSoundsImpl()
 	{
 		// Any sounds to re-activate?
 		if (mSoundsToReactivate.empty()) return;
-
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
 
 		// Sort list by distance
 		std::sort(mSoundsToReactivate.begin(), mSoundsToReactivate.end(), _sortNearToFar());
@@ -2012,7 +2058,7 @@ namespace OgreOggSound
 		if ( snd->isPlaying() )
 		{
 			// Try to request a source for sound
-			if (requestSoundSource(snd))
+			if (_requestSoundSource(snd))
 			{
 				// play sound
 				snd->play();
@@ -2025,195 +2071,17 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::requestSoundSource(OgreOggISound* sound)
+	void OgreOggSoundManager::_reactivateQueuedSounds()
 	{
-		// Does sound need a source?
-		if (!sound) return false;
-
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-
-		if (sound->getSource()!=AL_NONE) return true;
-
-		ALuint src = AL_NONE;
-
-		// If there are still sources available
-		// Pop next available off list
-		if ( !mSourcePool.empty() )
-		{
-			// Get next available source
-			src = static_cast<ALuint>(mSourcePool.back());
-			// Remove from available list
-			mSourcePool.pop_back();
-			// Set sounds source
-			sound->setSource(src);
-			// Add to active list
-			mActiveSounds.push_back(sound);
-			// Remove from reactivate list if reactivating..
-			if ( !mSoundsToReactivate.empty() )
-			{
-				for ( ActiveList::iterator rIter=mSoundsToReactivate.begin(); rIter!=mSoundsToReactivate.end(); ++rIter )
-					if ( (*rIter)==sound )
-						mSoundsToReactivate.erase(rIter);
-			}
-			return true;
-		}
-		// All sources in use
-		// Re-use an active source
-		// Use either a non-playing source or a lower priority source
-		else
-		{
-			// Get iterator for list
-			ActiveList::iterator iter = mActiveSounds.begin();
-
-			// Search for a stopped sound
-			while ( iter!=mActiveSounds.end() )
-			{
-				// Find a stopped sound - reuse its source
-				if ( (*iter)->isStopped() )
-				{
-					ALuint src = (*iter)->getSource();
-					ALuint nullSrc = AL_NONE;
-					// Pause sounds
-					(*iter)->pause();
-					// Remove source
-					(*iter)->setSource(nullSrc);
-					// Attach source to new sound
-					sound->setSource(src);
-					// Add to reactivate list
-					mSoundsToReactivate.push_back((*iter));
-					// Remove relinquished sound from active list
-					mActiveSounds.erase(iter);
-					// Add new sound to active list
-					mActiveSounds.push_back(sound);
-					// Return success
-					return true;
-				}
-				else
-					++iter;
-			}
-
-			// Check priority...
-			Ogre::uint8 priority = sound->getPriority();
-			iter = mActiveSounds.begin();
-
-			// Search for a stopped sound
-			while ( iter!=mActiveSounds.end() )
-			{
-				// Find a stopped sound - reuse its source
-				if ( (*iter)->getPriority()<sound->getPriority() )
-				{
-					ALuint src = (*iter)->getSource();
-					ALuint nullSrc = AL_NONE;
-					// Pause sounds
-					(*iter)->pause();
-					// Remove source
-					(*iter)->setSource(nullSrc);
-					// Attach source to new sound
-					sound->setSource(src);
-					// Add to reactivate list
-					mSoundsToReactivate.push_back((*iter));
-					// Remove relinquished sound from active list
-					mActiveSounds.erase(iter);
-					// Add new sound to active list
-					mActiveSounds.push_back(sound);
-					// Return success
-					return true;
-				}
-				else
-					++iter;
-			}
-
-			// Sort by distance
-			Real	d1 = 0.f,
-					d2 = 0.f;
-
-			// Sort list by distance
-			std::sort(mActiveSounds.begin(), mActiveSounds.end(), _sortFarToNear());
-
-			// Lists should be sorted:	Active-->furthest to Nearest
-			//							Reactivate-->Nearest to furthest
-			OgreOggISound* snd1 = mActiveSounds.front();
-
-			if ( snd1->isRelativeToListener() )
-				d1 = snd1->getPosition().length();
-			else
-				d1 = snd1->getPosition().distance(mListener->getPosition());
-
-			if ( sound->isRelativeToListener() )
-				d1 = sound->getPosition().length();
-			else
-				d1 = sound->getPosition().distance(mListener->getPosition());
-
-			// Needs swapping?
-			if ( d1>d2 )
-			{
-				ALuint src = snd1->getSource();
-				ALuint nullSrc = AL_NONE;
-				// Pause sounds
-				snd1->pause();
-				snd1->_markPlayPosition();
-				// Remove source
-				snd1->setSource(nullSrc);
-				// Attach source to new sound
-				sound->setSource(src);
-				sound->_recoverPlayPosition();
-				// Add to reactivate list
-				mSoundsToReactivate.push_back(snd1);
-				// Remove relinquished sound from active list
-				mActiveSounds.erase(mActiveSounds.begin());
-				// Add new sound to active list
-				mActiveSounds.push_back(sound);
-				// Return success
-				return true;
-			}
-		}
-		// Uh oh - won't be played
-		return false;
-	}
-
-	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::releaseSoundSource(OgreOggISound* sound)
-	{
-		if (!sound) return false;
-
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-
-		if (sound->getSource()==AL_NONE) return true;
-
-		// Get source
-		ALuint src = sound->getSource();
-
-		// Valid source?
-		if(src!=AL_NONE)
-		{
-			ALuint source=AL_NONE;
-
-			// Detach source from sound
-			sound->setSource(source);
-
-			// Make source available
-			mSourcePool.push_back(src);
-
-			// Remove from actives list
-			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); )
-			{
-				// Find sound in actives list
-				if ( (*iter)==sound )
-				{
-					// Remove from list
-					iter = mActiveSounds.erase(iter);
-				}
-				else
-					++iter;
-			}
-			return true;
-		}
-
-		return false;
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mAction	= LQ_REACTIVATE;
+		action.mParams	= 0;
+		action.mSound	= 0;
+		_requestSoundAction(action);
+#else
+		_reactivateQueuedSoundsImpl();
+#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	ALuint OgreOggSoundManager::_getSharedBuffer(const String& sName)
@@ -2230,7 +2098,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::releaseSharedBuffer(const String& sName, ALuint& buffer)
+	bool OgreOggSoundManager::_releaseSharedBuffer(const String& sName, ALuint& buffer)
 	{
 		if ( sName.empty() ) return false;
 
@@ -2260,7 +2128,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::registerSharedBuffer(const String& sName, ALuint& buffer)
+	bool OgreOggSoundManager::_registerSharedBuffer(const String& sName, ALuint& buffer)
 	{
 		if ( sName.empty() ) return false;
 
@@ -2281,96 +2149,61 @@ namespace OgreOggSound
 		}
 		return true;
 	}
+#if OGGSOUND_THREADED
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::queueDelayedSound(OgreOggISound* sound, DELAYED_ACTION action)
+	void OgreOggSoundManager::_updateBuffers()
 	{
-		// Valid?
-		if ( !sound ) return;
-
-	#if OGGSOUND_THREADED
-		boost::recursive_mutex::scoped_lock l(mMutex);
-	#endif
-
-		switch ( action )
+		ActiveList::const_iterator i = mActiveSounds.begin();
+		while( i != mActiveSounds.end())
 		{
-		case DA_PLAY:
-			{
-				// Already in list?
-				for ( ActiveList::iterator iter=mPlayQueue.begin(); iter!=mPlayQueue.end(); ++iter )
-					if ( (*iter)==sound )
-						return;
-
-				// Add to list
-				mPlayQueue.push_back(sound);
-			}
-			break;
-		case DA_PAUSE:
-			{
-				// Already in list?
-				for ( ActiveList::iterator iter=mPauseQueue.begin(); iter!=mPauseQueue.end(); ++iter )
-					if ( (*iter)==sound )
-						return;
-
-				// Add to list
-				mPauseQueue.push_back(sound);
-			}
-			break;
-		case DA_STOP:
-			{
-				// Already in list?
-				for ( ActiveList::iterator iter=mStopQueue.begin(); iter!=mStopQueue.end(); ++iter )
-					if ( (*iter)==sound )
-						return;
-
-				// Add to list
-				mStopQueue.push_back(sound);
-			}
-			break;
-		}
-	}
-
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::setDistanceModel(ALenum value)
-	{
-		alDistanceModel(value);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::setSpeedOfSound(Ogre::Real speed)
-	{
-		alSpeedOfSound(speed);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::setDopplerFactor(Ogre::Real factor)
-	{
-		alDopplerFactor(factor);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::update(Ogre::Real fTime)
-	{
-		static Real rTime=0.f;
-
-		// Update ALL active sounds
-		ActiveList::iterator i = mActiveSounds.begin();
-		while( i != mActiveSounds.end() )
-		{
-			(*i)->update(fTime);
-	#if ( OGGSOUND_THREADED==0 )
 			(*i)->_updateAudioBuffers();
-	#endif
-			i++;
+			// Update recorder
+			if ( mRecorder ) mRecorder->_updateRecording();
+			++i;
 		}
-
-		// Limit re-activation
-		if ( (rTime+=fTime) > 0.1 )
-		{
-			// try to reactivate any
-			_reactivateQueuedSounds();
-
-			// Reset timer
-			rTime=0.f;
-		}
-
-		// Update listener
-		mListener->update();
 	}
+	void OgreOggSoundManager::_requestSoundAction(const SoundAction& action)
+	{
+		if ( !mActionsList ) return;
+
+		mActionsList->push(action);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_processQueuedSounds()
+	{
+		if ( !mActionsList ) return;
+
+		SoundAction act;
+		int i=0;
+		while ( ((i++)<5) && mActionsList->pop(act) )
+		{
+			switch ( act.mAction )
+			{
+			case LQ_PLAY:			{ act.mSound->_playImpl(); }		break;
+			case LQ_PAUSE:			{ act.mSound->_pauseImpl();	}		break;
+			case LQ_STOP:			{ act.mSound->_stopImpl();	}		break;
+			case LQ_DESTROY:		{ _destroySoundImpl(act.mSound); }	break;
+			case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); }		break;
+			case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); }			break;
+			case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); }			break;
+			case LQ_RESUME_ALL:		{ _resumeAllPausedSoundsImpl(); }	break;
+			case LQ_LOAD:
+				{
+					cSound* c = static_cast<cSound*>(act.mParams);
+					if ( c->mBuffer!=AL_NONE )
+						_loadSoundImpl(act.mSound, c->mFileName, c->mBuffer, c->mPrebuffer);
+					else
+						_loadSoundImpl(act.mSound, c->mStream, c->mPrebuffer);
+
+					// Cleanup..
+					c->mStream.setNull();
+
+					// Delete
+					OGRE_FREE(c, Ogre::MEMCATEGORY_GENERAL);
+				}
+				break;
+			}
+		}
+	}
+#endif
 }

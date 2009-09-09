@@ -45,7 +45,7 @@ namespace OgreOggSound
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamSound::open(Ogre::DataStreamPtr& fileStream)
+	void OgreOggStreamSound::_openImpl(Ogre::DataStreamPtr& fileStream)
 	{
 		int result;
 
@@ -83,7 +83,6 @@ namespace OgreOggSound
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
 #endif
-		mFileOpened = true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_release()
@@ -217,14 +216,12 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_updateAudioBuffers()
 	{
-		// Automatically play if ready.
-		if (mPlayDelayed)
-			play();
-
 		if (mSource == AL_NONE || !mPlay) return;
 
 		ALenum state;
 		alGetSourcei(mSource, AL_SOURCE_STATE, &state);
+
+		if (state == AL_PAUSED) return;
 
 		if (state == AL_STOPPED)
 		{
@@ -271,6 +268,7 @@ namespace OgreOggSound
 
 		// Create buffer
 		data = OGRE_ALLOC_T(char, mBufferSize, Ogre::MEMCATEGORY_GENERAL);
+		memset(data, 0, mBufferSize);
 
 		// Read only what was asked for
 		while(static_cast<int>(audioData.size()) < mBufferSize)
@@ -403,56 +401,21 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamSound::pause()
+	void OgreOggStreamSound::_pauseImpl()
 	{
-#if OGGSOUND_THREADED
-
-		// If threaded it may be possible that a sound is trying to be played
-		// before its actually been opened by the thread, if so mark it so
-		// that it can be automatically played when ready.
-		if (!mFileOpened)
-		{
-			if ( !mPauseDelayed )
-			{
-				mPauseDelayed = true;
-				// Register this sound with the manager so it can be polled to play when ready
-				OgreOggSoundManager::getSingletonPtr()->queueDelayedSound(this, DA_PAUSE);
-			}
-			return;
-		}
-#endif
-
 		if(mSource == AL_NONE) return;
 
 		alSourcePause(mSource);
-
-		mPauseDelayed = false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamSound::play()
+	void OgreOggStreamSound::_playImpl()
 	{
 		if (isPlaying())
 			return;
 
-#if OGGSOUND_THREADED
-
-		// If threaded it may be possible that a sound is trying to be played
-		// before its actually been opened by the thread, if so mark it so
-		// that it can be automatically played when ready.
-		if (!mFileOpened)
-		{
-			if ( !mPlayDelayed )
-			{
-				mPlayDelayed = true;
-				// Register this sound with the manager so it can be polled to play when ready
-				OgreOggSoundManager::getSingletonPtr()->queueDelayedSound(this, DA_PLAY);
-			}
-			return;
-		}
-#endif
 		// Grab a source if not already attached
 		if (mSource == AL_NONE)
-			if ( !OgreOggSoundManager::getSingleton().requestSoundSource(this) )
+			if ( !OgreOggSoundManager::getSingleton()._requestSoundSource(this) )
 				return;
 
 		alGetError();
@@ -465,28 +428,10 @@ namespace OgreOggSound
 		}
 		// Set play flag
 		mPlay = true;
-		mPlayDelayed = false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamSound::stop()
+	void OgreOggStreamSound::_stopImpl()
 	{
-#if OGGSOUND_THREADED
-
-		// If threaded it may be possible that a sound is trying to be played
-		// before its actually been opened by the thread, if so mark it so
-		// that it can be automatically played when ready.
-		if (!mFileOpened)
-		{
-			if ( !mStopDelayed )
-			{
-				mStopDelayed = true;
-				// Register this sound with the manager so it can be polled to play when ready
-				OgreOggSoundManager::getSingletonPtr()->queueDelayedSound(this, DA_STOP);
-			}
-			return;
-		}
-#endif
-
 		if(mSource != AL_NONE)
 		{
 			// Remove audio data from source
@@ -494,7 +439,6 @@ namespace OgreOggSound
 
 			// Stop playback
 			mPlay = false;
-			mStopDelayed = false;
 
 			// Jump to beginning if seeking available
 			if ( mSeekable ) 
@@ -508,14 +452,14 @@ namespace OgreOggSound
 				_release();
 
 				// Reopen
-				open(mAudioStream);
+				_openImpl(mAudioStream);
 			}
 
 			// Reload data
 			_prebuffer();
 
 			// Give up source immediately if specfied
-			if (mGiveUpSource) OgreOggSoundManager::getSingleton().releaseSoundSource(this);
+			if (mGiveUpSource) OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
 		}
 	}
 }
