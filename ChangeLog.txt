@@ -1,3 +1,17 @@
+* Version 1.11
+
+	* Major overhaul to improve multi-threaded performance
+		* Removed all mutex locks, therefore status is experimental until passed stable by testing.
+		* Removed/added numerous internal functions to a number of classes.
+
+	
+	* Interface breaking changes:
+		* Removed playSound/pauseSound/stopSound/fadeSound functions
+		* Use OgreOggISound play/stop/pause/starFade functions as before.
+	
+	* Added minor tweaks to various functions
+	
+
 * version 1.1
 
 	* Interface breaking changes made:
