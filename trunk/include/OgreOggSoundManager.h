@@ -43,8 +43,7 @@ namespace OgreOggSound
 	typedef std::vector<OgreOggISound*> ActiveList;
 	typedef std::vector<ALuint> SourceList;
 	
-	/** Enumeration describing a sound action
-	*/
+	//! Various sound commands
 	enum SOUND_ACTION
 	{
 		LQ_PLAY,
@@ -59,17 +58,15 @@ namespace OgreOggSound
 		LQ_REACTIVATE
 	};
 
-	/** Structure describing a sound action request
-	*/
-	typedef struct 
+	//! Holds information about a sound action
+	struct SoundAction
 	{
 		OgreOggISound*	mSound;
 		SOUND_ACTION	mAction;
 		void*			mParams;
-	} SoundAction;
+	};
 
-	/** Structure holding information about a create sound request.
-	*/
+	//! Holds information about a create sound request.
 	struct cSound
 	{
 		bool mPrebuffer;
@@ -78,8 +75,7 @@ namespace OgreOggSound
 		Ogre::DataStreamPtr mStream;
 	};
 
-	/** Structure holding information for a static shared audio buffer.
-	*/
+	//! Holds information about a static shared audio buffer.
 	struct sharedAudioBuffer
 	{
 		ALuint mAudioBuffer;
@@ -89,8 +85,7 @@ namespace OgreOggSound
 
 	typedef std::map<std::string, sharedAudioBuffer*> SharedBufferList;
 
-	/** Handles ALL sounds
-	 */
+	//! Sound Manager: Manages all sounds for an application
 	class _OGGSOUND_EXPORT OgreOggSoundManager : public Ogre::Singleton<OgreOggSoundManager>
 	{
 
@@ -771,9 +766,9 @@ namespace OgreOggSound
 
 		OgreOggSoundRecord* mRecorder;			// recorder object
 
-		/** sort algorithms
-		*/
+		//! sorts sound list by distance
 		struct _sortNearToFar;
+		//! sorts sound list by distance
 		struct _sortFarToNear;
 
 		/**	EFX Support

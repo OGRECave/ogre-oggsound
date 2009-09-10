@@ -26,9 +26,9 @@
 
 namespace OgreOggSound
 {
-	/**
-	 * Handles the listener from which positioning is calculated
-	 */
+	//! Listener object (Users ears)
+	/** Handles properties associated with the listener.
+	*/
 	class  _OGGSOUND_EXPORT OgreOggListener : public Ogre::MovableObject
 	{
 

@@ -30,7 +30,7 @@
 namespace OgreOggSound
 {
 
-	/** Plugin instance for the MovableText */
+	//! Plugin instance for the MovableText 
 	class OgreOggSoundPlugin : public Ogre::Plugin
 	{
 

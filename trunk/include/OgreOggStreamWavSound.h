@@ -30,9 +30,9 @@
 
 namespace OgreOggSound
 {
-	/** 
-		Subclass for a streaming sound.
-	 */
+	//! A single streaming sound (WAV)
+	/** Handles playing a sound from a wav stream.
+	*/
 	class _OGGSOUND_EXPORT OgreOggStreamWavSound : public OgreOggISound
 	{
 
