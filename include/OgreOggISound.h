@@ -32,9 +32,9 @@
 
 namespace OgreOggSound
 {
-	/**
-	 * Structure defining a WAVE sounds format.
-	 */
+	//! WAVE sound information
+	/** Structure defining a WAVE sounds format.
+	*/
 	typedef struct
 	{
 		unsigned long	mFormatChunkSize,
@@ -51,7 +51,8 @@ namespace OgreOggSound
 		char			mSubFormat[16];	
 	} WavFormatData;
 
-	/** Action enumeration after a fade has completed.
+	//! Action to perform after a fade has completed.
+	/** 
 	@remarks
 		Use this to specify what to do on a sound after it has finished fading.	i.e. after fading out pause.
 	*/
@@ -62,9 +63,7 @@ namespace OgreOggSound
 		FC_STOP		= 0x02
 	};
 
-	/**
-	 * Structure describing an ogg stream
-	 */
+	//!Structure describing an ogg stream
 	struct SOggFile
 	{
 		char* dataPtr;    // Pointer to the data in memory
@@ -72,9 +71,9 @@ namespace OgreOggSound
 		int   dataRead;   // How much data we have read so far
 	};
 
-	/**
-	 * class for a sound, provides functions for setting audio properties
-	 * on a 3D sound as well as stop/pause/play operations.
+	//! A single sound object
+	/** provides functions for setting audio properties
+	 *	on a 3D sound as well as stop/pause/play operations.
 	 */
 	class _OGGSOUND_EXPORT OgreOggISound : public Ogre::MovableObject
 	{

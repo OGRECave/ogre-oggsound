@@ -31,8 +31,8 @@
 
 namespace OgreOggSound
 {
-	/**
-	 * Super class for a static buffer sound. Handles playing a sound from memory.
+	//! A single static buffer sound (WAV)
+	/** Handles playing a sound from memory.
 	 */
 	class _OGGSOUND_EXPORT OgreOggStaticWavSound : public OgreOggISound
 	{

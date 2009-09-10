@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>OgreOggSound: D:/Work/ogreoggsound_test/include/OgreOggSoundCallback.h Source File</title>
+<title>OgreOggSound: C:/Work/Api&#39;s/ogreoggsound/include/OgreOggSoundCallback.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -23,7 +23,7 @@
       <li><a href="globals.html"><span>File&nbsp;Members</span></a></li>
     </ul>
   </div>
-<h1>D:/Work/ogreoggsound_test/include/OgreOggSoundCallback.h</h1><a href="_ogre_ogg_sound_callback_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*---------------------------------------------------------------------------*\</span>
+<h1>C:/Work/Api's/ogreoggsound/include/OgreOggSoundCallback.h</h1><a href="_ogre_ogg_sound_callback_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*---------------------------------------------------------------------------*\</span>
 <a name="l00002"></a>00002 <span class="comment">** This source file is part of OgreOggSound, an OpenAL wrapper library for   </span>
 <a name="l00003"></a>00003 <span class="comment">** use with the Ogre Rendering Engine.                                                                           </span>
 <a name="l00004"></a>00004 <span class="comment">**                                                                           </span>
@@ -52,53 +52,54 @@
 <a name="l00027"></a>00027 {
 <a name="l00028"></a>00028         <span class="keyword">class </span>OgreOggISound;
 <a name="l00029"></a>00029 
-<a name="l00035"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html">00035</a>         <span class="keyword">class </span><a class="code" href="_ogre_ogg_sound_prereqs_8h.html#a0262ff4b64daaf82d734efea7f4c5ddb">_OGGSOUND_EXPORT</a> <a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html">OOSCallback</a>
-<a name="l00036"></a>00036         {
-<a name="l00037"></a>00037         
-<a name="l00038"></a>00038         <span class="keyword">public</span>:
-<a name="l00039"></a>00039         
-<a name="l00040"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html#a5e5268dd6c7bc342b09e114b480add7d">00040</a>                 <span class="keyword">virtual</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html#a5e5268dd6c7bc342b09e114b480add7d">~OOSCallback</a>(){};
-<a name="l00041"></a>00041                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> execute(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a>* sound) = 0;
-<a name="l00042"></a>00042 
-<a name="l00043"></a>00043         };
-<a name="l00044"></a>00044 
-<a name="l00045"></a>00045         <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
-<a name="l00046"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html">00046</a>         <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html">OSSCallbackPointer</a> : <span class="keyword">public</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html">OOSCallback</a>
-<a name="l00047"></a>00047         {
-<a name="l00048"></a>00048 
-<a name="l00049"></a>00049         <span class="keyword">public</span>:
+<a name="l00031"></a>00031 
+<a name="l00036"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html">00036</a>         <span class="keyword">class </span><a class="code" href="_ogre_ogg_sound_prereqs_8h.html#a0262ff4b64daaf82d734efea7f4c5ddb">_OGGSOUND_EXPORT</a> <a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html" title="Callbacks for sound states.">OOSCallback</a>
+<a name="l00037"></a>00037         {
+<a name="l00038"></a>00038         
+<a name="l00039"></a>00039         <span class="keyword">public</span>:
+<a name="l00040"></a>00040         
+<a name="l00041"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html#a5e5268dd6c7bc342b09e114b480add7d">00041</a>                 <span class="keyword">virtual</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html#a5e5268dd6c7bc342b09e114b480add7d">~OOSCallback</a>(){};
+<a name="l00042"></a>00042                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> execute(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a>* sound) = 0;
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044         };
+<a name="l00045"></a>00045 
+<a name="l00047"></a>00047         <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00048"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html">00048</a>         <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html" title="Callback template.">OSSCallbackPointer</a> : <span class="keyword">public</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html" title="Callbacks for sound states.">OOSCallback</a>
+<a name="l00049"></a>00049         {
 <a name="l00050"></a>00050 
-<a name="l00051"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#afeee1a54d3ff845e4e79027ea49330b9">00051</a>                 <span class="keyword">typedef</span> void (T::*<a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#afeee1a54d3ff845e4e79027ea49330b9">MemberFunction</a>)(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a>* sound);
+<a name="l00051"></a>00051         <span class="keyword">public</span>:
 <a name="l00052"></a>00052 
-<a name="l00053"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a748e9889f6b7156d80476a8f98ebcacf">00053</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a748e9889f6b7156d80476a8f98ebcacf">OSSCallbackPointer</a>() : <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aeb0d5929f858d5fdff415c73a0d562eb">mUndefined</a>(<a class="code" href="ogreoggstreamsound_8cpp.html#a930920b2bc42824a5c03be681830f4b2">true</a>){}
+<a name="l00053"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#afeee1a54d3ff845e4e79027ea49330b9">00053</a>                 <span class="keyword">typedef</span> void (T::*<a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#afeee1a54d3ff845e4e79027ea49330b9">MemberFunction</a>)(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a>* sound);
 <a name="l00054"></a>00054 
-<a name="l00055"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aa68e2f99a37a43160f74410f5439a582">00055</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a748e9889f6b7156d80476a8f98ebcacf">OSSCallbackPointer</a>(<a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#afeee1a54d3ff845e4e79027ea49330b9">MemberFunction</a> func, T* obj) :
-<a name="l00056"></a>00056                         <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#ac5262c35e3934d49011f616e0701b945">mFunction</a>(func),
-<a name="l00057"></a>00057                         <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a57dea6317e819143abc1ac47dac9966a">mObject</a>(obj),
-<a name="l00058"></a>00058                         <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aeb0d5929f858d5fdff415c73a0d562eb">mUndefined</a>(false)
-<a name="l00059"></a>00059                 {}
-<a name="l00060"></a>00060 
-<a name="l00061"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a027b0a08ec129c2e886f0f946cd26d0a">00061</a>                 <span class="keyword">virtual</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a027b0a08ec129c2e886f0f946cd26d0a">~OSSCallbackPointer</a>(){}
+<a name="l00055"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a748e9889f6b7156d80476a8f98ebcacf">00055</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a748e9889f6b7156d80476a8f98ebcacf">OSSCallbackPointer</a>() : <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aeb0d5929f858d5fdff415c73a0d562eb">mUndefined</a>(<a class="code" href="ogreoggstreamsound_8cpp.html#a930920b2bc42824a5c03be681830f4b2">true</a>){}
+<a name="l00056"></a>00056 
+<a name="l00057"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aa68e2f99a37a43160f74410f5439a582">00057</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a748e9889f6b7156d80476a8f98ebcacf">OSSCallbackPointer</a>(<a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#afeee1a54d3ff845e4e79027ea49330b9">MemberFunction</a> func, T* obj) :
+<a name="l00058"></a>00058                         <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#ac5262c35e3934d49011f616e0701b945">mFunction</a>(func),
+<a name="l00059"></a>00059                         <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a57dea6317e819143abc1ac47dac9966a">mObject</a>(obj),
+<a name="l00060"></a>00060                         <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aeb0d5929f858d5fdff415c73a0d562eb">mUndefined</a>(false)
+<a name="l00061"></a>00061                 {}
 <a name="l00062"></a>00062 
-<a name="l00063"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a66c056b0970eb94862cb99d7c027dec5">00063</a>                 <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a66c056b0970eb94862cb99d7c027dec5">execute</a>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a>* sound)
-<a name="l00064"></a>00064                 {
-<a name="l00065"></a>00065                         <span class="keywordflow">if</span>(!<a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aeb0d5929f858d5fdff415c73a0d562eb">mUndefined</a>)
-<a name="l00066"></a>00066                                 (<a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a57dea6317e819143abc1ac47dac9966a">mObject</a>-&gt;*<a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#ac5262c35e3934d49011f616e0701b945">mFunction</a>)(sound);
-<a name="l00067"></a>00067                 }
-<a name="l00068"></a>00068 
-<a name="l00069"></a>00069         <span class="keyword">protected</span>:
+<a name="l00063"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a027b0a08ec129c2e886f0f946cd26d0a">00063</a>                 <span class="keyword">virtual</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a027b0a08ec129c2e886f0f946cd26d0a">~OSSCallbackPointer</a>(){}
+<a name="l00064"></a>00064 
+<a name="l00065"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a66c056b0970eb94862cb99d7c027dec5">00065</a>                 <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a66c056b0970eb94862cb99d7c027dec5">execute</a>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a>* sound)
+<a name="l00066"></a>00066                 {
+<a name="l00067"></a>00067                         <span class="keywordflow">if</span>(!<a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aeb0d5929f858d5fdff415c73a0d562eb">mUndefined</a>)
+<a name="l00068"></a>00068                                 (<a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a57dea6317e819143abc1ac47dac9966a">mObject</a>-&gt;*<a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#ac5262c35e3934d49011f616e0701b945">mFunction</a>)(sound);
+<a name="l00069"></a>00069                 }
 <a name="l00070"></a>00070 
-<a name="l00071"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#ac5262c35e3934d49011f616e0701b945">00071</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#afeee1a54d3ff845e4e79027ea49330b9">MemberFunction</a> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#ac5262c35e3934d49011f616e0701b945">mFunction</a>;
-<a name="l00072"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a57dea6317e819143abc1ac47dac9966a">00072</a>                 T* <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a57dea6317e819143abc1ac47dac9966a">mObject</a>;
-<a name="l00073"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aeb0d5929f858d5fdff415c73a0d562eb">00073</a>                 <span class="keywordtype">bool</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aeb0d5929f858d5fdff415c73a0d562eb">mUndefined</a>;
-<a name="l00074"></a>00074 
-<a name="l00075"></a>00075         }; 
+<a name="l00071"></a>00071         <span class="keyword">protected</span>:
+<a name="l00072"></a>00072 
+<a name="l00073"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#ac5262c35e3934d49011f616e0701b945">00073</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#afeee1a54d3ff845e4e79027ea49330b9">MemberFunction</a> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#ac5262c35e3934d49011f616e0701b945">mFunction</a>;
+<a name="l00074"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a57dea6317e819143abc1ac47dac9966a">00074</a>                 T* <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#a57dea6317e819143abc1ac47dac9966a">mObject</a>;
+<a name="l00075"></a><a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aeb0d5929f858d5fdff415c73a0d562eb">00075</a>                 <span class="keywordtype">bool</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html#aeb0d5929f858d5fdff415c73a0d562eb">mUndefined</a>;
 <a name="l00076"></a>00076 
-<a name="l00077"></a>00077 } 
+<a name="l00077"></a>00077         }; 
 <a name="l00078"></a>00078 
-<a name="l00079"></a>00079 <span class="preprocessor">#endif  </span><span class="comment">/* _OGREOGGSOUND_CALLBACK_H_ */</span>
+<a name="l00079"></a>00079 } 
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081 <span class="preprocessor">#endif  </span><span class="comment">/* _OGREOGGSOUND_CALLBACK_H_ */</span>
 </pre></div></div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 10 00:16:13 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 10 14:50:14 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

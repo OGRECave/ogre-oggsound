@@ -26,7 +26,7 @@
 
 namespace OgreOggSound 
 {
-	/** MovableFactory for creating Sound instances */
+	//! MovableFactory for creating Sound instances 
 	class _OGGSOUND_EXPORT OgreOggSoundFactory : public Ogre::MovableObjectFactory
 	{
 

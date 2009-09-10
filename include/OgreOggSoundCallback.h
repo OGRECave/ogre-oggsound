@@ -27,6 +27,7 @@ namespace OgreOggSound
 {
 	class OgreOggISound;
 
+	//! Callbacks for sound states.
 	/** Template class for implementing callbacks which can be attached to sounds.
 	@remarks
 		Allows member functions to be used as callbacks. Amended from OgreAL, 
@@ -42,6 +43,7 @@ namespace OgreOggSound
 
 	};
 
+	//! Callback template
 	template<typename T>
 	class OSSCallbackPointer : public OOSCallback
 	{

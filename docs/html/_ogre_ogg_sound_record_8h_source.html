@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>OgreOggSound: D:/Work/ogreoggsound_test/include/OgreOggSoundRecord.h Source File</title>
+<title>OgreOggSound: C:/Work/Api&#39;s/ogreoggsound/include/OgreOggSoundRecord.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -23,7 +23,7 @@
       <li><a href="globals.html"><span>File&nbsp;Members</span></a></li>
     </ul>
   </div>
-<h1>D:/Work/ogreoggsound_test/include/OgreOggSoundRecord.h</h1><a href="_ogre_ogg_sound_record_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*---------------------------------------------------------------------------*\</span>
+<h1>C:/Work/Api's/ogreoggsound/include/OgreOggSoundRecord.h</h1><a href="_ogre_ogg_sound_record_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*---------------------------------------------------------------------------*\</span>
 <a name="l00002"></a>00002 <span class="comment">** This source file is part of OgreOggSound, an OpenAL wrapper library for   </span>
 <a name="l00003"></a>00003 <span class="comment">** use with the Ogre Rendering Engine.                                                                           </span>
 <a name="l00004"></a>00004 <span class="comment">**                                                                           </span>
@@ -51,82 +51,83 @@
 <a name="l00026"></a>00026 
 <a name="l00027"></a>00027 <span class="keyword">namespace </span>OgreOggSound
 <a name="l00028"></a>00028 {
-<a name="l00031"></a><a class="code" href="struct_ogre_ogg_sound_1_1w_format.html">00031</a>         <span class="keyword">typedef</span> <span class="keyword">struct</span>
-<a name="l00032"></a>00032         {
-<a name="l00033"></a>00033                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> 
-<a name="l00034"></a><a class="code" href="struct_ogre_ogg_sound_1_1w_format.html#af773371bc201bf9ec94c9f29655183d4">00034</a>                         nChannels,
-<a name="l00035"></a>00035                         wBitsPerSample,
-<a name="l00036"></a>00036                         nBlockAlign,
-<a name="l00037"></a>00037                         wFormatTag,
-<a name="l00038"></a>00038                         cbSize;
-<a name="l00039"></a>00039                 
-<a name="l00040"></a>00040                 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>
-<a name="l00041"></a><a class="code" href="struct_ogre_ogg_sound_1_1w_format.html#a70d9f8a1d8f9ee7307678cbab62c5a8b">00041</a>                         nSamplesPerSec,
-<a name="l00042"></a>00042                         nAvgBytesPerSec;
-<a name="l00043"></a>00043         } <a class="code" href="struct_ogre_ogg_sound_1_1w_format.html">wFormat</a>;
-<a name="l00044"></a>00044 
-<a name="l00047"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html">00047</a>         <span class="keyword">typedef</span> <span class="keyword">struct</span>
-<a name="l00048"></a>00048         {
-<a name="l00049"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#ae2429d9bfd30549e570ac2d3e60adc09">00049</a>                 <span class="keywordtype">char</span>                    szRIFF[4];
-<a name="l00050"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a273264a145e3cc9e5b0dfcdd50c0fcc8">00050</a>                 <span class="keywordtype">long</span>                    lRIFFSize;
-<a name="l00051"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a4dd0b41b45bdff932424ac384055b075">00051</a>                 <span class="keywordtype">char</span>                    szWave[4];
-<a name="l00052"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a95ed3f950c2c2e59f3c21fbca242c2ca">00052</a>                 <span class="keywordtype">char</span>                    szFmt[4];
-<a name="l00053"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#ab859b33bd29cf75c204a83f792d65b24">00053</a>                 <span class="keywordtype">long</span>                    lFmtSize;
-<a name="l00054"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a4070f21ef3febcc4b0d7cb58d044cc85">00054</a>                 <a class="code" href="struct_ogre_ogg_sound_1_1w_format.html">wFormat</a>                 wfex;
-<a name="l00055"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a5a113a101fea8054b1fc6bec988dda6c">00055</a>                 <span class="keywordtype">char</span>                    szData[4];
-<a name="l00056"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#af8f6cf0c3577f8e0acaec91cd50ac3eb">00056</a>                 <span class="keywordtype">long</span>                    lDataSize;
-<a name="l00057"></a>00057         } <a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html">WAVEHEADER</a>;
+<a name="l00030"></a><a class="code" href="struct_ogre_ogg_sound_1_1w_format.html">00030</a>         <span class="keyword">struct </span><a class="code" href="struct_ogre_ogg_sound_1_1w_format.html" title="WAVE file format structure.">wFormat</a>
+<a name="l00031"></a>00031         {
+<a name="l00032"></a>00032                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> 
+<a name="l00033"></a><a class="code" href="struct_ogre_ogg_sound_1_1w_format.html#af773371bc201bf9ec94c9f29655183d4">00033</a>                         <a class="code" href="struct_ogre_ogg_sound_1_1w_format.html#a3ac3ba5b0f04c8f8b0b244e334195f3c">nChannels</a>,
+<a name="l00034"></a>00034                         <a class="code" href="struct_ogre_ogg_sound_1_1w_format.html#a2ffc2b28be280b6e1f8dfd2935714701">wBitsPerSample</a>,
+<a name="l00035"></a>00035                         <a class="code" href="struct_ogre_ogg_sound_1_1w_format.html#aaddb24fee7b299b6c344606a0afaf246">nBlockAlign</a>,
+<a name="l00036"></a>00036                         <a class="code" href="struct_ogre_ogg_sound_1_1w_format.html#af773371bc201bf9ec94c9f29655183d4">wFormatTag</a>,
+<a name="l00037"></a>00037                         <a class="code" href="struct_ogre_ogg_sound_1_1w_format.html#ac6ebd25be1c6402af84cd8a20ec9a7ae">cbSize</a>;
+<a name="l00038"></a>00038                 
+<a name="l00039"></a>00039                 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>
+<a name="l00040"></a><a class="code" href="struct_ogre_ogg_sound_1_1w_format.html#a70d9f8a1d8f9ee7307678cbab62c5a8b">00040</a>                         <a class="code" href="struct_ogre_ogg_sound_1_1w_format.html#a70d9f8a1d8f9ee7307678cbab62c5a8b">nSamplesPerSec</a>,
+<a name="l00041"></a>00041                         <a class="code" href="struct_ogre_ogg_sound_1_1w_format.html#a34d630fe77255f2b98cef8dbe06640f0">nAvgBytesPerSec</a>;
+<a name="l00042"></a>00042         };
+<a name="l00043"></a>00043 
+<a name="l00045"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html">00045</a>         <span class="keyword">struct </span><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html" title="WAVE file header information.">WAVEHEADER</a>
+<a name="l00046"></a>00046         {
+<a name="l00047"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#ae2429d9bfd30549e570ac2d3e60adc09">00047</a>                 <span class="keywordtype">char</span>                    <a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#ae2429d9bfd30549e570ac2d3e60adc09">szRIFF</a>[4];
+<a name="l00048"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a273264a145e3cc9e5b0dfcdd50c0fcc8">00048</a>                 <span class="keywordtype">long</span>                    <a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a273264a145e3cc9e5b0dfcdd50c0fcc8">lRIFFSize</a>;
+<a name="l00049"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a4dd0b41b45bdff932424ac384055b075">00049</a>                 <span class="keywordtype">char</span>                    <a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a4dd0b41b45bdff932424ac384055b075">szWave</a>[4];
+<a name="l00050"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a95ed3f950c2c2e59f3c21fbca242c2ca">00050</a>                 <span class="keywordtype">char</span>                    <a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a95ed3f950c2c2e59f3c21fbca242c2ca">szFmt</a>[4];
+<a name="l00051"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#ab859b33bd29cf75c204a83f792d65b24">00051</a>                 <span class="keywordtype">long</span>                    <a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#ab859b33bd29cf75c204a83f792d65b24">lFmtSize</a>;
+<a name="l00052"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a4070f21ef3febcc4b0d7cb58d044cc85">00052</a>                 <a class="code" href="struct_ogre_ogg_sound_1_1w_format.html" title="WAVE file format structure.">wFormat</a>                 <a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a4070f21ef3febcc4b0d7cb58d044cc85">wfex</a>;
+<a name="l00053"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a5a113a101fea8054b1fc6bec988dda6c">00053</a>                 <span class="keywordtype">char</span>                    <a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#a5a113a101fea8054b1fc6bec988dda6c">szData</a>[4];
+<a name="l00054"></a><a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#af8f6cf0c3577f8e0acaec91cd50ac3eb">00054</a>                 <span class="keywordtype">long</span>                    <a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html#af8f6cf0c3577f8e0acaec91cd50ac3eb">lDataSize</a>;
+<a name="l00055"></a>00055         };
+<a name="l00056"></a>00056 
 <a name="l00058"></a>00058 
-<a name="l00065"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html">00065</a>         <span class="keyword">class </span><a class="code" href="_ogre_ogg_sound_prereqs_8h.html#a0262ff4b64daaf82d734efea7f4c5ddb">_OGGSOUND_EXPORT</a> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html">OgreOggSoundRecord</a>
-<a name="l00066"></a>00066         {
-<a name="l00067"></a>00067         
-<a name="l00068"></a>00068         <span class="keyword">public</span>:
-<a name="l00069"></a>00069 
-<a name="l00070"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#adb62d0e162f382738333fd62d8dc1b1e">00070</a>                 <span class="keyword">typedef</span> std::vector&lt;Ogre::String&gt; RecordDeviceList;
-<a name="l00071"></a>00071 
-<a name="l00072"></a>00072         <span class="keyword">private</span>:
-<a name="l00073"></a>00073 
-<a name="l00074"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#ad3e91850766dc4a0012f3e3186cbfdf7">00074</a>                 ALCdevice*                      mDevice;
-<a name="l00075"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#af64008367297e34eace5c2512a23c791">00075</a>                 ALCcontext*                     mContext;
-<a name="l00076"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a48e685ba00dd073388ee9843f782e08e">00076</a>                 ALCdevice*                      mCaptureDevice;
-<a name="l00077"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a8f7601c463021307765ac96c6b00e363">00077</a>                 <span class="keyword">const</span> ALCchar*          mDefaultCaptureDevice;
-<a name="l00078"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a1a3e2b34ab57b5bf087987b7f8299ad5">00078</a>                 ALint                           mSamplesAvailable;
-<a name="l00079"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#af67e48835a99a62f0b66fdf368e7c404">00079</a>                 std::ofstream           mFile;
-<a name="l00080"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a0f86b01c6f570e5a22784a0098e765b2">00080</a>                 ALchar*                         mBuffer;
-<a name="l00081"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a2bb8f1c0827c765fe2ce85e09c00c639">00081</a>                 <a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html">WAVEHEADER</a>                      mWaveHeader;
-<a name="l00082"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a39b9611fa322c07b89343157a4a8746f">00082</a>                 ALint                           mDataSize;
-<a name="l00083"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#ae4d2211daf3059f84a8a31e6a10042e7">00083</a>                 ALint                           mSize;
-<a name="l00084"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a803d459b68a17954a34c42f055857703">00084</a>                 RecordDeviceList        mDeviceList;
-<a name="l00085"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#ad683ac2208b1cf3abbc05f7a54364f1b">00085</a>                 Ogre::String            mOutputFile;
-<a name="l00086"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#acc1a3290ebeb121273ea99eb27a02f05">00086</a>                 Ogre::String            mDeviceName;
-<a name="l00087"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#ac12507ae43e5ca4c185c060a56249580">00087</a>                 ALCuint                         mFreq;
-<a name="l00088"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a4b2644c3a5ea4ae7ebf9afd4af625089">00088</a>                 ALCenum                         mFormat;
-<a name="l00089"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a15e5a438f7b750750e14468138fbb82a">00089</a>                 ALsizei                         mBufferSize;
-<a name="l00090"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#aaeafda9fbbf982f7663fd6acc73c27ee">00090</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span>          mBitsPerSample;
-<a name="l00091"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a4b4f8d95a11eeebd5c4a13e25a15204b">00091</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span>          mNumChannels;
-<a name="l00092"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a56e9c53232726d6f81c1694a7f75b63f">00092</a>                 <span class="keywordtype">bool</span>                            mRecording;
-<a name="l00093"></a>00093 
-<a name="l00096"></a>00096                 <span class="keywordtype">void</span> _updateRecording();
-<a name="l00102"></a>00102                 <span class="keywordtype">bool</span> _openDevice();
-<a name="l00103"></a>00103 
-<a name="l00104"></a>00104         <span class="keyword">public</span>:
-<a name="l00105"></a>00105 
-<a name="l00106"></a>00106                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html">OgreOggSoundRecord</a>(ALCdevice&amp; alDevice);
-<a name="l00109"></a>00109                 <span class="keyword">const</span> RecordDeviceList&amp; getCaptureDeviceList();
-<a name="l00112"></a>00112                 <span class="keywordtype">bool</span> initCaptureDevice(<span class="keyword">const</span> Ogre::String&amp; devName=<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> Ogre::String&amp; fileName=<span class="stringliteral">&quot;output.wav&quot;</span>, ALCuint freq=44100, ALCenum format=AL_FORMAT_STEREO16, ALsizei bufferSize=8820);
-<a name="l00115"></a>00115                 <span class="keywordtype">void</span> startRecording();
-<a name="l00118"></a>00118                 <span class="keywordtype">bool</span> isCaptureAvailable();
-<a name="l00121"></a>00121                 <span class="keywordtype">void</span> stopRecording();
-<a name="l00124"></a>00124                 ~<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html">OgreOggSoundRecord</a>();
-<a name="l00125"></a>00125 
-<a name="l00126"></a>00126                 <span class="comment">// Manager friend</span>
-<a name="l00127"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a7cfed535deaa9c3b1c335b122135c474">00127</a>                 <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html">OgreOggSoundManager</a>;
-<a name="l00128"></a>00128         };
-<a name="l00129"></a>00129 
-<a name="l00130"></a>00130 }
-<a name="l00131"></a>00131 
+<a name="l00064"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html">00064</a>         <span class="keyword">class </span><a class="code" href="_ogre_ogg_sound_prereqs_8h.html#a0262ff4b64daaf82d734efea7f4c5ddb">_OGGSOUND_EXPORT</a> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html" title="Captures audio data.">OgreOggSoundRecord</a>
+<a name="l00065"></a>00065         {
+<a name="l00066"></a>00066         
+<a name="l00067"></a>00067         <span class="keyword">public</span>:
+<a name="l00068"></a>00068 
+<a name="l00069"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#adb62d0e162f382738333fd62d8dc1b1e">00069</a>                 <span class="keyword">typedef</span> std::vector&lt;Ogre::String&gt; RecordDeviceList;
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071         <span class="keyword">private</span>:
+<a name="l00072"></a>00072 
+<a name="l00073"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#ad3e91850766dc4a0012f3e3186cbfdf7">00073</a>                 ALCdevice*                      mDevice;
+<a name="l00074"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#af64008367297e34eace5c2512a23c791">00074</a>                 ALCcontext*                     mContext;
+<a name="l00075"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a48e685ba00dd073388ee9843f782e08e">00075</a>                 ALCdevice*                      mCaptureDevice;
+<a name="l00076"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a8f7601c463021307765ac96c6b00e363">00076</a>                 <span class="keyword">const</span> ALCchar*          mDefaultCaptureDevice;
+<a name="l00077"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a1a3e2b34ab57b5bf087987b7f8299ad5">00077</a>                 ALint                           mSamplesAvailable;
+<a name="l00078"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#af67e48835a99a62f0b66fdf368e7c404">00078</a>                 std::ofstream           mFile;
+<a name="l00079"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a0f86b01c6f570e5a22784a0098e765b2">00079</a>                 ALchar*                         mBuffer;
+<a name="l00080"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a2bb8f1c0827c765fe2ce85e09c00c639">00080</a>                 <a class="code" href="struct_ogre_ogg_sound_1_1_w_a_v_e_h_e_a_d_e_r.html" title="WAVE file header information.">WAVEHEADER</a>                      mWaveHeader;
+<a name="l00081"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a39b9611fa322c07b89343157a4a8746f">00081</a>                 ALint                           mDataSize;
+<a name="l00082"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#ae4d2211daf3059f84a8a31e6a10042e7">00082</a>                 ALint                           mSize;
+<a name="l00083"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a803d459b68a17954a34c42f055857703">00083</a>                 RecordDeviceList        mDeviceList;
+<a name="l00084"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#ad683ac2208b1cf3abbc05f7a54364f1b">00084</a>                 Ogre::String            mOutputFile;
+<a name="l00085"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#acc1a3290ebeb121273ea99eb27a02f05">00085</a>                 Ogre::String            mDeviceName;
+<a name="l00086"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#ac12507ae43e5ca4c185c060a56249580">00086</a>                 ALCuint                         mFreq;
+<a name="l00087"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a4b2644c3a5ea4ae7ebf9afd4af625089">00087</a>                 ALCenum                         mFormat;
+<a name="l00088"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a15e5a438f7b750750e14468138fbb82a">00088</a>                 ALsizei                         mBufferSize;
+<a name="l00089"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#aaeafda9fbbf982f7663fd6acc73c27ee">00089</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span>          mBitsPerSample;
+<a name="l00090"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a4b4f8d95a11eeebd5c4a13e25a15204b">00090</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span>          mNumChannels;
+<a name="l00091"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a56e9c53232726d6f81c1694a7f75b63f">00091</a>                 <span class="keywordtype">bool</span>                            mRecording;
+<a name="l00092"></a>00092 
+<a name="l00095"></a>00095                 <span class="keywordtype">void</span> _updateRecording();
+<a name="l00101"></a>00101                 <span class="keywordtype">bool</span> _openDevice();
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103         <span class="keyword">public</span>:
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html" title="Captures audio data.">OgreOggSoundRecord</a>(ALCdevice&amp; alDevice);
+<a name="l00108"></a>00108                 <span class="keyword">const</span> RecordDeviceList&amp; getCaptureDeviceList();
+<a name="l00111"></a>00111                 <span class="keywordtype">bool</span> initCaptureDevice(<span class="keyword">const</span> Ogre::String&amp; devName=<span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> Ogre::String&amp; fileName=<span class="stringliteral">&quot;output.wav&quot;</span>, ALCuint freq=44100, ALCenum format=AL_FORMAT_STEREO16, ALsizei bufferSize=8820);
+<a name="l00114"></a>00114                 <span class="keywordtype">void</span> startRecording();
+<a name="l00117"></a>00117                 <span class="keywordtype">bool</span> isCaptureAvailable();
+<a name="l00120"></a>00120                 <span class="keywordtype">void</span> stopRecording();
+<a name="l00123"></a>00123                 ~<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html" title="Captures audio data.">OgreOggSoundRecord</a>();
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125                 <span class="comment">// Manager friend</span>
+<a name="l00126"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a7cfed535deaa9c3b1c335b122135c474">00126</a>                 <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html" title="Sound Manager: Manages all sounds for an application.">OgreOggSoundManager</a>;
+<a name="l00127"></a>00127         };
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129 }
+<a name="l00130"></a>00130 
 </pre></div></div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 10 00:16:13 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 10 14:50:14 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
