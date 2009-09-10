@@ -538,14 +538,7 @@ namespace OgreOggSound
 			{
 				OgreOggSoundManager::getSingleton()._processQueuedSounds();
 				OgreOggSoundManager::getSingleton()._updateBuffers();
-#if OGGSOUND_THREADED
-#	ifndef LINUX
-				Sleep(2);
-#	else
-				sleep(2);
-#	endif
-#endif
-				mUpdateThread->yield();
+				boost::this_thread::sleep(boost::posix_time::millisec(10));
 			}
 		}
 
