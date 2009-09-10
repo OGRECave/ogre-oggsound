@@ -31,6 +31,7 @@
 
 #if OGGSOUND_THREADED
 #	include <boost/thread/thread.hpp>
+#	include <boost/function/function0.hpp>
 #	include <boost/thread/recursive_mutex.hpp>
 #	include <boost/thread/xtime.hpp>
 #endif
