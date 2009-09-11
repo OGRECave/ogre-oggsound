@@ -119,12 +119,11 @@ void MainApp::createScene()
 
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	sound = 0;
-	if ( sound = mSoundManager->createSound("Two", "two.ogg", true, true, false) )	
+	if ( sound = mSoundManager->createSound("Two", "Stash_Cave.wav", true, true, false) )	
 	{
 		sound->setMaxDistance(300);
 		sound->setReferenceDistance(100);
 		mOgreMonster->attachObject(sound);
-		sound->disable3D(true);
 		sound->play();
 	}
 	/** Sound three - non streamed, looping, moving *

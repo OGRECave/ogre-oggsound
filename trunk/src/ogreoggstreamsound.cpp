@@ -334,6 +334,19 @@ namespace OgreOggSound
 		if(mSource == AL_NONE)
 			return;
 
+		/** Check current state
+		@remarks
+			Fix for bug where prebuffering a streamed sound caused a buffer problem
+			resulting in only 1st buffer repeatedly looping. This is because alSourceStop() 
+			doesn't function correctly if the sources state hasn't previously been set!!???
+		*/
+		ALenum state;
+		alGetSourcei(mSource, AL_SOURCE_STATE, &state);
+
+		// Force mSource to change state so the call to alSourceStop() will mark buffers correctly.
+		if (state == AL_INITIAL)
+			alSourcePlay(mSource);
+
 		// Stop source to allow unqueuing
 		alSourceStop(mSource);
 
