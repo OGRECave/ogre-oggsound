@@ -401,6 +401,7 @@ namespace OgreOggSound
 			c->mFileName	= file;
 			c->mBuffer		= buffer;
 			c->mStream		= soundData;
+			c->mPrebuffer	= preBuffer;
 			action.mAction	= LQ_LOAD;
 			action.mParams	= c;
 			action.mSound	= mSoundMap[name];
@@ -439,6 +440,7 @@ namespace OgreOggSound
 			c->mFileName	= file;
 			c->mBuffer		= buffer;
 			c->mStream		= soundData;
+			c->mPrebuffer	= preBuffer;
 			action.mAction	= LQ_LOAD;
 			action.mParams	= c;
 			action.mSound	= mSoundMap[name];
@@ -2162,6 +2164,7 @@ namespace OgreOggSound
 			++i;
 		}
 	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_requestSoundAction(const SoundAction& action)
 	{
 		if ( !mActionsList ) return;
