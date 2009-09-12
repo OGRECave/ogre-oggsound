@@ -34,7 +34,8 @@ namespace OgreOggSound
 	,mStreamEOF(false)
 	{
 		mStream=true;
-		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;
+		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=AL_NONE; 
+		memset(&mOggStream, 0, sizeof(OggVorbis_File));
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamSound::~OgreOggStreamSound()
@@ -89,8 +90,12 @@ namespace OgreOggSound
 	{
 		ALuint src=AL_NONE;
 		setSource(src);
-		alDeleteBuffers(NUM_BUFFERS,mBuffers);
-		ov_clear(&mOggStream);
+		for (int i=0; i<NUM_BUFFERS; i++)
+		{
+			if (mBuffers[i]!=AL_NONE)
+				alDeleteBuffers(1, &mBuffers[i]);
+		}
+		if ( !mAudioStream.isNull() ) ov_clear(&mOggStream);
 		mPlayPosChanged = false;
 		mPlayPos = 0.f;
 	}

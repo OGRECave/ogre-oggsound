@@ -33,8 +33,8 @@ namespace OgreOggSound
 	, mFormatData(0)
 	, mStreamEOF(false)
 	{
-		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;
-		mStream = true;
+		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=AL_NONE;
+		mStream = true;	   
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamWavSound::~OgreOggStreamWavSound()
@@ -370,7 +370,11 @@ namespace OgreOggSound
 			ALuint src=AL_NONE;
 			setSource(src);
 		}
-		alDeleteBuffers(NUM_BUFFERS, mBuffers);
+		for (int i=0; i<NUM_BUFFERS; i++)
+		{
+			if (mBuffers[i]!=AL_NONE)
+				alDeleteBuffers(1, &mBuffers[i]);
+		}
 		mPlayPosChanged = false;
 		mPlayPos = 0.f;
 	}

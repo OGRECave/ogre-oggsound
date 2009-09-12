@@ -116,7 +116,22 @@ namespace OgreOggSound
 			OGRE_FREE(mUpdateThread, Ogre::MEMCATEGORY_GENERAL);
 			mUpdateThread = 0;
 		}
-		if ( mActionsList ) delete mActionsList;
+		if ( mActionsList ) 
+		{
+			SoundAction obj;
+			// Clear out action list
+			while (mActionsList->pop(obj))
+			{
+				// If parameters specified delete structure
+				if (obj.mParams)
+				{
+					cSound* params = static_cast<cSound*>(obj.mParams);
+					params->mStream.setNull();
+					OGRE_FREE(params, Ogre::MEMCATEGORY_GENERAL);
+				}
+			}
+			delete mActionsList;
+		}
 #endif
 
 		_releaseAll();

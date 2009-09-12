@@ -562,4 +562,4 @@ namespace OgreOggSound
 
 		friend class OgreOggSoundManager;
 	};
-}
+}															  
