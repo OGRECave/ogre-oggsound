@@ -10,6 +10,10 @@
 		* Use OgreOggISound play/stop/pause/starFade functions as before.
 	
 	* Added minor tweaks to various functions
+
+	* Fixed potential memory leak from action list on shutdown
+
+	* Fixed potential crash on shutdown if an ogg sound hasn't been loaded prior to shutdown
 	
 
 * version 1.1
