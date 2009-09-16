@@ -21,6 +21,13 @@
 	
 	* Added delayed action list for failed sound action requests through _requestSoundAction() calls.
 
+	* Rewrote WAV file load functions() 
+		
+		* Should be quicker to load 
+		* Should handle CHUNK sections correctly
+
+	* Cleaned up some unused vars from OgreOggStaticWav class
+
 
 * version 1.1
 

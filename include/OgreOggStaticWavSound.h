@@ -127,12 +127,6 @@ namespace OgreOggSound
 		 */
 		void _release();	
 
-		/**
-		 * Ogg file variables
-		 */
-		OggVorbis_File	mOggStream;			// OggVorbis file structure
-		vorbis_info*	mVorbisInfo;		// Vorbis info 
-		vorbis_comment* mVorbisComment;		// Vorbis comments
 
 		std::vector<char> mBufferData;		// Sound data buffer
 
@@ -142,7 +136,7 @@ namespace OgreOggSound
 		ALenum mFormat;						// OpenAL buffer format
 		ALint mPreviousOffset;				// Current play position
 
-		WavFormatData* mFormatData;			// WAVE format structure
+		WavFormatData mFormatData;			// WAVE format structure
 
 		friend class OgreOggSoundManager;	
 	};
