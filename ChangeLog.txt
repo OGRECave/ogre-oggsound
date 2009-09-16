@@ -15,6 +15,12 @@
 
 	* Fixed potential crash on shutdown if an ogg sound hasn't been loaded prior to shutdown
 	
+	* Fixed crash in wav sounds where sound has extra CHUNK's.
+	
+	* Added optional parameter to init() to allow customisation of the action list (MULTI-THREADED ONLY)
+	
+	* Added delayed action list for failed sound action requests through _requestSoundAction() calls.
+
 
 * version 1.1
 
