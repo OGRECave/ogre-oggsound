@@ -117,7 +117,7 @@ void MainApp::createScene()
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
-	/** Sound two - prebuffered, streamed, looping, EFX room effect */
+	/** Sound two - prebuffered, streamed, looping, EFX room effect *
 	sound = 0;
 	if ( sound = mSoundManager->createSound("Two", "two.ogg", false, true, false) )	
 	{
@@ -135,17 +135,10 @@ void MainApp::createScene()
 		mOgreMonster->attachObject(sound);
 		sound->play();
 	}
-	/** Sound one - streamed, looping, EFX Direct filter *
-	mSoundManager->createSound("background", "background.ogg", true, true, true);
-	mSoundManager->getSound("background")->setRelativeToListener(true);
-	mSoundManager->getSound("background")->setVolume(0.2f);
-	mSoundManager->getSound("background")->setPriority(1);
-	if ( mSoundManager->hasEFXSupport() )
-	{
-		mSoundManager->createEFXFilter("LowPassTest", AL_FILTER_LOWPASS, 0.1, 0.5);
-		mSoundManager->attachFilterToSound("background", "LowPassTest");
-	}
-	mSoundManager->getSound("background")->play();		 */
+	/** Sound one - streamed, looping, EFX Direct filter */
+	mSoundManager->createSound("background", "two.ogg", true, true, true);
+	mSoundManager->getSound("background")->disable3D(true);
+	mSoundManager->getSound("background")->play();		 
 }
 //-----------------------------------------------------------------------
 void MainApp::finishedCB(OgreOggISound* sound)
@@ -229,26 +222,6 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 	// Quit the application
 	if (arg.key == OIS::KC_ESCAPE)   
 		mQuit = true;
-
-	if (arg.key == OIS::KC_F1)
-	{
-		mSoundManager->muteAllSounds();
-	}
-	if (arg.key == OIS::KC_F2)
-	{
-		mSoundManager->unmuteAllSounds();
-	}
-
-
-	if (arg.key == OIS::KC_Z)
-	{
-		mSoundManager->pauseAllSounds();
-	}
-
-	if (arg.key == OIS::KC_X)
-	{
-		mSoundManager->resumeAllPausedSounds();
-	}
 
 	// Show the statistics
 	if( arg.key == OIS::KC_H )
