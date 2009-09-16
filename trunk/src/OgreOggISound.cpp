@@ -271,7 +271,7 @@ namespace OgreOggSound
 
 		if(mSource != AL_NONE)
 		{
-			alSourcef(mSource, AL_MAX_GAIN, mMaxGain);		
+			alSourcef(mSource, AL_MAX_GAIN, mMaxGain);	
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/

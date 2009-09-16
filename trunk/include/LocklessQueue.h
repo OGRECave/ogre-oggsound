@@ -68,6 +68,12 @@ namespace OgreOggSound
 			return true;
 		}
 
+		//! query status.
+		inline bool empty() const
+		{
+			return (m_head==m_tail);
+		}
+
 		//! pop object out from the queue.
 		inline bool pop(Type& obj)
 		{

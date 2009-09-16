@@ -159,13 +159,8 @@ namespace OgreOggSound
 							{
 								do
 								{
-									unsigned long chunkSize;
-
-									// Read in size of chunk data ( 4 bytes )
-									mAudioStream->read(&chunkSize, 4);
-
 									// Skip chunk
-									mAudioStream->skip(chunkSize);
+									mAudioStream->skip(sizeof(ChunkHeader));
 
 									// Read next chunk id
 									mAudioStream->read(id, 4);
@@ -473,8 +468,7 @@ namespace OgreOggSound
 
 		// Create buffer
 		data = OGRE_ALLOC_T(char, mBufferSize, Ogre::MEMCATEGORY_GENERAL);
-		memset(data, 0, mBufferSize);
-
+		
 		// Read only what was asked for
 		while(static_cast<int>(audioData.size()) < mBufferSize)
 		{

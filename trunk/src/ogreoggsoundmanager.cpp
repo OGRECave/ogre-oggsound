@@ -110,7 +110,7 @@ namespace OgreOggSound
 	{
 #if OGGSOUND_THREADED
 		mShuttingDown = true;
-		if (mUpdateThread)
+		if ( mUpdateThread )
 		{
 			mUpdateThread->join();
 			OGRE_FREE(mUpdateThread, Ogre::MEMCATEGORY_GENERAL);
@@ -131,6 +131,22 @@ namespace OgreOggSound
 				}
 			}
 			delete mActionsList;
+		}
+		if ( mDelayedActionsList ) 
+		{
+			SoundAction obj;
+			// Clear out action list
+			while (mDelayedActionsList->pop(obj))
+			{
+				// If parameters specified delete structure
+				if (obj.mParams)
+				{
+					cSound* params = static_cast<cSound*>(obj.mParams);
+					params->mStream.setNull();
+					OGRE_FREE(params, Ogre::MEMCATEGORY_GENERAL);
+				}
+			}
+			delete mDelayedActionsList;
 		}
 #endif
 
@@ -157,7 +173,7 @@ namespace OgreOggSound
 		assert( ms_Singleton );  return ( *ms_Singleton );
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::init(const std::string &deviceName, unsigned int maxSources)
+	bool OgreOggSoundManager::init(const std::string &deviceName, unsigned int maxSources, unsigned int queueListSize)
 	{
 		if (mDevice) return true;
 
@@ -243,7 +259,11 @@ namespace OgreOggSound
 #	if OGGSOUND_THREADED
 		mUpdateThread = OGRE_NEW_T(boost::thread,Ogre::MEMCATEGORY_GENERAL)(boost::function0<void>(&OgreOggSoundManager::threadUpdate));
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
-		mActionsList = new LocklessQueue<SoundAction>(32);
+		if (queueListSize) 
+		{
+			mActionsList = new LocklessQueue<SoundAction>(queueListSize);
+			mDelayedActionsList = new LocklessQueue<SoundAction>(100);
+		}
 #	endif
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -2182,9 +2202,22 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_requestSoundAction(const SoundAction& action)
 	{
-		if ( !mActionsList ) return;
+		if ( !mActionsList || !mDelayedActionsList ) return;
 
-		mActionsList->push(action);
+		// If there are queued actions waiting:
+		// add new action to the end of this list.
+		// Preserves linear sequencing
+		if ( !mDelayedActionsList->empty() )
+		{
+			mDelayedActionsList->push(action);
+		}
+		// Attempt to push onto main actions list
+		else
+		{
+			// If that fails add to delayed actions list
+			if ( !mActionsList->push(action) )
+				mDelayedActionsList->push(action);
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_processQueuedSounds()
@@ -2221,6 +2254,10 @@ namespace OgreOggSound
 				}
 				break;
 			}
+
+			// If there are queued actions - push one onto the main queue
+			if ( mDelayedActionsList->pop(act) )
+				_requestSoundAction(act);
 		}
 	}
 #endif

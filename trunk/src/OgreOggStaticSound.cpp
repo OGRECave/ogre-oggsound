@@ -37,7 +37,6 @@ namespace OgreOggSound
 	,mBuffer(0)
 	{
 		mStream=false;	  
-		memset(&mOggStream, 0, sizeof(OggVorbis_File));
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStaticSound::~OgreOggStaticSound()
