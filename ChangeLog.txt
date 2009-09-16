@@ -28,6 +28,12 @@
 
 	* Cleaned up some unused vars from OgreOggStaticWav class
 
+	* Fixed minor bug in streamed sounds when audio buffer data runs out before being updated
+		
+		* Previously already played buffers were replayed because stop() resets play position
+		  back to start of the buffers, now, currently queued buffers are removed and filled with
+		  next chunk of audio data.
+
 
 * version 1.1
 

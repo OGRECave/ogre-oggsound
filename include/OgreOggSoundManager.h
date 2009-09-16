@@ -522,7 +522,7 @@ namespace OgreOggSound
 
 		static::boost::thread *mUpdateThread;
 		static bool mShuttingDown;
-
+		
 		/** Threaded function for streaming updates
 		@remarks
 			Optional threading function specified in OgreOggPreReqs.h.

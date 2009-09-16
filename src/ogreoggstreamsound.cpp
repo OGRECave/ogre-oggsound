@@ -227,6 +227,7 @@ namespace OgreOggSound
 
 		if (state == AL_PAUSED) return;
 
+		// Ran out of buffer data?
 		if (state == AL_STOPPED)
 		{
 			if(mStreamEOF)
@@ -239,6 +240,13 @@ namespace OgreOggSound
 			}
 			else
 			{
+				// Clear audio data already played...
+				_dequeue();
+
+				// Fill with next chunk of audio...
+				_prebuffer();
+
+				// Play...
 				alSourcePlay(mSource);
 			}
 		}
