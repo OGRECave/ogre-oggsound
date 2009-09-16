@@ -146,7 +146,7 @@ namespace OgreOggSound
 		ALuint mBuffers[NUM_BUFFERS];		// Sound data buffers
 		ALenum mFormat;						// OpenAL format
 		bool mStreamEOF;					// EOF flag
-		WavFormatData* mFormatData;			// WAVE format structure
+		WavFormatData mFormatData;			// WAVE format structure
 
 		friend class OgreOggSoundManager;
 	};

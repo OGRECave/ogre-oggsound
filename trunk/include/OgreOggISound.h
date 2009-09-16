@@ -39,24 +39,34 @@ namespace OgreOggSound
 	{
 		char chunkID[4];            // 'data' or 'fact'
 		long int length;
-	}   ChunkHeader;
+	} ChunkHeader;
   
-	//! WAVE sound information
+	//! WAVEFORMATEX header information
 	/** Structure defining a WAVE sounds format.
 	*/
 	typedef struct
 	{
-		unsigned long	mFormatChunkSize,
-						mDataSize,
-						mSampleRate,
-						mAvgBytesPerSec,
-						mAudioOffset,
-						mChannelMask;
+		char mRIFF[4];						// 'RIFF'
+		unsigned long int mLength;
+		char mWAVE[4];						// 'WAVE'
+		char mFMT[4];						// 'fmt '
+		unsigned long int mHeaderSize;		// varies...
+		unsigned short int mFormatTag;
+		unsigned short int mChannels;		// 1,2 for stereo data is (l,r) pairs
+		unsigned long int mSamplesPerSec;
+		unsigned long int mAvgBytesPerSec;
+		unsigned short int mBlockAlign;      
+		unsigned short int mBitsPerSample;
+	} WaveHeader;
 
-		unsigned short	mNumChannels,
-						mBlockAlign,
-						mBitsPerSample,	
-						mSamples;
+	//! WAVEFORMATEXTENSIBLE sound information
+	/** Structure defining a WAVE sounds format.
+	*/
+	typedef struct
+	{
+		WaveHeader*		mFormat;
+		unsigned short	mSamples;
+		unsigned long	mChannelMask;
 		char			mSubFormat[16];	
 	} WavFormatData;
 
@@ -565,6 +575,8 @@ namespace OgreOggSound
 		bool mLocalTransformDirty;		// Transformation update flag
 		bool mPlayPosChanged;			// Flag indicating playback position has changed
 		bool mSeekable;					// Flag indicating seeking available
+
+		unsigned long mAudioOffset;		// offset to audio data
 
 		ALfloat mPlayPos;				// Playback position in seconds
 		std::deque<Ogre::Real> mCuePoints;	// List of play position points
