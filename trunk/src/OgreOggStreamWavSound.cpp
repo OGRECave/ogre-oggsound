@@ -95,12 +95,13 @@ namespace OgreOggSound
 							// Skip
 							mAudioStream->skip(extraBytes);
 
-							// Read in chunk id ( 4 bytes )
-							mAudioStream->read(&c, sizeof(ChunkHeader));
-
-							if ( c.chunkID[0]=='d' && c.chunkID[1]=='a' && c.chunkID[2]=='t' && c.chunkID[3]=='a' )
+							do
 							{
-								try
+								// Read in chunk id ( 4 bytes )
+								mAudioStream->read(&c, sizeof(ChunkHeader));
+
+								// 'data' chunk...
+								if ( c.chunkID[0]=='d' && c.chunkID[1]=='a' && c.chunkID[2]=='t' && c.chunkID[3]=='a' )
 								{
 									// Store byte offset of start of audio data
 									mAudioOffset = static_cast<unsigned long>(mAudioStream->tell());
@@ -110,52 +111,15 @@ namespace OgreOggSound
 
 									// Read entire sound data
 									bytesRead = static_cast<int>(mAudioStream->read(sound_buffer, c.length));
+
+									// Jump out
+									break;
 								}
-								catch(...)
-								{
-									Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - error reading wav data!!", Ogre::LML_CRITICAL);
-									throw std::string("WAVE load fail!");
-								}
+								// Unsupported chunk...
+								else
+									mAudioStream->skip(c.length);
 							}
-							else
-							{
-								// Find "data" chunk
-								try
-								{
-									do
-									{
-										// Skip to next chunk header
-										mAudioStream->skip(c.length);
-										
-										// Read next chunk id
-										mAudioStream->read(&c, sizeof(ChunkHeader));
-									}
-									while ( mAudioStream->eof() || c.chunkID[0]!='d' || c.chunkID[1]!='a' || c.chunkID[2]!='t' || c.chunkID[3]!='a' );
-
-									// Validity check
-									if (!mAudioStream->eof())
-									{
-										// Store byte offset of start of audio data
-										mAudioOffset = static_cast<unsigned short>(mAudioStream->tell());
-
-										// Allocate array
-										sound_buffer = OGRE_ALLOC_T(char, c.length, Ogre::MEMCATEGORY_GENERAL);
-
-										// Read entire sound data
-										bytesRead = static_cast<int>(mAudioStream->read(sound_buffer, c.length));
-									}
-									else
-									{
-										Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - No wav data!!", Ogre::LML_CRITICAL);
-										throw std::string("WAVE load fail!");
-									}
-								}
-								catch(...)
-								{
-									Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - error reading wav data!!", Ogre::LML_CRITICAL);
-									throw std::string("WAVE load fail!");
-								}
-							}
+							while ( mAudioStream->eof() || c.chunkID[0]!='d' || c.chunkID[1]!='a' || c.chunkID[2]!='t' || c.chunkID[3]!='a' );							
 						}
 					}
 					else

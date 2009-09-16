@@ -119,7 +119,7 @@ void MainApp::createScene()
 
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	sound = 0;
-	if ( sound = mSoundManager->createSound("Two", "fiveptone.wav", true, true, false) )	
+	if ( sound = mSoundManager->createSound("Two", "two.ogg", false, true, false) )	
 	{
 		sound->setMaxDistance(300);
 		sound->setReferenceDistance(100);
