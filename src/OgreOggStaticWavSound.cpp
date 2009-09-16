@@ -182,13 +182,8 @@ namespace OgreOggSound
 							{
 								do
 								{
-									unsigned short chunkSize;
-
-									// Read in size of chunk data ( 4 bytes )
-									mAudioStream->read(&chunkSize, 4);
-
 									// Skip chunk
-									mAudioStream->skip(chunkSize);
+									mAudioStream->skip(sizeof(ChunkHeader));
 
 									// Read next chunk id
 									mAudioStream->read(id, 4);

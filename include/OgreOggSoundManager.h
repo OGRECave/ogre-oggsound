@@ -122,7 +122,7 @@ namespace OgreOggSound
 			@param maxSources
 				maximum number of sources to allocate (optional)
 		 */
-		bool init(const std::string &deviceName = "", unsigned int maxSources=100);
+		bool init(const std::string &deviceName = "", unsigned int maxSources=100, unsigned int queueListSize=64);
 		/** Sets the global volume for all sounds
 			@param
 				vol global attenuation for all sounds.
@@ -518,6 +518,7 @@ namespace OgreOggSound
 		boost::recursive_mutex mMutex;
 
 		LocklessQueue<SoundAction>* mActionsList;
+		LocklessQueue<SoundAction>* mDelayedActionsList;
 
 		static::boost::thread *mUpdateThread;
 		static bool mShuttingDown;

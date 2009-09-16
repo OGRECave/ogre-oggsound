@@ -35,7 +35,6 @@ namespace OgreOggSound
 	{
 		mStream=true;
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=AL_NONE; 
-		memset(&mOggStream, 0, sizeof(OggVorbis_File));
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamSound::~OgreOggStreamSound()
@@ -273,8 +272,7 @@ namespace OgreOggSound
 
 		// Create buffer
 		data = OGRE_ALLOC_T(char, mBufferSize, Ogre::MEMCATEGORY_GENERAL);
-		memset(data, 0, mBufferSize);
-
+		
 		// Read only what was asked for
 		while(static_cast<int>(audioData.size()) < mBufferSize)
 		{

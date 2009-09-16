@@ -119,7 +119,7 @@ void MainApp::createScene()
 
 	/** Sound two - prebuffered, streamed, looping, EFX room effect */
 	sound = 0;
-	if ( sound = mSoundManager->createSound("Two", "two.ogg", true, true, false) )	
+	if ( sound = mSoundManager->createSound("Two", "two.ogg", false, true, false) )	
 	{
 		sound->setMaxDistance(300);
 		sound->setReferenceDistance(100);
@@ -128,7 +128,7 @@ void MainApp::createScene()
 	}
 	/** Sound three - non streamed, looping, moving */
 	sound = 0;
-	if ( sound = mSoundManager->createSound("Three", "three.ogg", false, true) )
+	if ( sound = mSoundManager->createSound("Three", "Stash_Cave.wav", false, true) )
 	{
 		sound->setMaxDistance(50);
 		sound->setReferenceDistance(1);
@@ -145,7 +145,7 @@ void MainApp::createScene()
 		mSoundManager->createEFXFilter("LowPassTest", AL_FILTER_LOWPASS, 0.1, 0.5);
 		mSoundManager->attachFilterToSound("background", "LowPassTest");
 	}
-	mSoundManager->getSound("background")->play();		  
+	mSoundManager->getSound("background")->play();		 
 }
 //-----------------------------------------------------------------------
 void MainApp::finishedCB(OgreOggISound* sound)

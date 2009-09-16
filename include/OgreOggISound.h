@@ -32,6 +32,15 @@
 
 namespace OgreOggSound
 {
+
+	//! CHUNK header information
+	// Chunk section within a wav file ('data'/'fact'/'cue' etc..)
+	typedef struct
+	{
+		char chunkID[4];            // 'data' or 'fact'
+		long int length;
+	}   ChunkHeader;
+  
 	//! WAVE sound information
 	/** Structure defining a WAVE sounds format.
 	*/

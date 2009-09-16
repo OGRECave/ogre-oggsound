@@ -43,6 +43,8 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">destructor.  <a href="#a8c40ebe59022b208dd2a86b6e3bf4c4e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a0bf3d3d2d2e91e7980d99088dc2b16da">push</a> (const Type &amp;obj)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">push object into the queue.  <a href="#a0bf3d3d2d2e91e7980d99088dc2b16da"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#af6e38f0b0708864c2ae5acc62ee4753b">empty</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">query status.  <a href="#af6e38f0b0708864c2ae5acc62ee4753b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ac294e217c7c59cc2408d4c80608d632e">pop</a> (Type &amp;obj)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">pop object out from the queue.  <a href="#ac294e217c7c59cc2408d4c80608d632e"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Attributes</h2></td></tr>
@@ -122,6 +124,31 @@ template&lt;class Type &gt; </div>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="af6e38f0b0708864c2ae5acc62ee4753b"></a><!-- doxytag: member="OgreOggSound::LocklessQueue::empty" ref="af6e38f0b0708864c2ae5acc62ee4753b" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Type &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html">OgreOggSound::LocklessQueue</a>&lt; Type &gt;::empty </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>query status. </p>
+
+<p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00072">72</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
+
+<p>References <a class="el" href="_lockless_queue_8h_source.html#l00039">OgreOggSound::LocklessQueue&lt; Type &gt;::m_head</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00042">OgreOggSound::LocklessQueue&lt; Type &gt;::m_tail</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ac294e217c7c59cc2408d4c80608d632e"></a><!-- doxytag: member="OgreOggSound::LocklessQueue::pop" ref="ac294e217c7c59cc2408d4c80608d632e" args="(Type &amp;obj)" -->
 <div class="memitem">
 <div class="memproto">
@@ -142,7 +169,7 @@ template&lt;class Type &gt; </div>
 
 <p>pop object out from the queue. </p>
 
-<p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00072">72</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
+<p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00078">78</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
 <p>References <a class="el" href="_lockless_queue_8h_source.html#l00036">OgreOggSound::LocklessQueue&lt; Type &gt;::m_buffer</a>, <a class="el" href="_lockless_queue_8h_source.html#l00039">OgreOggSound::LocklessQueue&lt; Type &gt;::m_head</a>, <a class="el" href="_lockless_queue_8h_source.html#l00045">OgreOggSound::LocklessQueue&lt; Type &gt;::m_size</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00042">OgreOggSound::LocklessQueue&lt; Type &gt;::m_tail</a>.</p>
 
@@ -192,7 +219,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00036">36</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00049">OgreOggSound::LocklessQueue&lt; Type &gt;::LocklessQueue()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00072">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00062">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00056">OgreOggSound::LocklessQueue&lt; Type &gt;::~LocklessQueue()</a>.</p>
+<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00049">OgreOggSound::LocklessQueue&lt; Type &gt;::LocklessQueue()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00078">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00062">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00056">OgreOggSound::LocklessQueue&lt; Type &gt;::~LocklessQueue()</a>.</p>
 
 </div>
 </div>
@@ -213,7 +240,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00039">39</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00072">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00062">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
+<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00072">OgreOggSound::LocklessQueue&lt; Type &gt;::empty()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00078">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00062">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
 
 </div>
 </div>
@@ -234,7 +261,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00045">45</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00049">OgreOggSound::LocklessQueue&lt; Type &gt;::LocklessQueue()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00072">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00062">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
+<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00049">OgreOggSound::LocklessQueue&lt; Type &gt;::LocklessQueue()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00078">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00062">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
 
 </div>
 </div>
@@ -255,7 +282,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00042">42</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00072">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00062">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
+<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00072">OgreOggSound::LocklessQueue&lt; Type &gt;::empty()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00078">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00062">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
 
 </div>
 </div>
@@ -263,7 +290,7 @@ template&lt;class Type &gt; </div>
 <li>C:/Work/Api's/ogreoggsound/include/<a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a></li>
 </ul>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 10 14:50:15 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 16 11:43:02 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
