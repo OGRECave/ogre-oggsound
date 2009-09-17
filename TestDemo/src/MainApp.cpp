@@ -128,7 +128,7 @@ void MainApp::createScene()
 	}
 	/** Sound three - non streamed, looping, moving */
 	sound = 0;
-	if ( sound = mSoundManager->createSound("Three", "Stash_Cave.wav", false, true) )
+	if ( sound = mSoundManager->createSound("Three", "three.ogg", false, true) )
 	{
 		sound->setMaxDistance(50);
 		sound->setReferenceDistance(1);
