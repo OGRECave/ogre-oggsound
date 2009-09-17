@@ -88,20 +88,20 @@ Here is a list of all class members with links to the classes they belong to:
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#ad988c102b54d968b2f9b432068d3ec41">OgreOggSound::OgreOggStaticWavSound</a>
 </li>
 <li>mAudioOffset
-: <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a395623474998ae266ef36c862b89a198">OgreOggSound::WavFormatData</a>
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a08b065cd2e530cc68b4920d9d8176ae5">OgreOggSound::OgreOggISound</a>
 </li>
 <li>mAudioStream
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">OgreOggSound::OgreOggISound</a>
 </li>
 <li>mAvgBytesPerSec
-: <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#ab8929b176d38251a971dbbaf64113019">OgreOggSound::WavFormatData</a>
+: <a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html#a2d000888db2460460567251b037174e0">OgreOggSound::WaveHeader</a>
 </li>
 <li>mBitsPerSample
-: <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#afc48a2674bda1fb5ab5185b6b65eceef">OgreOggSound::WavFormatData</a>
+: <a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html#a1363d5a13e836193e78dac2a77952ece">OgreOggSound::WaveHeader</a>
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#aaeafda9fbbf982f7663fd6acc73c27ee">OgreOggSound::OgreOggSoundRecord</a>
 </li>
 <li>mBlockAlign
-: <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#aed396adc2d69f17b3aae1f2e578a529a">OgreOggSound::WavFormatData</a>
+: <a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html#ac0597554c4f6b797419a80f18df8f485">OgreOggSound::WaveHeader</a>
 </li>
 <li>mBuffer
 : <a class="el" href="struct_ogre_ogg_sound_1_1c_sound.html#aa54dd3d2ff3fbfc633321988d36e8c3d">OgreOggSound::cSound</a>
@@ -127,6 +127,9 @@ Here is a list of all class members with links to the classes they belong to:
 <li>mChannelMask
 : <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a3606d5c280ae97100b64171267cd3a12">OgreOggSound::WavFormatData</a>
 </li>
+<li>mChannels
+: <a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html#ab4db9203ee2c784c379399baf017dddc">OgreOggSound::WaveHeader</a>
+</li>
 <li>mContext
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#affd312e31a2cd7b527e6ddfa5c55b252">OgreOggSound::OgreOggSoundManager</a>
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#af64008367297e34eace5c2512a23c791">OgreOggSound::OgreOggSoundRecord</a>
@@ -138,8 +141,7 @@ Here is a list of all class members with links to the classes they belong to:
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#a607e433c594f8ffd943ccdc84a0173f3">OgreOggSound::OgreOggSoundManager</a>
 </li>
 <li>mDataSize
-: <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a0d452cf5a7e422e84090418975b2b895">OgreOggSound::WavFormatData</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a39b9611fa322c07b89343157a4a8746f">OgreOggSound::OgreOggSoundRecord</a>
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a39b9611fa322c07b89343157a4a8746f">OgreOggSound::OgreOggSoundRecord</a>
 </li>
 <li>mDefaultCaptureDevice
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a8f7601c463021307765ac96c6b00e363">OgreOggSound::OgreOggSoundRecord</a>
@@ -223,19 +225,23 @@ Here is a list of all class members with links to the classes they belong to:
 <li>mFinishedCB
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a50c3e2827da9137fb9cc90d9c5ee43e6">OgreOggSound::OgreOggISound</a>
 </li>
+<li>mFMT
+: <a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html#afa2ce6d25d6a1a950bb357d6d9d2d08f">OgreOggSound::WaveHeader</a>
+</li>
 <li>mFormat
-: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#afe73f7c1d213a015545963f1c08ad755">OgreOggSound::OgreOggStaticWavSound</a>
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a4b2644c3a5ea4ae7ebf9afd4af625089">OgreOggSound::OgreOggSoundRecord</a>
+, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#abde80d7565bfab9d2d2f704157293753">OgreOggSound::OgreOggStaticSound</a>
+, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#afe73f7c1d213a015545963f1c08ad755">OgreOggSound::OgreOggStaticWavSound</a>
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#acbc4b3d4af43d81e18f65a937686412c">OgreOggSound::OgreOggStreamSound</a>
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">OgreOggSound::OgreOggStreamWavSound</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a4b2644c3a5ea4ae7ebf9afd4af625089">OgreOggSound::OgreOggSoundRecord</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#abde80d7565bfab9d2d2f704157293753">OgreOggSound::OgreOggStaticSound</a>
-</li>
-<li>mFormatChunkSize
-: <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a86ad460c532fe519b7c070b0c7db9bde">OgreOggSound::WavFormatData</a>
+, <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a7423986d83e1ef2877d58ef2b8e34306">OgreOggSound::WavFormatData</a>
 </li>
 <li>mFormatData
-: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#a88b13996f872359ba2ccd3dcefce9a3e">OgreOggSound::OgreOggStaticWavSound</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#aa7330d878bcf201dc9bb0e6496863687">OgreOggSound::OgreOggStreamWavSound</a>
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#adc58f16322a62b70db534577347c3861">OgreOggSound::OgreOggStaticWavSound</a>
+, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">OgreOggSound::OgreOggStreamWavSound</a>
+</li>
+<li>mFormatTag
+: <a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html#a239921942b1b38a02108706a18de36eb">OgreOggSound::WaveHeader</a>
 </li>
 <li>mFreq
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#ac12507ae43e5ca4c185c060a56249580">OgreOggSound::OgreOggSoundRecord</a>
@@ -249,8 +255,14 @@ Here is a list of all class members with links to the classes they belong to:
 <li>mGiveUpSource
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa9108889b46052d2b10e96052cfd6336">OgreOggSound::OgreOggISound</a>
 </li>
+<li>mHeaderSize
+: <a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html#af8bb9e24b9d5e4b2f35cebed585de75d">OgreOggSound::WaveHeader</a>
+</li>
 <li>mInnerConeAngle
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#af6659c7abac1dd4775a428211a3b391c">OgreOggSound::OgreOggISound</a>
+</li>
+<li>mLength
+: <a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html#a65213b7d102e63708acccbb479666c7b">OgreOggSound::WaveHeader</a>
 </li>
 <li>mListener
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#a539d1467a060b2429bc2da3bee63c800">OgreOggSound::OgreOggSoundManager</a>
@@ -285,7 +297,6 @@ Here is a list of all class members with links to the classes they belong to:
 </li>
 <li>mNumChannels
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a4b4f8d95a11eeebd5c4a13e25a15204b">OgreOggSound::OgreOggSoundRecord</a>
-, <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#adfc20bbe15c439611125e2d1398b31a9">OgreOggSound::WavFormatData</a>
 </li>
 <li>mNumEffectSlots
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#af90b4770bccecd68a546cc4a969ec41f">OgreOggSound::OgreOggSoundManager</a>
@@ -303,9 +314,8 @@ Here is a list of all class members with links to the classes they belong to:
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afaf91c643f156d13105a84271b1049b2">OgreOggSound::OgreOggISound</a>
 </li>
 <li>mOggStream
-: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#a352eccb0e2eefdbec233d8edd6d5308c">OgreOggSound::OgreOggStreamSound</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#a5d0a3dda14b47aec65f724d60a266329">OgreOggSound::OgreOggStaticSound</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#a99551d3ec92d7042e20df87e8c1ac0dd">OgreOggSound::OgreOggStaticWavSound</a>
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#a5d0a3dda14b47aec65f724d60a266329">OgreOggSound::OgreOggStaticSound</a>
+, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#a352eccb0e2eefdbec233d8edd6d5308c">OgreOggSound::OgreOggStreamSound</a>
 </li>
 <li>mOgreOggSoundFactory
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#afc5813150bd927b4ceec391efa90d402">OgreOggSound::OgreOggSoundPlugin</a>
@@ -375,17 +385,20 @@ Here is a list of all class members with links to the classes they belong to:
 <li>mReferenceDistance
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#acbba83421bb3ea29b44c76cf88c03493">OgreOggSound::OgreOggISound</a>
 </li>
+<li>mRIFF
+: <a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html#a70e27c6393313b03f3031f65576b38ff">OgreOggSound::WaveHeader</a>
+</li>
 <li>mRolloffFactor
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#abe77cda9a652adfe88e65adea2efada2">OgreOggSound::OgreOggISound</a>
-</li>
-<li>mSampleRate
-: <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a26994565856f93c1e69f9fb3f57c880f">OgreOggSound::WavFormatData</a>
 </li>
 <li>mSamples
 : <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a6b947125004ba0e8a2ce486b7d9756ee">OgreOggSound::WavFormatData</a>
 </li>
 <li>mSamplesAvailable
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a1a3e2b34ab57b5bf087987b7f8299ad5">OgreOggSound::OgreOggSoundRecord</a>
+</li>
+<li>mSamplesPerSec
+: <a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html#ae3fb080faad62b5559cedb42c09b8f59">OgreOggSound::WaveHeader</a>
 </li>
 <li>mScnMan
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5922b7f7f0c5070a9c6fec01f5b32f58">OgreOggSound::OgreOggISound</a>
@@ -418,8 +431,8 @@ Here is a list of all class members with links to the classes they belong to:
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afbe38a0d8d8212d34ac0cb19e19294f7">OgreOggSound::OgreOggISound</a>
 </li>
 <li>mStream
-: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a4f246c084f0ff5df0cff38bd23d30314">OgreOggSound::OgreOggISound</a>
-, <a class="el" href="struct_ogre_ogg_sound_1_1c_sound.html#af96facc69640d0d35fec950c90a2d934">OgreOggSound::cSound</a>
+: <a class="el" href="struct_ogre_ogg_sound_1_1c_sound.html#af96facc69640d0d35fec950c90a2d934">OgreOggSound::cSound</a>
+, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a4f246c084f0ff5df0cff38bd23d30314">OgreOggSound::OgreOggISound</a>
 </li>
 <li>mStreamEOF
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#a5beb918beffeb04a6b5c3d463e7f3e24">OgreOggSound::OgreOggStreamSound</a>
@@ -435,18 +448,19 @@ Here is a list of all class members with links to the classes they belong to:
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#a6332652f3e752535f70afed2194fc76c">OgreOggSound::OgreOggSoundManager</a>
 </li>
 <li>mVelocity
-: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa7ade54c675ba13eb3e8f6e0e1bb5d8d">OgreOggSound::OgreOggISound</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#a1453be3a5c2ac5d840483ee03f7a8a1c">OgreOggSound::OgreOggListener</a>
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_listener.html#a1453be3a5c2ac5d840483ee03f7a8a1c">OgreOggSound::OgreOggListener</a>
+, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa7ade54c675ba13eb3e8f6e0e1bb5d8d">OgreOggSound::OgreOggISound</a>
 </li>
 <li>mVorbisComment
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#af67ace4b8dd405f70c0a22969d2b5571">OgreOggSound::OgreOggStreamSound</a>
 , <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#aaae902124eb2fa366fdf305ad8c1b6c8">OgreOggSound::OgreOggStaticSound</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#ad619fab3e29d67a08257d069733c28a2">OgreOggSound::OgreOggStaticWavSound</a>
 </li>
 <li>mVorbisInfo
-: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#ad62700365385424d45a4822fe8aba76d">OgreOggSound::OgreOggStaticSound</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#aab826f29ed286aac59f93f5a37f1f491">OgreOggSound::OgreOggStreamSound</a>
-, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#ae1bfaca9da6779820d7c5f3c2b1830cc">OgreOggSound::OgreOggStaticWavSound</a>
+: <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#aab826f29ed286aac59f93f5a37f1f491">OgreOggSound::OgreOggStreamSound</a>
+, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#ad62700365385424d45a4822fe8aba76d">OgreOggSound::OgreOggStaticSound</a>
+</li>
+<li>mWAVE
+: <a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html#a2d2e9aa4d1a0b04fdc8d5d47261cbcd6">OgreOggSound::WaveHeader</a>
 </li>
 <li>mWaveHeader
 : <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_record.html#a2bb8f1c0827c765fe2ce85e09c00c639">OgreOggSound::OgreOggSoundRecord</a>
@@ -477,7 +491,7 @@ Here is a list of all class members with links to the classes they belong to:
 </li>
 </ul>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 16 11:43:02 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 17 12:02:45 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

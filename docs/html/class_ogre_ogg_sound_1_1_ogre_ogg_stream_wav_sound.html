@@ -65,7 +65,7 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 <tr><td class="memItemLeft" align="right" valign="top">ALuint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a59d6ccb6ccb06883e4ac9afe790920da">mBuffers</a> [NUM_BUFFERS]</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ALenum&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ad220c360f3099e850d04167527b2df9a">mStreamEOF</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html">WavFormatData</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#aa7330d878bcf201dc9bb0e6496863687">mFormatData</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html">WavFormatData</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a></td></tr>
 <tr><td colspan="2"><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a2e612f5ec0f58798f9a5d1451d729b56">setPlayPosition</a> (Ogre::Real seconds)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a9eadbf40f18ed398f599b8fbe0e13c28">setSource</a> (ALuint &amp;src)</td></tr>
@@ -76,7 +76,7 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 <p>A single streaming sound (WAV). </p>
 <p>Handles playing a sound from a wav stream. </p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00036">36</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00046">46</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aae31b3e0d4252e6278bcb143d174f1cf"></a><!-- doxytag: member="OgreOggSound::OgreOggStreamWavSound::OgreOggStreamWavSound" ref="aae31b3e0d4252e6278bcb143d174f1cf" args="(const Ogre::String &amp;name)" -->
 <div class="memitem">
@@ -102,7 +102,15 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00032">32</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00039">39</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+
+<p><div class="fragment"><pre class="fragment"><a name="l00039"></a>00039                                                                            : <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a7cab25e60a016a9e8d534e3833f70125">OgreOggISound</a>(name)
+<a name="l00040"></a>00040         , <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ad220c360f3099e850d04167527b2df9a">mStreamEOF</a>(<span class="keyword">false</span>)
+<a name="l00041"></a>00041         {
+<a name="l00042"></a>00042                 <span class="keywordflow">for</span> ( <span class="keywordtype">int</span> i=0; i&lt;<a class="code" href="_ogre_ogg_i_sound_8h.html#aac028f4c15ac7f78a44be5db76cfbec7">NUM_BUFFERS</a>; i++ ) <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a59d6ccb6ccb06883e4ac9afe790920da">mBuffers</a>[i]=AL_NONE;
+<a name="l00043"></a>00043                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a4f246c084f0ff5df0cff38bd23d30314">mStream</a> = <span class="keyword">true</span>;    
+<a name="l00044"></a>00044         }
+</pre></div></p>
 
 </div>
 </div>
@@ -122,7 +130,14 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 <div class="memdoc">
 <p>Destructor </p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00040">40</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00046">46</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+
+<p><div class="fragment"><pre class="fragment"><a name="l00047"></a>00047         {
+<a name="l00048"></a>00048                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a098682276ca4c47b57266ecfdc254ead">_release</a>();
+<a name="l00049"></a>00049                 <span class="keywordflow">for</span> ( <span class="keywordtype">int</span> i=0; i&lt;<a class="code" href="_ogre_ogg_i_sound_8h.html#aac028f4c15ac7f78a44be5db76cfbec7">NUM_BUFFERS</a>; i++ ) <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a59d6ccb6ccb06883e4ac9afe790920da">mBuffers</a>[i]=0;
+<a name="l00050"></a>00050                 <span class="keywordflow">if</span> (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat) <a class="code" href="ogreoggstreamsound_8cpp.html#afe5e305cb52450adf8a9ab90a8006c79">OGRE_FREE</a>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat, Ogre::MEMCATEGORY_GENERAL);
+<a name="l00051"></a>00051         }
+</pre></div></p>
 
 </div>
 </div>
@@ -172,7 +187,133 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 
 <p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac022cb9e1b3a8caa2be3833862ced458">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00047">47</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00053">53</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+
+<p><div class="fragment"><pre class="fragment"><a name="l00054"></a>00054         {
+<a name="l00055"></a>00055                 <span class="comment">// WAVE descriptor vars</span>
+<a name="l00056"></a>00056                 <span class="keywordtype">char</span>*                   sound_buffer=0;
+<a name="l00057"></a>00057                 <span class="keywordtype">int</span>                             bytesRead=0;
+<a name="l00058"></a>00058                 ChunkHeader             c;
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060                 <span class="comment">// Store stream pointer</span>
+<a name="l00061"></a>00061                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a> = fileStream;
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063                 <span class="comment">// Allocate format structure</span>
+<a name="l00064"></a>00064                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat = OGRE_NEW_T(WaveHeader, Ogre::MEMCATEGORY_GENERAL);
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066                 <span class="comment">// Read in &quot;RIFF&quot; chunk descriptor (4 bytes)</span>
+<a name="l00067"></a>00067                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>-&gt;read(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat, <span class="keyword">sizeof</span>(WaveHeader));
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069                 <span class="comment">// Valid &apos;RIFF&apos;?</span>
+<a name="l00070"></a>00070                 <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mRIFF[0]==<span class="charliteral">&apos;R&apos;</span> &amp;&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mRIFF[1]==<span class="charliteral">&apos;I&apos;</span> &amp;&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mRIFF[2]==<span class="charliteral">&apos;F&apos;</span> &amp;&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mRIFF[3]==<span class="charliteral">&apos;F&apos;</span> )
+<a name="l00071"></a>00071                 {
+<a name="l00072"></a>00072                         <span class="comment">// Valid &apos;WAVE&apos;?</span>
+<a name="l00073"></a>00073                         <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mWAVE[0]==<span class="charliteral">&apos;W&apos;</span> &amp;&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mWAVE[1]==<span class="charliteral">&apos;A&apos;</span> &amp;&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mWAVE[2]==<span class="charliteral">&apos;V&apos;</span> &amp;&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mWAVE[3]==<span class="charliteral">&apos;E&apos;</span> )
+<a name="l00074"></a>00074                         {
+<a name="l00075"></a>00075                                 <span class="comment">// Valid &apos;fmt &apos;?</span>
+<a name="l00076"></a>00076                                 <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mFMT[0]==<span class="charliteral">&apos;f&apos;</span> &amp;&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mFMT[1]==<span class="charliteral">&apos;m&apos;</span> &amp;&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mFMT[2]==<span class="charliteral">&apos;t&apos;</span> &amp;&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mFMT[3]==<span class="charliteral">&apos; &apos;</span> )
+<a name="l00077"></a>00077                                 {
+<a name="l00078"></a>00078                                         <span class="comment">// SmFormatData.mFormat-&gt;uld be 16 unless compressed ( compressed NOT supported )</span>
+<a name="l00079"></a>00079                                         <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mHeaderSize&gt;=16 )
+<a name="l00080"></a>00080                                         {
+<a name="l00081"></a>00081                                                 <span class="comment">// PCM == 1</span>
+<a name="l00082"></a>00082                                                 <span class="keywordflow">if</span> (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mFormatTag==0x0001 || <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mFormatTag==0xFFFE)
+<a name="l00083"></a>00083                                                 {
+<a name="l00084"></a>00084                                                         <span class="comment">// Samples check..</span>
+<a name="l00085"></a>00085                                                         <span class="keywordflow">if</span> ( (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBitsPerSample!=16) &amp;&amp; (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBitsPerSample!=8) )
+<a name="l00086"></a>00086                                                         {
+<a name="l00087"></a>00087                                                                 Ogre::LogManager::getSingleton().logMessage(<span class="stringliteral">&quot;*** --- OgreOggStaticWavSound::open() - WAV BitsPerSample not 8/16!!&quot;</span>, Ogre::LML_CRITICAL);
+<a name="l00088"></a>00088                                                                 <span class="keywordflow">throw</span> std::string(<span class="stringliteral">&quot;WAVE load fail!&quot;</span>);
+<a name="l00089"></a>00089                                                         }
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091                                                         <span class="comment">// Calculate extra WAV header info</span>
+<a name="l00092"></a>00092                                                         <span class="keywordtype">long</span> <span class="keywordtype">int</span> extraBytes = <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mHeaderSize - (<span class="keyword">sizeof</span>(WaveHeader) - 20);
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094                                                         <span class="comment">// If WAVEFORMATEXTENSIBLE read attributes</span>
+<a name="l00095"></a>00095                                                         <span class="keywordflow">if</span> (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mFormatTag==0xFFFE)
+<a name="l00096"></a>00096                                                         {
+<a name="l00097"></a>00097                                                                 extraBytes-=<span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span><span class="keyword">&gt;</span>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>-&gt;read(&amp;<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mSamples, 2));
+<a name="l00098"></a>00098                                                                 extraBytes-=<span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span><span class="keyword">&gt;</span>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>-&gt;read(&amp;<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mChannelMask, 2));
+<a name="l00099"></a>00099                                                                 extraBytes-=<span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span><span class="keyword">&gt;</span>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>-&gt;read(&amp;<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mSubFormat, 16));
+<a name="l00100"></a>00100                                                         }
+<a name="l00101"></a>00101                 
+<a name="l00102"></a>00102                                                         <span class="comment">// Skip</span>
+<a name="l00103"></a>00103                                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>-&gt;skip(extraBytes);
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105                                                         <span class="keywordflow">do</span>
+<a name="l00106"></a>00106                                                         {
+<a name="l00107"></a>00107                                                                 <span class="comment">// Read in chunk id ( 4 bytes )</span>
+<a name="l00108"></a>00108                                                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>-&gt;read(&amp;c, <span class="keyword">sizeof</span>(ChunkHeader));
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110                                                                 <span class="comment">// &apos;data&apos; chunk...</span>
+<a name="l00111"></a>00111                                                                 <span class="keywordflow">if</span> ( c.chunkID[0]==<span class="charliteral">&apos;d&apos;</span> &amp;&amp; c.chunkID[1]==<span class="charliteral">&apos;a&apos;</span> &amp;&amp; c.chunkID[2]==<span class="charliteral">&apos;t&apos;</span> &amp;&amp; c.chunkID[3]==<span class="charliteral">&apos;a&apos;</span> )
+<a name="l00112"></a>00112                                                                 {
+<a name="l00113"></a>00113                                                                         <span class="comment">// Store byte offset of start of audio data</span>
+<a name="l00114"></a>00114                                                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a08b065cd2e530cc68b4920d9d8176ae5">mAudioOffset</a> = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">long</span><span class="keyword">&gt;</span>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>-&gt;tell());
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116                                                                         <span class="comment">// Allocate array</span>
+<a name="l00117"></a>00117                                                                         sound_buffer = OGRE_ALLOC_T(<span class="keywordtype">char</span>, c.length, Ogre::MEMCATEGORY_GENERAL);
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119                                                                         <span class="comment">// Read entire sound data</span>
+<a name="l00120"></a>00120                                                                         bytesRead = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>-&gt;read(sound_buffer, c.length));
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122                                                                         <span class="comment">// Jump out</span>
+<a name="l00123"></a>00123                                                                         <span class="keywordflow">break</span>;
+<a name="l00124"></a>00124                                                                 }
+<a name="l00125"></a>00125                                                                 <span class="comment">// Unsupported chunk...</span>
+<a name="l00126"></a>00126                                                                 <span class="keywordflow">else</span>
+<a name="l00127"></a>00127                                                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>-&gt;skip(c.length);
+<a name="l00128"></a>00128                                                         }
+<a name="l00129"></a>00129                                                         <span class="keywordflow">while</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>-&gt;eof() || c.chunkID[0]!=<span class="charliteral">&apos;d&apos;</span> || c.chunkID[1]!=<span class="charliteral">&apos;a&apos;</span> || c.chunkID[2]!=<span class="charliteral">&apos;t&apos;</span> || c.chunkID[3]!=<span class="charliteral">&apos;a&apos;</span> );                                                      
+<a name="l00130"></a>00130                                                 }
+<a name="l00131"></a>00131                                         }
+<a name="l00132"></a>00132                                         <span class="keywordflow">else</span>
+<a name="l00133"></a>00133                                         {
+<a name="l00134"></a>00134                                                 Ogre::LogManager::getSingleton().logMessage(<span class="stringliteral">&quot;*** --- OgreOggStaticWavSound::open() - WAV not PCM!!&quot;</span>, Ogre::LML_CRITICAL);
+<a name="l00135"></a>00135                                                 <span class="keywordflow">throw</span> std::string(<span class="stringliteral">&quot;WAVE load fail!&quot;</span>);
+<a name="l00136"></a>00136                                         }
+<a name="l00137"></a>00137                                 }
+<a name="l00138"></a>00138                                 <span class="keywordflow">else</span>
+<a name="l00139"></a>00139                                 {
+<a name="l00140"></a>00140                                         Ogre::LogManager::getSingleton().logMessage(<span class="stringliteral">&quot;*** --- OgreOggStaticWavSound::open() - Invalid format!!&quot;</span>, Ogre::LML_CRITICAL);
+<a name="l00141"></a>00141                                         <span class="keywordflow">throw</span> std::string(<span class="stringliteral">&quot;WAVE load fail!&quot;</span>);
+<a name="l00142"></a>00142                                 }
+<a name="l00143"></a>00143                         }
+<a name="l00144"></a>00144                         <span class="keywordflow">else</span>
+<a name="l00145"></a>00145                         {
+<a name="l00146"></a>00146                                 Ogre::LogManager::getSingleton().logMessage(<span class="stringliteral">&quot;*** --- OgreOggStaticWavSound::open() - Not a valid WAVE file!!&quot;</span>, Ogre::LML_CRITICAL);
+<a name="l00147"></a>00147                                 <span class="keywordflow">throw</span> std::string(<span class="stringliteral">&quot;WAVE load fail!&quot;</span>);
+<a name="l00148"></a>00148                         }
+<a name="l00149"></a>00149                 }
+<a name="l00150"></a>00150                 <span class="keywordflow">else</span>
+<a name="l00151"></a>00151                 {
+<a name="l00152"></a>00152                         Ogre::LogManager::getSingleton().logMessage(<span class="stringliteral">&quot;*** --- OgreOggStaticWavSound::open() - Not a valid RIFF file!!&quot;</span>, Ogre::LML_CRITICAL);
+<a name="l00153"></a>00153                         <span class="keywordflow">throw</span> std::string(<span class="stringliteral">&quot;WAVE load fail!&quot;</span>);
+<a name="l00154"></a>00154                 }
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156                 <span class="comment">// Create OpenAL buffer</span>
+<a name="l00157"></a>00157                 <a class="code" href="ogreoggstreamsound_8cpp.html#a9537075e9d49ba36ab9fbbf85d5c0f14">alGetError</a>();
+<a name="l00158"></a>00158                 alGenBuffers(<a class="code" href="_ogre_ogg_i_sound_8h.html#aac028f4c15ac7f78a44be5db76cfbec7">NUM_BUFFERS</a>, <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a59d6ccb6ccb06883e4ac9afe790920da">mBuffers</a>);
+<a name="l00159"></a>00159                 <span class="keywordflow">if</span> ( <a class="code" href="ogreoggstreamsound_8cpp.html#a9537075e9d49ba36ab9fbbf85d5c0f14">alGetError</a>()!=AL_NO_ERROR )
+<a name="l00160"></a>00160                         <span class="keywordflow">throw</span> std::string(<span class="stringliteral">&quot;Unable to create OpenAL buffers!&quot;</span>);
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162                 <span class="comment">// Check format support</span>
+<a name="l00163"></a>00163                 <span class="keywordflow">if</span> (!<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a37cbf4926db5f5095672170ff6cfcc0f">_queryBufferInfo</a>())
+<a name="l00164"></a>00164                 {
+<a name="l00165"></a>00165                         Ogre::LogManager::getSingleton().logMessage(<span class="stringliteral">&quot;*** --- Format NOT supported&quot;</span>);
+<a name="l00166"></a>00166                         <span class="keywordflow">throw</span> std::string(<span class="stringliteral">&quot;Format NOT supported!&quot;</span>);
+<a name="l00167"></a>00167                 }
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169                 <span class="comment">// Calculate length in seconds</span>
+<a name="l00170"></a>00170                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a9596e3ff04c4c9705b1d0850cff39a8b">mPlayTime</a> = ((<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mLength-<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a08b065cd2e530cc68b4920d9d8176ae5">mAudioOffset</a>) / ((<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBitsPerSample/8) * <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mSamplesPerSec)) / <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mChannels;
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172 <span class="preprocessor">#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32</span>
+<a name="l00173"></a>00173 <span class="preprocessor"></span>                <span class="comment">// Upload to XRAM buffers if available</span>
+<a name="l00174"></a>00174                 <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#abff07cdc655d7c5dc0c5964d2616c36a">OgreOggSoundManager::getSingleton</a>().hasXRamSupport() )
+<a name="l00175"></a>00175                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#abff07cdc655d7c5dc0c5964d2616c36a">OgreOggSoundManager::getSingleton</a>().setXRamBuffer(<a class="code" href="_ogre_ogg_i_sound_8h.html#aac028f4c15ac7f78a44be5db76cfbec7">NUM_BUFFERS</a>, <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a59d6ccb6ccb06883e4ac9afe790920da">mBuffers</a>);
+<a name="l00176"></a>00176 <span class="preprocessor">#endif</span>
+<a name="l00177"></a>00177 <span class="preprocessor"></span>        }
+</pre></div></p>
 
 </div>
 </div>
@@ -237,7 +378,21 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 
 <p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ad2be7bd2ddec21507143bcec73839bfd">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00377">377</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00321">321</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+
+<p><div class="fragment"><pre class="fragment"><a name="l00322"></a>00322         {
+<a name="l00323"></a>00323                 <span class="keywordflow">if</span> (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">mSource</a>==AL_NONE) <span class="keywordflow">return</span>;
+<a name="l00324"></a>00324 
+<a name="l00325"></a>00325                 <span class="keywordtype">int</span> i=0;
+<a name="l00326"></a>00326                 <span class="keywordflow">while</span> ( i&lt;<a class="code" href="_ogre_ogg_i_sound_8h.html#aac028f4c15ac7f78a44be5db76cfbec7">NUM_BUFFERS</a> )
+<a name="l00327"></a>00327                 {
+<a name="l00328"></a>00328                         <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#aa875dfd782e8956d84172a84a55c3203">_stream</a>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a59d6ccb6ccb06883e4ac9afe790920da">mBuffers</a>[i]) )
+<a name="l00329"></a>00329                                 alSourceQueueBuffers(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">mSource</a>, 1, &amp;<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a59d6ccb6ccb06883e4ac9afe790920da">mBuffers</a>[i++]);
+<a name="l00330"></a>00330                         <span class="keywordflow">else</span>
+<a name="l00331"></a>00331                                 <span class="keywordflow">break</span>;
+<a name="l00332"></a>00332                 }
+<a name="l00333"></a>00333         }
+</pre></div></p>
 
 </div>
 </div>
@@ -260,7 +415,133 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 
 <p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a22618f092601f075159e75fdf4b2b25a">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00235">235</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00179">179</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+
+<p><div class="fragment"><pre class="fragment"><a name="l00180"></a>00180         {
+<a name="l00181"></a>00181                 <span class="keywordflow">if</span> ( !<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat ) <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00182"></a>00182 
+<a name="l00183"></a>00183                 <span class="keywordflow">switch</span>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mChannels)
+<a name="l00184"></a>00184                 {
+<a name="l00185"></a>00185                 <span class="keywordflow">case</span> 1:
+<a name="l00186"></a>00186                         {
+<a name="l00187"></a>00187                                 <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBitsPerSample==8 )
+<a name="l00188"></a>00188                                 {
+<a name="l00189"></a>00189                                         <span class="comment">// 8-bit mono</span>
+<a name="l00190"></a>00190                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a> = AL_FORMAT_MONO8;
+<a name="l00191"></a>00191 
+<a name="l00192"></a>00192                                         <span class="comment">// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...</span>
+<a name="l00193"></a>00193                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> = <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mSamplesPerSec/4;
+<a name="l00194"></a>00194                                 }
+<a name="l00195"></a>00195                                 <span class="keywordflow">else</span>
+<a name="l00196"></a>00196                                 {
+<a name="l00197"></a>00197                                         <span class="comment">// 16-bit mono</span>
+<a name="l00198"></a>00198                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a> = AL_FORMAT_MONO16;
+<a name="l00199"></a>00199 
+<a name="l00200"></a>00200                                         <span class="comment">// Queue 250ms of audio data</span>
+<a name="l00201"></a>00201                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> = <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mAvgBytesPerSec &gt;&gt; 2;
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203                                         <span class="comment">// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...</span>
+<a name="l00204"></a>00204                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> -= (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> % <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBlockAlign);
+<a name="l00205"></a>00205                                 }
+<a name="l00206"></a>00206                         }
+<a name="l00207"></a>00207                         <span class="keywordflow">break</span>;
+<a name="l00208"></a>00208                 <span class="keywordflow">case</span> 2:
+<a name="l00209"></a>00209                         {
+<a name="l00210"></a>00210                                 <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBitsPerSample==8 )
+<a name="l00211"></a>00211                                 {
+<a name="l00212"></a>00212                                         <span class="comment">// 8-bit stereo</span>
+<a name="l00213"></a>00213                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a> = AL_FORMAT_STEREO8;
+<a name="l00214"></a>00214 
+<a name="l00215"></a>00215                                         <span class="comment">// Set BufferSize to 250ms (Frequency * 2 (8bit stereo) divided by 4 (quarter of a second))</span>
+<a name="l00216"></a>00216                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> = <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mSamplesPerSec &gt;&gt; 1;
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218                                         <span class="comment">// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...</span>
+<a name="l00219"></a>00219                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> -= (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> % 2);
+<a name="l00220"></a>00220                                 }
+<a name="l00221"></a>00221                                 <span class="keywordflow">else</span>
+<a name="l00222"></a>00222                                 {
+<a name="l00223"></a>00223                                         <span class="comment">// 16-bit stereo</span>
+<a name="l00224"></a>00224                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a> = AL_FORMAT_STEREO16;
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226                                         <span class="comment">// Queue 250ms of audio data</span>
+<a name="l00227"></a>00227                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> = <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mAvgBytesPerSec &gt;&gt; 2;
+<a name="l00228"></a>00228 
+<a name="l00229"></a>00229                                         <span class="comment">// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...</span>
+<a name="l00230"></a>00230                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> -= (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> % <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBlockAlign);
+<a name="l00231"></a>00231                                 }
+<a name="l00232"></a>00232                         }
+<a name="l00233"></a>00233                         <span class="keywordflow">break</span>;
+<a name="l00234"></a>00234                 <span class="keywordflow">case</span> 4:
+<a name="l00235"></a>00235                         {
+<a name="l00236"></a>00236                                 <span class="comment">// 16-bit Quad surround</span>
+<a name="l00237"></a>00237                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a> = alGetEnumValue(<span class="stringliteral">&quot;AL_FORMAT_QUAD16&quot;</span>);
+<a name="l00238"></a>00238                                 <span class="keywordflow">if</span> (!<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a>) <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00239"></a>00239 
+<a name="l00240"></a>00240                                 <span class="comment">// Queue 250ms of audio data</span>
+<a name="l00241"></a>00241                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> = <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mAvgBytesPerSec &gt;&gt; 2;
+<a name="l00242"></a>00242 
+<a name="l00243"></a>00243                                 <span class="comment">// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...</span>
+<a name="l00244"></a>00244                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> -= (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> % <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBlockAlign);
+<a name="l00245"></a>00245                         }
+<a name="l00246"></a>00246                         <span class="keywordflow">break</span>;
+<a name="l00247"></a>00247                 <span class="keywordflow">case</span> 6:
+<a name="l00248"></a>00248                         {
+<a name="l00249"></a>00249                                 <span class="comment">// 16-bit 5.1 surround</span>
+<a name="l00250"></a>00250                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a> = alGetEnumValue(<span class="stringliteral">&quot;AL_FORMAT_51CHN16&quot;</span>);
+<a name="l00251"></a>00251                                 <span class="keywordflow">if</span> (!<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a>) <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00252"></a>00252 
+<a name="l00253"></a>00253                                 <span class="comment">// Queue 250ms of audio data</span>
+<a name="l00254"></a>00254                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> = <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mAvgBytesPerSec &gt;&gt; 2;
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256                                 <span class="comment">// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...</span>
+<a name="l00257"></a>00257                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> -= (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> % <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBlockAlign);
+<a name="l00258"></a>00258                         }
+<a name="l00259"></a>00259                         <span class="keywordflow">break</span>;
+<a name="l00260"></a>00260                 <span class="keywordflow">case</span> 7:
+<a name="l00261"></a>00261                         {
+<a name="l00262"></a>00262                                 <span class="comment">// 16-bit 7.1 surround</span>
+<a name="l00263"></a>00263                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a> = alGetEnumValue(<span class="stringliteral">&quot;AL_FORMAT_71CHN16&quot;</span>);
+<a name="l00264"></a>00264                                 <span class="keywordflow">if</span> (!<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a>) <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266                                 <span class="comment">// Queue 250ms of audio data</span>
+<a name="l00267"></a>00267                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> = <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mAvgBytesPerSec &gt;&gt; 2;
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269                                 <span class="comment">// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...</span>
+<a name="l00270"></a>00270                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> -= (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> % <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBlockAlign);
+<a name="l00271"></a>00271                         }
+<a name="l00272"></a>00272                         <span class="keywordflow">break</span>;
+<a name="l00273"></a>00273                 <span class="keywordflow">case</span> 8:
+<a name="l00274"></a>00274                         {
+<a name="l00275"></a>00275                                 <span class="comment">// 16-bit 8.1 surround</span>
+<a name="l00276"></a>00276                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a> = alGetEnumValue(<span class="stringliteral">&quot;AL_FORMAT_81CHN16&quot;</span>);
+<a name="l00277"></a>00277                                 <span class="keywordflow">if</span> (!<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a>) <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279                                 <span class="comment">// Queue 250ms of audio data</span>
+<a name="l00280"></a>00280                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> = <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mAvgBytesPerSec &gt;&gt; 2;
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282                                 <span class="comment">// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...</span>
+<a name="l00283"></a>00283                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> -= (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> % <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBlockAlign);
+<a name="l00284"></a>00284                         }
+<a name="l00285"></a>00285                         <span class="keywordflow">break</span>;
+<a name="l00286"></a>00286                 <span class="keywordflow">default</span>:
+<a name="l00287"></a>00287                         {
+<a name="l00288"></a>00288                                 <span class="comment">// Error message</span>
+<a name="l00289"></a>00289                                 Ogre::LogManager::getSingleton().logMessage(<span class="stringliteral">&quot;*** --- Unable to determine number of channels: defaulting to 16-bit stereo&quot;</span>);
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291                                 <span class="comment">// 16-bit stereo</span>
+<a name="l00292"></a>00292                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a48fd26a0d3e11a006eab47e198a0def6">mFormat</a> = AL_FORMAT_STEREO16;
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294                                 <span class="comment">// Queue 250ms of audio data</span>
+<a name="l00295"></a>00295                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> = <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mAvgBytesPerSec &gt;&gt; 2;
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297                                 <span class="comment">// IMPORTANT : The Buffer Size must be an exact multiple of the BlockAlignment ...</span>
+<a name="l00298"></a>00298                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> -= (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">mBufferSize</a> % <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">mFormatData</a>.mFormat-&gt;mBlockAlign);
+<a name="l00299"></a>00299                         }
+<a name="l00300"></a>00300                         <span class="keywordflow">break</span>;
+<a name="l00301"></a>00301                 }
+<a name="l00302"></a>00302                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00303"></a>00303         }
+</pre></div></p>
 
 </div>
 </div>
@@ -283,7 +564,23 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 
 <p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac0a9818a88866baa8ef4bef6a762891f">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00361">361</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00305">305</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+
+<p><div class="fragment"><pre class="fragment"><a name="l00306"></a>00306         {
+<a name="l00307"></a>00307                 <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">mSource</a>!=AL_NONE )
+<a name="l00308"></a>00308                 {
+<a name="l00309"></a>00309                         ALuint src=AL_NONE;
+<a name="l00310"></a>00310                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a9eadbf40f18ed398f599b8fbe0e13c28">setSource</a>(src);
+<a name="l00311"></a>00311                 }
+<a name="l00312"></a>00312                 <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i=0; i&lt;<a class="code" href="_ogre_ogg_i_sound_8h.html#aac028f4c15ac7f78a44be5db76cfbec7">NUM_BUFFERS</a>; i++)
+<a name="l00313"></a>00313                 {
+<a name="l00314"></a>00314                         <span class="keywordflow">if</span> (<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a59d6ccb6ccb06883e4ac9afe790920da">mBuffers</a>[i]!=AL_NONE)
+<a name="l00315"></a>00315                                 alDeleteBuffers(1, &amp;<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a59d6ccb6ccb06883e4ac9afe790920da">mBuffers</a>[i]);
+<a name="l00316"></a>00316                 }
+<a name="l00317"></a>00317                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a94c85445459838ad9d134ea5c495c216">mPlayPosChanged</a> = <span class="keyword">false</span>;
+<a name="l00318"></a>00318                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a15e17ebebac492b3c9b12da89ecf5702">mPlayPos</a> = 0.f;
+<a name="l00319"></a>00319         }
+</pre></div></p>
 
 </div>
 </div>
@@ -335,7 +632,7 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 <p><p>This is the closest we can get to a loop trigger. If, whilst filling the buffers, we need to wrap the stream pointer, trigger the loop callback if defined. NOTE:- The accuracy of this method will be affected by a number of parameters, namely the buffer size, whether the sound has previously given up its source (therefore it will be re-filling all buffers, which, if the sound was close to eof will likely get triggered), and the quality of the sound, lower quality will hold a longer section of audio per buffer. In ALL cases this trigger will happen BEFORE the audio audibly loops!!</p>
 </p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00462">462</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00414">414</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
 
 </div>
 </div>
@@ -358,7 +655,63 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 
 <p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a50159a211c5ba5ec257863836e5c2719">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00414">414</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00358">358</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+
+<p><div class="fragment"><pre class="fragment"><a name="l00359"></a>00359         {
+<a name="l00360"></a>00360                 <span class="keywordflow">if</span>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">mSource</a> == AL_NONE || !<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5f2bfbad2bc45abd27819187eb9934be">mPlay</a>) <span class="keywordflow">return</span>;
+<a name="l00361"></a>00361 
+<a name="l00362"></a>00362                 ALenum state;
+<a name="l00363"></a>00363                 alGetSourcei(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">mSource</a>, AL_SOURCE_STATE, &amp;state);
+<a name="l00364"></a>00364 
+<a name="l00365"></a>00365                 <span class="keywordflow">if</span> (state == AL_PAUSED) <span class="keywordflow">return</span>;
+<a name="l00366"></a>00366 
+<a name="l00367"></a>00367                 <span class="comment">// Ran out of buffer data?</span>
+<a name="l00368"></a>00368                 <span class="keywordflow">if</span> (state == AL_STOPPED)
+<a name="l00369"></a>00369                 {
+<a name="l00370"></a>00370                         <span class="keywordflow">if</span>(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ad220c360f3099e850d04167527b2df9a">mStreamEOF</a>)
+<a name="l00371"></a>00371                         {
+<a name="l00372"></a>00372                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa5f8b0fe42940e570c6f593ce52888a7">stop</a>();
+<a name="l00373"></a>00373                                 <span class="comment">// Finished callback</span>
+<a name="l00374"></a>00374                                 <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a50c3e2827da9137fb9cc90d9c5ee43e6">mFinishedCB</a> &amp;&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aab980fc5fe118ade4df7a2e1509561e2">mFinCBEnabled</a> )
+<a name="l00375"></a>00375                                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a50c3e2827da9137fb9cc90d9c5ee43e6">mFinishedCB</a>-&gt;execute(static_cast&lt;OgreOggISound*&gt;(<span class="keyword">this</span>));
+<a name="l00376"></a>00376                                 <span class="keywordflow">return</span>;
+<a name="l00377"></a>00377                         }
+<a name="l00378"></a>00378                         <span class="keywordflow">else</span>
+<a name="l00379"></a>00379                         {
+<a name="l00380"></a>00380                                 <span class="comment">// Clear audio data already played...</span>
+<a name="l00381"></a>00381                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a032c753b6bbc4afed51b1029f9bef957">_dequeue</a>();
+<a name="l00382"></a>00382 
+<a name="l00383"></a>00383                                 <span class="comment">// Fill with next chunk of audio...</span>
+<a name="l00384"></a>00384                                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#aa795ff2368c47a4a75a93b375bafbd73">_prebuffer</a>();
+<a name="l00385"></a>00385 
+<a name="l00386"></a>00386                                 <span class="comment">// Play...</span>
+<a name="l00387"></a>00387                                 alSourcePlay(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">mSource</a>);
+<a name="l00388"></a>00388                         }
+<a name="l00389"></a>00389                 }
+<a name="l00390"></a>00390 
+<a name="l00391"></a>00391                 <span class="keywordtype">int</span> processed;
+<a name="l00392"></a>00392 
+<a name="l00393"></a>00393                 alGetSourcei(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">mSource</a>, AL_BUFFERS_PROCESSED, &amp;processed);
+<a name="l00394"></a>00394 
+<a name="l00395"></a>00395                 <span class="keywordflow">while</span>(processed--)
+<a name="l00396"></a>00396                 {
+<a name="l00397"></a>00397                         ALuint buffer;
+<a name="l00398"></a>00398 
+<a name="l00399"></a>00399                         alSourceUnqueueBuffers(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">mSource</a>, 1, &amp;buffer);
+<a name="l00400"></a>00400                         <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#aa875dfd782e8956d84172a84a55c3203">_stream</a>(buffer) ) 
+<a name="l00401"></a>00401                         {
+<a name="l00402"></a>00402                                 alSourceQueueBuffers(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">mSource</a>, 1, &amp;buffer);
+<a name="l00403"></a>00403                         }
+<a name="l00404"></a>00404                 }
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406                 <span class="comment">// Handle play position change</span>
+<a name="l00407"></a>00407                 <span class="keywordflow">if</span> ( <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a94c85445459838ad9d134ea5c495c216">mPlayPosChanged</a> )
+<a name="l00408"></a>00408                 {
+<a name="l00409"></a>00409                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a24d96967d218ce3ea3d13e5c636eda37">_updatePlayPosition</a>();
+<a name="l00410"></a>00410                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a94c85445459838ad9d134ea5c495c216">mPlayPosChanged</a> = <span class="keyword">false</span>;
+<a name="l00411"></a>00411                 }
+<a name="l00412"></a>00412         }
+</pre></div></p>
 
 </div>
 </div>
@@ -453,7 +806,30 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 
 <p>Implements <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a41d229354a371e74f87059fc474fd811">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00391">391</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00335">335</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+
+<p><div class="fragment"><pre class="fragment"><a name="l00336"></a>00336         {
+<a name="l00337"></a>00337                 <span class="keywordflow">if</span> (src!=AL_NONE)
+<a name="l00338"></a>00338                 {
+<a name="l00339"></a>00339                         <span class="comment">// Set source</span>
+<a name="l00340"></a>00340                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">mSource</a>=src;
+<a name="l00341"></a>00341 
+<a name="l00342"></a>00342                         <span class="comment">// Fill data buffers</span>
+<a name="l00343"></a>00343                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#aa795ff2368c47a4a75a93b375bafbd73">_prebuffer</a>();
+<a name="l00344"></a>00344 
+<a name="l00345"></a>00345                         <span class="comment">// Init source</span>
+<a name="l00346"></a>00346                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac89a5d9dcf5100cbf459d6330c5cec0d">_initSource</a>();
+<a name="l00347"></a>00347                 }
+<a name="l00348"></a>00348                 <span class="keywordflow">else</span>
+<a name="l00349"></a>00349                 {
+<a name="l00350"></a>00350                         <span class="comment">// Unqueue buffers</span>
+<a name="l00351"></a>00351                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a032c753b6bbc4afed51b1029f9bef957">_dequeue</a>();
+<a name="l00352"></a>00352 
+<a name="l00353"></a>00353                         <span class="comment">// Set source</span>
+<a name="l00354"></a>00354                         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">mSource</a>=src;
+<a name="l00355"></a>00355                 }
+<a name="l00356"></a>00356         }
+</pre></div></p>
 
 </div>
 </div>
@@ -471,7 +847,7 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 
 <p>Reimplemented from <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a7cfed535deaa9c3b1c335b122135c474">OgreOggSound::OgreOggISound</a>.</p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00151">151</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00161">161</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
 
 </div>
 </div>
@@ -488,7 +864,7 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 <div class="memdoc">
 <p>Ogg file variables </p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00146">146</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00156">156</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
 
 </div>
 </div>
@@ -503,22 +879,22 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00147">147</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00157">157</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa7330d878bcf201dc9bb0e6496863687"></a><!-- doxytag: member="OgreOggSound::OgreOggStreamWavSound::mFormatData" ref="aa7330d878bcf201dc9bb0e6496863687" args="" -->
+<a class="anchor" id="ab218906c567d487cb844da7dba446d73"></a><!-- doxytag: member="OgreOggSound::OgreOggStreamWavSound::mFormatData" ref="ab218906c567d487cb844da7dba446d73" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html">WavFormatData</a>* <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#aa7330d878bcf201dc9bb0e6496863687">OgreOggSound::OgreOggStreamWavSound::mFormatData</a><code> [protected]</code></td>
+          <td class="memname"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html">WavFormatData</a> <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#ab218906c567d487cb844da7dba446d73">OgreOggSound::OgreOggStreamWavSound::mFormatData</a><code> [protected]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00149">149</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00159">159</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
 
 </div>
 </div>
@@ -533,7 +909,7 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00148">148</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html#l00158">158</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8h_source.html">OgreOggStreamWavSound.h</a>.</p>
 
 </div>
 </div>
@@ -542,7 +918,7 @@ Inheritance diagram for OgreOggSound::OgreOggStreamWavSound:</div>
 <li>C:/Work/Api's/ogreoggsound/src/<a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a></li>
 </ul>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 16 11:43:03 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 17 12:02:46 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

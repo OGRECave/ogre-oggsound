@@ -37,6 +37,18 @@
 <tr><td colspan="2"><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html">OgreOggSoundPlugin</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp.html#a378ccd0089e5496dcaf03fdfe333e2e3">mOgreOggSoundPlugin</a></td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Detailed Description</h2>
+<dl class="author"><dt><b>Author:</b></dt><dd>Ian Stangoe </dd></dl>
+<dl class="version"><dt><b>Version:</b></dt><dd>1.11</dd></dl>
+<h2><a class="anchor" id="LICENSE">
+LICENSE</a></h2>
+<p>This source file is part of <a class="el" href="namespace_ogre_ogg_sound.html">OgreOggSound</a>, an OpenAL wrapper library for use with the Ogre Rendering Engine.</p>
+<p>Copyright 2009 Ian Stangoe</p>
+<p><a class="el" href="namespace_ogre_ogg_sound.html">OgreOggSound</a> is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p><a class="el" href="namespace_ogre_ogg_sound.html">OgreOggSound</a> is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.</p>
+<p>You should have received a copy of the GNU Lesser General Public License along with <a class="el" href="namespace_ogre_ogg_sound.html">OgreOggSound</a>. If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;. </p>
+
+<p>Definition in file <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html">OgreOggSoundPluginDllStart.cpp</a>.</p>
 <hr/><h2>Function Documentation</h2>
 <a class="anchor" id="aa970ec1005959e5c567d42f8f439e79e"></a><!-- doxytag: member="OgreOggSoundPluginDllStart.cpp::dllStartPlugin" ref="aa970ec1005959e5c567d42f8f439e79e" args="(void)" -->
 <div class="memitem">
@@ -54,7 +66,17 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html#l00034">34</a> of file <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html">OgreOggSoundPluginDllStart.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html#l00041">41</a> of file <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html">OgreOggSoundPluginDllStart.cpp</a>.</p>
+
+<p><div class="fragment"><pre class="fragment"><a name="l00042"></a>00042 {
+<a name="l00043"></a>00043         <span class="comment">// Create new plugin</span>
+<a name="l00044"></a>00044         <a class="code" href="_ogre_ogg_sound_plugin_dll_start_8cpp.html#a378ccd0089e5496dcaf03fdfe333e2e3">mOgreOggSoundPlugin</a> = OGRE_NEW_T(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html" title="Plugin instance for the MovableText.">OgreOggSoundPlugin</a>, Ogre::MEMCATEGORY_GENERAL)();
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046         <span class="comment">// Register</span>
+<a name="l00047"></a>00047         Root::getSingleton().installPlugin(<a class="code" href="_ogre_ogg_sound_plugin_dll_start_8cpp.html#a378ccd0089e5496dcaf03fdfe333e2e3">mOgreOggSoundPlugin</a>);
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 }
+</pre></div></p>
 
 </div>
 </div>
@@ -74,7 +96,15 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html#l00043">43</a> of file <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html">OgreOggSoundPluginDllStart.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html#l00050">50</a> of file <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html">OgreOggSoundPluginDllStart.cpp</a>.</p>
+
+<p><div class="fragment"><pre class="fragment"><a name="l00051"></a>00051 {
+<a name="l00052"></a>00052         Root::getSingleton().uninstallPlugin(<a class="code" href="_ogre_ogg_sound_plugin_dll_start_8cpp.html#a378ccd0089e5496dcaf03fdfe333e2e3">mOgreOggSoundPlugin</a>);
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054         OGRE_DELETE_T(<a class="code" href="_ogre_ogg_sound_plugin_dll_start_8cpp.html#a378ccd0089e5496dcaf03fdfe333e2e3">mOgreOggSoundPlugin</a>, <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html" title="Plugin instance for the MovableText.">OgreOggSoundPlugin</a>, Ogre::MEMCATEGORY_GENERAL);
+<a name="l00055"></a>00055         <a class="code" href="_ogre_ogg_sound_plugin_dll_start_8cpp.html#a378ccd0089e5496dcaf03fdfe333e2e3">mOgreOggSoundPlugin</a> = 0;
+<a name="l00056"></a>00056 }
+</pre></div></p>
 
 </div>
 </div>
@@ -90,12 +120,12 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html#l00029">29</a> of file <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html">OgreOggSoundPluginDllStart.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html#l00036">36</a> of file <a class="el" href="_ogre_ogg_sound_plugin_dll_start_8cpp_source.html">OgreOggSoundPluginDllStart.cpp</a>.</p>
 
 </div>
 </div>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 16 11:43:02 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 17 12:02:45 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

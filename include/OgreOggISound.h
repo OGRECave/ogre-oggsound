@@ -1,22 +1,32 @@
-/*---------------------------------------------------------------------------*\
-** This source file is part of OgreOggSound, an OpenAL wrapper library for   
-** use with the Ogre Rendering Engine.										 
-**                                                                           
-** Copyright 2008 Ian Stangoe & Eric Boissard								 
-**                                                                           
-** OgreOggSound is free software: you can redistribute it and/or modify		  
-** it under the terms of the GNU Lesser General Public License as published	 
-** by the Free Software Foundation, either version 3 of the License, or		 
-** (at your option) any later version.										 
-**																			 
-** OgreOggSound is distributed in the hope that it will be useful,			 
-** but WITHOUT ANY WARRANTY; without even the implied warranty of			 
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the			 
-** GNU Lesser General Public License for more details.						 
-**																			 
-** You should have received a copy of the GNU Lesser General Public License	 
-** along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.	 
-\*---------------------------------------------------------------------------*/
+/**
+* @file OgreOggISound.h
+* @author  Ian Stangoe
+* @version 1.11
+*
+* @section LICENSE
+* 
+* This source file is part of OgreOggSound, an OpenAL wrapper library for   
+* use with the Ogre Rendering Engine.										 
+*                                                                           
+* Copyright 2009 Ian Stangoe 
+*                                                                           
+* OgreOggSound is free software: you can redistribute it and/or modify		  
+* it under the terms of the GNU Lesser General Public License as published	 
+* by the Free Software Foundation, either version 3 of the License, or		 
+* (at your option) any later version.										 
+*																			 
+* OgreOggSound is distributed in the hope that it will be useful,			 
+* but WITHOUT ANY WARRANTY; without even the implied warranty of			 
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the			 
+* GNU Lesser General Public License for more details.						 
+*																			 
+* You should have received a copy of the GNU Lesser General Public License	 
+* along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.	 
+*
+* @section DESCRIPTION
+* 
+* Base class for a single sound
+*/
 
 #pragma once
 
@@ -110,7 +120,7 @@ namespace OgreOggSound
 		void stop();
 		/** Sets looping status.
 		@remarks
-			@param
+			@param loop
 				Boolean: true == loop
 		 */
 		void loop(bool loop){ mLoop = loop; }
@@ -123,12 +133,12 @@ namespace OgreOggSound
 		@remarks
 			Triggers a fade in/out of the sounds volume over time.
 
-			@param
-				dir Direction to fade. (true=in | false=out)
-			@param
-				fadeTime Time over which to fade (>0)
-			@param
-				actionOnCompletion Optional action to perform when fading has finished (default: NONE)
+			@param dir 
+				Direction to fade. (true=in | false=out)
+			@param fadeTime 
+				Time over which to fade (>0)
+			@param actionOnCompletion 
+				Optional action to perform when fading has finished (default: NONE)
 		*/
 		void startFade(bool dir, Ogre::Real fadeTime, FadeControl actionOnCompletion=OgreOggSound::FC_NONE);
 		/** Allows switchable spatialisation for this sound.
@@ -171,45 +181,57 @@ namespace OgreOggSound
 			This flag indicates that the sound should immediately give up its source if finished playing
 			or manually stopped. Useful for infrequent sounds or sounds which only play once. Allows other
 			sounds immediate access to a playable source object.
-			@param
-				giveup true - release source immediately
+			@param giveup 
+				true = release source immediately
 		 */
 		void setGiveUpSourceOnStop(bool giveup=false) { mGiveUpSource=giveup; }
 		/** Sets sounds position.
-		@param
-			pos x/y/z 3D position
+		@param posx 
+			x position
+		@param posy
+			y position
+		@param posz 
+			z position
 		 */
 		void setPosition(float posx,float posy, float posz);
 		/** Sets sounds position.
-		@param
-			pos 3D vector position
+		@param pos 
+			3D vector position
 		 */
 		void setPosition(const Ogre::Vector3 &pos);
 		/** Sets sounds direction.
-		@param
-			dir x/y/z 3D direction
+		@param dirx 
+			x coord
+		@param diry 
+			y coord
+		@param dirz 
+			z coord
 		 */
 		void setDirection(float dirx, float diry, float dirz);
 		/** Sets sounds direction.
-		@param
-			dir 3D vector direction
+		@param dir 
+			3D vector direction
 		 */
 		void setDirection(const Ogre::Vector3 &dir);
 		/** Sets sounds velocity.
-		@param
-			vel 3D x/y/z velocity
+		@param velx 
+			x velocity
+		@param vely 
+			y velocity
+		@param velz 
+			z velocity
 		 */
 		void setVelocity(float velx, float vely, float velz);
 		/** Sets sounds velocity.
-		@param
-			vel 3D vector velocity
+		@param vel 
+			3D vector velocity
 		 */
 		void setVelocity(const Ogre::Vector3 &vel);
 		/** Sets sounds volume
 		@remarks
 			Sets sounds current gain value (0..1).
-		@param
-			gain volume scalar.
+		@param gain 
+			volume scalar.
 		 */
 		void setVolume(float gain);
 		/** Gets sounds volume
@@ -221,8 +243,8 @@ namespace OgreOggSound
 		@remarks
 			This value sets the maximum volume level of the sound when closest 
 			to the listener.
-			@param
-				maxGain Volume scalar (0..1)
+			@param maxGain 
+				Volume scalar (0..1)
 		 */
 		void setMaxVolume(float maxGain);
 		/** Sets sounds minimum attenuation volume
@@ -236,10 +258,10 @@ namespace OgreOggSound
 		/** Sets sounds cone angles
 		@remarks
 			This value sets the angles of the sound cone used by this sound.
-			@param
-				insideAngle - angle over which the volume is at maximum
-			@param
-				outsideAngle - angle over which the volume is at minimum
+			@param insideAngle 
+				angle over which the volume is at maximum
+			@param outsideAngle 
+				angle over which the volume is at minimum
 		 */
 		void setConeAngles(float insideAngle=360.f, float outsideAngle=360.f);
 		/** Sets sounds outer cone volume
@@ -254,8 +276,8 @@ namespace OgreOggSound
 		@remarks
 			This value sets the maximum distance at which attenuation is
 			stopped. Beyond this distance the volume remains constant.
-			@param
-				maxDistance Distance.
+			@param maxDistance 
+				Distance.
 		*/
 		void setMaxDistance(float maxDistance);
 		/** Sets sounds rolloff factor
@@ -271,23 +293,23 @@ namespace OgreOggSound
 		@remarks
 			This value sets the half-volume distance. The distance at which the volume 
 			would reduce by half.
-			@param
-				referenceDistance distance (>0).
+			@param referenceDistance 
+				distance (>0).
 		*/
 		void setReferenceDistance(float referenceDistance);
 		/** Sets sounds pitch
 		@remarks
 			This affects the playback speed of the sound
-			@param
-				pitch Pitch (>0).
+			@param pitch 
+				Pitch (>0).
 		*/
 		void setPitch(float pitch);	
 		/** Sets whether the positional information is relative to the listener
 		@remarks
 			This specifies whether the sound is attached to listener or in 
 			world-space. Default: world-space
-			@param
-				relative Boolean yes/no.
+			@param relative 
+				Boolean yes/no.
 		*/
 		void setRelativeToListener(bool relative);
 		/** Gets sounds position
@@ -302,8 +324,8 @@ namespace OgreOggSound
 		/** Updates sund
 		@remarks
 			Updates sounds position, buffers and state
-			@param
-				fTime Elapsed frametime.
+			@param fTime
+				Elapsed frametime.
 		*/
 		virtual void update(Ogre::Real fTime);
 		/** Gets the sounds source
@@ -320,8 +342,8 @@ namespace OgreOggSound
 			This can be used to specify a priority to the sound which
 			will be checked when re-using sources. Higher priorities 
 			will tend to keep their sources.
-			@param
-				priority (0..255)
+			@param priority 
+				(0..255)
 		 */
 		void setPriority(Ogre::uint8 priority) { mPriority=priority; }
 		/** Adds a time position in a sound as a cue point
@@ -373,9 +395,12 @@ namespace OgreOggSound
 		/** Sets a callback for when sound finishes playing 
 		@remarks
 			Allows custom functions to be notified when this sound finishes playing.
-			@param
-				object pointer to this sound
-				function pointer to member function
+			@param object 
+				pointer to this sound
+			@param function 
+				pointer to member function
+			@param enabled
+				Sets whether callback should be used
 		*/
 		template<typename T>
 		void setFinishedCallback(T *object, void(T::*function)(OgreOggISound *sound), bool enabled=true)
@@ -386,8 +411,8 @@ namespace OgreOggSound
 		/** Sets whether the finished callback is called, if defined.
 		@remarks
 			Allows users to enable/disable the callback feature as/when required.
-			@param
-				enabled true=on
+			@param enable
+				true=on
 		*/
 		void setFinishedCallbackEnabled(bool enable)
 		{
@@ -397,9 +422,12 @@ namespace OgreOggSound
 		/** Sets a callback for when sound loops
 		@remarks
 			Allows custom functions to be notified when this sound loops.
-			@param
-				object pointer to this sound
-				function pointer to member function
+			@param object 
+				pointer to this sound
+			@param function 
+				pointer to member function
+			@param enabled
+				Sets whether callback should be used
 		*/
 		template<typename T> void setLoopCallback(T *object, void(T::*function)(OgreOggISound *sound), bool enabled=true)
 		{
@@ -409,8 +437,8 @@ namespace OgreOggSound
 		/** Sets whether the loop callback is called, if defined.
 		@remarks
 			Allows users to enable/disable the callback feature as/when required.
-			@param
-				enable true=on
+			@param enable 
+				true=on
 		*/
 		void setLoopCallbackEnabled(bool enable)
 		{

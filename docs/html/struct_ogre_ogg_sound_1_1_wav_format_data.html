@@ -29,7 +29,7 @@
 </div>
 <div class="contents">
 <h1>OgreOggSound::WavFormatData Struct Reference</h1><!-- doxytag: class="OgreOggSound::WavFormatData" -->
-<p>WAVE sound information.  
+<p>WAVEFORMATEXTENSIBLE sound information.  
 <a href="#_details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>&gt;</code></p>
@@ -37,84 +37,17 @@
 <p><a href="struct_ogre_ogg_sound_1_1_wav_format_data-members.html">List of all members.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">unsigned long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a86ad460c532fe519b7c070b0c7db9bde">mFormatChunkSize</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">unsigned long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a0d452cf5a7e422e84090418975b2b895">mDataSize</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">unsigned long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a26994565856f93c1e69f9fb3f57c880f">mSampleRate</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">unsigned long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#ab8929b176d38251a971dbbaf64113019">mAvgBytesPerSec</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">unsigned long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a395623474998ae266ef36c862b89a198">mAudioOffset</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">unsigned long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a3606d5c280ae97100b64171267cd3a12">mChannelMask</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">unsigned short&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#adfc20bbe15c439611125e2d1398b31a9">mNumChannels</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">unsigned short&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#aed396adc2d69f17b3aae1f2e578a529a">mBlockAlign</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">unsigned short&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#afc48a2674bda1fb5ab5185b6b65eceef">mBitsPerSample</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html">WaveHeader</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a7423986d83e1ef2877d58ef2b8e34306">mFormat</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">unsigned short&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a6b947125004ba0e8a2ce486b7d9756ee">mSamples</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a3606d5c280ae97100b64171267cd3a12">mChannelMask</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">char&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a628d4f2db29cef0793669c76eaf491f4">mSubFormat</a> [16]</td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<p>WAVE sound information. </p>
+<p>WAVEFORMATEXTENSIBLE sound information. </p>
 <p>Structure defining a WAVE sounds format. </p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00047">47</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00075">75</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
 <hr/><h2>Member Data Documentation</h2>
-<a class="anchor" id="a395623474998ae266ef36c862b89a198"></a><!-- doxytag: member="OgreOggSound::WavFormatData::mAudioOffset" ref="a395623474998ae266ef36c862b89a198" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned long <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a395623474998ae266ef36c862b89a198">OgreOggSound::WavFormatData::mAudioOffset</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00049">49</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab8929b176d38251a971dbbaf64113019"></a><!-- doxytag: member="OgreOggSound::WavFormatData::mAvgBytesPerSec" ref="ab8929b176d38251a971dbbaf64113019" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned long <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#ab8929b176d38251a971dbbaf64113019">OgreOggSound::WavFormatData::mAvgBytesPerSec</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00049">49</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="afc48a2674bda1fb5ab5185b6b65eceef"></a><!-- doxytag: member="OgreOggSound::WavFormatData::mBitsPerSample" ref="afc48a2674bda1fb5ab5185b6b65eceef" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned short <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#afc48a2674bda1fb5ab5185b6b65eceef">OgreOggSound::WavFormatData::mBitsPerSample</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00056">56</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aed396adc2d69f17b3aae1f2e578a529a"></a><!-- doxytag: member="OgreOggSound::WavFormatData::mBlockAlign" ref="aed396adc2d69f17b3aae1f2e578a529a" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned short <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#aed396adc2d69f17b3aae1f2e578a529a">OgreOggSound::WavFormatData::mBlockAlign</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00056">56</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a3606d5c280ae97100b64171267cd3a12"></a><!-- doxytag: member="OgreOggSound::WavFormatData::mChannelMask" ref="a3606d5c280ae97100b64171267cd3a12" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -126,67 +59,22 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00049">49</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00079">79</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0d452cf5a7e422e84090418975b2b895"></a><!-- doxytag: member="OgreOggSound::WavFormatData::mDataSize" ref="a0d452cf5a7e422e84090418975b2b895" args="" -->
+<a class="anchor" id="a7423986d83e1ef2877d58ef2b8e34306"></a><!-- doxytag: member="OgreOggSound::WavFormatData::mFormat" ref="a7423986d83e1ef2877d58ef2b8e34306" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned long <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a0d452cf5a7e422e84090418975b2b895">OgreOggSound::WavFormatData::mDataSize</a></td>
+          <td class="memname"><a class="el" href="struct_ogre_ogg_sound_1_1_wave_header.html">WaveHeader</a>* <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a7423986d83e1ef2877d58ef2b8e34306">OgreOggSound::WavFormatData::mFormat</a></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00049">49</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a86ad460c532fe519b7c070b0c7db9bde"></a><!-- doxytag: member="OgreOggSound::WavFormatData::mFormatChunkSize" ref="a86ad460c532fe519b7c070b0c7db9bde" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned long <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a86ad460c532fe519b7c070b0c7db9bde">OgreOggSound::WavFormatData::mFormatChunkSize</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00049">49</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="adfc20bbe15c439611125e2d1398b31a9"></a><!-- doxytag: member="OgreOggSound::WavFormatData::mNumChannels" ref="adfc20bbe15c439611125e2d1398b31a9" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned short <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#adfc20bbe15c439611125e2d1398b31a9">OgreOggSound::WavFormatData::mNumChannels</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00056">56</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a26994565856f93c1e69f9fb3f57c880f"></a><!-- doxytag: member="OgreOggSound::WavFormatData::mSampleRate" ref="a26994565856f93c1e69f9fb3f57c880f" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned long <a class="el" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a26994565856f93c1e69f9fb3f57c880f">OgreOggSound::WavFormatData::mSampleRate</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00049">49</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00077">77</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div>
@@ -201,7 +89,7 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00056">56</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00078">78</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div>
@@ -216,7 +104,7 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00060">60</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00080">80</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div>
@@ -224,7 +112,7 @@
 <li>C:/Work/Api's/ogreoggsound/include/<a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a></li>
 </ul>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 16 11:43:02 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 17 12:02:45 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

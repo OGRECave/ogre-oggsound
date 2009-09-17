@@ -23,232 +23,231 @@
       <li><a href="globals.html"><span>File&nbsp;Members</span></a></li>
     </ul>
   </div>
-<h1>C:/Work/Api's/ogreoggsound/include/OgreOggISound.h</h1><a href="_ogre_ogg_i_sound_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*---------------------------------------------------------------------------*\</span>
-<a name="l00002"></a>00002 <span class="comment">** This source file is part of OgreOggSound, an OpenAL wrapper library for   </span>
-<a name="l00003"></a>00003 <span class="comment">** use with the Ogre Rendering Engine.                                                                           </span>
-<a name="l00004"></a>00004 <span class="comment">**                                                                           </span>
-<a name="l00005"></a>00005 <span class="comment">** Copyright 2008 Ian Stangoe &amp; Eric Boissard                                                            </span>
-<a name="l00006"></a>00006 <span class="comment">**                                                                           </span>
-<a name="l00007"></a>00007 <span class="comment">** OgreOggSound is free software: you can redistribute it and/or modify           </span>
-<a name="l00008"></a>00008 <span class="comment">** it under the terms of the GNU Lesser General Public License as published      </span>
-<a name="l00009"></a>00009 <span class="comment">** by the Free Software Foundation, either version 3 of the License, or          </span>
-<a name="l00010"></a>00010 <span class="comment">** (at your option) any later version.                                                                           </span>
-<a name="l00011"></a>00011 <span class="comment">**                                                                                                                                                       </span>
-<a name="l00012"></a>00012 <span class="comment">** OgreOggSound is distributed in the hope that it will be useful,                       </span>
-<a name="l00013"></a>00013 <span class="comment">** but WITHOUT ANY WARRANTY; without even the implied warranty of                        </span>
-<a name="l00014"></a>00014 <span class="comment">** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                         </span>
-<a name="l00015"></a>00015 <span class="comment">** GNU Lesser General Public License for more details.                                           </span>
-<a name="l00016"></a>00016 <span class="comment">**                                                                                                                                                       </span>
-<a name="l00017"></a>00017 <span class="comment">** You should have received a copy of the GNU Lesser General Public License      </span>
-<a name="l00018"></a>00018 <span class="comment">** along with OgreOggSound.  If not, see &lt;http://www.gnu.org/licenses/&gt;.         </span>
-<a name="l00019"></a>00019 <span class="comment">\*---------------------------------------------------------------------------*/</span>
-<a name="l00020"></a>00020 
-<a name="l00021"></a>00021 <span class="preprocessor">#pragma once</span>
-<a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="_ogre_ogg_sound_prereqs_8h.html">OgreOggSoundPrereqs.h</a>&quot;</span>
-<a name="l00024"></a>00024 <span class="preprocessor">#include &lt;string&gt;</span>
-<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;vorbis/vorbisfile.h&gt;</span>
-<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="_ogre_ogg_sound_callback_8h.html">OgreOggSoundCallback.h</a>&quot;</span>
-<a name="l00027"></a>00027         
-<a name="l00031"></a><a class="code" href="_ogre_ogg_i_sound_8h.html#aac028f4c15ac7f78a44be5db76cfbec7">00031</a> <span class="preprocessor">#define NUM_BUFFERS 4</span>
+<h1>C:/Work/Api's/ogreoggsound/include/OgreOggISound.h</h1><a href="_ogre_ogg_i_sound_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00031"></a>00031 <span class="preprocessor">#pragma once</span>
 <a name="l00032"></a>00032 <span class="preprocessor"></span>
-<a name="l00033"></a>00033 <span class="keyword">namespace </span>OgreOggSound
-<a name="l00034"></a>00034 {
-<a name="l00035"></a>00035 
-<a name="l00037"></a>00037         <span class="comment">// Chunk section within a wav file (&apos;data&apos;/&apos;fact&apos;/&apos;cue&apos; etc..)</span>
-<a name="l00038"></a><a class="code" href="struct_ogre_ogg_sound_1_1_chunk_header.html">00038</a>         <span class="keyword">typedef</span> <span class="keyword">struct</span>
-<a name="l00039"></a>00039         {
-<a name="l00040"></a><a class="code" href="struct_ogre_ogg_sound_1_1_chunk_header.html#a1b1e52f09b479022718d368baf10c446">00040</a>                 <span class="keywordtype">char</span> chunkID[4];            <span class="comment">// &apos;data&apos; or &apos;fact&apos;</span>
-<a name="l00041"></a><a class="code" href="struct_ogre_ogg_sound_1_1_chunk_header.html#a6237759d20d32a31be2ccedb24a70194">00041</a>                 <span class="keywordtype">long</span> <span class="keywordtype">int</span> length;
-<a name="l00042"></a>00042         }   <a class="code" href="struct_ogre_ogg_sound_1_1_chunk_header.html" title="CHUNK header information.">ChunkHeader</a>;
-<a name="l00043"></a>00043   
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="_ogre_ogg_sound_prereqs_8h.html">OgreOggSoundPrereqs.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &lt;string&gt;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &lt;vorbis/vorbisfile.h&gt;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="_ogre_ogg_sound_callback_8h.html">OgreOggSoundCallback.h</a>&quot;</span>
+<a name="l00037"></a>00037         
+<a name="l00041"></a><a class="code" href="_ogre_ogg_i_sound_8h.html#aac028f4c15ac7f78a44be5db76cfbec7">00041</a> <span class="preprocessor">#define NUM_BUFFERS 4</span>
+<a name="l00042"></a>00042 <span class="preprocessor"></span>
+<a name="l00043"></a>00043 <span class="keyword">namespace </span>OgreOggSound
+<a name="l00044"></a>00044 {
 <a name="l00045"></a>00045 
-<a name="l00047"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html">00047</a>         <span class="keyword">typedef</span> <span class="keyword">struct</span>
-<a name="l00048"></a>00048         {
-<a name="l00049"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a26994565856f93c1e69f9fb3f57c880f">00049</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>   mFormatChunkSize,
-<a name="l00050"></a>00050                                                 mDataSize,
-<a name="l00051"></a>00051                                                 mSampleRate,
-<a name="l00052"></a>00052                                                 mAvgBytesPerSec,
-<a name="l00053"></a>00053                                                 mAudioOffset,
-<a name="l00054"></a>00054                                                 mChannelMask;
+<a name="l00047"></a>00047         <span class="comment">// Chunk section within a wav file (&apos;data&apos;/&apos;fact&apos;/&apos;cue&apos; etc..)</span>
+<a name="l00048"></a><a class="code" href="struct_ogre_ogg_sound_1_1_chunk_header.html">00048</a>         <span class="keyword">typedef</span> <span class="keyword">struct</span>
+<a name="l00049"></a>00049         {
+<a name="l00050"></a><a class="code" href="struct_ogre_ogg_sound_1_1_chunk_header.html#a1b1e52f09b479022718d368baf10c446">00050</a>                 <span class="keywordtype">char</span> chunkID[4];            <span class="comment">// &apos;data&apos; or &apos;fact&apos;</span>
+<a name="l00051"></a><a class="code" href="struct_ogre_ogg_sound_1_1_chunk_header.html#a6237759d20d32a31be2ccedb24a70194">00051</a>                 <span class="keywordtype">long</span> <span class="keywordtype">int</span> length;
+<a name="l00052"></a>00052         } <a class="code" href="struct_ogre_ogg_sound_1_1_chunk_header.html" title="CHUNK header information.">ChunkHeader</a>;
+<a name="l00053"></a>00053   
 <a name="l00055"></a>00055 
-<a name="l00056"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a6b947125004ba0e8a2ce486b7d9756ee">00056</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span>  mNumChannels,
-<a name="l00057"></a>00057                                                 mBlockAlign,
-<a name="l00058"></a>00058                                                 mBitsPerSample, 
-<a name="l00059"></a>00059                                                 mSamples;
-<a name="l00060"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a628d4f2db29cef0793669c76eaf491f4">00060</a>                 <span class="keywordtype">char</span>                    mSubFormat[16]; 
-<a name="l00061"></a>00061         } <a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html" title="WAVE sound information.">WavFormatData</a>;
-<a name="l00062"></a>00062 
-<a name="l00064"></a>00064 
-<a name="l00068"></a><a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012">00068</a>         <span class="keyword">enum</span> <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012" title="Action to perform after a fade has completed.">FadeControl</a>
-<a name="l00069"></a>00069         {
-<a name="l00070"></a><a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012a5c1c7d8ea43521a4cbf54074c92c8b81">00070</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012a5c1c7d8ea43521a4cbf54074c92c8b81">FC_NONE</a>         = 0x00,
-<a name="l00071"></a><a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012aaa37948d55e426258dbc28823028788e">00071</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012aaa37948d55e426258dbc28823028788e">FC_PAUSE</a>        = 0x01,
-<a name="l00072"></a><a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012ad628f32898a4bce9a6d969bf8750bc5d">00072</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012ad628f32898a4bce9a6d969bf8750bc5d">FC_STOP</a>         = 0x02
-<a name="l00073"></a>00073         };
-<a name="l00074"></a>00074 
-<a name="l00076"></a><a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html">00076</a>         <span class="keyword">struct </span><a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html" title="Structure describing an ogg stream.">SOggFile</a>
-<a name="l00077"></a>00077         {
-<a name="l00078"></a><a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#a3594c35fa1aa6b406c8be0dd878514fb">00078</a>                 <span class="keywordtype">char</span>* <a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#a3594c35fa1aa6b406c8be0dd878514fb">dataPtr</a>;    <span class="comment">// Pointer to the data in memory</span>
-<a name="l00079"></a><a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#a092a0b0a12f8f852809fe9f7eb70a901">00079</a>                 <span class="keywordtype">int</span>   <a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#a092a0b0a12f8f852809fe9f7eb70a901">dataSize</a>;   <span class="comment">// Size of the data</span>
-<a name="l00080"></a><a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#aa89064a42f7d411c8f2e0f855e8bdf66">00080</a>                 <span class="keywordtype">int</span>   <a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#aa89064a42f7d411c8f2e0f855e8bdf66">dataRead</a>;   <span class="comment">// How much data we have read so far</span>
-<a name="l00081"></a>00081         };
+<a name="l00057"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html">00057</a>         <span class="keyword">typedef</span> <span class="keyword">struct</span>
+<a name="l00058"></a>00058         {
+<a name="l00059"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html#a70e27c6393313b03f3031f65576b38ff">00059</a>                 <span class="keywordtype">char</span> mRIFF[4];                                          <span class="comment">// &apos;RIFF&apos;</span>
+<a name="l00060"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html#a65213b7d102e63708acccbb479666c7b">00060</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> mLength;
+<a name="l00061"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html#a2d2e9aa4d1a0b04fdc8d5d47261cbcd6">00061</a>                 <span class="keywordtype">char</span> mWAVE[4];                                          <span class="comment">// &apos;WAVE&apos;</span>
+<a name="l00062"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html#afa2ce6d25d6a1a950bb357d6d9d2d08f">00062</a>                 <span class="keywordtype">char</span> mFMT[4];                                           <span class="comment">// &apos;fmt &apos;</span>
+<a name="l00063"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html#af8bb9e24b9d5e4b2f35cebed585de75d">00063</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> mHeaderSize;          <span class="comment">// varies...</span>
+<a name="l00064"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html#a239921942b1b38a02108706a18de36eb">00064</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <span class="keywordtype">int</span> mFormatTag;
+<a name="l00065"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html#ab4db9203ee2c784c379399baf017dddc">00065</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <span class="keywordtype">int</span> mChannels;           <span class="comment">// 1,2 for stereo data is (l,r) pairs</span>
+<a name="l00066"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html#ae3fb080faad62b5559cedb42c09b8f59">00066</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> mSamplesPerSec;
+<a name="l00067"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html#a2d000888db2460460567251b037174e0">00067</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> mAvgBytesPerSec;
+<a name="l00068"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html#ac0597554c4f6b797419a80f18df8f485">00068</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <span class="keywordtype">int</span> mBlockAlign;      
+<a name="l00069"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html#a1363d5a13e836193e78dac2a77952ece">00069</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <span class="keywordtype">int</span> mBitsPerSample;
+<a name="l00070"></a>00070         } <a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html" title="WAVEFORMATEX header information.">WaveHeader</a>;
+<a name="l00071"></a>00071 
+<a name="l00073"></a>00073 
+<a name="l00075"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html">00075</a>         <span class="keyword">typedef</span> <span class="keyword">struct</span>
+<a name="l00076"></a>00076         {
+<a name="l00077"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a7423986d83e1ef2877d58ef2b8e34306">00077</a>                 <a class="code" href="struct_ogre_ogg_sound_1_1_wave_header.html" title="WAVEFORMATEX header information.">WaveHeader</a>*             mFormat;
+<a name="l00078"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a6b947125004ba0e8a2ce486b7d9756ee">00078</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span>  mSamples;
+<a name="l00079"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a3606d5c280ae97100b64171267cd3a12">00079</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>   mChannelMask;
+<a name="l00080"></a><a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html#a628d4f2db29cef0793669c76eaf491f4">00080</a>                 <span class="keywordtype">char</span>                    mSubFormat[16]; 
+<a name="l00081"></a>00081         } <a class="code" href="struct_ogre_ogg_sound_1_1_wav_format_data.html" title="WAVEFORMATEXTENSIBLE sound information.">WavFormatData</a>;
 <a name="l00082"></a>00082 
 <a name="l00084"></a>00084 
-<a name="l00087"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">00087</a>         <span class="keyword">class </span><a class="code" href="_ogre_ogg_sound_prereqs_8h.html#a0262ff4b64daaf82d734efea7f4c5ddb">_OGGSOUND_EXPORT</a> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a> : <span class="keyword">public</span> Ogre::MovableObject
-<a name="l00088"></a>00088         {
-<a name="l00089"></a>00089 
-<a name="l00090"></a>00090         <span class="keyword">public</span>:
-<a name="l00091"></a>00091         
-<a name="l00094"></a>00094                 <span class="keywordtype">void</span> play();
-<a name="l00097"></a>00097                 <span class="keywordtype">void</span> pause();
-<a name="l00100"></a>00100                 <span class="keywordtype">void</span> stop();
-<a name="l00106"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a248932ce5f491dea0f56c17cdaf2e63a">00106</a>                 <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a248932ce5f491dea0f56c17cdaf2e63a">loop</a>(<span class="keywordtype">bool</span> loop){ mLoop = loop; }
-<a name="l00111"></a>00111                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> setSource(ALuint&amp; src) = 0;
-<a name="l00123"></a>00123                 <span class="keywordtype">void</span> startFade(<span class="keywordtype">bool</span> dir, Ogre::Real fadeTime, <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012" title="Action to perform after a fade has completed.">FadeControl</a> actionOnCompletion=<a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012a5c1c7d8ea43521a4cbf54074c92c8b81">OgreOggSound::FC_NONE</a>);
-<a name="l00133"></a>00133                 <span class="keywordtype">void</span> disable3D(<span class="keywordtype">bool</span> disable);
-<a name="l00138"></a>00138                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> setPlayPosition(Ogre::Real seconds);
-<a name="l00143"></a>00143                 <span class="keywordtype">bool</span> isPlaying() <span class="keyword">const</span>;
-<a name="l00148"></a>00148                 <span class="keywordtype">bool</span> isPaused() <span class="keyword">const</span>;
-<a name="l00153"></a>00153                 <span class="keywordtype">bool</span> isStopped() <span class="keyword">const</span>;
-<a name="l00158"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a96a3047609d75ad7d8b4ec62d027a6f6">00158</a>                 <span class="keywordtype">bool</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a96a3047609d75ad7d8b4ec62d027a6f6">isRelativeToListener</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mSourceRelative; }
-<a name="l00167"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa54d0f5ee59b4554ceb3dc4101412375">00167</a>                 <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa54d0f5ee59b4554ceb3dc4101412375">setGiveUpSourceOnStop</a>(<span class="keywordtype">bool</span> giveup=<span class="keyword">false</span>) { mGiveUpSource=giveup; }
-<a name="l00172"></a>00172                 <span class="keywordtype">void</span> setPosition(<span class="keywordtype">float</span> posx,<span class="keywordtype">float</span> posy, <span class="keywordtype">float</span> posz);
-<a name="l00177"></a>00177                 <span class="keywordtype">void</span> setPosition(<span class="keyword">const</span> Ogre::Vector3 &amp;pos);
-<a name="l00182"></a>00182                 <span class="keywordtype">void</span> setDirection(<span class="keywordtype">float</span> dirx, <span class="keywordtype">float</span> diry, <span class="keywordtype">float</span> dirz);
-<a name="l00187"></a>00187                 <span class="keywordtype">void</span> setDirection(<span class="keyword">const</span> Ogre::Vector3 &amp;dir);
-<a name="l00192"></a>00192                 <span class="keywordtype">void</span> setVelocity(<span class="keywordtype">float</span> velx, <span class="keywordtype">float</span> vely, <span class="keywordtype">float</span> velz);
-<a name="l00197"></a>00197                 <span class="keywordtype">void</span> setVelocity(<span class="keyword">const</span> Ogre::Vector3 &amp;vel);
-<a name="l00204"></a>00204                 <span class="keywordtype">void</span> setVolume(<span class="keywordtype">float</span> gain);
-<a name="l00209"></a>00209                 Ogre::Real getVolume() <span class="keyword">const</span>;
-<a name="l00217"></a>00217                 <span class="keywordtype">void</span> setMaxVolume(<span class="keywordtype">float</span> maxGain);
-<a name="l00225"></a>00225                 <span class="keywordtype">void</span> setMinVolume(<span class="keywordtype">float</span> minGain);
-<a name="l00234"></a>00234                 <span class="keywordtype">void</span> setConeAngles(<span class="keywordtype">float</span> insideAngle=360.f, <span class="keywordtype">float</span> outsideAngle=360.f);
-<a name="l00242"></a>00242                 <span class="keywordtype">void</span> setOuterConeVolume(<span class="keywordtype">float</span> gain=0.f);
-<a name="l00250"></a>00250                 <span class="keywordtype">void</span> setMaxDistance(<span class="keywordtype">float</span> maxDistance);
-<a name="l00259"></a>00259                 <span class="keywordtype">void</span> setRolloffFactor(<span class="keywordtype">float</span> rolloffFactor);
-<a name="l00267"></a>00267                 <span class="keywordtype">void</span> setReferenceDistance(<span class="keywordtype">float</span> referenceDistance);
-<a name="l00274"></a>00274                 <span class="keywordtype">void</span> setPitch(<span class="keywordtype">float</span> pitch);     
-<a name="l00282"></a>00282                 <span class="keywordtype">void</span> setRelativeToListener(<span class="keywordtype">bool</span> relative);
-<a name="l00285"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aeb50784bff96ea4257249b0088dd35be">00285</a>                 <span class="keyword">const</span> Ogre::Vector3&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aeb50784bff96ea4257249b0088dd35be">getPosition</a>()<span class="keyword"> const </span>{<span class="keywordflow">return</span> mPosition;}
-<a name="l00288"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a42aec7ee5b61edcdec2a57193d766b2f">00288</a>                 <span class="keyword">const</span> Ogre::Vector3&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a42aec7ee5b61edcdec2a57193d766b2f">getDirection</a>()<span class="keyword"> const </span>{<span class="keywordflow">return</span> mDirection;}
-<a name="l00291"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ad052b734e9e6aacdea9f4bf89ebe58e4">00291</a>                 <span class="keywordtype">bool</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ad052b734e9e6aacdea9f4bf89ebe58e4">isFading</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mFade; }
-<a name="l00298"></a>00298                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> update(Ogre::Real fTime);
-<a name="l00301"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ae9238f7fb95966c58680fa7880c8cf66">00301</a>                 ALuint <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ae9238f7fb95966c58680fa7880c8cf66">getSource</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mSource; }
-<a name="l00304"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#acf68f274d4e766c5b124aa8b9a17054e">00304</a>                 <span class="keyword">const</span> Ogre::String&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#acf68f274d4e766c5b124aa8b9a17054e">getName</a>( <span class="keywordtype">void</span> )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mName; }
-<a name="l00307"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a1e67195320b766812f21d50a89029447">00307</a>                 Ogre::uint8 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a1e67195320b766812f21d50a89029447">getPriority</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mPriority; }
-<a name="l00316"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac37f2e3ab54bb8973d83b214fa4897f1">00316</a>                 <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac37f2e3ab54bb8973d83b214fa4897f1">setPriority</a>(Ogre::uint8 priority) { mPriority=priority; }
-<a name="l00323"></a>00323                 <span class="keywordtype">bool</span> addCuePoint(Ogre::Real seconds);
-<a name="l00326"></a>00326                 <span class="keywordtype">void</span> removeCuePoint(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> index);
-<a name="l00329"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afab9128e3414e957b796a39c9bf85a2b">00329</a>                 <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afab9128e3414e957b796a39c9bf85a2b">clearCuePoints</a>() { mCuePoints.clear(); }
-<a name="l00334"></a>00334                 <span class="keywordtype">void</span> setCuePoint(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> index);
-<a name="l00339"></a>00339                 Ogre::Real getCuePoint(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> index);
-<a name="l00342"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a903b1fff391c74ccec0a53cc95e2766c">00342</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a903b1fff391c74ccec0a53cc95e2766c">getNumCuePoints</a>() { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(mCuePoints.size()); }
-<a name="l00347"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a871dfcf8982c962618dc6c66f6f2dca6">00347</a>                 Ogre::Real <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a871dfcf8982c962618dc6c66f6f2dca6">getAudioLength</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mPlayTime; }
-<a name="l00352"></a>00352                 <span class="keyword">virtual</span> <span class="keyword">const</span> Ogre::String&amp; getMovableType(<span class="keywordtype">void</span>) <span class="keyword">const</span>;
-<a name="l00357"></a>00357                 <span class="keyword">virtual</span> <span class="keyword">const</span> Ogre::AxisAlignedBox&amp; getBoundingBox(<span class="keywordtype">void</span>) <span class="keyword">const</span>;
-<a name="l00362"></a>00362                 <span class="keyword">virtual</span> Ogre::Real getBoundingRadius(<span class="keywordtype">void</span>) <span class="keyword">const</span>;
-<a name="l00370"></a>00370                 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
-<a name="l00371"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aeda37160ea61a8128fb0d2effb2b7307">00371</a>                 <span class="keywordtype">void</span> setFinishedCallback(T *<span class="keywordtype">object</span>, <span class="keywordtype">void</span>(T::*function)(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a> *sound), <span class="keywordtype">bool</span> enabled=<span class="keyword">true</span>)
-<a name="l00372"></a>00372                 {
-<a name="l00373"></a>00373                         mFinishedCB = <span class="keyword">new</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html" title="Callback template.">OSSCallbackPointer&lt;T&gt;</a>(function, object);
-<a name="l00374"></a>00374                         mFinCBEnabled = enabled;
-<a name="l00375"></a>00375                 }
-<a name="l00382"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#affa5b625f437cf1e7510cd81348e0f96">00382</a>                 <span class="keywordtype">void</span> setFinishedCallbackEnabled(<span class="keywordtype">bool</span> enable)
-<a name="l00383"></a>00383                 {
-<a name="l00384"></a>00384                         mFinCBEnabled = enable;
-<a name="l00385"></a>00385                 }
-<a name="l00386"></a>00386 
-<a name="l00394"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a440071c3b9f0ae46ac01544e50d6a758">00394</a>                 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keywordtype">void</span> setLoopCallback(T *<span class="keywordtype">object</span>, <span class="keywordtype">void</span>(T::*function)(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a> *sound), <span class="keywordtype">bool</span> enabled=<span class="keyword">true</span>)
-<a name="l00395"></a>00395                 {
-<a name="l00396"></a>00396                         mLoopCB = <span class="keyword">new</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html" title="Callback template.">OSSCallbackPointer&lt;T&gt;</a>(function, object);
-<a name="l00397"></a>00397                         mLoopCBEnabled = enabled;
-<a name="l00398"></a>00398                 }
-<a name="l00405"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a34ef56fa58469ec58148a06cac11e3fb">00405</a>                 <span class="keywordtype">void</span> setLoopCallbackEnabled(<span class="keywordtype">bool</span> enable)
-<a name="l00406"></a>00406                 {
-<a name="l00407"></a>00407                         mLoopCBEnabled = enable;
-<a name="l00408"></a>00408                 }
-<a name="l00409"></a>00409 
-<a name="l00415"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ab967d34052cc1add783c98e4cf6eb422">00415</a>                 Ogre::SceneManager* <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ab967d34052cc1add783c98e4cf6eb422">getSceneManager</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mScnMan; }
-<a name="l00416"></a>00416 
-<a name="l00417"></a>00417         <span class="keyword">protected</span>:
-<a name="l00418"></a>00418 
-<a name="l00421"></a>00421                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a>(<span class="keyword">const</span> Ogre::String&amp; name, <span class="keywordtype">bool</span> seekSupport=<span class="keyword">false</span>);
-<a name="l00424"></a>00424                 <span class="keyword">virtual</span> ~<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a>();
-<a name="l00429"></a>00429                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _openImpl(Ogre::DataStreamPtr&amp; fileStream) = 0;
-<a name="l00435"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a4cea0b52d8a240dc6ca3126c955da30e">00435</a>                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a4cea0b52d8a240dc6ca3126c955da30e">_openImpl</a>(<span class="keyword">const</span> Ogre::String&amp; fName, ALuint&amp; buffer) {};
-<a name="l00440"></a>00440                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _playImpl() = 0;
-<a name="l00445"></a>00445                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _pauseImpl() = 0;
-<a name="l00450"></a>00450                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _stopImpl() = 0;
-<a name="l00455"></a>00455                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _release() = 0;
-<a name="l00460"></a>00460                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _updateRenderQueue(Ogre::RenderQueue *queue);
-<a name="l00465"></a>00465                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _notifyAttached(Ogre::Node* node, <span class="keywordtype">bool</span> isTagPoint=<span class="keyword">false</span>);
-<a name="l00470"></a>00470                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _notifyMoved(<span class="keywordtype">void</span>);
-<a name="l00475"></a>00475                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> visitRenderables(Ogre::Renderable::Visitor* visitor, <span class="keywordtype">bool</span> debugRenderables);
-<a name="l00476"></a>00476 
-<a name="l00481"></a>00481                 <span class="keywordtype">void</span> _initSource();
-<a name="l00487"></a>00487                 <span class="keywordtype">void</span> _markPlayPosition();
-<a name="l00493"></a>00493                 <span class="keywordtype">void</span> _recoverPlayPosition();
-<a name="l00498"></a>00498                 <span class="keywordtype">void</span> _updateFade(Ogre::Real fTime=0.f);
-<a name="l00503"></a>00503                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _updateAudioBuffers() = 0;
-<a name="l00509"></a>00509                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _prebuffer() = 0;          
-<a name="l00515"></a>00515                 <span class="keyword">virtual</span> <span class="keywordtype">bool</span> _queryBufferInfo()=0;              
-<a name="l00516"></a>00516 
-<a name="l00520"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac81a26ff7bc8ea8706c3defd125d0bc8">00520</a>                 Ogre::Real mFadeTimer;
-<a name="l00521"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a61ffc5cfddf5504793a5d925ac6cf164">00521</a>                 Ogre::Real mFadeTime;
-<a name="l00522"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ad328fb4d0f9538adefc9bcac38fe7df9">00522</a>                 Ogre::Real mFadeInitVol;
-<a name="l00523"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a0c1d16360e124d7b25c247097f149d0e">00523</a>                 Ogre::Real mFadeEndVol;
-<a name="l00524"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a6795a14b4e78298bcf174e657d0dc44f">00524</a>                 <span class="keywordtype">bool</span> mFade;
-<a name="l00525"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#abd778ebb2798e197ee756b25e0f34f3d">00525</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012" title="Action to perform after a fade has completed.">FadeControl</a> mFadeEndAction;
-<a name="l00526"></a>00526 
-<a name="l00527"></a>00527                 <span class="comment">// Ogre resource stream pointer</span>
-<a name="l00528"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">00528</a>                 Ogre::DataStreamPtr mAudioStream;
-<a name="l00529"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afaf91c643f156d13105a84271b1049b2">00529</a>                 ov_callbacks mOggCallbacks;
-<a name="l00530"></a>00530 
-<a name="l00531"></a>00531                 <span class="comment">// Callbacks  </span>
-<a name="l00532"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a982b17da305f5b0749305df6cb09c51a">00532</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html" title="Callbacks for sound states.">OOSCallback</a>* mLoopCB;
-<a name="l00533"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a50c3e2827da9137fb9cc90d9c5ee43e6">00533</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html" title="Callbacks for sound states.">OOSCallback</a>* mFinishedCB;
-<a name="l00534"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aab980fc5fe118ade4df7a2e1509561e2">00534</a>                 <span class="keywordtype">bool</span> mFinCBEnabled;
-<a name="l00535"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa75fa7f71e644543403d4f419e992bd4">00535</a>                 <span class="keywordtype">bool</span> mLoopCBEnabled;
-<a name="l00536"></a>00536 
-<a name="l00537"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">00537</a>                 <span class="keywordtype">size_t</span> mBufferSize;                             <span class="comment">// Size of audio buffer (250ms)</span>
-<a name="l00538"></a>00538 
-<a name="l00541"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">00541</a>                 ALuint mSource;                                 <span class="comment">// OpenAL Source</span>
-<a name="l00542"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5922b7f7f0c5070a9c6fec01f5b32f58">00542</a>                 Ogre::SceneManager* mScnMan;    <span class="comment">// SceneManager pointer for plugin registered sounds</span>
-<a name="l00543"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a82aaad104932a2ee6b47f257d6348a25">00543</a>                 Ogre::uint8 mPriority;                  <span class="comment">// Priority assigned to source </span>
-<a name="l00544"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a78310415a7786c577b69e5bff90008af">00544</a>                 Ogre::Vector3 mPosition;                <span class="comment">// 3D position</span>
-<a name="l00545"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a04cdeff048d11c3f3369f397c624e093">00545</a>                 Ogre::Vector3 mDirection;               <span class="comment">// 3D direction</span>
-<a name="l00546"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa7ade54c675ba13eb3e8f6e0e1bb5d8d">00546</a>                 Ogre::Vector3 mVelocity;                <span class="comment">// 3D velocity</span>
-<a name="l00547"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ae4216a4f73cfa08b6b693a62889724ac">00547</a>                 Ogre::Real mGain;                               <span class="comment">// Current volume</span>
-<a name="l00548"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a9bf0b33b7e999b9ced54a5590e6c5fe9">00548</a>                 Ogre::Real mMaxGain;                    <span class="comment">// Minimum volume</span>
-<a name="l00549"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a91d0e0e03056b08a9ceb89fd72be1554">00549</a>                 Ogre::Real mMinGain;                    <span class="comment">// Maximum volume</span>
-<a name="l00550"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a2c5aa4cbaf9a452b4e01a1ed69223807">00550</a>                 Ogre::Real mMaxDistance;                <span class="comment">// Maximum attenuation distance</span>
-<a name="l00551"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#abe77cda9a652adfe88e65adea2efada2">00551</a>                 Ogre::Real mRolloffFactor;              <span class="comment">// Rolloff factor for attenuation</span>
-<a name="l00552"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#acbba83421bb3ea29b44c76cf88c03493">00552</a>                 Ogre::Real mReferenceDistance;  <span class="comment">// Half-volume distance for attenuation</span>
-<a name="l00553"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a688b09a393bb0d3be1a8e9bffe078633">00553</a>                 Ogre::Real mPitch;                              <span class="comment">// Current pitch </span>
-<a name="l00554"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a14cbd6f5684cc633fa5e941d9de6aec0">00554</a>                 Ogre::Real mOuterConeGain;              <span class="comment">// Outer cone volume</span>
-<a name="l00555"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#af6659c7abac1dd4775a428211a3b391c">00555</a>                 Ogre::Real mInnerConeAngle;             <span class="comment">// Inner cone angle</span>
-<a name="l00556"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5696090372395596160a821442de55fe">00556</a>                 Ogre::Real mOuterConeAngle;             <span class="comment">// outer cone angle</span>
-<a name="l00557"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a9596e3ff04c4c9705b1d0850cff39a8b">00557</a>                 Ogre::Real mPlayTime;                   <span class="comment">// Time in seconds of sound file</span>
-<a name="l00558"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a0ca853bec786878368bfb7262b2737e0">00558</a>                 Ogre::String mName;                             <span class="comment">// Sound name</span>
-<a name="l00559"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aed3deb88b79e5579c5a66ad5d216c945">00559</a>                 <span class="keywordtype">bool</span> mLoop;                                             <span class="comment">// Loop status</span>
-<a name="l00560"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5f2bfbad2bc45abd27819187eb9934be">00560</a>                 <span class="keywordtype">bool</span> mPlay;                                             <span class="comment">// Play status</span>
-<a name="l00561"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5adc8aa7368cf03cf5394e93fbd4ef4f">00561</a>                 <span class="keywordtype">bool</span> mDisable3D;                                <span class="comment">// 3D status</span>
-<a name="l00562"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa9108889b46052d2b10e96052cfd6336">00562</a>                 <span class="keywordtype">bool</span> mGiveUpSource;                             <span class="comment">// Flag to indicate whether sound should release its source when stopped</span>
-<a name="l00563"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a4f246c084f0ff5df0cff38bd23d30314">00563</a>                 <span class="keywordtype">bool</span> mStream;                                   <span class="comment">// Stream flag</span>
-<a name="l00564"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afbe38a0d8d8212d34ac0cb19e19294f7">00564</a>                 <span class="keywordtype">bool</span> mSourceRelative;                   <span class="comment">// Relative position flag</span>
-<a name="l00565"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afbd70cc73bf1cdba7b0197be944b3441">00565</a>                 <span class="keywordtype">bool</span> mLocalTransformDirty;              <span class="comment">// Transformation update flag</span>
-<a name="l00566"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a94c85445459838ad9d134ea5c495c216">00566</a>                 <span class="keywordtype">bool</span> mPlayPosChanged;                   <span class="comment">// Flag indicating playback position has changed</span>
-<a name="l00567"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a045461031c3d1f305849d695e6220360">00567</a>                 <span class="keywordtype">bool</span> mSeekable;                                 <span class="comment">// Flag indicating seeking available</span>
+<a name="l00088"></a><a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012">00088</a>         <span class="keyword">enum</span> <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012" title="Action to perform after a fade has completed.">FadeControl</a>
+<a name="l00089"></a>00089         {
+<a name="l00090"></a><a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012a5c1c7d8ea43521a4cbf54074c92c8b81">00090</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012a5c1c7d8ea43521a4cbf54074c92c8b81">FC_NONE</a>         = 0x00,
+<a name="l00091"></a><a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012aaa37948d55e426258dbc28823028788e">00091</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012aaa37948d55e426258dbc28823028788e">FC_PAUSE</a>        = 0x01,
+<a name="l00092"></a><a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012ad628f32898a4bce9a6d969bf8750bc5d">00092</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012ad628f32898a4bce9a6d969bf8750bc5d">FC_STOP</a>         = 0x02
+<a name="l00093"></a>00093         };
+<a name="l00094"></a>00094 
+<a name="l00096"></a><a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html">00096</a>         <span class="keyword">struct </span><a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html" title="Structure describing an ogg stream.">SOggFile</a>
+<a name="l00097"></a>00097         {
+<a name="l00098"></a><a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#a3594c35fa1aa6b406c8be0dd878514fb">00098</a>                 <span class="keywordtype">char</span>* <a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#a3594c35fa1aa6b406c8be0dd878514fb">dataPtr</a>;    <span class="comment">// Pointer to the data in memory</span>
+<a name="l00099"></a><a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#a092a0b0a12f8f852809fe9f7eb70a901">00099</a>                 <span class="keywordtype">int</span>   <a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#a092a0b0a12f8f852809fe9f7eb70a901">dataSize</a>;   <span class="comment">// Size of the data</span>
+<a name="l00100"></a><a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#aa89064a42f7d411c8f2e0f855e8bdf66">00100</a>                 <span class="keywordtype">int</span>   <a class="code" href="struct_ogre_ogg_sound_1_1_s_ogg_file.html#aa89064a42f7d411c8f2e0f855e8bdf66">dataRead</a>;   <span class="comment">// How much data we have read so far</span>
+<a name="l00101"></a>00101         };
+<a name="l00102"></a>00102 
+<a name="l00104"></a>00104 
+<a name="l00107"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">00107</a>         <span class="keyword">class </span><a class="code" href="_ogre_ogg_sound_prereqs_8h.html#a0262ff4b64daaf82d734efea7f4c5ddb">_OGGSOUND_EXPORT</a> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a> : <span class="keyword">public</span> Ogre::MovableObject
+<a name="l00108"></a>00108         {
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110         <span class="keyword">public</span>:
+<a name="l00111"></a>00111         
+<a name="l00114"></a>00114                 <span class="keywordtype">void</span> play();
+<a name="l00117"></a>00117                 <span class="keywordtype">void</span> pause();
+<a name="l00120"></a>00120                 <span class="keywordtype">void</span> stop();
+<a name="l00126"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a248932ce5f491dea0f56c17cdaf2e63a">00126</a>                 <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a248932ce5f491dea0f56c17cdaf2e63a">loop</a>(<span class="keywordtype">bool</span> loop){ mLoop = loop; }
+<a name="l00131"></a>00131                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> setSource(ALuint&amp; src) = 0;
+<a name="l00143"></a>00143                 <span class="keywordtype">void</span> startFade(<span class="keywordtype">bool</span> dir, Ogre::Real fadeTime, <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012" title="Action to perform after a fade has completed.">FadeControl</a> actionOnCompletion=<a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012a5c1c7d8ea43521a4cbf54074c92c8b81">OgreOggSound::FC_NONE</a>);
+<a name="l00153"></a>00153                 <span class="keywordtype">void</span> disable3D(<span class="keywordtype">bool</span> disable);
+<a name="l00158"></a>00158                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> setPlayPosition(Ogre::Real seconds);
+<a name="l00163"></a>00163                 <span class="keywordtype">bool</span> isPlaying() <span class="keyword">const</span>;
+<a name="l00168"></a>00168                 <span class="keywordtype">bool</span> isPaused() <span class="keyword">const</span>;
+<a name="l00173"></a>00173                 <span class="keywordtype">bool</span> isStopped() <span class="keyword">const</span>;
+<a name="l00178"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a96a3047609d75ad7d8b4ec62d027a6f6">00178</a>                 <span class="keywordtype">bool</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a96a3047609d75ad7d8b4ec62d027a6f6">isRelativeToListener</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mSourceRelative; }
+<a name="l00187"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa54d0f5ee59b4554ceb3dc4101412375">00187</a>                 <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa54d0f5ee59b4554ceb3dc4101412375">setGiveUpSourceOnStop</a>(<span class="keywordtype">bool</span> giveup=<span class="keyword">false</span>) { mGiveUpSource=giveup; }
+<a name="l00196"></a>00196                 <span class="keywordtype">void</span> setPosition(<span class="keywordtype">float</span> posx,<span class="keywordtype">float</span> posy, <span class="keywordtype">float</span> posz);
+<a name="l00201"></a>00201                 <span class="keywordtype">void</span> setPosition(<span class="keyword">const</span> Ogre::Vector3 &amp;pos);
+<a name="l00210"></a>00210                 <span class="keywordtype">void</span> setDirection(<span class="keywordtype">float</span> dirx, <span class="keywordtype">float</span> diry, <span class="keywordtype">float</span> dirz);
+<a name="l00215"></a>00215                 <span class="keywordtype">void</span> setDirection(<span class="keyword">const</span> Ogre::Vector3 &amp;dir);
+<a name="l00224"></a>00224                 <span class="keywordtype">void</span> setVelocity(<span class="keywordtype">float</span> velx, <span class="keywordtype">float</span> vely, <span class="keywordtype">float</span> velz);
+<a name="l00229"></a>00229                 <span class="keywordtype">void</span> setVelocity(<span class="keyword">const</span> Ogre::Vector3 &amp;vel);
+<a name="l00236"></a>00236                 <span class="keywordtype">void</span> setVolume(<span class="keywordtype">float</span> gain);
+<a name="l00241"></a>00241                 Ogre::Real getVolume() <span class="keyword">const</span>;
+<a name="l00249"></a>00249                 <span class="keywordtype">void</span> setMaxVolume(<span class="keywordtype">float</span> maxGain);
+<a name="l00257"></a>00257                 <span class="keywordtype">void</span> setMinVolume(<span class="keywordtype">float</span> minGain);
+<a name="l00266"></a>00266                 <span class="keywordtype">void</span> setConeAngles(<span class="keywordtype">float</span> insideAngle=360.f, <span class="keywordtype">float</span> outsideAngle=360.f);
+<a name="l00274"></a>00274                 <span class="keywordtype">void</span> setOuterConeVolume(<span class="keywordtype">float</span> gain=0.f);
+<a name="l00282"></a>00282                 <span class="keywordtype">void</span> setMaxDistance(<span class="keywordtype">float</span> maxDistance);
+<a name="l00291"></a>00291                 <span class="keywordtype">void</span> setRolloffFactor(<span class="keywordtype">float</span> rolloffFactor);
+<a name="l00299"></a>00299                 <span class="keywordtype">void</span> setReferenceDistance(<span class="keywordtype">float</span> referenceDistance);
+<a name="l00306"></a>00306                 <span class="keywordtype">void</span> setPitch(<span class="keywordtype">float</span> pitch);     
+<a name="l00314"></a>00314                 <span class="keywordtype">void</span> setRelativeToListener(<span class="keywordtype">bool</span> relative);
+<a name="l00317"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aeb50784bff96ea4257249b0088dd35be">00317</a>                 <span class="keyword">const</span> Ogre::Vector3&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aeb50784bff96ea4257249b0088dd35be">getPosition</a>()<span class="keyword"> const </span>{<span class="keywordflow">return</span> mPosition;}
+<a name="l00320"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a42aec7ee5b61edcdec2a57193d766b2f">00320</a>                 <span class="keyword">const</span> Ogre::Vector3&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a42aec7ee5b61edcdec2a57193d766b2f">getDirection</a>()<span class="keyword"> const </span>{<span class="keywordflow">return</span> mDirection;}
+<a name="l00323"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ad052b734e9e6aacdea9f4bf89ebe58e4">00323</a>                 <span class="keywordtype">bool</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ad052b734e9e6aacdea9f4bf89ebe58e4">isFading</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mFade; }
+<a name="l00330"></a>00330                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> update(Ogre::Real fTime);
+<a name="l00333"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ae9238f7fb95966c58680fa7880c8cf66">00333</a>                 ALuint <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ae9238f7fb95966c58680fa7880c8cf66">getSource</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mSource; }
+<a name="l00336"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#acf68f274d4e766c5b124aa8b9a17054e">00336</a>                 <span class="keyword">const</span> Ogre::String&amp; <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#acf68f274d4e766c5b124aa8b9a17054e">getName</a>( <span class="keywordtype">void</span> )<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mName; }
+<a name="l00339"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a1e67195320b766812f21d50a89029447">00339</a>                 Ogre::uint8 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a1e67195320b766812f21d50a89029447">getPriority</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mPriority; }
+<a name="l00348"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac37f2e3ab54bb8973d83b214fa4897f1">00348</a>                 <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac37f2e3ab54bb8973d83b214fa4897f1">setPriority</a>(Ogre::uint8 priority) { mPriority=priority; }
+<a name="l00355"></a>00355                 <span class="keywordtype">bool</span> addCuePoint(Ogre::Real seconds);
+<a name="l00358"></a>00358                 <span class="keywordtype">void</span> removeCuePoint(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> index);
+<a name="l00361"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afab9128e3414e957b796a39c9bf85a2b">00361</a>                 <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afab9128e3414e957b796a39c9bf85a2b">clearCuePoints</a>() { mCuePoints.clear(); }
+<a name="l00366"></a>00366                 <span class="keywordtype">void</span> setCuePoint(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> index);
+<a name="l00371"></a>00371                 Ogre::Real getCuePoint(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> index);
+<a name="l00374"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a903b1fff391c74ccec0a53cc95e2766c">00374</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a903b1fff391c74ccec0a53cc95e2766c">getNumCuePoints</a>() { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(mCuePoints.size()); }
+<a name="l00379"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a871dfcf8982c962618dc6c66f6f2dca6">00379</a>                 Ogre::Real <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a871dfcf8982c962618dc6c66f6f2dca6">getAudioLength</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mPlayTime; }
+<a name="l00384"></a>00384                 <span class="keyword">virtual</span> <span class="keyword">const</span> Ogre::String&amp; getMovableType(<span class="keywordtype">void</span>) <span class="keyword">const</span>;
+<a name="l00389"></a>00389                 <span class="keyword">virtual</span> <span class="keyword">const</span> Ogre::AxisAlignedBox&amp; getBoundingBox(<span class="keywordtype">void</span>) <span class="keyword">const</span>;
+<a name="l00394"></a>00394                 <span class="keyword">virtual</span> Ogre::Real getBoundingRadius(<span class="keywordtype">void</span>) <span class="keyword">const</span>;
+<a name="l00405"></a>00405                 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00406"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aeda37160ea61a8128fb0d2effb2b7307">00406</a>                 <span class="keywordtype">void</span> setFinishedCallback(T *<span class="keywordtype">object</span>, <span class="keywordtype">void</span>(T::*function)(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a> *sound), <span class="keywordtype">bool</span> enabled=<span class="keyword">true</span>)
+<a name="l00407"></a>00407                 {
+<a name="l00408"></a>00408                         mFinishedCB = <span class="keyword">new</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html" title="Callback template.">OSSCallbackPointer&lt;T&gt;</a>(function, object);
+<a name="l00409"></a>00409                         mFinCBEnabled = enabled;
+<a name="l00410"></a>00410                 }
+<a name="l00417"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#affa5b625f437cf1e7510cd81348e0f96">00417</a>                 <span class="keywordtype">void</span> setFinishedCallbackEnabled(<span class="keywordtype">bool</span> enable)
+<a name="l00418"></a>00418                 {
+<a name="l00419"></a>00419                         mFinCBEnabled = enable;
+<a name="l00420"></a>00420                 }
+<a name="l00421"></a>00421 
+<a name="l00432"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a440071c3b9f0ae46ac01544e50d6a758">00432</a>                 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keywordtype">void</span> setLoopCallback(T *<span class="keywordtype">object</span>, <span class="keywordtype">void</span>(T::*function)(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a> *sound), <span class="keywordtype">bool</span> enabled=<span class="keyword">true</span>)
+<a name="l00433"></a>00433                 {
+<a name="l00434"></a>00434                         mLoopCB = <span class="keyword">new</span> <a class="code" href="class_ogre_ogg_sound_1_1_o_s_s_callback_pointer.html" title="Callback template.">OSSCallbackPointer&lt;T&gt;</a>(function, object);
+<a name="l00435"></a>00435                         mLoopCBEnabled = enabled;
+<a name="l00436"></a>00436                 }
+<a name="l00443"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a34ef56fa58469ec58148a06cac11e3fb">00443</a>                 <span class="keywordtype">void</span> setLoopCallbackEnabled(<span class="keywordtype">bool</span> enable)
+<a name="l00444"></a>00444                 {
+<a name="l00445"></a>00445                         mLoopCBEnabled = enable;
+<a name="l00446"></a>00446                 }
+<a name="l00447"></a>00447 
+<a name="l00453"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ab967d34052cc1add783c98e4cf6eb422">00453</a>                 Ogre::SceneManager* <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ab967d34052cc1add783c98e4cf6eb422">getSceneManager</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mScnMan; }
+<a name="l00454"></a>00454 
+<a name="l00455"></a>00455         <span class="keyword">protected</span>:
+<a name="l00456"></a>00456 
+<a name="l00459"></a>00459                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a>(<span class="keyword">const</span> Ogre::String&amp; name, <span class="keywordtype">bool</span> seekSupport=<span class="keyword">false</span>);
+<a name="l00462"></a>00462                 <span class="keyword">virtual</span> ~<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html" title="A single sound object.">OgreOggISound</a>();
+<a name="l00467"></a>00467                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _openImpl(Ogre::DataStreamPtr&amp; fileStream) = 0;
+<a name="l00473"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a4cea0b52d8a240dc6ca3126c955da30e">00473</a>                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a4cea0b52d8a240dc6ca3126c955da30e">_openImpl</a>(<span class="keyword">const</span> Ogre::String&amp; fName, ALuint&amp; buffer) {};
+<a name="l00478"></a>00478                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _playImpl() = 0;
+<a name="l00483"></a>00483                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _pauseImpl() = 0;
+<a name="l00488"></a>00488                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _stopImpl() = 0;
+<a name="l00493"></a>00493                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _release() = 0;
+<a name="l00498"></a>00498                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _updateRenderQueue(Ogre::RenderQueue *queue);
+<a name="l00503"></a>00503                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _notifyAttached(Ogre::Node* node, <span class="keywordtype">bool</span> isTagPoint=<span class="keyword">false</span>);
+<a name="l00508"></a>00508                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _notifyMoved(<span class="keywordtype">void</span>);
+<a name="l00513"></a>00513                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> visitRenderables(Ogre::Renderable::Visitor* visitor, <span class="keywordtype">bool</span> debugRenderables);
+<a name="l00514"></a>00514 
+<a name="l00519"></a>00519                 <span class="keywordtype">void</span> _initSource();
+<a name="l00525"></a>00525                 <span class="keywordtype">void</span> _markPlayPosition();
+<a name="l00531"></a>00531                 <span class="keywordtype">void</span> _recoverPlayPosition();
+<a name="l00536"></a>00536                 <span class="keywordtype">void</span> _updateFade(Ogre::Real fTime=0.f);
+<a name="l00541"></a>00541                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _updateAudioBuffers() = 0;
+<a name="l00547"></a>00547                 <span class="keyword">virtual</span> <span class="keywordtype">void</span> _prebuffer() = 0;          
+<a name="l00553"></a>00553                 <span class="keyword">virtual</span> <span class="keywordtype">bool</span> _queryBufferInfo()=0;              
+<a name="l00554"></a>00554 
+<a name="l00558"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac81a26ff7bc8ea8706c3defd125d0bc8">00558</a>                 Ogre::Real mFadeTimer;
+<a name="l00559"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a61ffc5cfddf5504793a5d925ac6cf164">00559</a>                 Ogre::Real mFadeTime;
+<a name="l00560"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ad328fb4d0f9538adefc9bcac38fe7df9">00560</a>                 Ogre::Real mFadeInitVol;
+<a name="l00561"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a0c1d16360e124d7b25c247097f149d0e">00561</a>                 Ogre::Real mFadeEndVol;
+<a name="l00562"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a6795a14b4e78298bcf174e657d0dc44f">00562</a>                 <span class="keywordtype">bool</span> mFade;
+<a name="l00563"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#abd778ebb2798e197ee756b25e0f34f3d">00563</a>                 <a class="code" href="namespace_ogre_ogg_sound.html#a22f1223df732e29d78414d082e00c012" title="Action to perform after a fade has completed.">FadeControl</a> mFadeEndAction;
+<a name="l00564"></a>00564 
+<a name="l00565"></a>00565                 <span class="comment">// Ogre resource stream pointer</span>
+<a name="l00566"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">00566</a>                 Ogre::DataStreamPtr mAudioStream;
+<a name="l00567"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afaf91c643f156d13105a84271b1049b2">00567</a>                 ov_callbacks mOggCallbacks;
 <a name="l00568"></a>00568 
-<a name="l00569"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a15e17ebebac492b3c9b12da89ecf5702">00569</a>                 ALfloat mPlayPos;                               <span class="comment">// Playback position in seconds</span>
-<a name="l00570"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aaf33081bb2ede9d259f73486d1866094">00570</a>                 std::deque&lt;Ogre::Real&gt; mCuePoints;      <span class="comment">// List of play position points</span>
-<a name="l00571"></a>00571 
-<a name="l00572"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a7cfed535deaa9c3b1c335b122135c474">00572</a>                 <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html" title="Sound Manager: Manages all sounds for an application.">OgreOggSoundManager</a>;
-<a name="l00573"></a>00573         };
-<a name="l00574"></a>00574 }                                                                                                                         
+<a name="l00569"></a>00569                 <span class="comment">// Callbacks  </span>
+<a name="l00570"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a982b17da305f5b0749305df6cb09c51a">00570</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html" title="Callbacks for sound states.">OOSCallback</a>* mLoopCB;
+<a name="l00571"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a50c3e2827da9137fb9cc90d9c5ee43e6">00571</a>                 <a class="code" href="class_ogre_ogg_sound_1_1_o_o_s_callback.html" title="Callbacks for sound states.">OOSCallback</a>* mFinishedCB;
+<a name="l00572"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aab980fc5fe118ade4df7a2e1509561e2">00572</a>                 <span class="keywordtype">bool</span> mFinCBEnabled;
+<a name="l00573"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa75fa7f71e644543403d4f419e992bd4">00573</a>                 <span class="keywordtype">bool</span> mLoopCBEnabled;
+<a name="l00574"></a>00574 
+<a name="l00575"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac11397029f9374f276d92ec7629609f1">00575</a>                 <span class="keywordtype">size_t</span> mBufferSize;                             <span class="comment">// Size of audio buffer (250ms)</span>
+<a name="l00576"></a>00576 
+<a name="l00579"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac5cfc34ada06cafafc0c6fe7983d1eac">00579</a>                 ALuint mSource;                                 <span class="comment">// OpenAL Source</span>
+<a name="l00580"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5922b7f7f0c5070a9c6fec01f5b32f58">00580</a>                 Ogre::SceneManager* mScnMan;    <span class="comment">// SceneManager pointer for plugin registered sounds</span>
+<a name="l00581"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a82aaad104932a2ee6b47f257d6348a25">00581</a>                 Ogre::uint8 mPriority;                  <span class="comment">// Priority assigned to source </span>
+<a name="l00582"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a78310415a7786c577b69e5bff90008af">00582</a>                 Ogre::Vector3 mPosition;                <span class="comment">// 3D position</span>
+<a name="l00583"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a04cdeff048d11c3f3369f397c624e093">00583</a>                 Ogre::Vector3 mDirection;               <span class="comment">// 3D direction</span>
+<a name="l00584"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa7ade54c675ba13eb3e8f6e0e1bb5d8d">00584</a>                 Ogre::Vector3 mVelocity;                <span class="comment">// 3D velocity</span>
+<a name="l00585"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ae4216a4f73cfa08b6b693a62889724ac">00585</a>                 Ogre::Real mGain;                               <span class="comment">// Current volume</span>
+<a name="l00586"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a9bf0b33b7e999b9ced54a5590e6c5fe9">00586</a>                 Ogre::Real mMaxGain;                    <span class="comment">// Minimum volume</span>
+<a name="l00587"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a91d0e0e03056b08a9ceb89fd72be1554">00587</a>                 Ogre::Real mMinGain;                    <span class="comment">// Maximum volume</span>
+<a name="l00588"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a2c5aa4cbaf9a452b4e01a1ed69223807">00588</a>                 Ogre::Real mMaxDistance;                <span class="comment">// Maximum attenuation distance</span>
+<a name="l00589"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#abe77cda9a652adfe88e65adea2efada2">00589</a>                 Ogre::Real mRolloffFactor;              <span class="comment">// Rolloff factor for attenuation</span>
+<a name="l00590"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#acbba83421bb3ea29b44c76cf88c03493">00590</a>                 Ogre::Real mReferenceDistance;  <span class="comment">// Half-volume distance for attenuation</span>
+<a name="l00591"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a688b09a393bb0d3be1a8e9bffe078633">00591</a>                 Ogre::Real mPitch;                              <span class="comment">// Current pitch </span>
+<a name="l00592"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a14cbd6f5684cc633fa5e941d9de6aec0">00592</a>                 Ogre::Real mOuterConeGain;              <span class="comment">// Outer cone volume</span>
+<a name="l00593"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#af6659c7abac1dd4775a428211a3b391c">00593</a>                 Ogre::Real mInnerConeAngle;             <span class="comment">// Inner cone angle</span>
+<a name="l00594"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5696090372395596160a821442de55fe">00594</a>                 Ogre::Real mOuterConeAngle;             <span class="comment">// outer cone angle</span>
+<a name="l00595"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a9596e3ff04c4c9705b1d0850cff39a8b">00595</a>                 Ogre::Real mPlayTime;                   <span class="comment">// Time in seconds of sound file</span>
+<a name="l00596"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a0ca853bec786878368bfb7262b2737e0">00596</a>                 Ogre::String mName;                             <span class="comment">// Sound name</span>
+<a name="l00597"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aed3deb88b79e5579c5a66ad5d216c945">00597</a>                 <span class="keywordtype">bool</span> mLoop;                                             <span class="comment">// Loop status</span>
+<a name="l00598"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5f2bfbad2bc45abd27819187eb9934be">00598</a>                 <span class="keywordtype">bool</span> mPlay;                                             <span class="comment">// Play status</span>
+<a name="l00599"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5adc8aa7368cf03cf5394e93fbd4ef4f">00599</a>                 <span class="keywordtype">bool</span> mDisable3D;                                <span class="comment">// 3D status</span>
+<a name="l00600"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aa9108889b46052d2b10e96052cfd6336">00600</a>                 <span class="keywordtype">bool</span> mGiveUpSource;                             <span class="comment">// Flag to indicate whether sound should release its source when stopped</span>
+<a name="l00601"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a4f246c084f0ff5df0cff38bd23d30314">00601</a>                 <span class="keywordtype">bool</span> mStream;                                   <span class="comment">// Stream flag</span>
+<a name="l00602"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afbe38a0d8d8212d34ac0cb19e19294f7">00602</a>                 <span class="keywordtype">bool</span> mSourceRelative;                   <span class="comment">// Relative position flag</span>
+<a name="l00603"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afbd70cc73bf1cdba7b0197be944b3441">00603</a>                 <span class="keywordtype">bool</span> mLocalTransformDirty;              <span class="comment">// Transformation update flag</span>
+<a name="l00604"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a94c85445459838ad9d134ea5c495c216">00604</a>                 <span class="keywordtype">bool</span> mPlayPosChanged;                   <span class="comment">// Flag indicating playback position has changed</span>
+<a name="l00605"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a045461031c3d1f305849d695e6220360">00605</a>                 <span class="keywordtype">bool</span> mSeekable;                                 <span class="comment">// Flag indicating seeking available</span>
+<a name="l00606"></a>00606 
+<a name="l00607"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a08b065cd2e530cc68b4920d9d8176ae5">00607</a>                 <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> mAudioOffset;             <span class="comment">// offset to audio data</span>
+<a name="l00608"></a>00608 
+<a name="l00609"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a15e17ebebac492b3c9b12da89ecf5702">00609</a>                 ALfloat mPlayPos;                               <span class="comment">// Playback position in seconds</span>
+<a name="l00610"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aaf33081bb2ede9d259f73486d1866094">00610</a>                 std::deque&lt;Ogre::Real&gt; mCuePoints;      <span class="comment">// List of play position points</span>
+<a name="l00611"></a>00611 
+<a name="l00612"></a>00612 <span class="preprocessor">#if OGGSOUND_THREADED</span>
+<a name="l00613"></a>00613 <span class="preprocessor"></span>                <span class="keywordtype">bool</span> mAwaitingDestruction;              <span class="comment">// Imminent destruction flag</span>
+<a name="l00614"></a>00614 
+<a name="l00623"></a>00623                 <span class="keyword">inline</span> <span class="keywordtype">bool</span> _isDestroying()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mAwaitingDestruction; }
+<a name="l00624"></a>00624 
+<a name="l00633"></a>00633                 <span class="keyword">inline</span> <span class="keywordtype">void</span> _notifyDestroying()  { mAwaitingDestruction=<span class="keyword">true</span>; }
+<a name="l00634"></a>00634 <span class="preprocessor">#endif</span>
+<a name="l00635"></a>00635 <span class="preprocessor"></span>
+<a name="l00636"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a7cfed535deaa9c3b1c335b122135c474">00636</a>                 <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html" title="Sound Manager: Manages all sounds for an application.">OgreOggSoundManager</a>;
+<a name="l00637"></a>00637         };
+<a name="l00638"></a>00638 }                                                                                                                         
 </pre></div></div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 16 11:43:02 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 17 12:02:44 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

@@ -37,14 +37,26 @@
 <tr><td colspan="2"><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ogre_ogg_stream_wav_sound_8cpp.html#aaa9a2bbb6e06930157e48db0627975ff">if</a> (<a class="el" href="_ogre_ogg_stream_wav_sound_8cpp.html#a937d4dd628a8858b443a399410d2600b">result</a>==0)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ogre_ogg_stream_wav_sound_8cpp.html#a9537075e9d49ba36ab9fbbf85d5c0f14">alGetError</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ogre_ogg_stream_wav_sound_8cpp.html#addf7e28bc5d21add67198d0788e2c14a">alBufferData</a> (buffer, mFormat,&amp;audioData[0], static_cast&lt; ALsizei &gt;(audioData.size()), mFormatData-&gt;mSampleRate)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ogre_ogg_stream_wav_sound_8cpp.html#a6ffdf180ab36fffbb4144733e4619cfb">alBufferData</a> (buffer, mFormat,&amp;audioData[0], static_cast&lt; ALsizei &gt;(audioData.size()), mFormatData.mFormat-&gt;mSamplesPerSec)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ogre_ogg_stream_wav_sound_8cpp.html#afe5e305cb52450adf8a9ab90a8006c79">OGRE_FREE</a> (data, Ogre::MEMCATEGORY_GENERAL)</td></tr>
 <tr><td colspan="2"><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ogre_ogg_stream_wav_sound_8cpp.html#a937d4dd628a8858b443a399410d2600b">result</a> = bytes</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">return&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ogre_ogg_stream_wav_sound_8cpp.html#a930920b2bc42824a5c03be681830f4b2">true</a></td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Detailed Description</h2>
+<dl class="author"><dt><b>Author:</b></dt><dd>Ian Stangoe </dd></dl>
+<dl class="version"><dt><b>Version:</b></dt><dd>1.11</dd></dl>
+<h2><a class="anchor" id="LICENSE">
+LICENSE</a></h2>
+<p>This source file is part of <a class="el" href="namespace_ogre_ogg_sound.html">OgreOggSound</a>, an OpenAL wrapper library for use with the Ogre Rendering Engine.</p>
+<p>Copyright 2009 Ian Stangoe</p>
+<p><a class="el" href="namespace_ogre_ogg_sound.html">OgreOggSound</a> is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p><a class="el" href="namespace_ogre_ogg_sound.html">OgreOggSound</a> is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.</p>
+<p>You should have received a copy of the GNU Lesser General Public License along with <a class="el" href="namespace_ogre_ogg_sound.html">OgreOggSound</a>. If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;. </p>
+
+<p>Definition in file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
 <hr/><h2>Function Documentation</h2>
-<a class="anchor" id="addf7e28bc5d21add67198d0788e2c14a"></a><!-- doxytag: member="OgreOggStreamWavSound.cpp::alBufferData" ref="addf7e28bc5d21add67198d0788e2c14a" args="(buffer, mFormat,&amp;audioData[0], static_cast&lt; ALsizei &gt;(audioData.size()), mFormatData&#45;&gt;mSampleRate)" -->
+<a class="anchor" id="a6ffdf180ab36fffbb4144733e4619cfb"></a><!-- doxytag: member="OgreOggStreamWavSound.cpp::alBufferData" ref="a6ffdf180ab36fffbb4144733e4619cfb" args="(buffer, mFormat,&amp;audioData[0], static_cast&lt; ALsizei &gt;(audioData.size()), mFormatData.mFormat&#45;&gt;mSamplesPerSec)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -75,8 +87,8 @@
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">mFormatData-&gt;&nbsp;</td>
-          <td class="paramname"> <em>mSampleRate</em></td><td>&nbsp;</td>
+          <td class="paramtype">mFormatData.mFormat-&gt;&nbsp;</td>
+          <td class="paramname"> <em>mSamplesPerSec</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -122,7 +134,13 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00511">511</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00463">463</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+
+<p><div class="fragment"><pre class="fragment"><a name="l00464"></a>00464                 {
+<a name="l00465"></a>00465                         <a class="code" href="ogreoggstreamsound_8cpp.html#afe5e305cb52450adf8a9ab90a8006c79">OGRE_FREE</a>(data, Ogre::MEMCATEGORY_GENERAL);
+<a name="l00466"></a>00466                         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00467"></a>00467                 }
+</pre></div></p>
 
 </div>
 </div>
@@ -165,7 +183,7 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00507">507</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00459">459</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
 
 </div>
 </div>
@@ -180,12 +198,12 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00524">524</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html#l00476">476</a> of file <a class="el" href="_ogre_ogg_stream_wav_sound_8cpp_source.html">OgreOggStreamWavSound.cpp</a>.</p>
 
 </div>
 </div>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 16 11:43:02 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 17 12:02:45 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
