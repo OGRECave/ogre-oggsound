@@ -104,7 +104,7 @@ namespace OgreOggSound
 
 							do
 							{
-								// Read in chunk id ( 4 bytes )
+								// Read in chunk header
 								mAudioStream->read(&c, sizeof(ChunkHeader));
 
 								// 'data' chunk...
