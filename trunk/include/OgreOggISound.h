@@ -581,6 +581,30 @@ namespace OgreOggSound
 		ALfloat mPlayPos;				// Playback position in seconds
 		std::deque<Ogre::Real> mCuePoints;	// List of play position points
 
+#if OGGSOUND_THREADED
+		bool mAwaitingDestruction;		// Imminent destruction flag
+
+		/** Returns flag indicating an imminent destruction call
+		@remarks
+			Multi-threaded calls are delayed, therefore its possible to cue a destruction 
+			then subsequently request a handle to the same sound object, which would yeild 
+			a valid pointer but could potentially invalidate itself at any moment.. For now
+			this flag will be used to assess the validation a subsequent get() call to 
+			prevent, as much as possible, this occurence.
+		*/
+		inline bool _isDestroying() const { return mAwaitingDestruction; }
+
+		/** Sets flag indicating an imminent destruction call
+		@remarks
+			Multi-threaded calls are delayed, therefore its possible to cue a destruction 
+			then subsequently request a handle to the same sound object, which would yeild 
+			a valid pointer but could potentially invalidate itself at any moment.. For now
+			this flag will be used to assess the validation a subsequent get() call to 
+			prevent, as much as possible, this occurence.
+		*/
+		inline void _notifyDestroying()  { mAwaitingDestruction=true; }
+#endif
+
 		friend class OgreOggSoundManager;
 	};
 }															  

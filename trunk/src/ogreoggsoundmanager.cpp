@@ -528,13 +528,29 @@ namespace OgreOggSound
 	{
 		SoundMap::iterator i = mSoundMap.find(name);
 		if(i == mSoundMap.end()) return 0;
+#if OGGSOUND_THREADED
+		if ( !i->second->_isDestroying() ) 
+			return i->second; 
+		else 
+			return 0;
+#else
 		return i->second;
+#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::hasSound(const std::string& name)
 	{
 		SoundMap::iterator i = mSoundMap.find(name);
-		if(i == mSoundMap.end()) return false; return true;
+		if(i == mSoundMap.end()) 
+			return false; 
+#if OGGSOUND_THREADED
+		if ( !i->second->_isDestroying() ) 
+			return true; 
+		else 
+			return false;
+#else
+		return true;
+#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::destroyAllSounds()
@@ -2203,6 +2219,13 @@ namespace OgreOggSound
 	void OgreOggSoundManager::_requestSoundAction(const SoundAction& action)
 	{
 		if ( !mActionsList || !mDelayedActionsList ) return;
+
+		// Set destruction flag to prevent potentially dangerous 
+		// calls to hasSound()/getSound()
+		if ( action.mAction==LQ_DESTROY )
+		{
+			action.mSound->_notifyDestroying();
+		}
 
 		// If there are queued actions waiting:
 		// add new action to the end of this list.
