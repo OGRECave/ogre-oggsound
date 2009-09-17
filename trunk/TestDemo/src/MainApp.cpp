@@ -117,7 +117,7 @@ void MainApp::createScene()
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
-	/** Sound two - prebuffered, streamed, looping, EFX room effect */
+	/** Sound two - prebuffered, streamed, looping, EFX room effect *
 	sound = 0;
 	if ( sound = mSoundManager->createSound("Two", "two.ogg", false, true, false) )	
 	{
@@ -126,7 +126,7 @@ void MainApp::createScene()
 		mOgreMonster->attachObject(sound);
 		sound->play();
 	}
-	/** Sound three - non streamed, looping, moving */
+	/** Sound three - non streamed, looping, moving *
 	sound = 0;
 	if ( sound = mSoundManager->createSound("Three", "three.ogg", false, true) )
 	{
@@ -136,7 +136,7 @@ void MainApp::createScene()
 		sound->play();
 	}
 	/** Sound one - streamed, looping, EFX Direct filter */
-	mSoundManager->createSound("background", "background.ogg", true, true, true);
+	mSoundManager->createSound("background", "Tutorial.wav", true, true);
 	mSoundManager->getSound("background")->disable3D(true);
 	mSoundManager->getSound("background")->play();		 
 }
