@@ -66,45 +66,48 @@ namespace OgreOggSound
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound::OgreOggISound(const Ogre::String& name, bool seekSupport) : 
-	mName(name),
-	mSource(0), 
-	mLoop(false), 
-	mPlay(false), 
-	mPosition(0,0,0), 
-	mReferenceDistance(1.0f), 
-	mDirection(0,0,0), 
-	mVelocity(0,0,0), 
-	mGain(1.0f), 
-	mMaxDistance(1E10), 
-	mMaxGain(1.0f), 
-	mMinGain(0.0f), 
-	mPitch(1.0f), 
-	mRolloffFactor(1.0f), 
-	mInnerConeAngle(360.0f), 
-	mOuterConeAngle(360.0f), 
-	mOuterConeGain(0.0f), 
-	mPlayTime(0.0f), 
-	mFadeTimer(0.0f), 
-	mFadeTime(1.0f), 
-	mFadeInitVol(0), 
-	mFadeEndVol(1), 
-	mFade(false),  
-	mFadeEndAction(OgreOggSound::FC_NONE),  
-	mStream(false), 
-	mFinCBEnabled(false), 
-	mLoopCBEnabled(false), 
-	mGiveUpSource(false),  
-	mPlayPosChanged(false),  
-	mPlayPos(0.f), 
-	mPriority(0), 
-	mFinishedCB(0), 
-	mLoopCB(0), 
-	mScnMan(0), 
-	mAudioOffset(0),
-	mLocalTransformDirty(true),
-	mDisable3D(false),
-	mSeekable(true),
-	mSourceRelative(false)
+	 mName(name)
+	,mSource(0) 
+	,mLoop(false) 
+	,mPlay(false) 
+	,mPosition(0,0,0) 
+	,mReferenceDistance(1.0f) 
+	,mDirection(0,0,0) 
+	,mVelocity(0,0,0) 
+	,mGain(1.0f) 
+	,mMaxDistance(1E10) 
+	,mMaxGain(1.0f) 
+	,mMinGain(0.0f)
+	,mPitch(1.0f) 
+	,mRolloffFactor(1.0f) 
+	,mInnerConeAngle(360.0f) 
+	,mOuterConeAngle(360.0f) 
+	,mOuterConeGain(0.0f) 
+	,mPlayTime(0.0f) 
+	,mFadeTimer(0.0f) 
+	,mFadeTime(1.0f) 
+	,mFadeInitVol(0) 
+	,mFadeEndVol(1) 
+	,mFade(false) 
+	,mFadeEndAction(OgreOggSound::FC_NONE)  
+	,mStream(false) 
+	,mFinCBEnabled(false) 
+	,mLoopCBEnabled(false) 
+	,mGiveUpSource(false)  
+	,mPlayPosChanged(false)  
+	,mPlayPos(0.f) 
+	,mPriority(0)
+	,mFinishedCB(0) 
+	,mLoopCB(0) 
+	,mScnMan(0)
+	,mAudioOffset(0)
+	,mLocalTransformDirty(true)
+	,mDisable3D(false)
+	,mSeekable(true)
+	,mSourceRelative(false)
+#if OGGSOUND_THREADED
+	,mAwaitingDestruction(false)
+#endif
 	{
 		// Init some oggVorbis callbacks
 		mOggCallbacks.read_func	= OOSStreamRead;
