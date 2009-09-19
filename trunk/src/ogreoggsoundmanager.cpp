@@ -4,24 +4,24 @@
 * @version 1.11
 *
 * @section LICENSE
-* 
-* This source file is part of OgreOggSound, an OpenAL wrapper library for   
-* use with the Ogre Rendering Engine.										 
-*                                                                           
-* Copyright 2009 Ian Stangoe 
-*                                                                           
-* OgreOggSound is free software: you can redistribute it and/or modify		  
-* it under the terms of the GNU Lesser General Public License as published	 
-* by the Free Software Foundation, either version 3 of the License, or		 
-* (at your option) any later version.										 
-*																			 
-* OgreOggSound is distributed in the hope that it will be useful,			 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of			 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the			 
-* GNU Lesser General Public License for more details.						 
-*																			 
-* You should have received a copy of the GNU Lesser General Public License	 
-* along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.	 
+*
+* This source file is part of OgreOggSound, an OpenAL wrapper library for
+* use with the Ogre Rendering Engine.
+*
+* Copyright 2009 Ian Stangoe
+*
+* OgreOggSound is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published
+* by the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* OgreOggSound is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with OgreOggSound.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
 
@@ -123,7 +123,7 @@ namespace OgreOggSound
 			OGRE_FREE(mUpdateThread, Ogre::MEMCATEGORY_GENERAL);
 			mUpdateThread = 0;
 		}
-		if ( mActionsList ) 
+		if ( mActionsList )
 		{
 			SoundAction obj;
 			// Clear out action list
@@ -139,7 +139,7 @@ namespace OgreOggSound
 			}
 			delete mActionsList;
 		}
-		if ( mDelayedActionsList ) 
+		if ( mDelayedActionsList )
 		{
 			SoundAction obj;
 			// Clear out action list
@@ -266,7 +266,7 @@ namespace OgreOggSound
 #	if OGGSOUND_THREADED
 		mUpdateThread = OGRE_NEW_T(boost::thread,Ogre::MEMCATEGORY_GENERAL)(boost::function0<void>(&OgreOggSoundManager::threadUpdate));
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
-		if (queueListSize) 
+		if (queueListSize)
 		{
 			mActionsList = new LocklessQueue<SoundAction>(queueListSize);
 			mDelayedActionsList = new LocklessQueue<SoundAction>(100);
@@ -351,11 +351,11 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	const StringVector OgreOggSoundManager::getSoundList() const
-	{ 
+	{
 		StringVector list;
 		for ( SoundMap::const_iterator iter=mSoundMap.begin(); iter!=mSoundMap.end(); ++iter )
 			list.push_back((*iter).first);
-		return list; 
+		return list;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::setMasterVolume(ALfloat vol)
@@ -536,9 +536,9 @@ namespace OgreOggSound
 		SoundMap::iterator i = mSoundMap.find(name);
 		if(i == mSoundMap.end()) return 0;
 #if OGGSOUND_THREADED
-		if ( !i->second->_isDestroying() ) 
-			return i->second; 
-		else 
+		if ( !i->second->_isDestroying() )
+			return i->second;
+		else
 			return 0;
 #else
 		return i->second;
@@ -548,12 +548,12 @@ namespace OgreOggSound
 	bool OgreOggSoundManager::hasSound(const std::string& name)
 	{
 		SoundMap::iterator i = mSoundMap.find(name);
-		if(i == mSoundMap.end()) 
-			return false; 
+		if(i == mSoundMap.end())
+			return false;
 #if OGGSOUND_THREADED
-		if ( !i->second->_isDestroying() ) 
-			return true; 
-		else 
+		if ( !i->second->_isDestroying() )
+			return true;
+		else
 			return false;
 #else
 		return true;
@@ -670,7 +670,7 @@ namespace OgreOggSound
 		while( i != mActiveSounds.end() )
 		{
 			(*i)->update(fTime);
-	#if !OGGSOUND_THREADED 
+	#if !OGGSOUND_THREADED
 			(*i)->_updateAudioBuffers();
 	#endif
 			++i;
@@ -1400,72 +1400,6 @@ namespace OgreOggSound
 
 		alListenerf(AL_METERS_PER_UNIT, units);
 	}
-#endif
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_destroyAllSoundsImpl()
-	{
-		// Destroy all sounds
-		SoundMap::iterator i = mSoundMap.begin();
-		while(i != mSoundMap.end())
-		{
-			delete i->second;
-			++i;
-		}
-
-		mSoundMap.clear();
-		// Shared buffers
-		SharedBufferList::iterator b = mSharedBuffers.begin();
-		while (b != mSharedBuffers.end())
-		{
-			if ( b->second->mRefCount>0 )
-				alDeleteBuffers(1, &b->second->mAudioBuffer);
-			delete b->second;
-			++b;
-		}
-
-		mSharedBuffers.clear();
-
-		// Clear queues
-		mActiveSounds.clear();
-		mPausedSounds.clear();
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_stopAllSoundsImpl()
-	{
-		if (mActiveSounds.empty()) return;
-
-		for (ActiveList::const_iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
-		{
-			(*iter)->stop();
-		}
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_pauseAllSoundsImpl()
-	{
-		if (mActiveSounds.empty()) return;
-
-		for (ActiveList::const_iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
-		{
-			if ( (*iter)->isPlaying() && !(*iter)->isPaused() )
-			{
-				// Pause sound
-				(*iter)->pause();
-
-				// Add to list to allow resuming
-				mPausedSounds.push_back((*iter));
-			}
-		}
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_resumeAllPausedSoundsImpl()
-	{
-		if (mPausedSounds.empty()) return;
-
-		for (ActiveList::const_iterator iter=mPausedSounds.begin(); iter!=mPausedSounds.end(); ++iter)
-			(*iter)->play();
-
-		mPausedSounds.clear();
-	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_setEAXReverbProperties(EFXEAXREVERBPROPERTIES *pEFXEAXReverb, ALuint uiEffect)
 	{
@@ -1776,7 +1710,6 @@ namespace OgreOggSound
 
 		return false;
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_checkXRAMSupport()
 	{
@@ -1806,6 +1739,72 @@ namespace OgreOggSound
 		}
 		return false;
 	}
+#endif
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_destroyAllSoundsImpl()
+	{
+		// Destroy all sounds
+		SoundMap::iterator i = mSoundMap.begin();
+		while(i != mSoundMap.end())
+		{
+			delete i->second;
+			++i;
+		}
+
+		mSoundMap.clear();
+		// Shared buffers
+		SharedBufferList::iterator b = mSharedBuffers.begin();
+		while (b != mSharedBuffers.end())
+		{
+			if ( b->second->mRefCount>0 )
+				alDeleteBuffers(1, &b->second->mAudioBuffer);
+			delete b->second;
+			++b;
+		}
+
+		mSharedBuffers.clear();
+
+		// Clear queues
+		mActiveSounds.clear();
+		mPausedSounds.clear();
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_stopAllSoundsImpl()
+	{
+		if (mActiveSounds.empty()) return;
+
+		for (ActiveList::const_iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
+		{
+			(*iter)->stop();
+		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_pauseAllSoundsImpl()
+	{
+		if (mActiveSounds.empty()) return;
+
+		for (ActiveList::const_iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
+		{
+			if ( (*iter)->isPlaying() && !(*iter)->isPaused() )
+			{
+				// Pause sound
+				(*iter)->pause();
+
+				// Add to list to allow resuming
+				mPausedSounds.push_back((*iter));
+			}
+		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_resumeAllPausedSoundsImpl()
+	{
+		if (mPausedSounds.empty()) return;
+
+		for (ActiveList::const_iterator iter=mPausedSounds.begin(); iter!=mPausedSounds.end(); ++iter)
+			(*iter)->play();
+
+		mPausedSounds.clear();
+	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_loadSoundImpl(OgreOggISound* sound, const Ogre::String& file, ALuint buf, bool prebuffer)
 	{
@@ -1831,7 +1830,7 @@ namespace OgreOggSound
 
 		// Load audio file
 		sound->_openImpl(stream);
-	
+
 		// If requested to preBuffer - grab free source and init
 		if (prebuffer)
 		{
@@ -1870,8 +1869,8 @@ namespace OgreOggSound
 				else
 					++iter;
 			}
-		}	
-		/** Active sound list 
+		}
+		/** Active sound list
 		*/
 		if ( !mActiveSounds.empty() )
 		{
@@ -1883,7 +1882,7 @@ namespace OgreOggSound
 				else
 					++iter;
 			}
-		}	
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_releaseSoundImpl(OgreOggISound* sound)
@@ -1897,7 +1896,7 @@ namespace OgreOggSound
 		// Remove references from lists
 		_removeFromLists(sound);
 
-		// Delete sound 
+		// Delete sound
 		OGRE_DELETE_T(sound, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1914,7 +1913,7 @@ namespace OgreOggSound
 		// else call _destroy() directly
 		else
 			_releaseSoundImpl(sound);
-	
+
 		if (i != mSoundMap.end())
 		{
 			// Remove from map
@@ -2227,7 +2226,7 @@ namespace OgreOggSound
 	{
 		if ( !mActionsList || !mDelayedActionsList ) return;
 
-		// Set destruction flag to prevent potentially dangerous 
+		// Set destruction flag to prevent potentially dangerous
 		// calls to hasSound()/getSound()
 		if ( action.mAction==LQ_DESTROY )
 		{
