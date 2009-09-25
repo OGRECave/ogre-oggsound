@@ -269,7 +269,7 @@ namespace OgreOggSound
 		if (queueListSize)
 		{
 			mActionsList = new LocklessQueue<SoundAction>(queueListSize);
-			mDelayedActionsList = new LocklessQueue<SoundAction>(100);
+			mDelayedActionsList = new LocklessQueue<SoundAction>(1000);
 		}
 #	endif
 

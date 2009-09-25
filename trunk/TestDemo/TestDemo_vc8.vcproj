@@ -39,6 +39,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP2"
 				Optimization="0"
 				AdditionalIncludeDirectories="./include;&quot;$(OGRE_HOME)\OgreMain\include&quot;;&quot;$(OGRE_HOME)\Dependencies\include\&quot;;&quot;$(OGRE_HOME)\Dependencies\include\OIS&quot;;&quot;$(BOOST_ROOT)&quot;;..\include;&quot;$(OPENAL_SDK)\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
