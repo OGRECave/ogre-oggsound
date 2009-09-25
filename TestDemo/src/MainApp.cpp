@@ -136,7 +136,7 @@ void MainApp::createScene()
 		sound->play();
 	}
 	/** Sound one - streamed, looping, EFX Direct filter */
-	mSoundManager->createSound("background", "Tutorial.wav", true, true);
+	mSoundManager->createSound("background", "background.wav", true, true);
 	mSoundManager->getSound("background")->disable3D(true);
 	mSoundManager->getSound("background")->play();		 
 }

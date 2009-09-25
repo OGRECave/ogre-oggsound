@@ -113,12 +113,6 @@ namespace OgreOggSound
 									// Store byte offset of start of audio data
 									mAudioOffset = static_cast<unsigned long>(mAudioStream->tell());
 
-									// Allocate array
-									sound_buffer = OGRE_ALLOC_T(char, c.length, Ogre::MEMCATEGORY_GENERAL);
-
-									// Read entire sound data
-									bytesRead = static_cast<int>(mAudioStream->read(sound_buffer, c.length));
-
 									// Jump out
 									break;
 								}
