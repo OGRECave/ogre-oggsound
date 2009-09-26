@@ -117,9 +117,9 @@ void MainApp::createScene()
 
 	mCamera->getParentSceneNode()->attachObject(mSoundManager->getListener());
 
-	/** Sound two - prebuffered, streamed, looping, EFX room effect *
+	/** Sound two - prebuffered, streamed, looping */
 	sound = 0;
-	if ( sound = mSoundManager->createSound("Two", "two.ogg", false, true, false) )	
+	if ( sound = mSoundManager->createSound("Two", "checkout.wav", true, false, false) )	
 	{
 		sound->setMaxDistance(300);
 		sound->setReferenceDistance(100);
@@ -136,7 +136,7 @@ void MainApp::createScene()
 		sound->play();
 	}
 	/** Sound one - streamed, looping, EFX Direct filter */
-	mSoundManager->createSound("background", "fiveptone.wav", false, true);
+	mSoundManager->createSound("background", "two.ogg", true, true);
 	mSoundManager->getSound("background")->disable3D(true);
 	mSoundManager->getSound("background")->play();		 
 }
