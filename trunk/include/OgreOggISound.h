@@ -605,6 +605,7 @@ namespace OgreOggSound
 		bool mSeekable;					// Flag indicating seeking available
 
 		unsigned long mAudioOffset;		// offset to audio data
+		unsigned long mAudioEnd;		// offset to audio data
 
 		ALfloat mPlayPos;				// Playback position in seconds
 		std::deque<Ogre::Real> mCuePoints;	// List of play position points
