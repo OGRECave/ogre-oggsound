@@ -136,6 +136,11 @@ namespace OgreOggSound
 							}
 							while ( mAudioStream->eof() || c.chunkID[0]!='d' || c.chunkID[1]!='a' || c.chunkID[2]!='t' || c.chunkID[3]!='a' );							
 						}
+						else 
+						{
+							Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - Compressed WAV NOT supported!!", Ogre::LML_CRITICAL);
+							throw std::string("WAVE load fail!");
+						}
 					}
 					else
 					{

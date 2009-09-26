@@ -75,7 +75,7 @@ namespace OgreOggSound
 				// Valid 'fmt '?
 				if ( mFormatData.mFormat->mFMT[0]=='f' && mFormatData.mFormat->mFMT[1]=='m' && mFormatData.mFormat->mFMT[2]=='t' && mFormatData.mFormat->mFMT[3]==' ' )
 				{
-					// SmFormatData.mFormat->uld be 16 unless compressed ( compressed NOT supported )
+					// Should be 16 unless compressed ( compressed NOT supported )
 					if ( mFormatData.mFormat->mHeaderSize>=16 )
 					{
 						// PCM == 1
@@ -84,7 +84,7 @@ namespace OgreOggSound
 							// Samples check..
 							if ( (mFormatData.mFormat->mBitsPerSample!=16) && (mFormatData.mFormat->mBitsPerSample!=8) )
 							{
-								Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - WAV BitsPerSample not 8/16!!", Ogre::LML_CRITICAL);
+								Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStreamWavSound::open() - WAV BitsPerSample not 8/16!!", Ogre::LML_CRITICAL);
 								throw std::string("WAVE load fail!");
 							}
 
@@ -121,35 +121,37 @@ namespace OgreOggSound
 								}
 								// Unsupported chunk...
 								else
-								{
 									mAudioStream->skip(c.length);
-									mAudioStream->read(&c, sizeof(ChunkHeader));
-								}							
 							}
 							while ( mAudioStream->eof() || c.chunkID[0]!='d' || c.chunkID[1]!='a' || c.chunkID[2]!='t' || c.chunkID[3]!='a' );							
+						}
+						else 
+						{
+							Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStreamWavSound::open() - Compressed WAV NOT supported!!", Ogre::LML_CRITICAL);
+							throw std::string("WAVE load fail!");
 						}
 					}
 					else
 					{
-						Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - WAV not PCM!!", Ogre::LML_CRITICAL);
+						Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStreamWavSound::open() - WAV not PCM!!", Ogre::LML_CRITICAL);
 						throw std::string("WAVE load fail!");
 					}
 				}
 				else
 				{
-					Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - Invalid format!!", Ogre::LML_CRITICAL);
+					Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStreamWavSound::open() - Invalid format!!", Ogre::LML_CRITICAL);
 					throw std::string("WAVE load fail!");
 				}
 			}
 			else
 			{
-				Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - Not a valid WAVE file!!", Ogre::LML_CRITICAL);
+				Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStreamWavSound::open() - Not a valid WAVE file!!", Ogre::LML_CRITICAL);
 				throw std::string("WAVE load fail!");
 			}
 		}
 		else
 		{
-			Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - Not a valid RIFF file!!", Ogre::LML_CRITICAL);
+			Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStreamWavSound::open() - Not a valid RIFF file!!", Ogre::LML_CRITICAL);
 			throw std::string("WAVE load fail!");
 		}
 
