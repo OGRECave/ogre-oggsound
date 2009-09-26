@@ -119,14 +119,14 @@ void MainApp::createScene()
 
 	/** Sound two - prebuffered, streamed, looping */
 	sound = 0;
-	if ( sound = mSoundManager->createSound("Two", "checkout.wav", true, false, false) )	
+	if ( sound = mSoundManager->createSound("Two", "two.ogg", true, true, true) )	
 	{
 		sound->setMaxDistance(300);
 		sound->setReferenceDistance(100);
 		mOgreMonster->attachObject(sound);
 		sound->play();
 	}
-	/** Sound three - non streamed, looping, moving *
+	/** Sound three - non streamed, looping, moving */
 	sound = 0;
 	if ( sound = mSoundManager->createSound("Three", "three.ogg", false, true) )
 	{
@@ -136,7 +136,7 @@ void MainApp::createScene()
 		sound->play();
 	}
 	/** Sound one - streamed, looping, EFX Direct filter */
-	mSoundManager->createSound("background", "two.ogg", true, true);
+	mSoundManager->createSound("background", "background.ogg", true, true);
 	mSoundManager->getSound("background")->disable3D(true);
 	mSoundManager->getSound("background")->play();		 
 }
