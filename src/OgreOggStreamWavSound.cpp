@@ -113,12 +113,18 @@ namespace OgreOggSound
 									// Store byte offset of start of audio data
 									mAudioOffset = static_cast<unsigned long>(mAudioStream->tell());
 
+									// Store end 
+									mAudioEnd = mAudioOffset+c.length;
+
 									// Jump out
 									break;
 								}
 								// Unsupported chunk...
 								else
+								{
 									mAudioStream->skip(c.length);
+									mAudioStream->read(&c, sizeof(ChunkHeader));
+								}							
 							}
 							while ( mAudioStream->eof() || c.chunkID[0]!='d' || c.chunkID[1]!='a' || c.chunkID[2]!='t' || c.chunkID[3]!='a' );							
 						}
@@ -161,7 +167,7 @@ namespace OgreOggSound
 		}
 
 		// Calculate length in seconds
-		mPlayTime = ((mFormatData.mFormat->mLength-mAudioOffset) / ((mFormatData.mFormat->mBitsPerSample/8) * mFormatData.mFormat->mSamplesPerSec)) / mFormatData.mFormat->mChannels;
+		mPlayTime = ((mAudioEnd-mAudioOffset) / ((mFormatData.mFormat->mBitsPerSample/8) * mFormatData.mFormat->mSamplesPerSec)) / mFormatData.mFormat->mChannels;
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// Upload to XRAM buffers if available
@@ -418,24 +424,27 @@ namespace OgreOggSound
 		// Read only what was asked for
 		while(static_cast<int>(audioData.size()) < mBufferSize)
 		{
-			// Read up to a buffer's worth of data
-			bytes = static_cast<int>(mAudioStream->read(data, mBufferSize));
-			// EOF check
-			if (mAudioStream->eof())
+			size_t currPos = mAudioStream->tell();
+			// Is looping about to occur?
+			if ( (currPos+mBufferSize) > mAudioEnd )
 			{
+				// Calculate remaining data size
+				size_t remaining = mAudioEnd-currPos;
+				// Read up to a buffer's worth of data
+				bytes = static_cast<int>(mAudioStream->read(data, remaining));
 				// If set to loop wrap to start of stream
 				if ( mLoop )
 				{
 					mAudioStream->seek(mAudioOffset);
 					/**	This is the closest we can get to a loop trigger.
-						If, whilst filling the buffers, we need to wrap the stream
-						pointer, trigger the loop callback if defined.
-						NOTE:- The accuracy of this method will be affected by a number of
-						parameters, namely the buffer size, whether the sound has previously
-						given up its source (therefore it will be re-filling all buffers, which,
-						if the sound was close to eof will likely get triggered), and the quality
-						of the sound, lower quality will hold a longer section of audio per buffer.
-						In ALL cases this trigger will happen BEFORE the audio audibly loops!!
+					If, whilst filling the buffers, we need to wrap the stream
+					pointer, trigger the loop callback if defined.
+					NOTE:- The accuracy of this method will be affected by a number of
+					parameters, namely the buffer size, whether the sound has previously
+					given up its source (therefore it will be re-filling all buffers, which,
+					if the sound was close to eof will likely get triggered), and the quality
+					of the sound, lower quality will hold a longer section of audio per buffer.
+					In ALL cases this trigger will happen BEFORE the audio audibly loops!!
 					*/
 					if ( mLoopCB && mLoopCBEnabled )
 						mLoopCB->execute(static_cast<OgreOggISound*>(this));
@@ -446,11 +455,47 @@ namespace OgreOggSound
 					// EOF - finish.
 					if (bytes==0) break;
 				}
+				// Append to end of buffer
+				audioData.insert(audioData.end(), data, data + bytes);
+				// Keep track of read data
+				result+=bytes;
 			}
-			// Append to end of buffer
-			audioData.insert(audioData.end(), data, data + bytes);
-			// Keep track of read data
-			result+=bytes;
+			else
+			{
+				// Read up to a buffer's worth of data
+				bytes = static_cast<int>(mAudioStream->read(data, mBufferSize));
+				// EOF check
+				if (mAudioStream->eof())
+				{
+					// If set to loop wrap to start of stream
+					if ( mLoop )
+					{
+						mAudioStream->seek(mAudioOffset);
+						/**	This is the closest we can get to a loop trigger.
+						If, whilst filling the buffers, we need to wrap the stream
+						pointer, trigger the loop callback if defined.
+						NOTE:- The accuracy of this method will be affected by a number of
+						parameters, namely the buffer size, whether the sound has previously
+						given up its source (therefore it will be re-filling all buffers, which,
+						if the sound was close to eof will likely get triggered), and the quality
+						of the sound, lower quality will hold a longer section of audio per buffer.
+						In ALL cases this trigger will happen BEFORE the audio audibly loops!!
+						*/
+						if ( mLoopCB && mLoopCBEnabled )
+							mLoopCB->execute(static_cast<OgreOggISound*>(this));
+					}
+					else
+					{
+						mStreamEOF=true;
+						// EOF - finish.
+						if (bytes==0) break;
+					}
+				}
+				// Append to end of buffer
+				audioData.insert(audioData.end(), data, data + bytes);
+				// Keep track of read data
+				result+=bytes;
+			}
 		}
 
 		// EOF
