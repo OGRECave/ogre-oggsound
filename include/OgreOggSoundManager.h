@@ -140,6 +140,9 @@ namespace OgreOggSound
 				global attenuation for all sounds.
 		 */
 		void setMasterVolume(ALfloat vol);
+		/** Gets number of currently created sounds
+		 */
+		unsigned int getNumSounds() const { return static_cast<unsigned int>(mSoundMap.size()); }
 		/** Gets the current global volume for all sounds
 		 */
 		ALfloat getMasterVolume();
