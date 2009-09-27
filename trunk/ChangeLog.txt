@@ -1,3 +1,17 @@
+* Version 1.12
+
+	* Bug fix - delayedActionsList wasn't being executed.
+	
+	* Bug fix - mFormatData.mFormat pointer wasn't being initialised resulting in possible crash 
+		    on cleanup if using shared buffer (static Wav only)
+
+	* Bug fix - mPlaytime not calculated correctly for stereo wav sounds
+
+	* Bug fix - Added a file size check and adjustment for wav sounds
+	
+	* Added getNumSounds() to SoundManager
+
+
 * Version 1.11
 
 	* Major overhaul to improve multi-threaded performance

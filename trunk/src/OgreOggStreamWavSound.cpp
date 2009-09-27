@@ -39,7 +39,8 @@ namespace OgreOggSound
 	OgreOggStreamWavSound::OgreOggStreamWavSound(const Ogre::String& name) : OgreOggISound(name)
 	, mStreamEOF(false)
 	{
-		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=AL_NONE;
+		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=AL_NONE;	
+		mFormatData.mFormat=0;
 		mStream = true;	   
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -113,8 +114,11 @@ namespace OgreOggSound
 									// Store byte offset of start of audio data
 									mAudioOffset = static_cast<unsigned long>(mAudioStream->tell());
 
-									// Store end 
-									mAudioEnd = mAudioOffset+c.length;
+									// Check data size
+									int fileCheck = c.length % mFormatData.mFormat->mBlockAlign;
+
+									// Store end pos
+									mAudioEnd = mAudioOffset+(c.length-fileCheck);
 
 									// Jump out
 									break;
@@ -169,7 +173,7 @@ namespace OgreOggSound
 		}
 
 		// Calculate length in seconds
-		mPlayTime = ((mAudioEnd-mAudioOffset) / ((mFormatData.mFormat->mBitsPerSample/8) * mFormatData.mFormat->mSamplesPerSec)) / mFormatData.mFormat->mChannels;
+		mPlayTime = (mAudioEnd-mAudioOffset) / (mFormatData.mFormat->mSamplesPerSec / mFormatData.mFormat->mChannels);
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// Upload to XRAM buffers if available

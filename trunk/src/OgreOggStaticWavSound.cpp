@@ -42,6 +42,7 @@ namespace OgreOggSound
 		,mBuffer(0)
 		{
 			mStream=false;
+			mFormatData.mFormat=0;
 			mBufferData.clear();
 		}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -118,14 +119,17 @@ namespace OgreOggSound
 									// Store byte offset of start of audio data
 									mAudioOffset = static_cast<unsigned long>(mAudioStream->tell());
 
+									// Check data size
+									int fileCheck = c.length % mFormatData.mFormat->mBlockAlign;
+
 									// Store end pos
-									mAudioEnd = mAudioOffset+c.length;
+									mAudioEnd = mAudioOffset+(c.length-fileCheck);
 
 									// Allocate array
-									sound_buffer = OGRE_ALLOC_T(char, c.length, Ogre::MEMCATEGORY_GENERAL);
+									sound_buffer = OGRE_ALLOC_T(char, mAudioEnd-mAudioOffset, Ogre::MEMCATEGORY_GENERAL);
 
 									// Read entire sound data
-									bytesRead = static_cast<int>(mAudioStream->read(sound_buffer, c.length));
+									bytesRead = static_cast<int>(mAudioStream->read(sound_buffer, mAudioEnd-mAudioOffset));
 
 									// Jump out
 									break;
@@ -183,7 +187,7 @@ namespace OgreOggSound
 			throw std::string("Format NOT supported!");
 
 		// Calculate length in seconds
-		mPlayTime = ((mAudioEnd-mAudioOffset) / ((mFormatData.mFormat->mBitsPerSample/8) * mFormatData.mFormat->mSamplesPerSec)) / mFormatData.mFormat->mChannels;
+		mPlayTime = (mAudioEnd-mAudioOffset) / (mFormatData.mFormat->mSamplesPerSec / mFormatData.mFormat->mChannels);
 
 		alGetError();
 		alBufferData(mBuffer, mFormat, sound_buffer, static_cast<ALsizei>(bytesRead), mFormatData.mFormat->mSamplesPerSec);

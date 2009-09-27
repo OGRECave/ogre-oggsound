@@ -2284,9 +2284,39 @@ namespace OgreOggSound
 				break;
 			}
 
-			// If there are queued actions - push one onto the main queue
-			if ( mDelayedActionsList->pop(act) )
-				_requestSoundAction(act);
+		}
+
+		if ( i<5 )
+		{
+			while ( ((i++)<5) && mDelayedActionsList->pop(act) )
+			{
+				switch ( act.mAction )
+				{
+				case LQ_PLAY:			{ act.mSound->_playImpl(); }		break;
+				case LQ_PAUSE:			{ act.mSound->_pauseImpl();	}		break;
+				case LQ_STOP:			{ act.mSound->_stopImpl();	}		break;
+				case LQ_DESTROY:		{ _destroySoundImpl(act.mSound); }	break;
+				case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); }		break;
+				case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); }			break;
+				case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); }			break;
+				case LQ_RESUME_ALL:		{ _resumeAllPausedSoundsImpl(); }	break;
+				case LQ_LOAD:
+					{
+						cSound* c = static_cast<cSound*>(act.mParams);
+						if ( c->mBuffer!=AL_NONE )
+							_loadSoundImpl(act.mSound, c->mFileName, c->mBuffer, c->mPrebuffer);
+						else
+							_loadSoundImpl(act.mSound, c->mStream, c->mPrebuffer);
+
+						// Cleanup..
+						c->mStream.setNull();
+
+						// Delete
+						OGRE_FREE(c, Ogre::MEMCATEGORY_GENERAL);
+					}
+					break;
+				}
+			}
 		}
 	}
 #endif
