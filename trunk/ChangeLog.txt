@@ -8,6 +8,8 @@
 	* Bug fix - mPlaytime not calculated correctly for stereo wav sounds
 
 	* Bug fix - Added a file size check and adjustment for wav sounds
+
+	* Bug fix - isStopped() not correctly reporting state - can cause sounds not to play when source limit reached.
 	
 	* Added getNumSounds() to SoundManager
 
@@ -15,8 +17,7 @@
 * Version 1.11
 
 	* Major overhaul to improve multi-threaded performance
-		* Removed all mutex locks, therefore status is experimental until passed stable by testing.
-		* Removed/added numerous internal functions to a number of classes.
+		* Removed all mutex locks, therefore status is experimental until passed stable by testing.		* Removed/added numerous internal functions to a number of classes.
 
 	
 	* Interface breaking changes:
@@ -94,8 +95,7 @@
 	
 	* Fixed memory leak in TestDemo (OIS not cleaned up properly)
 
-	
-* version 1.08
+	* version 1.08
 
 	* Added mute/unmute functions to OgreOggSoundManager
 
