@@ -521,7 +521,7 @@ namespace OgreOggSound
 			ALenum state;
 			alGetError();    
 			alGetSourcei(mSource, AL_SOURCE_STATE, &state);
-			return (state == AL_STOPPED);
+			return (state == AL_STOPPED || state == AL_INITIAL);
 		}
 
 		return true;
