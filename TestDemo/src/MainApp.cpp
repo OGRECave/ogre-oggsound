@@ -235,7 +235,21 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 //-----------------------------------------------------------------------
 bool MainApp::keyReleased( const OIS::KeyEvent &arg )
 {	
-	return true;
+/*	if ( arg.key==OIS::KC_C )
+	{
+		for ( int i=0; i<10; i++, num++ )
+		{
+			static int num=0;
+			OgreOggISound* sound=0;
+			name="Sound"+Ogre::StringConverter::toString(num);
+			if ( sound = mSoundManager->createSound(name,"four.wav") )
+			{
+				sound->markTemporary();
+				sound->play();
+			}
+		}
+	}
+*/	return true;
 }
 //-----------------------------------------------------------------------
 bool MainApp::mouseMoved(const OIS::MouseEvent &arg)
