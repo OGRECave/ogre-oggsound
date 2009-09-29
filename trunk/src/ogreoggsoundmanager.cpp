@@ -43,7 +43,7 @@ namespace OgreOggSound
 {
 	using namespace Ogre;
 
-	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.11";
+	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.12";
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::OgreOggSoundManager() :
@@ -800,8 +800,6 @@ namespace OgreOggSound
 					(*iter)->setSource(nullSrc);
 					// Attach source to new sound
 					sound->setSource(src);
-					// Add to reactivate list
-					mSoundsToReactivate.push_back((*iter));
 					// Remove relinquished sound from active list
 					mActiveSounds.erase(iter);
 					// Add new sound to active list
@@ -817,7 +815,7 @@ namespace OgreOggSound
 			Ogre::uint8 priority = sound->getPriority();
 			iter = mActiveSounds.begin();
 
-			// Search for a stopped sound
+			// Search for a lower priority sound
 			while ( iter!=mActiveSounds.end() )
 			{
 				// Find a stopped sound - reuse its source
@@ -2255,14 +2253,17 @@ namespace OgreOggSound
 
 		SoundAction act;
 		int i=0;
+
+		// Perform sound requests 
+		// Maximum 5 requests per frame
 		while ( ((i++)<5) && mActionsList->pop(act) )
 		{
 			switch ( act.mAction )
 			{
-			case LQ_PLAY:			{ act.mSound->_playImpl(); }		break;
-			case LQ_PAUSE:			{ act.mSound->_pauseImpl();	}		break;
-			case LQ_STOP:			{ act.mSound->_stopImpl();	}		break;
-			case LQ_DESTROY:		{ _destroySoundImpl(act.mSound); }	break;
+			case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); }		break;
+			case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl();	}		break;
+			case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl();	}		break;
+			case LQ_DESTROY:		{ if ( act.mSound ) _destroySoundImpl(act.mSound); }	break;
 			case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); }		break;
 			case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); }			break;
 			case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); }			break;
@@ -2270,11 +2271,13 @@ namespace OgreOggSound
 			case LQ_LOAD:
 				{
 					cSound* c = static_cast<cSound*>(act.mParams);
-					if ( c->mBuffer!=AL_NONE )
-						_loadSoundImpl(act.mSound, c->mFileName, c->mBuffer, c->mPrebuffer);
-					else
-						_loadSoundImpl(act.mSound, c->mStream, c->mPrebuffer);
-
+					if ( act.mSound ) 
+					{
+						if ( c->mBuffer!=AL_NONE )
+							_loadSoundImpl(act.mSound, c->mFileName, c->mBuffer, c->mPrebuffer);
+						else
+							_loadSoundImpl(act.mSound, c->mStream, c->mPrebuffer);
+					}
 					// Cleanup..
 					c->mStream.setNull();
 
@@ -2283,19 +2286,21 @@ namespace OgreOggSound
 				}
 				break;
 			}
-
 		}
 
+		// If main list is empty and there are queued requests
+		// Start clearing them out...
 		if ( i<5 )
 		{
+			// Maximum 5 requests per frame
 			while ( ((i++)<5) && mDelayedActionsList->pop(act) )
 			{
 				switch ( act.mAction )
 				{
-				case LQ_PLAY:			{ act.mSound->_playImpl(); }		break;
-				case LQ_PAUSE:			{ act.mSound->_pauseImpl();	}		break;
-				case LQ_STOP:			{ act.mSound->_stopImpl();	}		break;
-				case LQ_DESTROY:		{ _destroySoundImpl(act.mSound); }	break;
+				case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); }		break;
+				case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl();	}		break;
+				case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl();	}		break;
+				case LQ_DESTROY:		{ if ( act.mSound ) _destroySoundImpl(act.mSound); }	break;
 				case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); }		break;
 				case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); }			break;
 				case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); }			break;
@@ -2303,11 +2308,13 @@ namespace OgreOggSound
 				case LQ_LOAD:
 					{
 						cSound* c = static_cast<cSound*>(act.mParams);
-						if ( c->mBuffer!=AL_NONE )
-							_loadSoundImpl(act.mSound, c->mFileName, c->mBuffer, c->mPrebuffer);
-						else
-							_loadSoundImpl(act.mSound, c->mStream, c->mPrebuffer);
-
+						if ( act.mSound ) 
+						{
+							if ( c->mBuffer!=AL_NONE )
+								_loadSoundImpl(act.mSound, c->mFileName, c->mBuffer, c->mPrebuffer);
+							else
+								_loadSoundImpl(act.mSound, c->mStream, c->mPrebuffer);
+						}
 						// Cleanup..
 						c->mStream.setNull();
 

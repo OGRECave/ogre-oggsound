@@ -168,6 +168,7 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a94c85445459838ad9d134ea5c495c216">mPlayPosChanged</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a045461031c3d1f305849d695e6220360">mSeekable</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">unsigned long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a08b065cd2e530cc68b4920d9d8176ae5">mAudioOffset</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a533cfa08624fdd9fd22e1cdfbacd4b4d">mAudioEnd</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ALfloat&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a15e17ebebac492b3c9b12da89ecf5702">mPlayPos</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::deque&lt; Ogre::Real &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#aaf33081bb2ede9d259f73486d1866094">mCuePoints</a></td></tr>
 <tr><td colspan="2"><h2>Friends</h2></td></tr>
@@ -243,20 +244,21 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <a name="l00108"></a>00108         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a982b17da305f5b0749305df6cb09c51a">mLoopCB</a>(0) 
 <a name="l00109"></a>00109         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5922b7f7f0c5070a9c6fec01f5b32f58">mScnMan</a>(0)
 <a name="l00110"></a>00110         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a08b065cd2e530cc68b4920d9d8176ae5">mAudioOffset</a>(0)
-<a name="l00111"></a>00111         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afbd70cc73bf1cdba7b0197be944b3441">mLocalTransformDirty</a>(<span class="keyword">true</span>)
-<a name="l00112"></a>00112         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5adc8aa7368cf03cf5394e93fbd4ef4f">mDisable3D</a>(<span class="keyword">false</span>)
-<a name="l00113"></a>00113         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a045461031c3d1f305849d695e6220360">mSeekable</a>(<span class="keyword">true</span>)
-<a name="l00114"></a>00114         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afbe38a0d8d8212d34ac0cb19e19294f7">mSourceRelative</a>(<span class="keyword">false</span>)
-<a name="l00115"></a>00115 <span class="preprocessor">#if OGGSOUND_THREADED</span>
-<a name="l00116"></a>00116 <span class="preprocessor"></span>        ,mAwaitingDestruction(<span class="keyword">false</span>)
-<a name="l00117"></a>00117 <span class="preprocessor">#endif</span>
-<a name="l00118"></a>00118 <span class="preprocessor"></span>        {
-<a name="l00119"></a>00119                 <span class="comment">// Init some oggVorbis callbacks</span>
-<a name="l00120"></a>00120                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afaf91c643f156d13105a84271b1049b2">mOggCallbacks</a>.read_func = <a class="code" href="namespace_ogre_ogg_sound.html#a75366a00cc562bc549ed68e5a4934c1b">OOSStreamRead</a>;
-<a name="l00121"></a>00121                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afaf91c643f156d13105a84271b1049b2">mOggCallbacks</a>.close_func= <a class="code" href="namespace_ogre_ogg_sound.html#a485609d03584df22a3932113e02f3fde">OOSStreamClose</a>;
-<a name="l00122"></a>00122                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afaf91c643f156d13105a84271b1049b2">mOggCallbacks</a>.seek_func = <a class="code" href="namespace_ogre_ogg_sound.html#a8014b796acf9c184d41877381588baff">OOSStreamSeek</a>;
-<a name="l00123"></a>00123                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afaf91c643f156d13105a84271b1049b2">mOggCallbacks</a>.tell_func = <a class="code" href="namespace_ogre_ogg_sound.html#a2f1ca388040b259c7e771e84824b32ff">OOSStreamTell</a>;
-<a name="l00124"></a>00124         }
+<a name="l00111"></a>00111         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a533cfa08624fdd9fd22e1cdfbacd4b4d">mAudioEnd</a>(0)
+<a name="l00112"></a>00112         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afbd70cc73bf1cdba7b0197be944b3441">mLocalTransformDirty</a>(<span class="keyword">true</span>)
+<a name="l00113"></a>00113         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a5adc8aa7368cf03cf5394e93fbd4ef4f">mDisable3D</a>(<span class="keyword">false</span>)
+<a name="l00114"></a>00114         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a045461031c3d1f305849d695e6220360">mSeekable</a>(<span class="keyword">true</span>)
+<a name="l00115"></a>00115         ,<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afbe38a0d8d8212d34ac0cb19e19294f7">mSourceRelative</a>(<span class="keyword">false</span>)
+<a name="l00116"></a>00116 <span class="preprocessor">#if OGGSOUND_THREADED</span>
+<a name="l00117"></a>00117 <span class="preprocessor"></span>        ,mAwaitingDestruction(<span class="keyword">false</span>)
+<a name="l00118"></a>00118 <span class="preprocessor">#endif</span>
+<a name="l00119"></a>00119 <span class="preprocessor"></span>        {
+<a name="l00120"></a>00120                 <span class="comment">// Init some oggVorbis callbacks</span>
+<a name="l00121"></a>00121                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afaf91c643f156d13105a84271b1049b2">mOggCallbacks</a>.read_func = <a class="code" href="namespace_ogre_ogg_sound.html#a75366a00cc562bc549ed68e5a4934c1b">OOSStreamRead</a>;
+<a name="l00122"></a>00122                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afaf91c643f156d13105a84271b1049b2">mOggCallbacks</a>.close_func= <a class="code" href="namespace_ogre_ogg_sound.html#a485609d03584df22a3932113e02f3fde">OOSStreamClose</a>;
+<a name="l00123"></a>00123                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afaf91c643f156d13105a84271b1049b2">mOggCallbacks</a>.seek_func = <a class="code" href="namespace_ogre_ogg_sound.html#a8014b796acf9c184d41877381588baff">OOSStreamSeek</a>;
+<a name="l00124"></a>00124                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#afaf91c643f156d13105a84271b1049b2">mOggCallbacks</a>.tell_func = <a class="code" href="namespace_ogre_ogg_sound.html#a2f1ca388040b259c7e771e84824b32ff">OOSStreamTell</a>;
+<a name="l00125"></a>00125         }
 </pre></div></p>
 
 </div>
@@ -277,11 +279,11 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <div class="memdoc">
 <p>Superclass destructor. </p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html#l00126">126</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html">OgreOggISound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html#l00127">127</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html">OgreOggISound.cpp</a>.</p>
 
-<p><div class="fragment"><pre class="fragment"><a name="l00127"></a>00127         {
-<a name="l00128"></a>00128                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>.setNull();
-<a name="l00129"></a>00129         }
+<p><div class="fragment"><pre class="fragment"><a name="l00128"></a>00128         {
+<a name="l00129"></a>00129                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a8f952c2935a05b5b1c3799f74f94d623">mAudioStream</a>.setNull();
+<a name="l00130"></a>00130         }
 </pre></div></p>
 
 </div>
@@ -711,7 +713,7 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <dl class="remark"><dt><b>Remarks:</b></dt><dd>Set listener relative to AL_FALSE If Source available then settings are applied immediately else they are applied next time the sound is initialised. NOTE:- If previously disabled, Reference distance will still be set to 1. Should be reset as required by user AFTER calling this function.</dd></dl>
 </p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html#l00170">170</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html">OgreOggISound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html#l00171">171</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html">OgreOggISound.cpp</a>.</p>
 
 </div>
 </div>
@@ -1159,19 +1161,19 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <div class="memdoc">
 <p>Pauses sound. </p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html#l00157">157</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html">OgreOggISound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html#l00158">158</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html">OgreOggISound.cpp</a>.</p>
 
-<p><div class="fragment"><pre class="fragment"><a name="l00158"></a>00158         {
-<a name="l00159"></a>00159 <span class="preprocessor">#if OGGSOUND_THREADED</span>
-<a name="l00160"></a>00160 <span class="preprocessor"></span>                SoundAction action;
-<a name="l00161"></a>00161                 action.mSound = <span class="keyword">this</span>;
-<a name="l00162"></a>00162                 action.mAction = <a class="code" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dbaa7c72a2256e135d97da75ef9640dbccc">LQ_PAUSE</a>;
-<a name="l00163"></a>00163                 action.mParams = 0;
-<a name="l00164"></a>00164                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac84f9254a31a94eec5b93069288793f5">OgreOggSoundManager::getSingletonPtr</a>()-&gt;_requestSoundAction(action);
-<a name="l00165"></a>00165 <span class="preprocessor">#else</span>
-<a name="l00166"></a>00166 <span class="preprocessor"></span>                <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a24b0baa11b2a59b9f011cd5b2a68a24f">_pauseImpl</a>();
-<a name="l00167"></a>00167 <span class="preprocessor">#endif</span>
-<a name="l00168"></a>00168 <span class="preprocessor"></span>        }
+<p><div class="fragment"><pre class="fragment"><a name="l00159"></a>00159         {
+<a name="l00160"></a>00160 <span class="preprocessor">#if OGGSOUND_THREADED</span>
+<a name="l00161"></a>00161 <span class="preprocessor"></span>                SoundAction action;
+<a name="l00162"></a>00162                 action.mSound = <span class="keyword">this</span>;
+<a name="l00163"></a>00163                 action.mAction = <a class="code" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dbaa7c72a2256e135d97da75ef9640dbccc">LQ_PAUSE</a>;
+<a name="l00164"></a>00164                 action.mParams = 0;
+<a name="l00165"></a>00165                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac84f9254a31a94eec5b93069288793f5">OgreOggSoundManager::getSingletonPtr</a>()-&gt;_requestSoundAction(action);
+<a name="l00166"></a>00166 <span class="preprocessor">#else</span>
+<a name="l00167"></a>00167 <span class="preprocessor"></span>                <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a24b0baa11b2a59b9f011cd5b2a68a24f">_pauseImpl</a>();
+<a name="l00168"></a>00168 <span class="preprocessor">#endif</span>
+<a name="l00169"></a>00169 <span class="preprocessor"></span>        }
 </pre></div></p>
 
 </div>
@@ -1192,19 +1194,19 @@ Ogre::AxisAlignedBox &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a
 <div class="memdoc">
 <p>Plays sound. </p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html#l00131">131</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html">OgreOggISound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html#l00132">132</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html">OgreOggISound.cpp</a>.</p>
 
-<p><div class="fragment"><pre class="fragment"><a name="l00132"></a>00132         {
-<a name="l00133"></a>00133 <span class="preprocessor">#if OGGSOUND_THREADED</span>
-<a name="l00134"></a>00134 <span class="preprocessor"></span>                SoundAction action;
-<a name="l00135"></a>00135                 action.mSound = <span class="keyword">this</span>;
-<a name="l00136"></a>00136                 action.mAction = <a class="code" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dba806035f104e0d7f96eb91939fd12e7d7">LQ_PLAY</a>;
-<a name="l00137"></a>00137                 action.mParams = 0;
-<a name="l00138"></a>00138                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac84f9254a31a94eec5b93069288793f5">OgreOggSoundManager::getSingletonPtr</a>()-&gt;_requestSoundAction(action);
-<a name="l00139"></a>00139 <span class="preprocessor">#else</span>
-<a name="l00140"></a>00140 <span class="preprocessor"></span>                <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac1e380f544e458b1e384708d628626c5">_playImpl</a>();
-<a name="l00141"></a>00141 <span class="preprocessor">#endif</span>
-<a name="l00142"></a>00142 <span class="preprocessor"></span>        }
+<p><div class="fragment"><pre class="fragment"><a name="l00133"></a>00133         {
+<a name="l00134"></a>00134 <span class="preprocessor">#if OGGSOUND_THREADED</span>
+<a name="l00135"></a>00135 <span class="preprocessor"></span>                SoundAction action;
+<a name="l00136"></a>00136                 action.mSound = <span class="keyword">this</span>;
+<a name="l00137"></a>00137                 action.mAction = <a class="code" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dba806035f104e0d7f96eb91939fd12e7d7">LQ_PLAY</a>;
+<a name="l00138"></a>00138                 action.mParams = 0;
+<a name="l00139"></a>00139                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac84f9254a31a94eec5b93069288793f5">OgreOggSoundManager::getSingletonPtr</a>()-&gt;_requestSoundAction(action);
+<a name="l00140"></a>00140 <span class="preprocessor">#else</span>
+<a name="l00141"></a>00141 <span class="preprocessor"></span>                <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#ac1e380f544e458b1e384708d628626c5">_playImpl</a>();
+<a name="l00142"></a>00142 <span class="preprocessor">#endif</span>
+<a name="l00143"></a>00143 <span class="preprocessor"></span>        }
 </pre></div></p>
 
 </div>
@@ -2066,19 +2068,19 @@ template&lt;typename T &gt; </div>
 <div class="memdoc">
 <p>Stops sound. </p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html#l00144">144</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html">OgreOggISound.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html#l00145">145</a> of file <a class="el" href="_ogre_ogg_i_sound_8cpp_source.html">OgreOggISound.cpp</a>.</p>
 
-<p><div class="fragment"><pre class="fragment"><a name="l00145"></a>00145         {
-<a name="l00146"></a>00146 <span class="preprocessor">#if OGGSOUND_THREADED</span>
-<a name="l00147"></a>00147 <span class="preprocessor"></span>                SoundAction action;
-<a name="l00148"></a>00148                 action.mSound = <span class="keyword">this</span>;
-<a name="l00149"></a>00149                 action.mAction = <a class="code" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dbacfb8ebbbabf96dd65a6a506c2033e97d">LQ_STOP</a>;
-<a name="l00150"></a>00150                 action.mParams = 0;
-<a name="l00151"></a>00151                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac84f9254a31a94eec5b93069288793f5">OgreOggSoundManager::getSingletonPtr</a>()-&gt;_requestSoundAction(action);
-<a name="l00152"></a>00152 <span class="preprocessor">#else</span>
-<a name="l00153"></a>00153 <span class="preprocessor"></span>                <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a9b3cb27d65083fb4f499ac49a3dafbfa">_stopImpl</a>();
-<a name="l00154"></a>00154 <span class="preprocessor">#endif</span>
-<a name="l00155"></a>00155 <span class="preprocessor"></span>        }
+<p><div class="fragment"><pre class="fragment"><a name="l00146"></a>00146         {
+<a name="l00147"></a>00147 <span class="preprocessor">#if OGGSOUND_THREADED</span>
+<a name="l00148"></a>00148 <span class="preprocessor"></span>                SoundAction action;
+<a name="l00149"></a>00149                 action.mSound = <span class="keyword">this</span>;
+<a name="l00150"></a>00150                 action.mAction = <a class="code" href="namespace_ogre_ogg_sound.html#adac797ab6408f233dce47746ade273dbacfb8ebbbabf96dd65a6a506c2033e97d">LQ_STOP</a>;
+<a name="l00151"></a>00151                 action.mParams = 0;
+<a name="l00152"></a>00152                 <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html#ac84f9254a31a94eec5b93069288793f5">OgreOggSoundManager::getSingletonPtr</a>()-&gt;_requestSoundAction(action);
+<a name="l00153"></a>00153 <span class="preprocessor">#else</span>
+<a name="l00154"></a>00154 <span class="preprocessor"></span>                <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a9b3cb27d65083fb4f499ac49a3dafbfa">_stopImpl</a>();
+<a name="l00155"></a>00155 <span class="preprocessor">#endif</span>
+<a name="l00156"></a>00156 <span class="preprocessor"></span>        }
 </pre></div></p>
 
 </div>
@@ -2152,11 +2154,26 @@ template&lt;typename T &gt; </div>
 
 <p>Reimplemented in <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_sound.html#a7cfed535deaa9c3b1c335b122135c474">OgreOggSound::OgreOggStaticSound</a>, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_static_wav_sound.html#a7cfed535deaa9c3b1c335b122135c474">OgreOggSound::OgreOggStaticWavSound</a>, <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#a7cfed535deaa9c3b1c335b122135c474">OgreOggSound::OgreOggStreamSound</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_wav_sound.html#a7cfed535deaa9c3b1c335b122135c474">OgreOggSound::OgreOggStreamWavSound</a>.</p>
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00636">636</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00637">637</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div>
 <hr/><h2>Member Data Documentation</h2>
+<a class="anchor" id="a533cfa08624fdd9fd22e1cdfbacd4b4d"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::mAudioEnd" ref="a533cfa08624fdd9fd22e1cdfbacd4b4d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html#a533cfa08624fdd9fd22e1cdfbacd4b4d">OgreOggSound::OgreOggISound::mAudioEnd</a><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00608">608</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a08b065cd2e530cc68b4920d9d8176ae5"></a><!-- doxytag: member="OgreOggSound::OgreOggISound::mAudioOffset" ref="a08b065cd2e530cc68b4920d9d8176ae5" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -2213,7 +2230,7 @@ template&lt;typename T &gt; </div>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00610">610</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00611">611</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div>
@@ -2619,7 +2636,7 @@ template&lt;typename T &gt; </div>
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00609">609</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
+<p>Definition at line <a class="el" href="_ogre_ogg_i_sound_8h_source.html#l00610">610</a> of file <a class="el" href="_ogre_ogg_i_sound_8h_source.html">OgreOggISound.h</a>.</p>
 
 </div>
 </div>
@@ -2809,7 +2826,7 @@ template&lt;typename T &gt; </div>
 <li>C:/Work/Api's/ogreoggsound/src/<a class="el" href="_ogre_ogg_i_sound_8cpp_source.html">OgreOggISound.cpp</a></li>
 </ul>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Sep 17 12:02:45 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Tue Sep 29 16:11:29 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

@@ -580,6 +580,7 @@ namespace OgreOggSound
 				return;
 
 		// Play source
+		alGetError();
 		alSourcePlay(mSource);
 		if ( alGetError() )
 		{
