@@ -13,11 +13,21 @@
 	
 	* Added getNumSounds() to SoundManager
 
+	* Bug fix - prevented multiple destroy commands being sent for a sound
+	
+	* Swapped std::vector containers for std::deque and main active list for std::list
+
+	* Bug fix - A failed source request would be lost and wouldn't be retried again.
+		* Added a waiting sounds list which is retested periodically for any sound which fails to grab
+		a source, simliar to reactivate sounds except this is for sounds which have just been created 
+		and not yet played.
+
 
 * Version 1.11
 
 	* Major overhaul to improve multi-threaded performance
-		* Removed all mutex locks, therefore status is experimental until passed stable by testing.		* Removed/added numerous internal functions to a number of classes.
+		* Removed all mutex locks, therefore status is experimental until passed stable by testing.		
+		* Removed/added numerous internal functions to a number of classes.
 
 	
 	* Interface breaking changes:

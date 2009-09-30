@@ -212,7 +212,7 @@ void MainApp::updateStats()
 			guiTris->setCaption(tris + Ogre::StringConverter::toString(stats.triangleCount));
 
 			Ogre::OverlayElement* guiBatches = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/NumBatches");
-			guiBatches->setCaption(batches + Ogre::StringConverter::toString(stats.batchCount));
+			guiBatches->setCaption(batches + Ogre::StringConverter::toString(mSoundManager->getNumSounds()));
 		}
 		catch(...) { /* ignore */ }
 }
@@ -235,21 +235,20 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 //-----------------------------------------------------------------------
 bool MainApp::keyReleased( const OIS::KeyEvent &arg )
 {	
-/*	if ( arg.key==OIS::KC_C )
+	if ( arg.key==OIS::KC_C )
 	{
+		static int num=0;
 		for ( int i=0; i<10; i++, num++ )
 		{
-			static int num=0;
 			OgreOggISound* sound=0;
-			name="Sound"+Ogre::StringConverter::toString(num);
-			if ( sound = mSoundManager->createSound(name,"four.wav") )
+			Ogre::String name="Sound"+Ogre::StringConverter::toString(num);
+			if ( sound = mSoundManager->createSound(name,"two.ogg") )
 			{
-				sound->markTemporary();
 				sound->play();
 			}
 		}
 	}
-*/	return true;
+	return true;
 }
 //-----------------------------------------------------------------------
 bool MainApp::mouseMoved(const OIS::MouseEvent &arg)
