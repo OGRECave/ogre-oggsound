@@ -51,8 +51,8 @@ namespace OgreOggSound
 	typedef std::map<std::string, OgreOggISound*> SoundMap;
 	typedef std::map<std::string, ALuint> EffectList;
 	typedef std::map<ALenum, bool> FeatureList;
-	typedef std::vector<OgreOggISound*> ActiveList;
-	typedef std::vector<ALuint> SourceList;
+	typedef std::list<OgreOggISound*> ActiveList;
+	typedef std::deque<ALuint> SourceList;
 	
 	//! Various sound commands
 	enum SOUND_ACTION
@@ -771,6 +771,7 @@ namespace OgreOggSound
 		ActiveList mActiveSounds;				// list of sounds currently active
 		ActiveList mPausedSounds;				// list of sounds currently paused
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
+		ActiveList mWaitingSounds;				// list of sounds that need playing when sources become available
 		SourceList mSourcePool;					// List of available sources
 		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
 		SharedBufferList mSharedBuffers;		// List of shared static buffers
@@ -851,7 +852,7 @@ namespace OgreOggSound
 
 		EffectList mFilterList;					// List of EFX filters
 		EffectList mEffectList;					// List of EFX effects
-		std::vector<ALuint> mEffectSlotList;	// List of EFX effect slots
+		SourceList mEffectSlotList;				// List of EFX effect slots
 
 		ALint mNumEffectSlots;					// Number of effect slots available
 		ALint mNumSendsPerSource;				// Number of aux sends per source

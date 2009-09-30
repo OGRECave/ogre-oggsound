@@ -77,9 +77,9 @@
 <tr><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, <br class="typebreak"/>
 ALuint &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#adaedc172c3e871304a6bc73b4f3220d4">EffectList</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; ALenum, bool &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a6423f182d5d3792463165288d3468550">FeatureList</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef std::vector<br class="typebreak"/>
-&lt; <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a> * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a7cf9e279b0e175eb8535dede22947223">ActiveList</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; ALuint &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a5bb349cdaa82110c2368669db3597b45">SourceList</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef std::list<br class="typebreak"/>
+&lt; <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a> * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a3c0a3b28f142064de2f2dbcb6106b071">ActiveList</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef std::deque&lt; ALuint &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a47eb50110e1ab646554f87464b2b19d1">SourceList</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, <br class="typebreak"/>
 <a class="el" href="struct_ogre_ogg_sound_1_1shared_audio_buffer.html">sharedAudioBuffer</a> * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a43c7af78bc795f22d7b01a23ec2d4c0a">SharedBufferList</a></td></tr>
 <tr><td colspan="2"><h2>Enumerations</h2></td></tr>
@@ -113,12 +113,12 @@ ALuint &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr><td class="memItemLeft" align="right" valign="top">long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_ogre_ogg_sound.html#a2f1ca388040b259c7e771e84824b32ff">OOSStreamTell</a> (void *datasource)</td></tr>
 </table>
 <hr/><h2>Typedef Documentation</h2>
-<a class="anchor" id="a7cf9e279b0e175eb8535dede22947223"></a><!-- doxytag: member="OgreOggSound::ActiveList" ref="a7cf9e279b0e175eb8535dede22947223" args="" -->
+<a class="anchor" id="a3c0a3b28f142064de2f2dbcb6106b071"></a><!-- doxytag: member="OgreOggSound::ActiveList" ref="a3c0a3b28f142064de2f2dbcb6106b071" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::vector&lt;<a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a>*&gt; <a class="el" href="namespace_ogre_ogg_sound.html#a7cf9e279b0e175eb8535dede22947223">OgreOggSound::ActiveList</a></td>
+          <td class="memname">typedef std::list&lt;<a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_i_sound.html">OgreOggISound</a>*&gt; <a class="el" href="namespace_ogre_ogg_sound.html#a3c0a3b28f142064de2f2dbcb6106b071">OgreOggSound::ActiveList</a></td>
         </tr>
       </table>
 </div>
@@ -188,12 +188,12 @@ ALuint &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 </div>
 </div>
-<a class="anchor" id="a5bb349cdaa82110c2368669db3597b45"></a><!-- doxytag: member="OgreOggSound::SourceList" ref="a5bb349cdaa82110c2368669db3597b45" args="" -->
+<a class="anchor" id="a47eb50110e1ab646554f87464b2b19d1"></a><!-- doxytag: member="OgreOggSound::SourceList" ref="a47eb50110e1ab646554f87464b2b19d1" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::vector&lt;ALuint&gt; <a class="el" href="namespace_ogre_ogg_sound.html#a5bb349cdaa82110c2368669db3597b45">OgreOggSound::SourceList</a></td>
+          <td class="memname">typedef std::deque&lt;ALuint&gt; <a class="el" href="namespace_ogre_ogg_sound.html#a47eb50110e1ab646554f87464b2b19d1">OgreOggSound::SourceList</a></td>
         </tr>
       </table>
 </div>
@@ -448,7 +448,7 @@ ALuint &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 </div>
 </div>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Tue Sep 29 16:11:29 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 30 10:32:44 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

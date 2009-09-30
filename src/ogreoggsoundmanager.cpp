@@ -692,7 +692,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	struct OgreOggSoundManager::_sortNearToFar
 	{
-		bool operator()(OgreOggISound* sound1, OgreOggISound* sound2)
+		bool operator()(OgreOggISound*& sound1, OgreOggISound*& sound2)
 		{
 			Real	d1=0.f,
 					d2=0.f;
@@ -719,7 +719,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	struct OgreOggSoundManager::_sortFarToNear
 	{
-		bool operator()(OgreOggISound* sound1, OgreOggISound* sound2)
+		bool operator()(OgreOggISound*& sound1, OgreOggISound*& sound2)
 		{
 			Real	d1=0.f,
 					d2=0.f;
@@ -847,7 +847,7 @@ namespace OgreOggSound
 					d2 = 0.f;
 
 			// Sort list by distance
-			std::sort(mActiveSounds.begin(), mActiveSounds.end(), _sortFarToNear());
+			mActiveSounds.sort(_sortFarToNear());
 
 			// Lists should be sorted:	Active-->furthest to Nearest
 			//							Reactivate-->Nearest to furthest
@@ -886,6 +886,19 @@ namespace OgreOggSound
 				return true;
 			}
 		}
+
+		// If no opportunity to grab a source add a to queue
+		if ( !mWaitingSounds.empty() )
+		{
+			// Check not already in list
+			for ( ActiveList::iterator iter=mWaitingSounds.begin(); iter!=mWaitingSounds.end(); ++iter )
+				if ( (*iter)==sound )
+					return true;
+		}
+
+		// Add to list
+		mWaitingSounds.push_back(sound);
+
 		// Uh oh - won't be played
 		return false;
 	}
@@ -1765,6 +1778,8 @@ namespace OgreOggSound
 		// Clear queues
 		mActiveSounds.clear();
 		mPausedSounds.clear();
+		mSoundsToReactivate.clear();
+		mWaitingSounds.clear();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_stopAllSoundsImpl()
@@ -1864,6 +1879,19 @@ namespace OgreOggSound
 			{
 				if ( sound==(*iter) )
 					mPausedSounds.erase(iter);
+				else
+					++iter;
+			}
+		}
+		/** Waiting sound list
+		*/
+		if ( !mWaitingSounds.empty() )
+		{
+			// Remove ALL referneces to this sound..
+			for ( ActiveList::iterator iter=mWaitingSounds.begin(); iter!=mWaitingSounds.end(); )
+			{
+				if ( sound==(*iter) )
+					mWaitingSounds.erase(iter);
 				else
 					++iter;
 			}
@@ -2074,6 +2102,10 @@ namespace OgreOggSound
 			mEffectSlotList.clear();
 		}
 #endif
+		mActiveSounds.clear();
+		mSoundsToReactivate.clear();
+		mWaitingSounds.clear();
+		mPausedSounds.clear();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	int OgreOggSoundManager::_createSourcePool()
@@ -2102,11 +2134,37 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_reactivateQueuedSoundsImpl()
 	{
+		// Pump waiting sounds first..
+		if (!mWaitingSounds.empty())
+		{
+			ActiveList::iterator iter;
+			int i=0;
+
+			// Perform maximum of 5 requests per frame
+			while( (i++<5) && iter!=mWaitingSounds.end() )
+			{
+				// Grab a source
+				if ( _requestSoundSource((*iter)) )
+				{
+					// Play
+					(*iter)->play();
+
+					// Remove
+					iter=mWaitingSounds.erase(iter);
+				}
+				else
+					// Non available - quit
+					return;
+			}
+			// Finish
+			return;
+		}
+
 		// Any sounds to re-activate?
 		if (mSoundsToReactivate.empty()) return;
 
 		// Sort list by distance
-		std::sort(mSoundsToReactivate.begin(), mSoundsToReactivate.end(), _sortNearToFar());
+		mActiveSounds.sort(_sortNearToFar());
 
 		// Get sound object from front of list
 		OgreOggISound* snd = mSoundsToReactivate.front();
@@ -2130,6 +2188,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_reactivateQueuedSounds()
 	{
+		if ( mWaitingSounds.empty() && mSoundsToReactivate.empty() ) return;
+
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mAction	= LQ_REACTIVATE;
@@ -2228,7 +2288,11 @@ namespace OgreOggSound
 		// calls to hasSound()/getSound()
 		if ( action.mAction==LQ_DESTROY )
 		{
-			action.mSound->_notifyDestroying();
+			// Catch any duplicate destruction calls
+			if ( action.mSound->mAwaitingDestruction )
+				return;
+			else
+				action.mSound->_notifyDestroying();
 		}
 
 		// If there are queued actions waiting:
@@ -2264,6 +2328,7 @@ namespace OgreOggSound
 			case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl();	}		break;
 			case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl();	}		break;
 			case LQ_DESTROY:		{ if ( act.mSound ) _destroySoundImpl(act.mSound); }	break;
+			case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); }	break;
 			case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); }		break;
 			case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); }			break;
 			case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); }			break;
@@ -2302,6 +2367,7 @@ namespace OgreOggSound
 				case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl();	}		break;
 				case LQ_DESTROY:		{ if ( act.mSound ) _destroySoundImpl(act.mSound); }	break;
 				case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); }		break;
+				case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); }	break;
 				case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); }			break;
 				case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); }			break;
 				case LQ_RESUME_ALL:		{ _resumeAllPausedSoundsImpl(); }	break;
