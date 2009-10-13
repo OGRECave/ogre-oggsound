@@ -28,13 +28,16 @@
 * Library Headers
 */
 
-#pragma once
+#ifndef _OGREOGGSOUND_H_
+#define _OGREOGGSOUND_H_
 
 #include "OgreOggListener.h"
-#include "OgreOggSoundManager.h"
 #include "OgreOggISound.h"
 #include "OgreOggStaticSound.h"
 #include "OgreOggStaticWavSound.h"
 #include "OgreOggStreamSound.h"
 #include "OgreOggStreamWavSound.h"
 #include "OgreOggSoundRecord.h"
+#include "OgreOggSoundManager.h"
+
+#endif	/* _OGREOGGSOUND_H_ */

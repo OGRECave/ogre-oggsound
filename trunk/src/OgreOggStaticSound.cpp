@@ -25,7 +25,6 @@
 *
 */
 
-#include "OgreOggStaticSound.h"
 #include <string>
 #include <iostream>
 #include "OgreOggSound.h"
@@ -292,9 +291,16 @@ namespace OgreOggSound
 		mPlay=false;
 		mPreviousOffset=0;
 
-		// Give up source immediately if specfied
-		if (mGiveUpSource) 
-			OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
+		if ( isTemporary() )
+		{
+			OgreOggSoundManager::getSingletonPtr()->destroySound(this);
+		}
+		else
+		{
+			// Give up source immediately if specfied
+			if (mGiveUpSource) 
+				OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::loop(bool loop)

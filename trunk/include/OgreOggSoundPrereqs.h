@@ -28,7 +28,8 @@
 * Pre-requisites for building lib
 */
 
-#pragma once
+#ifndef _OGREOGGSOUNDPREREQS_H_
+#define _OGREOGGSOUNDPREREQS_H_
 
 #include <Ogre.h>
 
@@ -73,3 +74,4 @@
 #endif
 
 
+#endif /* _OGREOGGSOUNDPREREQS_H_ */

@@ -28,7 +28,8 @@
 * Implements methods for recording audio 
 */
 
-#pragma once
+#ifndef _OGREOGGSOUNDRECORD_H_
+#define _OGREOGGSOUNDRECORD_H_
 
 #include "OgreOggSoundPrereqs.h"
 
@@ -138,3 +139,4 @@ namespace OgreOggSound
 
 }
 
+#endif /* _OGREOGGSOUNDRECORD_H_ */

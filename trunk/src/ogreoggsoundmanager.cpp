@@ -27,7 +27,6 @@
 
 #include "OgreOggSoundManager.h"
 #include "OgreOggSound.h"
-#include "OgreOggISound.h"
 #include "OgreOggSoundFactory.h"
 
 #include <string>
@@ -766,7 +765,8 @@ namespace OgreOggSound
 			// Remove from reactivate list if reactivating..
 			if ( !mSoundsToReactivate.empty() )
 			{
-				for ( ActiveList::iterator rIter=mSoundsToReactivate.begin(); rIter!=mSoundsToReactivate.end(); )
+				ActiveList::iterator rIter=mSoundsToReactivate.begin();
+				while ( rIter!=mSoundsToReactivate.end() )
 				{
 					if ( (*rIter)==sound )
 						rIter = mSoundsToReactivate.erase(rIter);
@@ -923,7 +923,8 @@ namespace OgreOggSound
 			mSourcePool.push_back(src);
 
 			// Remove from actives list
-			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); )
+			ActiveList::iterator iter=mActiveSounds.begin();
+			while ( iter!=mActiveSounds.end() )
 			{
 				// Find sound in actives list
 				if ( (*iter)==sound )
@@ -1859,7 +1860,8 @@ namespace OgreOggSound
 		if ( !mSoundsToReactivate.empty() )
 		{
 			// Remove ALL referneces to this sound..
-			for ( ActiveList::iterator iter=mSoundsToReactivate.begin(); iter!=mSoundsToReactivate.end(); )
+			ActiveList::iterator iter=mSoundsToReactivate.begin();
+			while ( iter!=mSoundsToReactivate.end() )
 			{
 				if ( sound==(*iter) )
 					iter=mSoundsToReactivate.erase(iter);
@@ -1873,7 +1875,8 @@ namespace OgreOggSound
 		if ( !mPausedSounds.empty() )
 		{
 			// Remove ALL referneces to this sound..
-			for ( ActiveList::iterator iter=mPausedSounds.begin(); iter!=mPausedSounds.end(); )
+			ActiveList::iterator iter=mPausedSounds.begin();
+			while ( iter!=mPausedSounds.end() )
 			{
 				if ( sound==(*iter) )
 					iter=mPausedSounds.erase(iter);
@@ -1886,7 +1889,8 @@ namespace OgreOggSound
 		if ( !mWaitingSounds.empty() )
 		{
 			// Remove ALL referneces to this sound..
-			for ( ActiveList::iterator iter=mWaitingSounds.begin(); iter!=mWaitingSounds.end(); )
+			ActiveList::iterator iter=mWaitingSounds.begin(); 
+			while ( iter!=mWaitingSounds.end() )
 			{
 				if ( sound==(*iter) )
 					iter=mWaitingSounds.erase(iter);
@@ -1899,7 +1903,8 @@ namespace OgreOggSound
 		if ( !mActiveSounds.empty() )
 		{
 			// Remove ALL referneces to this sound..
-			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); )
+			ActiveList::iterator iter=mActiveSounds.begin(); 
+			while ( iter!=mActiveSounds.end() )
 			{
 				if ( sound==(*iter) )
 					iter=mActiveSounds.erase(iter);
@@ -2135,7 +2140,7 @@ namespace OgreOggSound
 		// Pump waiting sounds first..
 		if (!mWaitingSounds.empty())
 		{
-			ActiveList::iterator iter;
+			ActiveList::iterator iter=mWaitingSounds.begin();
 			int i=0;
 
 			// Perform maximum of 5 requests per frame

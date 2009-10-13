@@ -28,7 +28,8 @@
 * Implements methods for creating/using a streamed wav sound
 */
 
-#pragma once
+#ifndef _OGREOGGSOUNDSTREAMWAV_H_
+#define _OGREOGGSOUNDSTREAMWAV_H_
 
 #include "OgreOggSoundPrereqs.h"
 #include <string>
@@ -161,3 +162,6 @@ namespace OgreOggSound
 		friend class OgreOggSoundManager;
 	};
 }
+
+#endif /* _OGREOGGSOUNDSTREAMWAV_H_ */
+
