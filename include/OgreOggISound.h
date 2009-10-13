@@ -28,7 +28,8 @@
 * Base class for a single sound
 */
 
-#pragma once
+#ifndef _OGREOGGISOUND_H_
+#define _OGREOGGISOUND_H_
 
 #include "OgreOggSoundPrereqs.h"
 #include <string>
@@ -156,6 +157,17 @@ namespace OgreOggSound
 			Play position in seconds 
 		 */
 		virtual void setPlayPosition(Ogre::Real seconds);
+		/** Marks a sound as temporary.
+		@remarks
+			Sound will be automatically destroyed once finished playing.
+		 */
+		void markTemporary() { mTemporary=true; }
+		/** Returns temporary status.
+		@remarks
+			Sound can be marked as temporary so that on completion of play it automatically destroys 
+			itself and frees up its resources.
+		 */
+		bool isTemporary() const { return mTemporary; }
 		/** Returns play status.
 		@remarks
 			Checks source state for AL_PLAYING
@@ -598,6 +610,7 @@ namespace OgreOggSound
 		bool mPlay;						// Play status
 		bool mDisable3D;				// 3D status
 		bool mGiveUpSource;				// Flag to indicate whether sound should release its source when stopped
+		bool mTemporary;				// Flag to indicate whether sound should be destroyed when stopped
 		bool mStream;					// Stream flag
 		bool mSourceRelative;			// Relative position flag
 		bool mLocalTransformDirty;		// Transformation update flag
@@ -636,4 +649,6 @@ namespace OgreOggSound
 
 		friend class OgreOggSoundManager;
 	};
-}															  
+}						
+
+#endif /* _OGREOGGISOUND_H_ */

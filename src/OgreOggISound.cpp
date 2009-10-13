@@ -98,6 +98,7 @@ namespace OgreOggSound
 	,mFade(false) 
 	,mFadeEndAction(OgreOggSound::FC_NONE)  
 	,mStream(false) 
+	,mTemporary(false) 
 	,mFinCBEnabled(false) 
 	,mLoopCBEnabled(false) 
 	,mGiveUpSource(false)  

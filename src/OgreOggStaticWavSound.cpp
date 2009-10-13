@@ -25,10 +25,9 @@
 *
 */
 
-#include "OgreOggStaticWavSound.h"
 #include <string>
 #include <iostream>
-#include "OgreOggSoundManager.h"
+#include "OgreOggSound.h"
 
 using namespace std;
 

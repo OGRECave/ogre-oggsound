@@ -28,7 +28,8 @@
 * Listener object (The users 'ears')
 */
 
-#pragma once
+#ifndef _OGREOGGLISTENER_H_
+#define _OGREOGGLISTENER_H_
 
 #include "OgreOggSoundPrereqs.h"
 #include <OgreVector3.h>
@@ -166,3 +167,6 @@ namespace OgreOggSound
 
 	};
 }
+
+#endif	/* _OGREOGGLISTENER_H_ */
+

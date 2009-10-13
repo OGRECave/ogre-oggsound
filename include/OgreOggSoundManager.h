@@ -28,12 +28,11 @@
 * Manages the audio library
 */
 
-#pragma once
+#ifndef _OGREOGGSOUNDMANAGER_H_
+#define _OGREOGGSOUNDMANAGER_H_
 
 #include "OgreOggSoundPrereqs.h"
-#include "OgreOggISound.h"
-#include "OgreOggListener.h"
-#include "OgreOggSoundRecord.h"
+#include "OgreOggSound.h"
 #include "LocklessQueue.h"
 
 #include <map>
@@ -874,3 +873,6 @@ namespace OgreOggSound
 		friend class OgreOggSoundFactory;
 	};
 }
+
+#endif /* _OGREOGGSOUNDMANAGER_H_ */
+

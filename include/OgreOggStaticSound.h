@@ -28,7 +28,8 @@
 * Implements methods for creating/using a static ogg sound
 */
 
-#pragma once
+#ifndef _OGREOGGSOUNDSTATIC_H_
+#define _OGREOGGSOUNDSTATIC_H_
 
 #include "OgreOggSoundPrereqs.h"
 #include <string>
@@ -155,3 +156,5 @@ namespace OgreOggSound
 		friend class OgreOggSoundManager;	
 	};
 }
+
+#endif /* _OGREOGGSOUNDSTATIC_H_ */
