@@ -235,18 +235,12 @@ bool MainApp::keyPressed( const OIS::KeyEvent &arg )
 //-----------------------------------------------------------------------
 bool MainApp::keyReleased( const OIS::KeyEvent &arg )
 {	
-	if ( arg.key==OIS::KC_C )
+	if ( arg.key==OIS::KC_P )
 	{
-		static int num=0;
-		for ( int i=0; i<10; i++, num++ )
-		{
-			OgreOggISound* sound=0;
-			Ogre::String name="Sound"+Ogre::StringConverter::toString(num);
-			if ( sound = mSoundManager->createSound(name,"two.ogg") )
-			{
-				sound->play();
-			}
-		}
+		if ( mSoundManager->getSound("background")->isPlaying() )
+			mSoundManager->getSound("background")->startFade(false, 1.f, OgreOggSound::FC_STOP);
+		else
+			mSoundManager->getSound("background")->startFade(true, 4.f);
 	}
 	return true;
 }

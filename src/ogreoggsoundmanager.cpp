@@ -186,7 +186,7 @@ namespace OgreOggSound
 
 		Ogre::LogManager::getSingleton().logMessage("*****************************************");
 		Ogre::LogManager::getSingleton().logMessage("*** --- Initialising OgreOggSound --- ***");
-		Ogre::LogManager::getSingleton().logMessage("*** ---     "+OGREOGGSOUND_VERSION_STRING+"     --- ***");
+		Ogre::LogManager::getSingleton().logMessage("*** ---     "+OGREOGGSOUND_VERSION_STRING+"    --- ***");
 		Ogre::LogManager::getSingleton().logMessage("*****************************************");
 
 		// Set source limit
@@ -666,15 +666,16 @@ namespace OgreOggSound
 		static Real rTime=0.f;
 
 		// Update ALL active sounds
-		ActiveList::iterator i = mActiveSounds.begin();
-		while( i != mActiveSounds.end() )
+		for ( ActiveList::iterator i=mActiveSounds.begin(); i!=mActiveSounds.end(); ++i )
 		{
 			(*i)->update(fTime);
 	#if !OGGSOUND_THREADED
 			(*i)->_updateAudioBuffers();
 	#endif
-			++i;
 		}
+
+		// Update listener
+		mListener->update();
 
 		// Limit re-activation
 		if ( (rTime+=fTime) > 0.1 )
@@ -685,9 +686,6 @@ namespace OgreOggSound
 			// Reset timer
 			rTime=0.f;
 		}
-
-		// Update listener
-		mListener->update();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	struct OgreOggSoundManager::_sortNearToFar
@@ -1864,7 +1862,7 @@ namespace OgreOggSound
 			for ( ActiveList::iterator iter=mSoundsToReactivate.begin(); iter!=mSoundsToReactivate.end(); )
 			{
 				if ( sound==(*iter) )
-					mSoundsToReactivate.erase(iter);
+					iter=mSoundsToReactivate.erase(iter);
 				else
 					++iter;
 			}
@@ -1878,7 +1876,7 @@ namespace OgreOggSound
 			for ( ActiveList::iterator iter=mPausedSounds.begin(); iter!=mPausedSounds.end(); )
 			{
 				if ( sound==(*iter) )
-					mPausedSounds.erase(iter);
+					iter=mPausedSounds.erase(iter);
 				else
 					++iter;
 			}
@@ -1891,7 +1889,7 @@ namespace OgreOggSound
 			for ( ActiveList::iterator iter=mWaitingSounds.begin(); iter!=mWaitingSounds.end(); )
 			{
 				if ( sound==(*iter) )
-					mWaitingSounds.erase(iter);
+					iter=mWaitingSounds.erase(iter);
 				else
 					++iter;
 			}
@@ -1904,7 +1902,7 @@ namespace OgreOggSound
 			for ( ActiveList::iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); )
 			{
 				if ( sound==(*iter) )
-					mActiveSounds.erase(iter);
+					iter=mActiveSounds.erase(iter);
 				else
 					++iter;
 			}

@@ -433,7 +433,6 @@ namespace OgreOggSound
 				setVolume(mFadeEndVol);
 				mFade = false;
 				// Perform requested action on completion
-				// NOTE:- Must go through SoundManager when using threads to avoid any corruption/mutex issues.
 				switch ( mFadeEndAction ) 
 				{
 				case FC_PAUSE: 
