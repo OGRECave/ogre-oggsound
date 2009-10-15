@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStaticSound.h
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -28,8 +28,7 @@
 * Implements methods for creating/using a static ogg sound
 */
 
-#ifndef _OGREOGGSOUNDSTATIC_H_
-#define _OGREOGGSOUNDSTATIC_H_
+#pragma once
 
 #include "OgreOggSoundPrereqs.h"
 #include <string>
@@ -156,5 +155,3 @@ namespace OgreOggSound
 		friend class OgreOggSoundManager;	
 	};
 }
-
-#endif /* _OGREOGGSOUNDSTATIC_H_ */

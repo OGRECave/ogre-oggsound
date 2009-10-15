@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStaticWavSound.cpp
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -25,9 +25,10 @@
 *
 */
 
+#include "OgreOggStaticWavSound.h"
 #include <string>
 #include <iostream>
-#include "OgreOggSound.h"
+#include "OgreOggSoundManager.h"
 
 using namespace std;
 
@@ -415,8 +416,13 @@ namespace OgreOggSound
 		mPlay=false;
 		mPreviousOffset=0;
 
+		if (mTemporary)
+		{
+			OgreOggSoundManager::getSingleton()._destroyTemporarySound(this);
+		}
 		// Give up source immediately if specfied
-		if (mGiveUpSource) OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
+		else if (mGiveUpSource) 
+			OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void	OgreOggStaticWavSound::loop(bool loop)

@@ -84,7 +84,7 @@ template&lt;class Type &gt; </div>
           <td class="paramtype">size_t&nbsp;</td>
           <td class="paramname"> <em>size</em></td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [inline]</code></td>
+          <td></td>
         </tr>
       </table>
 </div>
@@ -94,15 +94,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00061">61</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>References <a class="el" href="_lockless_queue_8h_source.html#l00048">OgreOggSound::LocklessQueue&lt; Type &gt;::m_buffer</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00057">OgreOggSound::LocklessQueue&lt; Type &gt;::m_size</a>.</p>
-
-<p><div class="fragment"><pre class="fragment"><a name="l00061"></a>00061                                                   :
-<a name="l00062"></a>00062                 <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ae4296c4fa769e13b8b5475c3794eef22" title="head of queue list.">m_head</a>(0), <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#adf168781a30764f410ffe638a8d9828a" title="tail of queue list.">m_tail</a>(0), <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a8136b21affe820fccda0c94b95e9e360" title="size of buffer.">m_size</a>(size + 1)
-<a name="l00063"></a>00063                 {
-<a name="l00064"></a>00064                         <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#aa0b5b4607fc163ddeceab077f6943cd6" title="buffer to keep the queue.">m_buffer</a> = <span class="keyword">new</span> Type[<a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a8136b21affe820fccda0c94b95e9e360" title="size of buffer.">m_size</a>];
-<a name="l00065"></a>00065                 }
-
-</pre></div></p>
+<p>References <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#aa0b5b4607fc163ddeceab077f6943cd6">OgreOggSound::LocklessQueue&lt; Type &gt;::m_buffer</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a8136b21affe820fccda0c94b95e9e360">OgreOggSound::LocklessQueue&lt; Type &gt;::m_size</a>.</p>
 
 </div>
 </div>
@@ -117,7 +109,7 @@ template&lt;class Type &gt; </div>
           <td>(</td>
           <td class="paramname"></td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [inline]</code></td>
+          <td></td>
         </tr>
       </table>
 </div>
@@ -127,12 +119,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00068">68</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>References <a class="el" href="_lockless_queue_8h_source.html#l00048">OgreOggSound::LocklessQueue&lt; Type &gt;::m_buffer</a>.</p>
-
-<p><div class="fragment"><pre class="fragment"><a name="l00069"></a>00069                 {
-<a name="l00070"></a>00070                         <span class="keyword">delete</span> [] <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#aa0b5b4607fc163ddeceab077f6943cd6" title="buffer to keep the queue.">m_buffer</a>;
-<a name="l00071"></a>00071                 }
-</pre></div></p>
+<p>References <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#aa0b5b4607fc163ddeceab077f6943cd6">OgreOggSound::LocklessQueue&lt; Type &gt;::m_buffer</a>.</p>
 
 </div>
 </div>
@@ -148,7 +135,7 @@ template&lt;class Type &gt; </div>
           <td>(</td>
           <td class="paramname"></td>
           <td>&nbsp;)&nbsp;</td>
-          <td> const<code> [inline]</code></td>
+          <td> const</td>
         </tr>
       </table>
 </div>
@@ -159,12 +146,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00088">88</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>References <a class="el" href="_lockless_queue_8h_source.html#l00051">OgreOggSound::LocklessQueue&lt; Type &gt;::m_head</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00054">OgreOggSound::LocklessQueue&lt; Type &gt;::m_tail</a>.</p>
-
-<p><div class="fragment"><pre class="fragment"><a name="l00089"></a>00089                 {
-<a name="l00090"></a>00090                         <span class="keywordflow">return</span> (<a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ae4296c4fa769e13b8b5475c3794eef22" title="head of queue list.">m_head</a>==<a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#adf168781a30764f410ffe638a8d9828a" title="tail of queue list.">m_tail</a>);
-<a name="l00091"></a>00091                 }
-</pre></div></p>
+<p>References <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ae4296c4fa769e13b8b5475c3794eef22">OgreOggSound::LocklessQueue&lt; Type &gt;::m_head</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#adf168781a30764f410ffe638a8d9828a">OgreOggSound::LocklessQueue&lt; Type &gt;::m_tail</a>.</p>
 
 </div>
 </div>
@@ -180,7 +162,7 @@ template&lt;class Type &gt; </div>
           <td class="paramtype">Type &amp;&nbsp;</td>
           <td class="paramname"> <em>obj</em></td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [inline]</code></td>
+          <td></td>
         </tr>
       </table>
 </div>
@@ -190,15 +172,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00094">94</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>References <a class="el" href="_lockless_queue_8h_source.html#l00048">OgreOggSound::LocklessQueue&lt; Type &gt;::m_buffer</a>, <a class="el" href="_lockless_queue_8h_source.html#l00051">OgreOggSound::LocklessQueue&lt; Type &gt;::m_head</a>, <a class="el" href="_lockless_queue_8h_source.html#l00057">OgreOggSound::LocklessQueue&lt; Type &gt;::m_size</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00054">OgreOggSound::LocklessQueue&lt; Type &gt;::m_tail</a>.</p>
-
-<p><div class="fragment"><pre class="fragment"><a name="l00095"></a>00095                 {
-<a name="l00096"></a>00096                         <span class="keywordflow">if</span> (<a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#adf168781a30764f410ffe638a8d9828a" title="tail of queue list.">m_tail</a> == <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ae4296c4fa769e13b8b5475c3794eef22" title="head of queue list.">m_head</a>) <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00097"></a>00097                         obj = <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#aa0b5b4607fc163ddeceab077f6943cd6" title="buffer to keep the queue.">m_buffer</a>[<a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#adf168781a30764f410ffe638a8d9828a" title="tail of queue list.">m_tail</a>];
-<a name="l00098"></a>00098                         <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#adf168781a30764f410ffe638a8d9828a" title="tail of queue list.">m_tail</a> = (<a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#adf168781a30764f410ffe638a8d9828a" title="tail of queue list.">m_tail</a> + 1) % <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a8136b21affe820fccda0c94b95e9e360" title="size of buffer.">m_size</a>;
-<a name="l00099"></a>00099                         <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00100"></a>00100                 }
-</pre></div></p>
+<p>References <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#aa0b5b4607fc163ddeceab077f6943cd6">OgreOggSound::LocklessQueue&lt; Type &gt;::m_buffer</a>, <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ae4296c4fa769e13b8b5475c3794eef22">OgreOggSound::LocklessQueue&lt; Type &gt;::m_head</a>, <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a8136b21affe820fccda0c94b95e9e360">OgreOggSound::LocklessQueue&lt; Type &gt;::m_size</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#adf168781a30764f410ffe638a8d9828a">OgreOggSound::LocklessQueue&lt; Type &gt;::m_tail</a>.</p>
 
 </div>
 </div>
@@ -214,7 +188,7 @@ template&lt;class Type &gt; </div>
           <td class="paramtype">const Type &amp;&nbsp;</td>
           <td class="paramname"> <em>obj</em></td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [inline]</code></td>
+          <td></td>
         </tr>
       </table>
 </div>
@@ -224,16 +198,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00074">74</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>References <a class="el" href="_lockless_queue_8h_source.html#l00048">OgreOggSound::LocklessQueue&lt; Type &gt;::m_buffer</a>, <a class="el" href="_lockless_queue_8h_source.html#l00051">OgreOggSound::LocklessQueue&lt; Type &gt;::m_head</a>, <a class="el" href="_lockless_queue_8h_source.html#l00057">OgreOggSound::LocklessQueue&lt; Type &gt;::m_size</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00054">OgreOggSound::LocklessQueue&lt; Type &gt;::m_tail</a>.</p>
-
-<p><div class="fragment"><pre class="fragment"><a name="l00075"></a>00075                 {
-<a name="l00076"></a>00076                         <span class="keywordtype">size_t</span> next_head = (<a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ae4296c4fa769e13b8b5475c3794eef22" title="head of queue list.">m_head</a> + 1) % <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a8136b21affe820fccda0c94b95e9e360" title="size of buffer.">m_size</a>;
-<a name="l00077"></a>00077                         <span class="keywordflow">if</span> (next_head == <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#adf168781a30764f410ffe638a8d9828a" title="tail of queue list.">m_tail</a>) <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00078"></a>00078                         <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#aa0b5b4607fc163ddeceab077f6943cd6" title="buffer to keep the queue.">m_buffer</a>[<a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ae4296c4fa769e13b8b5475c3794eef22" title="head of queue list.">m_head</a>] = obj;
-<a name="l00079"></a>00079                         <a class="code" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ae4296c4fa769e13b8b5475c3794eef22" title="head of queue list.">m_head</a> = next_head;
-<a name="l00080"></a>00080                         <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00081"></a>00081                 }
-</pre></div></p>
+<p>References <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#aa0b5b4607fc163ddeceab077f6943cd6">OgreOggSound::LocklessQueue&lt; Type &gt;::m_buffer</a>, <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ae4296c4fa769e13b8b5475c3794eef22">OgreOggSound::LocklessQueue&lt; Type &gt;::m_head</a>, <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a8136b21affe820fccda0c94b95e9e360">OgreOggSound::LocklessQueue&lt; Type &gt;::m_size</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#adf168781a30764f410ffe638a8d9828a">OgreOggSound::LocklessQueue&lt; Type &gt;::m_tail</a>.</p>
 
 </div>
 </div>
@@ -255,7 +220,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00048">48</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00061">OgreOggSound::LocklessQueue&lt; Type &gt;::LocklessQueue()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00094">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00074">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00068">OgreOggSound::LocklessQueue&lt; Type &gt;::~LocklessQueue()</a>.</p>
+<p>Referenced by <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a3271d5f436963dd3014760ca05d451e2">OgreOggSound::LocklessQueue&lt; Type &gt;::LocklessQueue()</a>, <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ac294e217c7c59cc2408d4c80608d632e">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a0bf3d3d2d2e91e7980d99088dc2b16da">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a8c40ebe59022b208dd2a86b6e3bf4c4e">OgreOggSound::LocklessQueue&lt; Type &gt;::~LocklessQueue()</a>.</p>
 
 </div>
 </div>
@@ -276,7 +241,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00051">51</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00088">OgreOggSound::LocklessQueue&lt; Type &gt;::empty()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00094">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00074">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
+<p>Referenced by <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#af6e38f0b0708864c2ae5acc62ee4753b">OgreOggSound::LocklessQueue&lt; Type &gt;::empty()</a>, <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ac294e217c7c59cc2408d4c80608d632e">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a0bf3d3d2d2e91e7980d99088dc2b16da">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
 
 </div>
 </div>
@@ -297,7 +262,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00057">57</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00061">OgreOggSound::LocklessQueue&lt; Type &gt;::LocklessQueue()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00094">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00074">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
+<p>Referenced by <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a3271d5f436963dd3014760ca05d451e2">OgreOggSound::LocklessQueue&lt; Type &gt;::LocklessQueue()</a>, <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ac294e217c7c59cc2408d4c80608d632e">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a0bf3d3d2d2e91e7980d99088dc2b16da">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
 
 </div>
 </div>
@@ -318,7 +283,7 @@ template&lt;class Type &gt; </div>
 
 <p>Definition at line <a class="el" href="_lockless_queue_8h_source.html#l00054">54</a> of file <a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_lockless_queue_8h_source.html#l00088">OgreOggSound::LocklessQueue&lt; Type &gt;::empty()</a>, <a class="el" href="_lockless_queue_8h_source.html#l00094">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="_lockless_queue_8h_source.html#l00074">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
+<p>Referenced by <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#af6e38f0b0708864c2ae5acc62ee4753b">OgreOggSound::LocklessQueue&lt; Type &gt;::empty()</a>, <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#ac294e217c7c59cc2408d4c80608d632e">OgreOggSound::LocklessQueue&lt; Type &gt;::pop()</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_lockless_queue.html#a0bf3d3d2d2e91e7980d99088dc2b16da">OgreOggSound::LocklessQueue&lt; Type &gt;::push()</a>.</p>
 
 </div>
 </div>
@@ -326,7 +291,7 @@ template&lt;class Type &gt; </div>
 <li>C:/Work/Api's/ogreoggsound/include/<a class="el" href="_lockless_queue_8h_source.html">LocklessQueue.h</a></li>
 </ul>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 30 10:32:44 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 15 16:12:07 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

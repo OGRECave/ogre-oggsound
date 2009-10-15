@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundManager.cpp
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 *
@@ -27,7 +27,6 @@
 
 #include "OgreOggSoundManager.h"
 #include "OgreOggSound.h"
-#include "OgreOggSoundFactory.h"
 
 #include <string>
 
@@ -42,7 +41,7 @@ namespace OgreOggSound
 {
 	using namespace Ogre;
 
-	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.12";
+	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.13";
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::OgreOggSoundManager() :
@@ -185,7 +184,7 @@ namespace OgreOggSound
 
 		Ogre::LogManager::getSingleton().logMessage("*****************************************");
 		Ogre::LogManager::getSingleton().logMessage("*** --- Initialising OgreOggSound --- ***");
-		Ogre::LogManager::getSingleton().logMessage("*** ---     "+OGREOGGSOUND_VERSION_STRING+"    --- ***");
+		Ogre::LogManager::getSingleton().logMessage("*** ---     "+OGREOGGSOUND_VERSION_STRING+"     --- ***");
 		Ogre::LogManager::getSingleton().logMessage("*****************************************");
 
 		// Set source limit
@@ -376,52 +375,27 @@ namespace OgreOggSound
 		Ogre::ResourceGroupManager* groupManager = 0;
 		Ogre::String group;
 		Ogre::DataStreamPtr soundData;
-		ALuint buffer = AL_NONE;
+		OgreOggISound* sound = 0;
 
-		// Can we share a buffer?
-		// Static sounds only...
-		if ( !stream )
+		// Not available - try finding resource in OGRE resources
+		groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
+
+		try
 		{
-			// Get shared buffer if available
-			if ( (buffer = _getSharedBuffer(file)) == AL_NONE )
-			{
-				// Not available - try finding resource in OGRE resources
-				groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
-
-				try
-				{
-					group = groupManager->findGroupContainingResource(file);
-					soundData = groupManager->openResource(file, group);
-				}
-				catch (...)
-				{
-					// Cannot find sound file
-					Ogre::LogManager::getSingleton().logMessage("***--- OgreOggSoundManager::createSound() - Unable to find sound file! have you specified a resource location?", Ogre::LML_CRITICAL);
-					return (0);
-				}
-			}
+			group = groupManager->findGroupContainingResource(file);
+			soundData = groupManager->openResource(file, group);
 		}
-		// Streamed sound - find resource in OGRE resources list
-		else
+		catch (...)
 		{
-			groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
-
-			try
-			{
-				group = groupManager->findGroupContainingResource(file);
-				soundData = groupManager->openResource(file, group);
-			}
-			catch (...)
-			{
-				// Cannot find sound file
-				Ogre::LogManager::getSingleton().logMessage("***--- OgreOggSoundManager::createSound() - Unable to find sound file! have you specified a resource location?", Ogre::LML_CRITICAL);
-				return (0);
-			}
+			// Cannot find sound file
+			Ogre::LogManager::getSingleton().logMessage("***--- OgreOggSoundManager::createSound() - Unable to find sound file! have you specified a resource location?", Ogre::LML_CRITICAL);
+			return 0;
 		}
+
 		if		(file.find(".ogg") != std::string::npos || file.find(".OGG") != std::string::npos)
 		{
 			// MUST be unique
-			if ( mSoundMap.find(name)!=mSoundMap.end() )
+			if ( hasSound(name) )
 			{
 				Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound with name: "+name+" already exists!";
 				Ogre::LogManager::getSingleton().logMessage(msg);
@@ -429,38 +403,37 @@ namespace OgreOggSound
 			}
 
 			if(stream)
-				mSoundMap[name] = OGRE_NEW_T(OgreOggStreamSound, Ogre::MEMCATEGORY_GENERAL)(name);
+				sound = OGRE_NEW_T(OgreOggStreamSound, Ogre::MEMCATEGORY_GENERAL)(name);
 			else
-				mSoundMap[name] = OGRE_NEW_T(OgreOggStaticSound, Ogre::MEMCATEGORY_GENERAL)(name);
+				sound = OGRE_NEW_T(OgreOggStaticSound, Ogre::MEMCATEGORY_GENERAL)(name);
 
 			// Set loop flag
-			mSoundMap[name]->loop(loop);
+			sound->loop(loop);
 
 #if OGGSOUND_THREADED
+
 			SoundAction action;
 			cSound* c		= OGRE_NEW_T(cSound, Ogre::MEMCATEGORY_GENERAL);
 			c->mFileName	= file;
-			c->mBuffer		= buffer;
-			c->mStream		= soundData;
 			c->mPrebuffer	= preBuffer;
+			c->mStream		= soundData;
 			action.mAction	= LQ_LOAD;
 			action.mParams	= c;
-			action.mSound	= mSoundMap[name];
+			action.mSound	= sound;
 			_requestSoundAction(action);
 #else
-			// Use shared buffer if available
-			if ( buffer!=AL_NONE )
-				_loadSoundImpl(mSoundMap[name], file, buffer, preBuffer);
-			else
-				_loadSoundImpl(mSoundMap[name], soundData, preBuffer);
-				// Load audio file
+			// load audio data
+			_loadSoundImpl(sound, file, soundData, preBuffer);
 #endif
-			return mSoundMap[name];
+			// Add to list
+			mSoundMap[name]=sound;
+
+			return sound;
 		}
 		else if	(file.find(".wav") != std::string::npos || file.find(".WAV") != std::string::npos)
 		{
 			// MUST be unique
-			if ( mSoundMap.find(name)!=mSoundMap.end() )
+			if ( hasSound(name) )
 			{
 				Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound with name: "+name+" already exists!";
 				Ogre::LogManager::getSingleton().logMessage(msg);
@@ -468,33 +441,31 @@ namespace OgreOggSound
 			}
 
 			if(stream)
-				mSoundMap[name] = OGRE_NEW_T(OgreOggStreamWavSound, Ogre::MEMCATEGORY_GENERAL)(name);
+				sound = OGRE_NEW_T(OgreOggStreamWavSound, Ogre::MEMCATEGORY_GENERAL)(name);
 			else
-				mSoundMap[name] = OGRE_NEW_T(OgreOggStaticWavSound, Ogre::MEMCATEGORY_GENERAL)(name);
+				sound = OGRE_NEW_T(OgreOggStaticWavSound, Ogre::MEMCATEGORY_GENERAL)(name);
 
 			// Set loop flag
-			mSoundMap[name]->loop(loop);
+			sound->loop(loop);
 
 #if OGGSOUND_THREADED
 			SoundAction action;
 			cSound* c		= OGRE_NEW_T(cSound, Ogre::MEMCATEGORY_GENERAL);
 			c->mFileName	= file;
-			c->mBuffer		= buffer;
+			c->mPrebuffer	= preBuffer; 
 			c->mStream		= soundData;
-			c->mPrebuffer	= preBuffer;
 			action.mAction	= LQ_LOAD;
 			action.mParams	= c;
-			action.mSound	= mSoundMap[name];
+			action.mSound	= sound;
 			_requestSoundAction(action);
 #else
-			// Use shared buffer if available
-			if ( buffer!=AL_NONE )
-				_loadSoundImpl(mSoundMap[name], file, buffer, preBuffer);
-			else
-				_loadSoundImpl(mSoundMap[name], soundData, preBuffer);
-				// Load audio file
+			// Load audio file
+			_loadSoundImpl(sound, file, soundData, preBuffer);
 #endif
-			return mSoundMap[name];
+			// Add to list
+			mSoundMap[name]=sound;
+
+			return sound;
 		}
 		else
 		{
@@ -645,6 +616,31 @@ namespace OgreOggSound
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_destroyTemporarySoundImpl(OgreOggISound* sound)
+	{
+		if ( !sound ) return;
+
+		for ( ActiveList::iterator iter=soundsToDestroy.begin(); iter!=soundsToDestroy.end(); ++iter )
+			if ((*iter)==sound)
+				return;
+
+		// Add to list
+		soundsToDestroy.push_back(sound);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_destroyTemporarySound(OgreOggISound* sound)
+	{
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mAction	= LQ_DESTROY;
+		action.mSound	= sound;
+		action.mParams  = 0;
+		_requestSoundAction(action);
+#else
+		_destroyTemporarySoundImpl(sound);
+#endif
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::setDistanceModel(ALenum value)
 	{
 		alDistanceModel(value);
@@ -662,22 +658,28 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::update(Ogre::Real fTime)
 	{
+#if !OGGSOUND_THREADED
 		static Real rTime=0.f;
-
-		// Update ALL active sounds
-		for ( ActiveList::iterator i=mActiveSounds.begin(); i!=mActiveSounds.end(); ++i )
+	
+		if ( !mActiveSounds.empty() )
 		{
-			(*i)->update(fTime);
-	#if !OGGSOUND_THREADED
-			(*i)->_updateAudioBuffers();
-	#endif
+			// Update ALL active sounds
+			ActiveList::const_iterator i=mActiveSounds.begin(); 
+			while ( i!=mActiveSounds.end() )
+			{
+				(*i)->update(fTime);
+				(*i)->_updateAudioBuffers();
+				// Update recorder
+				if ( mRecorder ) mRecorder->_updateRecording();
+				++i;
+			}
 		}
 
 		// Update listener
 		mListener->update();
 
 		// Limit re-activation
-		if ( (rTime+=fTime) > 0.1 )
+		if ( (rTime+=fTime) > 0.05 )
 		{
 			// try to reactivate any
 			_reactivateQueuedSounds();
@@ -685,6 +687,15 @@ namespace OgreOggSound
 			// Reset timer
 			rTime=0.f;
 		}
+
+		// Destroy temporary sounds
+		if ( !soundsToDestroy.empty() )
+		{
+			for ( ActiveList::iterator iter=soundsToDestroy.begin(); iter!=soundsToDestroy.end(); ++iter )
+				destroySound((*iter));
+			soundsToDestroy.clear();
+		}
+#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	struct OgreOggSoundManager::_sortNearToFar
@@ -747,7 +758,7 @@ namespace OgreOggSound
 		if (!sound) return false;
 
 		if (sound->getSource()!=AL_NONE) return true;
-
+		
 		ALuint src = AL_NONE;
 
 		// If there are still sources available
@@ -760,12 +771,10 @@ namespace OgreOggSound
 			mSourcePool.pop_back();
 			// Set sounds source
 			sound->setSource(src);
-			// Add to active list
-			mActiveSounds.push_back(sound);
 			// Remove from reactivate list if reactivating..
 			if ( !mSoundsToReactivate.empty() )
 			{
-				ActiveList::iterator rIter=mSoundsToReactivate.begin();
+				ActiveList::iterator rIter=mSoundsToReactivate.begin(); 
 				while ( rIter!=mSoundsToReactivate.end() )
 				{
 					if ( (*rIter)==sound )
@@ -774,6 +783,8 @@ namespace OgreOggSound
 						++rIter;
 				}
 			}
+			// Add new sound to active list
+			mActiveSounds.push_back(sound);
 			return true;
 		}
 		// All sources in use
@@ -792,13 +803,11 @@ namespace OgreOggSound
 				{
 					ALuint src = (*iter)->getSource();
 					ALuint nullSrc = AL_NONE;
-					// Pause sounds
-					(*iter)->pause();
 					// Remove source
 					(*iter)->setSource(nullSrc);
 					// Attach source to new sound
 					sound->setSource(src);
-					// Remove relinquished sound from active list
+					// Add new sound to active list
 					mActiveSounds.erase(iter);
 					// Add new sound to active list
 					mActiveSounds.push_back(sound);
@@ -877,7 +886,7 @@ namespace OgreOggSound
 				// Add to reactivate list
 				mSoundsToReactivate.push_back(snd1);
 				// Remove relinquished sound from active list
-				mActiveSounds.erase(mActiveSounds.begin());
+				mActiveSounds.erase(mActiveSounds.begin());					 
 				// Add new sound to active list
 				mActiveSounds.push_back(sound);
 				// Return success
@@ -885,13 +894,13 @@ namespace OgreOggSound
 			}
 		}
 
-		// If no opportunity to grab a source add a to queue
+		// If no opportunity to grab a source add to queue
 		if ( !mWaitingSounds.empty() )
 		{
 			// Check not already in list
 			for ( ActiveList::iterator iter=mWaitingSounds.begin(); iter!=mWaitingSounds.end(); ++iter )
 				if ( (*iter)==sound )
-					return true;
+					return false;
 		}
 
 		// Add to list
@@ -923,15 +932,12 @@ namespace OgreOggSound
 			mSourcePool.push_back(src);
 
 			// Remove from actives list
-			ActiveList::iterator iter=mActiveSounds.begin();
+			ActiveList::iterator iter=mActiveSounds.begin(); 
 			while ( iter!=mActiveSounds.end() )
 			{
 				// Find sound in actives list
 				if ( (*iter)==sound )
-				{
-					// Remove from list
 					iter = mActiveSounds.erase(iter);
-				}
 				else
 					++iter;
 			}
@@ -1818,12 +1824,22 @@ namespace OgreOggSound
 		mPausedSounds.clear();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_loadSoundImpl(OgreOggISound* sound, const Ogre::String& file, ALuint buf, bool prebuffer)
+	void OgreOggSoundManager::_loadSoundImpl(OgreOggISound* sound, const String& file, DataStreamPtr stream, bool prebuffer)
 	{
 		if ( !sound ) return;
 
-		// Use shared buffer if available
-		sound->_openImpl(file, buf);
+		ALuint buffer=AL_NONE;
+
+		if ( !sound->mStream )
+			// Is there a shared buffer?
+			buffer = _getSharedBuffer(file);
+
+		if (buffer==AL_NONE)
+			// Load audio file
+			sound->_openImpl(stream);
+		else
+			// Use shared buffer if available
+			sound->_openImpl(file, buffer);
 
 		// If requested to preBuffer - grab free source and init
 		if (prebuffer)
@@ -1834,24 +1850,7 @@ namespace OgreOggSound
 				Ogre::LogManager::getSingleton().logMessage(msg);
 			}
 		}
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_loadSoundImpl(OgreOggISound* sound, Ogre::DataStreamPtr& stream, bool prebuffer)
-	{
-		if ( !sound ) return;
 
-		// Load audio file
-		sound->_openImpl(stream);
-
-		// If requested to preBuffer - grab free source and init
-		if (prebuffer)
-		{
-			if ( !_requestSoundSource(sound) )
-			{
-				Ogre::String msg="*** OgreOggSoundManager::createSound() - Failed to preBuffer sound: "+sound->getName();
-				Ogre::LogManager::getSingleton().logMessage(msg);
-			}
-		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_removeFromLists(OgreOggSound::OgreOggISound *sound)
@@ -1860,7 +1859,7 @@ namespace OgreOggSound
 		if ( !mSoundsToReactivate.empty() )
 		{
 			// Remove ALL referneces to this sound..
-			ActiveList::iterator iter=mSoundsToReactivate.begin();
+			ActiveList::iterator iter=mSoundsToReactivate.begin(); 
 			while ( iter!=mSoundsToReactivate.end() )
 			{
 				if ( sound==(*iter) )
@@ -1875,7 +1874,7 @@ namespace OgreOggSound
 		if ( !mPausedSounds.empty() )
 		{
 			// Remove ALL referneces to this sound..
-			ActiveList::iterator iter=mPausedSounds.begin();
+			ActiveList::iterator iter=mPausedSounds.begin(); 
 			while ( iter!=mPausedSounds.end() )
 			{
 				if ( sound==(*iter) )
@@ -1902,7 +1901,7 @@ namespace OgreOggSound
 		*/
 		if ( !mActiveSounds.empty() )
 		{
-			// Remove ALL referneces to this sound..
+			// Remove ALL references to this sound..
 			ActiveList::iterator iter=mActiveSounds.begin(); 
 			while ( iter!=mActiveSounds.end() )
 			{
@@ -2140,27 +2139,22 @@ namespace OgreOggSound
 		// Pump waiting sounds first..
 		if (!mWaitingSounds.empty())
 		{
-			ActiveList::iterator iter=mWaitingSounds.begin();
-			int i=0;
+			OgreOggISound* sound = mWaitingSounds.front();
 
-			// Perform maximum of 5 requests per frame
-			while( (i++<5) && iter!=mWaitingSounds.end() )
+			// Grab a source
+			if ( _requestSoundSource(sound) )
 			{
-				// Grab a source
-				if ( _requestSoundSource((*iter)) )
-				{
-					// Play
-					(*iter)->play();
+				// Play
+				sound->play();
 
-					// Remove
-					iter=mWaitingSounds.erase(iter);
-				}
-				else
-					// Non available - quit
-					return;
+				// Remove
+				mWaitingSounds.erase(mWaitingSounds.begin());
+
+				return;
 			}
-			// Finish
-			return;
+			else
+				// Non available - quit
+				return;
 		}
 
 		// Any sounds to re-activate?
@@ -2173,7 +2167,7 @@ namespace OgreOggSound
 		OgreOggISound* snd = mSoundsToReactivate.front();
 
 		// Check sound hasn't been stopped whilst in list
-		if ( snd->isPlaying() )
+		if ( !snd->isPlaying() )
 		{
 			// Try to request a source for sound
 			if (_requestSoundSource(snd))
@@ -2273,14 +2267,44 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_updateBuffers()
 	{
+		static Ogre::uint32 cTime=0;
+		static Ogre::uint32 pTime=0;
+		static Ogre::Timer timer;
+		static Real rTime=0.f;
+
+		// Get frame time
+		cTime = timer.getMillisecondsCPU();
+		Real fTime = (cTime-pTime) * 0.001f;
+
+		// update Listener
+		mListener->update();
+
+		// Loop all active sounds
 		ActiveList::const_iterator i = mActiveSounds.begin();
 		while( i != mActiveSounds.end())
 		{
+			// update pos/fade
+			(*i)->update(fTime);
+
+			// Update buffers
 			(*i)->_updateAudioBuffers();
+
 			// Update recorder
 			if ( mRecorder ) mRecorder->_updateRecording();
+
+			// Next..
 			++i;
 		}
+
+		// Reactivate 10fps
+		if ( (rTime+=fTime) > 0.1f )
+		{
+			_reactivateQueuedSoundsImpl();
+			rTime=0.f;
+		}
+
+		// Reset timer
+		pTime=cTime;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_requestSoundAction(const SoundAction& action)
@@ -2292,10 +2316,17 @@ namespace OgreOggSound
 		if ( action.mAction==LQ_DESTROY )
 		{
 			// Catch any duplicate destruction calls
-			if ( action.mSound->mAwaitingDestruction )
-				return;
+			if ( action.mSound->_isDestroying() )
+			{
+				if (action.mSound->mAwaitingDestruction>1)
+					return;
+				else
+					action.mSound->mAwaitingDestruction++;
+			}
 			else
+			{
 				action.mSound->_notifyDestroying();
+			}
 		}
 
 		// If there are queued actions waiting:
@@ -2327,25 +2358,22 @@ namespace OgreOggSound
 		{
 			switch ( act.mAction )
 			{
-			case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); }		break;
-			case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl();	}		break;
-			case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl();	}		break;
-			case LQ_DESTROY:		{ if ( act.mSound ) _destroySoundImpl(act.mSound); }	break;
-			case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); }	break;
-			case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); }		break;
-			case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); }			break;
-			case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); }			break;
-			case LQ_RESUME_ALL:		{ _resumeAllPausedSoundsImpl(); }	break;
+			case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); } break;
+			case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl(); }	break;
+			case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl(); } break;
+			case LQ_DESTROY:		{ if ( act.mSound ) _destroySoundImpl(act.mSound); } break;
+			case LQ_DESTROY_TEMPORARY: { if ( act.mSound ) _destroyTemporarySoundImpl(act.mSound); } break;
+			case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); } break;
+			case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); } break;
+			case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); } break;
+			case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); } break;
+			case LQ_RESUME_ALL:		{ _resumeAllPausedSoundsImpl(); } break;
 			case LQ_LOAD:
 				{
 					cSound* c = static_cast<cSound*>(act.mParams);
 					if ( act.mSound ) 
-					{
-						if ( c->mBuffer!=AL_NONE )
-							_loadSoundImpl(act.mSound, c->mFileName, c->mBuffer, c->mPrebuffer);
-						else
-							_loadSoundImpl(act.mSound, c->mStream, c->mPrebuffer);
-					}
+						_loadSoundImpl(act.mSound, c->mFileName, c->mStream, c->mPrebuffer);
+
 					// Cleanup..
 					c->mStream.setNull();
 
@@ -2365,25 +2393,22 @@ namespace OgreOggSound
 			{
 				switch ( act.mAction )
 				{
-				case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); }		break;
-				case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl();	}		break;
-				case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl();	}		break;
-				case LQ_DESTROY:		{ if ( act.mSound ) _destroySoundImpl(act.mSound); }	break;
-				case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); }		break;
-				case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); }	break;
-				case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); }			break;
-				case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); }			break;
-				case LQ_RESUME_ALL:		{ _resumeAllPausedSoundsImpl(); }	break;
+				case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); } break;
+				case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl(); }	break;
+				case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl(); } break;
+				case LQ_DESTROY:		{ if ( act.mSound ) _destroySoundImpl(act.mSound); } break;
+				case LQ_DESTROY_TEMPORARY: { if ( act.mSound ) _destroyTemporarySoundImpl(act.mSound); } break;
+				case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); } break;
+				case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); } break;
+				case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); } break;
+				case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); } break;
+				case LQ_RESUME_ALL:		{ _resumeAllPausedSoundsImpl(); } break;
 				case LQ_LOAD:
 					{
 						cSound* c = static_cast<cSound*>(act.mParams);
 						if ( act.mSound ) 
-						{
-							if ( c->mBuffer!=AL_NONE )
-								_loadSoundImpl(act.mSound, c->mFileName, c->mBuffer, c->mPrebuffer);
-							else
-								_loadSoundImpl(act.mSound, c->mStream, c->mPrebuffer);
-						}
+							_loadSoundImpl(act.mSound, c->mFileName, c->mStream, c->mPrebuffer);
+
 						// Cleanup..
 						c->mStream.setNull();
 

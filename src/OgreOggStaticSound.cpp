@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStaticSound.cpp
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -25,6 +25,7 @@
 *
 */
 
+#include "OgreOggStaticSound.h"
 #include <string>
 #include <iostream>
 #include "OgreOggSound.h"
@@ -284,23 +285,21 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_stopImpl()
 	{
-		if ( mSource==AL_NONE ) return;
+		if ( mSource==AL_NONE || isStopped() ) return;
 
 		alSourceStop(mSource);
 		alSourceRewind(mSource);
 		mPlay=false;
 		mPreviousOffset=0;
 
-		if ( isTemporary() )
+		// Mark for destruction
+		if (mTemporary)
 		{
-			OgreOggSoundManager::getSingletonPtr()->destroySound(this);
+			OgreOggSoundManager::getSingletonPtr()->_destroyTemporarySound(this);
 		}
-		else
-		{
-			// Give up source immediately if specfied
-			if (mGiveUpSource) 
-				OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
-		}
+		// Give up source immediately if specfied
+		else if (mGiveUpSource) 
+			OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::loop(bool loop)
@@ -315,7 +314,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_updateAudioBuffers()
 	{
-		if(mSource == AL_NONE || !mPlay)
+		if( mSource==AL_NONE || !mPlay ) 
 			return;
 
 		ALenum state;

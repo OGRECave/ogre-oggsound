@@ -1,7 +1,7 @@
 /**
 * @file OgreOggISound.h
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -28,8 +28,7 @@
 * Base class for a single sound
 */
 
-#ifndef _OGREOGGISOUND_H_
-#define _OGREOGGISOUND_H_
+#pragma once
 
 #include "OgreOggSoundPrereqs.h"
 #include <string>
@@ -142,6 +141,14 @@ namespace OgreOggSound
 				Optional action to perform when fading has finished (default: NONE)
 		*/
 		void startFade(bool dir, Ogre::Real fadeTime, FadeControl actionOnCompletion=OgreOggSound::FC_NONE);
+		/** Returns whether this sound is temporary
+		 */
+		bool isTemporary() const { return mTemporary; }
+		/** Marks sound as temporary
+		@remarks
+			Auto-destroys itself after finishing playing.
+		*/
+		void markTemporary() { mTemporary=true; }
 		/** Allows switchable spatialisation for this sound.
 		@remarks
 			Switch's spatialisation on/off for mono sounds, no-effect for stereo sounds.
@@ -157,17 +164,6 @@ namespace OgreOggSound
 			Play position in seconds 
 		 */
 		virtual void setPlayPosition(Ogre::Real seconds);
-		/** Marks a sound as temporary.
-		@remarks
-			Sound will be automatically destroyed once finished playing.
-		 */
-		void markTemporary() { mTemporary=true; }
-		/** Returns temporary status.
-		@remarks
-			Sound can be marked as temporary so that on completion of play it automatically destroys 
-			itself and frees up its resources.
-		 */
-		bool isTemporary() const { return mTemporary; }
 		/** Returns play status.
 		@remarks
 			Checks source state for AL_PLAYING
@@ -610,12 +606,14 @@ namespace OgreOggSound
 		bool mPlay;						// Play status
 		bool mDisable3D;				// 3D status
 		bool mGiveUpSource;				// Flag to indicate whether sound should release its source when stopped
-		bool mTemporary;				// Flag to indicate whether sound should be destroyed when stopped
 		bool mStream;					// Stream flag
 		bool mSourceRelative;			// Relative position flag
 		bool mLocalTransformDirty;		// Transformation update flag
 		bool mPlayPosChanged;			// Flag indicating playback position has changed
 		bool mSeekable;					// Flag indicating seeking available
+		bool mTemporary;				// Flag indicating sound is temporary
+		Ogre::uint8 mAwaitingDestruction; // Imminent destruction flag
+
 
 		unsigned long mAudioOffset;		// offset to audio data
 		unsigned long mAudioEnd;		// offset to audio data
@@ -624,8 +622,6 @@ namespace OgreOggSound
 		std::deque<Ogre::Real> mCuePoints;	// List of play position points
 
 #if OGGSOUND_THREADED
-		bool mAwaitingDestruction;		// Imminent destruction flag
-
 		/** Returns flag indicating an imminent destruction call
 		@remarks
 			Multi-threaded calls are delayed, therefore its possible to cue a destruction 
@@ -634,21 +630,19 @@ namespace OgreOggSound
 			this flag will be used to assess the validation a subsequent get() call to 
 			prevent, as much as possible, this occurence.
 		*/
-		inline bool _isDestroying() const { return mAwaitingDestruction; }
+		inline bool _isDestroying() const { return mAwaitingDestruction!=0; }
 
 		/** Sets flag indicating an imminent destruction call
 		@remarks
 			Multi-threaded calls are delayed, therefore its possible to cue a destruction 
 			then subsequently request a handle to the same sound object, which would yeild 
 			a valid pointer but could potentially invalidate itself at any moment.. For now
-			this flag will be used to assess the validation a subsequent get() call to 
+			this flag will be used to assess the validation of a subsequent getSound() call to 
 			prevent, as much as possible, this occurence.
 		*/
-		inline void _notifyDestroying()  { mAwaitingDestruction=true; }
+		inline void _notifyDestroying()  { mAwaitingDestruction=2; }
 #endif
 
 		friend class OgreOggSoundManager;
 	};
-}						
-
-#endif /* _OGREOGGISOUND_H_ */
+}															  

@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundListener.h
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -28,8 +28,7 @@
 * Listener object (The users 'ears')
 */
 
-#ifndef _OGREOGGLISTENER_H_
-#define _OGREOGGLISTENER_H_
+#pragma once
 
 #include "OgreOggSoundPrereqs.h"
 #include <OgreVector3.h>
@@ -167,6 +166,3 @@ namespace OgreOggSound
 
 	};
 }
-
-#endif	/* _OGREOGGLISTENER_H_ */
-

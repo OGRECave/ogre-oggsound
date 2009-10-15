@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamSound.cpp
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -25,9 +25,10 @@
 *
 */
 
+#include "OgreOggStreamSound.h"
 #include <string>
 #include <iostream>
-#include "OgreOggSound.h"
+#include "OgreOggSoundManager.h"
 
 using namespace std;
 
@@ -226,7 +227,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_updateAudioBuffers()
 	{
-		if (mSource == AL_NONE || !mPlay) return;
+		if (!mPlay || mSource == AL_NONE) return;
 
 		ALenum state;
 		alGetSourcei(mSource, AL_SOURCE_STATE, &state);
@@ -469,6 +470,12 @@ namespace OgreOggSound
 
 			// Stop playback
 			mPlay = false;
+
+			if (mTemporary)
+			{
+				OgreOggSoundManager::getSingletonPtr()->_destroyTemporarySound(this);
+				return;
+			}
 
 			// Jump to beginning if seeking available
 			if ( mSeekable ) 

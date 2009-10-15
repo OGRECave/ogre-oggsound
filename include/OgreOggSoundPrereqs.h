@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundPrereqs.h
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -28,8 +28,7 @@
 * Pre-requisites for building lib
 */
 
-#ifndef _OGREOGGSOUNDPREREQS_H_
-#define _OGREOGGSOUNDPREREQS_H_
+#pragma once
 
 #include <Ogre.h>
 
@@ -74,4 +73,3 @@
 #endif
 
 
-#endif /* _OGREOGGSOUNDPREREQS_H_ */

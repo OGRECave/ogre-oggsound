@@ -1,3 +1,10 @@
+* version 1.13
+
+	* Added temporary sounds
+		* Can now specify a sound to auto-destroy itself at any point
+		* markTemporary()/isTemporary() can be use to set and query this status
+		* Looping will be disabled when set, and sound will destroy itself when it has finished playing.
+
 * Version 1.12
 
 	* Bug fix - delayedActionsList wasn't being executed.
@@ -21,8 +28,8 @@
 		* Added a waiting sounds list which is retested periodically for any sound which fails to grab
 		a source, simliar to reactivate sounds except this is for sounds which have just been created 
 		and not yet played.
+	* Bug fix - removeFromLists had invalid iterators after erase()
 
-	* Buf fix - _removeFromLists() iterators not being set after an erase.
 
 * Version 1.11
 

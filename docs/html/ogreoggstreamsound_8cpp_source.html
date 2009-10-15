@@ -226,7 +226,7 @@
 <a name="l00227"></a>00227 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
 <a name="l00228"></a><a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_stream_sound.html#abebd4acd0145d8820f02503e0c8931a4">00228</a> <span class="comment">        void OgreOggStreamSound::_updateAudioBuffers()</span>
 <a name="l00229"></a>00229 <span class="comment">        {</span>
-<a name="l00230"></a>00230 <span class="comment">                if (mSource == AL_NONE || !mPlay) return;</span>
+<a name="l00230"></a>00230 <span class="comment">                if (!mPlay || mSource == AL_NONE) return;</span>
 <a name="l00231"></a>00231 <span class="comment"></span>
 <a name="l00232"></a>00232 <span class="comment">                ALenum state;</span>
 <a name="l00233"></a>00233 <span class="comment">                alGetSourcei(mSource, AL_SOURCE_STATE, &amp;state);</span>
@@ -454,31 +454,37 @@
 <a name="l00471"></a>00471 <span class="comment">                        // Stop playback</span>
 <a name="l00472"></a>00472 <span class="comment">                        mPlay = false;</span>
 <a name="l00473"></a>00473 <span class="comment"></span>
-<a name="l00474"></a>00474 <span class="comment">                        // Jump to beginning if seeking available</span>
-<a name="l00475"></a>00475 <span class="comment">                        if ( mSeekable ) </span>
-<a name="l00476"></a>00476 <span class="comment">                        {</span>
-<a name="l00477"></a>00477 <span class="comment">                                ov_time_seek(&amp;mOggStream,0);</span>
+<a name="l00474"></a>00474 <span class="comment">                        if (mTemporary)</span>
+<a name="l00475"></a>00475 <span class="comment">                        {</span>
+<a name="l00476"></a>00476 <span class="comment">                                OgreOggSoundManager::getSingletonPtr()-&gt;_destroyTemporarySound(this);</span>
+<a name="l00477"></a>00477 <span class="comment">                                return;</span>
 <a name="l00478"></a>00478 <span class="comment">                        }</span>
-<a name="l00479"></a>00479 <span class="comment">                        // Non-seekable - close/reopen</span>
-<a name="l00480"></a>00480 <span class="comment">                        else</span>
-<a name="l00481"></a>00481 <span class="comment">                        {</span>
-<a name="l00482"></a>00482 <span class="comment">                                // Close</span>
-<a name="l00483"></a>00483 <span class="comment">                                _release();</span>
-<a name="l00484"></a>00484 <span class="comment"></span>
-<a name="l00485"></a>00485 <span class="comment">                                // Reopen</span>
-<a name="l00486"></a>00486 <span class="comment">                                _openImpl(mAudioStream);</span>
-<a name="l00487"></a>00487 <span class="comment">                        }</span>
-<a name="l00488"></a>00488 <span class="comment"></span>
-<a name="l00489"></a>00489 <span class="comment">                        // Reload data</span>
-<a name="l00490"></a>00490 <span class="comment">                        _prebuffer();</span>
-<a name="l00491"></a>00491 <span class="comment"></span>
-<a name="l00492"></a>00492 <span class="comment">                        // Give up source immediately if specfied</span>
-<a name="l00493"></a>00493 <span class="comment">                        if (mGiveUpSource) OgreOggSoundManager::getSingleton()._releaseSoundSource(this);</span>
-<a name="l00494"></a>00494 <span class="comment">                }</span>
-<a name="l00495"></a>00495 <span class="comment">        }</span>
-<a name="l00496"></a>00496 <span class="comment">}</span>
+<a name="l00479"></a>00479 <span class="comment"></span>
+<a name="l00480"></a>00480 <span class="comment">                        // Jump to beginning if seeking available</span>
+<a name="l00481"></a>00481 <span class="comment">                        if ( mSeekable ) </span>
+<a name="l00482"></a>00482 <span class="comment">                        {</span>
+<a name="l00483"></a>00483 <span class="comment">                                ov_time_seek(&amp;mOggStream,0);</span>
+<a name="l00484"></a>00484 <span class="comment">                        }</span>
+<a name="l00485"></a>00485 <span class="comment">                        // Non-seekable - close/reopen</span>
+<a name="l00486"></a>00486 <span class="comment">                        else</span>
+<a name="l00487"></a>00487 <span class="comment">                        {</span>
+<a name="l00488"></a>00488 <span class="comment">                                // Close</span>
+<a name="l00489"></a>00489 <span class="comment">                                _release();</span>
+<a name="l00490"></a>00490 <span class="comment"></span>
+<a name="l00491"></a>00491 <span class="comment">                                // Reopen</span>
+<a name="l00492"></a>00492 <span class="comment">                                _openImpl(mAudioStream);</span>
+<a name="l00493"></a>00493 <span class="comment">                        }</span>
+<a name="l00494"></a>00494 <span class="comment"></span>
+<a name="l00495"></a>00495 <span class="comment">                        // Reload data</span>
+<a name="l00496"></a>00496 <span class="comment">                        _prebuffer();</span>
+<a name="l00497"></a>00497 <span class="comment"></span>
+<a name="l00498"></a>00498 <span class="comment">                        // Give up source immediately if specfied</span>
+<a name="l00499"></a>00499 <span class="comment">                        if (mGiveUpSource) OgreOggSoundManager::getSingleton()._releaseSoundSource(this);</span>
+<a name="l00500"></a>00500 <span class="comment">                }</span>
+<a name="l00501"></a>00501 <span class="comment">        }</span>
+<a name="l00502"></a>00502 <span class="comment">}</span>
 </pre></div></div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 30 10:32:43 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 15 16:12:07 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

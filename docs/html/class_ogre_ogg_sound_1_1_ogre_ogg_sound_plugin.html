@@ -69,12 +69,6 @@
 
 <p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html#l00036">36</a> of file <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html">OgreOggSoundPlugin.cpp</a>.</p>
 
-<p><div class="fragment"><pre class="fragment"><a name="l00037"></a>00037         :<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#afc5813150bd927b4ceec391efa90d402">mOgreOggSoundFactory</a>(0)
-<a name="l00038"></a>00038 {
-<a name="l00039"></a>00039 
-<a name="l00040"></a>00040 }
-</pre></div></p>
-
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
@@ -97,12 +91,7 @@
 
 <p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html#l00042">42</a> of file <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html">OgreOggSoundPlugin.cpp</a>.</p>
 
-<p>References <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html#l00033">sPluginName</a>.</p>
-
-<p><div class="fragment"><pre class="fragment"><a name="l00043"></a>00043 {
-<a name="l00044"></a>00044         <span class="keywordflow">return</span> <a class="code" href="_ogre_ogg_sound_plugin_8cpp.html#ad90989808e43e3ff453df6988409fb5c">sPluginName</a>;
-<a name="l00045"></a>00045 }
-</pre></div></p>
+<p>References <a class="el" href="_ogre_ogg_sound_plugin_8cpp.html#ad90989808e43e3ff453df6988409fb5c">sPluginName</a>.</p>
 
 </div>
 </div>
@@ -124,13 +113,7 @@
 
 <p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html#l00056">56</a> of file <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html">OgreOggSoundPlugin.cpp</a>.</p>
 
-<p>References <a class="el" href="_ogre_ogg_sound_plugin_8h_source.html#l00069">mOgreOggSoundManager</a>.</p>
-
-<p><div class="fragment"><pre class="fragment"><a name="l00057"></a>00057 {
-<a name="l00058"></a>00058         <span class="comment">//initialise OgreOggSoundManager here</span>
-<a name="l00059"></a>00059         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#a103549c1fc2569c1af089c0ee3aa8587">mOgreOggSoundManager</a> = OGRE_NEW_T(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html" title="Sound Manager: Manages all sounds for an application.">OgreOggSoundManager</a>, Ogre::MEMCATEGORY_GENERAL)();
-<a name="l00060"></a>00060 }
-</pre></div></p>
+<p>References <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#a103549c1fc2569c1af089c0ee3aa8587">mOgreOggSoundManager</a>.</p>
 
 </div>
 </div>
@@ -152,16 +135,7 @@
 
 <p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html#l00047">47</a> of file <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html">OgreOggSoundPlugin.cpp</a>.</p>
 
-<p>References <a class="el" href="_ogre_ogg_sound_plugin_8h_source.html#l00068">mOgreOggSoundFactory</a>.</p>
-
-<p><div class="fragment"><pre class="fragment"><a name="l00048"></a>00048 {
-<a name="l00049"></a>00049         <span class="comment">// Create new factory</span>
-<a name="l00050"></a>00050         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#afc5813150bd927b4ceec391efa90d402">mOgreOggSoundFactory</a> = OGRE_NEW_T(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html" title="MovableFactory for creating Sound instances.">OgreOggSoundFactory</a>, Ogre::MEMCATEGORY_GENERAL)();
-<a name="l00051"></a>00051 
-<a name="l00052"></a>00052         <span class="comment">// Register</span>
-<a name="l00053"></a>00053         Root::getSingleton().addMovableObjectFactory(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#afc5813150bd927b4ceec391efa90d402">mOgreOggSoundFactory</a>, <span class="keyword">true</span>);
-<a name="l00054"></a>00054 }
-</pre></div></p>
+<p>References <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#afc5813150bd927b4ceec391efa90d402">mOgreOggSoundFactory</a>.</p>
 
 </div>
 </div>
@@ -183,14 +157,7 @@
 
 <p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html#l00062">62</a> of file <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html">OgreOggSoundPlugin.cpp</a>.</p>
 
-<p>References <a class="el" href="_ogre_ogg_sound_plugin_8h_source.html#l00069">mOgreOggSoundManager</a>.</p>
-
-<p><div class="fragment"><pre class="fragment"><a name="l00063"></a>00063 {
-<a name="l00064"></a>00064         <span class="comment">// shutdown OgreOggSoundManager here</span>
-<a name="l00065"></a>00065         OGRE_DELETE_T(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#a103549c1fc2569c1af089c0ee3aa8587">mOgreOggSoundManager</a>, <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_manager.html" title="Sound Manager: Manages all sounds for an application.">OgreOggSoundManager</a>, Ogre::MEMCATEGORY_GEOMETRY);
-<a name="l00066"></a>00066         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#a103549c1fc2569c1af089c0ee3aa8587">mOgreOggSoundManager</a> = 0;
-<a name="l00067"></a>00067 }
-</pre></div></p>
+<p>References <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#a103549c1fc2569c1af089c0ee3aa8587">mOgreOggSoundManager</a>.</p>
 
 </div>
 </div>
@@ -212,16 +179,7 @@
 
 <p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html#l00069">69</a> of file <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html">OgreOggSoundPlugin.cpp</a>.</p>
 
-<p>References <a class="el" href="_ogre_ogg_sound_plugin_8h_source.html#l00068">mOgreOggSoundFactory</a>.</p>
-
-<p><div class="fragment"><pre class="fragment"><a name="l00070"></a>00070 {
-<a name="l00071"></a>00071         <span class="comment">// unregister</span>
-<a name="l00072"></a>00072         Root::getSingleton().removeMovableObjectFactory(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#afc5813150bd927b4ceec391efa90d402">mOgreOggSoundFactory</a>);
-<a name="l00073"></a>00073 
-<a name="l00074"></a>00074         OGRE_DELETE_T(<a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#afc5813150bd927b4ceec391efa90d402">mOgreOggSoundFactory</a>, <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_factory.html" title="MovableFactory for creating Sound instances.">OgreOggSoundFactory</a>, Ogre::MEMCATEGORY_GENERAL);
-<a name="l00075"></a>00075         <a class="code" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#afc5813150bd927b4ceec391efa90d402">mOgreOggSoundFactory</a> = 0;
-<a name="l00076"></a>00076 }
-</pre></div></p>
+<p>References <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#afc5813150bd927b4ceec391efa90d402">mOgreOggSoundFactory</a>.</p>
 
 </div>
 </div>
@@ -239,7 +197,7 @@
 
 <p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_8h_source.html#l00068">68</a> of file <a class="el" href="_ogre_ogg_sound_plugin_8h_source.html">OgreOggSoundPlugin.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html#l00047">install()</a>, and <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html#l00069">uninstall()</a>.</p>
+<p>Referenced by <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#a4f5bbca3a784d6b10fd1813c7573ebec">install()</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#a7f56993e6d91e068a0b2da38085722d1">uninstall()</a>.</p>
 
 </div>
 </div>
@@ -256,7 +214,7 @@
 
 <p>Definition at line <a class="el" href="_ogre_ogg_sound_plugin_8h_source.html#l00069">69</a> of file <a class="el" href="_ogre_ogg_sound_plugin_8h_source.html">OgreOggSoundPlugin.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html#l00056">initialise()</a>, and <a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html#l00062">shutdown()</a>.</p>
+<p>Referenced by <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#a0608a3430d2a121732fa3d752ae8d9e3">initialise()</a>, and <a class="el" href="class_ogre_ogg_sound_1_1_ogre_ogg_sound_plugin.html#a20facb657f110e720a72e5c7924cf0fc">shutdown()</a>.</p>
 
 </div>
 </div>
@@ -265,7 +223,7 @@
 <li>C:/Work/Api's/ogreoggsound/src/<a class="el" href="_ogre_ogg_sound_plugin_8cpp_source.html">OgreOggSoundPlugin.cpp</a></li>
 </ul>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 30 10:32:44 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 15 16:12:07 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

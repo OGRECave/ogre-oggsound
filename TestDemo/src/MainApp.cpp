@@ -136,9 +136,13 @@ void MainApp::createScene()
 		sound->play();
 	}
 	/** Sound one - streamed, looping, EFX Direct filter */
-	mSoundManager->createSound("background", "background.ogg", true, true);
-	mSoundManager->getSound("background")->disable3D(true);
-	mSoundManager->getSound("background")->play();		 
+	sound = 0;
+	sound = mSoundManager->createSound("background", "background.ogg", true, true);
+	if ( sound ) 
+	{
+		sound->disable3D(true);
+		sound->play();		 
+	}
 }
 //-----------------------------------------------------------------------
 void MainApp::finishedCB(OgreOggISound* sound)

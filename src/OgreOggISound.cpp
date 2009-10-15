@@ -1,7 +1,7 @@
 /**
 * @file OgreOggISound.cpp
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -98,7 +98,6 @@ namespace OgreOggSound
 	,mFade(false) 
 	,mFadeEndAction(OgreOggSound::FC_NONE)  
 	,mStream(false) 
-	,mTemporary(false) 
 	,mFinCBEnabled(false) 
 	,mLoopCBEnabled(false) 
 	,mGiveUpSource(false)  
@@ -114,9 +113,8 @@ namespace OgreOggSound
 	,mDisable3D(false)
 	,mSeekable(true)
 	,mSourceRelative(false)
-#if OGGSOUND_THREADED
-	,mAwaitingDestruction(false)
-#endif
+	,mTemporary(false)
+	,mAwaitingDestruction(0)
 	{
 		// Init some oggVorbis callbacks
 		mOggCallbacks.read_func	= OOSStreamRead;
@@ -395,6 +393,7 @@ namespace OgreOggSound
 			alSourcef (mSource, AL_PITCH, mPitch);
 			alSourcei (mSource, AL_SOURCE_RELATIVE, mSourceRelative);
 			alSourcei (mSource, AL_LOOPING, mStream ? AL_FALSE : mLoop);
+			alSourcei (mSource, AL_SOURCE_STATE, AL_INITIAL);
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -434,6 +433,7 @@ namespace OgreOggSound
 				setVolume(mFadeEndVol);
 				mFade = false;
 				// Perform requested action on completion
+				// NOTE:- Must go through SoundManager when using threads to avoid any corruption/mutex issues.
 				switch ( mFadeEndAction ) 
 				{
 				case FC_PAUSE: 
@@ -478,6 +478,7 @@ namespace OgreOggSound
 		if ( !mSeekable || (mSource==AL_NONE) || mStream )
 			return;
 
+		alGetError();
 		alSourcef(mSource, AL_SEC_OFFSET, mPlayPos);
 		if (alGetError())
 		{
@@ -498,7 +499,7 @@ namespace OgreOggSound
 
 		// May have been kicked off and is currently waiting to be reactivated
 		// Return its previous status..
-		return mPlay;
+		return false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggISound::isPaused() const
@@ -521,10 +522,10 @@ namespace OgreOggSound
 			ALenum state;
 			alGetError();    
 			alGetSourcei(mSource, AL_SOURCE_STATE, &state);
-			return (state == AL_STOPPED || state == AL_INITIAL);
+			return (!mPlay && (state == AL_STOPPED));
 		}
 
-		return true;
+		return false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setPlayPosition(Ogre::Real seconds)
@@ -626,9 +627,8 @@ namespace OgreOggSound
 			{
 				alSource3f(mSource, AL_POSITION, mPosition.x, mPosition.y, mPosition.z);
 				alSource3f(mSource, AL_DIRECTION, mDirection.x, mDirection.y, mDirection.z);
+				mLocalTransformDirty = false;
 			}
-
-			mLocalTransformDirty = false;
 		}	
 
 		_updateFade(fTime);

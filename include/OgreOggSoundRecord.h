@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundRecord.h
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -28,8 +28,7 @@
 * Implements methods for recording audio 
 */
 
-#ifndef _OGREOGGSOUNDRECORD_H_
-#define _OGREOGGSOUNDRECORD_H_
+#pragma once
 
 #include "OgreOggSoundPrereqs.h"
 
@@ -139,4 +138,3 @@ namespace OgreOggSound
 
 }
 
-#endif /* _OGREOGGSOUNDRECORD_H_ */
