@@ -623,13 +623,18 @@
 <a name="l00650"></a>00650 <span class="comment">                        // Reload audio data</span>
 <a name="l00651"></a>00651 <span class="comment">                        _prebuffer();</span>
 <a name="l00652"></a>00652 <span class="comment"></span>
-<a name="l00653"></a>00653 <span class="comment">                        // Give up source immediately if specfied</span>
-<a name="l00654"></a>00654 <span class="comment">                        if (mGiveUpSource) OgreOggSoundManager::getSingleton()._releaseSoundSource(this);</span>
-<a name="l00655"></a>00655 <span class="comment">                }</span>
-<a name="l00656"></a>00656 <span class="comment">        }</span>
-<a name="l00657"></a>00657 <span class="comment">}</span>
+<a name="l00653"></a>00653 <span class="comment">                        if (mTemporary)</span>
+<a name="l00654"></a>00654 <span class="comment">                        {</span>
+<a name="l00655"></a>00655 <span class="comment">                                OgreOggSoundManager::getSingleton()._destroyTemporarySound(this);</span>
+<a name="l00656"></a>00656 <span class="comment">                        }</span>
+<a name="l00657"></a>00657 <span class="comment">                        // Give up source immediately if specfied</span>
+<a name="l00658"></a>00658 <span class="comment">                        else if (mGiveUpSource) </span>
+<a name="l00659"></a>00659 <span class="comment">                                OgreOggSoundManager::getSingleton()._releaseSoundSource(this);</span>
+<a name="l00660"></a>00660 <span class="comment">                }</span>
+<a name="l00661"></a>00661 <span class="comment">        }</span>
+<a name="l00662"></a>00662 <span class="comment">}</span>
 </pre></div></div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 30 10:32:43 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 15 16:12:07 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

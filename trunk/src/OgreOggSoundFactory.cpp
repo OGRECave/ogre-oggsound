@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundFactory.cpp
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 

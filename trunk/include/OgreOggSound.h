@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSound.h
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -28,8 +28,7 @@
 * Library Headers
 */
 
-#ifndef _OGREOGGSOUND_H_
-#define _OGREOGGSOUND_H_
+#pragma once
 
 #include "OgreOggListener.h"
 #include "OgreOggISound.h"
@@ -38,6 +37,5 @@
 #include "OgreOggStreamSound.h"
 #include "OgreOggStreamWavSound.h"
 #include "OgreOggSoundRecord.h"
+#include "OgreOggSoundFactory.h"
 #include "OgreOggSoundManager.h"
-
-#endif	/* _OGREOGGSOUND_H_ */

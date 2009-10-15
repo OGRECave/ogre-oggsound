@@ -55,7 +55,7 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR, INT )
 // First simple memory leak detection for VS2005/VS2008
 #if (defined( WIN32 ) || defined( _WIN32 )) && defined( _MSC_VER ) && defined( _DEBUG ) 
    // use _crtBreakAlloc to put a breakpoint on the provided memory leak id allocation
-   //_crtBreakAlloc = 53532;     
+   //_crtBreakAlloc = 62144;     
    _CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif 
    

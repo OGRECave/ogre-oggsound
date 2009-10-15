@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamWavSound.cpp
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -25,9 +25,10 @@
 *
 */
 
+#include "OgreOggStreamWavSound.h"
 #include <string>
 #include <iostream>
-#include "OgreOggSound.h"
+#include "OgreOggSoundManager.h"
 
 using namespace std;
 
@@ -649,8 +650,13 @@ namespace OgreOggSound
 			// Reload audio data
 			_prebuffer();
 
+			if (mTemporary)
+			{
+				OgreOggSoundManager::getSingleton()._destroyTemporarySound(this);
+			}
 			// Give up source immediately if specfied
-			if (mGiveUpSource) OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
+			else if (mGiveUpSource) 
+				OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
 		}
 	}
 }

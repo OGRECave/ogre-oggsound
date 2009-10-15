@@ -284,64 +284,69 @@
 <a name="l00285"></a>00285 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
 <a name="l00286"></a>00286 <span class="comment">        void OgreOggStaticSound::_stopImpl()</span>
 <a name="l00287"></a>00287 <span class="comment">        {</span>
-<a name="l00288"></a>00288 <span class="comment">                if ( mSource==AL_NONE ) return;</span>
+<a name="l00288"></a>00288 <span class="comment">                if ( mSource==AL_NONE || isStopped() ) return;</span>
 <a name="l00289"></a>00289 <span class="comment"></span>
 <a name="l00290"></a>00290 <span class="comment">                alSourceStop(mSource);</span>
 <a name="l00291"></a>00291 <span class="comment">                alSourceRewind(mSource);</span>
 <a name="l00292"></a>00292 <span class="comment">                mPlay=false;</span>
 <a name="l00293"></a>00293 <span class="comment">                mPreviousOffset=0;</span>
 <a name="l00294"></a>00294 <span class="comment"></span>
-<a name="l00295"></a>00295 <span class="comment">                // Give up source immediately if specfied</span>
-<a name="l00296"></a>00296 <span class="comment">                if (mGiveUpSource) </span>
-<a name="l00297"></a>00297 <span class="comment">                        OgreOggSoundManager::getSingleton()._releaseSoundSource(this);</span>
-<a name="l00298"></a>00298 <span class="comment">        }</span>
-<a name="l00299"></a>00299 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l00300"></a>00300 <span class="comment">        void OgreOggStaticSound::loop(bool loop)</span>
-<a name="l00301"></a>00301 <span class="comment">        {</span>
-<a name="l00302"></a>00302 <span class="comment">                OgreOggISound::loop(loop);</span>
-<a name="l00303"></a>00303 <span class="comment"></span>
-<a name="l00304"></a>00304 <span class="comment">                if(mSource != AL_NONE)</span>
-<a name="l00305"></a>00305 <span class="comment">                {</span>
-<a name="l00306"></a>00306 <span class="comment">                        alSourcei(mSource,AL_LOOPING, loop);</span>
-<a name="l00307"></a>00307 <span class="comment">                }</span>
-<a name="l00308"></a>00308 <span class="comment">        }</span>
-<a name="l00309"></a>00309 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
-<a name="l00310"></a>00310 <span class="comment">        void OgreOggStaticSound::_updateAudioBuffers()</span>
-<a name="l00311"></a>00311 <span class="comment">        {</span>
-<a name="l00312"></a>00312 <span class="comment">                if(mSource == AL_NONE || !mPlay)</span>
-<a name="l00313"></a>00313 <span class="comment">                        return;</span>
-<a name="l00314"></a>00314 <span class="comment"></span>
-<a name="l00315"></a>00315 <span class="comment">                ALenum state;</span>
-<a name="l00316"></a>00316 <span class="comment">                alGetSourcei(mSource, AL_SOURCE_STATE, &amp;state);</span>
-<a name="l00317"></a>00317 <span class="comment"></span>
-<a name="l00318"></a>00318 <span class="comment">                if (state == AL_STOPPED)</span>
-<a name="l00319"></a>00319 <span class="comment">                {</span>
-<a name="l00320"></a>00320 <span class="comment">                        stop();</span>
-<a name="l00321"></a>00321 <span class="comment">                        // Finished callback</span>
-<a name="l00322"></a>00322 <span class="comment">                        if ( mFinishedCB &amp;&amp; mFinCBEnabled )</span>
-<a name="l00323"></a>00323 <span class="comment">                                mFinishedCB-&gt;execute(static_cast&lt;OgreOggISound*&gt;(this));</span>
-<a name="l00324"></a>00324 <span class="comment">                }</span>
-<a name="l00325"></a>00325 <span class="comment">                else</span>
-<a name="l00326"></a>00326 <span class="comment">                {</span>
-<a name="l00327"></a>00327 <span class="comment">                        ALint bytes=0;</span>
-<a name="l00328"></a>00328 <span class="comment"></span>
-<a name="l00329"></a>00329 <span class="comment">                        // Use byte offset to work out current position</span>
-<a name="l00330"></a>00330 <span class="comment">                        alGetSourcei(mSource, AL_BYTE_OFFSET, &amp;bytes);</span>
-<a name="l00331"></a>00331 <span class="comment"></span>
-<a name="l00332"></a>00332 <span class="comment">                        // Has the audio looped?</span>
-<a name="l00333"></a>00333 <span class="comment">                        if ( mPreviousOffset&gt;bytes )</span>
-<a name="l00334"></a>00334 <span class="comment">                        {</span>
-<a name="l00335"></a>00335 <span class="comment">                                if ( mLoopCB &amp;&amp; mLoopCBEnabled )</span>
-<a name="l00336"></a>00336 <span class="comment">                                        mLoopCB-&gt;execute(static_cast&lt;OgreOggISound*&gt;(this));</span>
-<a name="l00337"></a>00337 <span class="comment">                        }</span>
-<a name="l00338"></a>00338 <span class="comment"></span>
-<a name="l00339"></a>00339 <span class="comment">                        // Store current offset position</span>
-<a name="l00340"></a>00340 <span class="comment">                        mPreviousOffset=bytes;</span>
-<a name="l00341"></a>00341 <span class="comment">                }</span>
-<a name="l00342"></a>00342 <span class="comment">        }</span>
-<a name="l00343"></a>00343 <span class="comment">}</span>
+<a name="l00295"></a>00295 <span class="comment">                // Mark for destruction</span>
+<a name="l00296"></a>00296 <span class="comment">                if (mTemporary)</span>
+<a name="l00297"></a>00297 <span class="comment">                {</span>
+<a name="l00298"></a>00298 <span class="comment">                        OgreOggSoundManager::getSingletonPtr()-&gt;_destroyTemporarySound(this);</span>
+<a name="l00299"></a>00299 <span class="comment">                }</span>
+<a name="l00300"></a>00300 <span class="comment">                // Give up source immediately if specfied</span>
+<a name="l00301"></a>00301 <span class="comment">                else if (mGiveUpSource) </span>
+<a name="l00302"></a>00302 <span class="comment">                        OgreOggSoundManager::getSingleton()._releaseSoundSource(this);</span>
+<a name="l00303"></a>00303 <span class="comment">        }</span>
+<a name="l00304"></a>00304 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l00305"></a>00305 <span class="comment">        void OgreOggStaticSound::loop(bool loop)</span>
+<a name="l00306"></a>00306 <span class="comment">        {</span>
+<a name="l00307"></a>00307 <span class="comment">                OgreOggISound::loop(loop);</span>
+<a name="l00308"></a>00308 <span class="comment"></span>
+<a name="l00309"></a>00309 <span class="comment">                if(mSource != AL_NONE)</span>
+<a name="l00310"></a>00310 <span class="comment">                {</span>
+<a name="l00311"></a>00311 <span class="comment">                        alSourcei(mSource,AL_LOOPING, loop);</span>
+<a name="l00312"></a>00312 <span class="comment">                }</span>
+<a name="l00313"></a>00313 <span class="comment">        }</span>
+<a name="l00314"></a>00314 <span class="comment">        /*/////////////////////////////////////////////////////////////////*/</span>
+<a name="l00315"></a>00315 <span class="comment">        void OgreOggStaticSound::_updateAudioBuffers()</span>
+<a name="l00316"></a>00316 <span class="comment">        {</span>
+<a name="l00317"></a>00317 <span class="comment">                if( mSource==AL_NONE || !mPlay ) </span>
+<a name="l00318"></a>00318 <span class="comment">                        return;</span>
+<a name="l00319"></a>00319 <span class="comment"></span>
+<a name="l00320"></a>00320 <span class="comment">                ALenum state;</span>
+<a name="l00321"></a>00321 <span class="comment">                alGetSourcei(mSource, AL_SOURCE_STATE, &amp;state);</span>
+<a name="l00322"></a>00322 <span class="comment"></span>
+<a name="l00323"></a>00323 <span class="comment">                if (state == AL_STOPPED)</span>
+<a name="l00324"></a>00324 <span class="comment">                {</span>
+<a name="l00325"></a>00325 <span class="comment">                        stop();</span>
+<a name="l00326"></a>00326 <span class="comment">                        // Finished callback</span>
+<a name="l00327"></a>00327 <span class="comment">                        if ( mFinishedCB &amp;&amp; mFinCBEnabled )</span>
+<a name="l00328"></a>00328 <span class="comment">                                mFinishedCB-&gt;execute(static_cast&lt;OgreOggISound*&gt;(this));</span>
+<a name="l00329"></a>00329 <span class="comment">                }</span>
+<a name="l00330"></a>00330 <span class="comment">                else</span>
+<a name="l00331"></a>00331 <span class="comment">                {</span>
+<a name="l00332"></a>00332 <span class="comment">                        ALint bytes=0;</span>
+<a name="l00333"></a>00333 <span class="comment"></span>
+<a name="l00334"></a>00334 <span class="comment">                        // Use byte offset to work out current position</span>
+<a name="l00335"></a>00335 <span class="comment">                        alGetSourcei(mSource, AL_BYTE_OFFSET, &amp;bytes);</span>
+<a name="l00336"></a>00336 <span class="comment"></span>
+<a name="l00337"></a>00337 <span class="comment">                        // Has the audio looped?</span>
+<a name="l00338"></a>00338 <span class="comment">                        if ( mPreviousOffset&gt;bytes )</span>
+<a name="l00339"></a>00339 <span class="comment">                        {</span>
+<a name="l00340"></a>00340 <span class="comment">                                if ( mLoopCB &amp;&amp; mLoopCBEnabled )</span>
+<a name="l00341"></a>00341 <span class="comment">                                        mLoopCB-&gt;execute(static_cast&lt;OgreOggISound*&gt;(this));</span>
+<a name="l00342"></a>00342 <span class="comment">                        }</span>
+<a name="l00343"></a>00343 <span class="comment"></span>
+<a name="l00344"></a>00344 <span class="comment">                        // Store current offset position</span>
+<a name="l00345"></a>00345 <span class="comment">                        mPreviousOffset=bytes;</span>
+<a name="l00346"></a>00346 <span class="comment">                }</span>
+<a name="l00347"></a>00347 <span class="comment">        }</span>
+<a name="l00348"></a>00348 <span class="comment">}</span>
 </pre></div></div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Sep 30 10:32:43 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 15 16:12:07 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

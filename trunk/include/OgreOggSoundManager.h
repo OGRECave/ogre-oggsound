@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundManager.h
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -28,8 +28,7 @@
 * Manages the audio library
 */
 
-#ifndef _OGREOGGSOUNDMANAGER_H_
-#define _OGREOGGSOUNDMANAGER_H_
+#pragma once
 
 #include "OgreOggSoundPrereqs.h"
 #include "OgreOggSound.h"
@@ -65,7 +64,8 @@ namespace OgreOggSound
 		LQ_STOP_ALL,
 		LQ_PAUSE_ALL,
 		LQ_RESUME_ALL,
-		LQ_REACTIVATE
+		LQ_REACTIVATE,
+		LQ_DESTROY_TEMPORARY
 	};
 
 	//! Holds information about a sound action
@@ -242,6 +242,20 @@ namespace OgreOggSound
 				Sound name to destroy.
 		 */
 		void destroySound(OgreOggISound* sound);
+		/** Destroys a temporary sound implementation
+		@remarks
+			Internal use only.
+			@param sound
+				Sound to destroy.
+		 */
+		void _destroyTemporarySoundImpl(OgreOggISound* sound);
+		/** Destroys a temporary sound.
+		@remarks
+			Internal use only.
+			@param sound
+				Sound to destroy.
+		 */
+		void _destroyTemporarySound(OgreOggISound* sound);
 		/** Requests a free source object.
 		@remarks
 			Internal function - SHOULD NOT BE CALLED BY USER CODE
@@ -557,8 +571,8 @@ namespace OgreOggSound
 		{
 			while(!mShuttingDown)
 			{
-				OgreOggSoundManager::getSingleton()._processQueuedSounds();
 				OgreOggSoundManager::getSingleton()._updateBuffers();
+				OgreOggSoundManager::getSingleton()._processQueuedSounds();
 				boost::this_thread::sleep(boost::posix_time::millisec(10));
 			}
 		}
@@ -571,21 +585,12 @@ namespace OgreOggSound
 			sound pointer.
 		@param file
 			name of sound file.
-		@param buf
-			OpenAL shared buffer index.
-		@param prebuffer
-			Prebuffer flag.
-		*/
-		void _loadSoundImpl(OgreOggISound* sound, const Ogre::String& file, ALuint buf, bool prebuffer);
-		/** Implementation of sound loading
-		@param sound
-			sound pointer.
 		@param stream
-			File stream pointer.
+			DataStreamPtr (optional).
 		@param prebuffer
 			Prebuffer flag.
 		*/
-		void _loadSoundImpl(OgreOggISound* sound, Ogre::DataStreamPtr& stream, bool prebuffer);
+		void _loadSoundImpl(OgreOggISound* sound, const Ogre::String& file, Ogre::DataStreamPtr stream, bool prebuffer);
 		/** Creates a single sound object.
 		@remarks
 			Creates and inits a single sound object, depending on passed
@@ -771,6 +776,7 @@ namespace OgreOggSound
 		ActiveList mPausedSounds;				// list of sounds currently paused
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		ActiveList mWaitingSounds;				// list of sounds that need playing when sources become available
+		ActiveList soundsToDestroy;				// Temporary sounds list
 		SourceList mSourcePool;					// List of available sources
 		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
 		SharedBufferList mSharedBuffers;		// List of shared static buffers
@@ -873,6 +879,3 @@ namespace OgreOggSound
 		friend class OgreOggSoundFactory;
 	};
 }
-
-#endif /* _OGREOGGSOUNDMANAGER_H_ */
-

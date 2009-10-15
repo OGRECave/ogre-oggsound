@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamWavSound.h
 * @author  Ian Stangoe
-* @version 1.11
+* @version 1.13
 *
 * @section LICENSE
 * 
@@ -28,8 +28,7 @@
 * Implements methods for creating/using a streamed wav sound
 */
 
-#ifndef _OGREOGGSOUNDSTREAMWAV_H_
-#define _OGREOGGSOUNDSTREAMWAV_H_
+#pragma once
 
 #include "OgreOggSoundPrereqs.h"
 #include <string>
@@ -162,6 +161,3 @@ namespace OgreOggSound
 		friend class OgreOggSoundManager;
 	};
 }
-
-#endif /* _OGREOGGSOUNDSTREAMWAV_H_ */
-
