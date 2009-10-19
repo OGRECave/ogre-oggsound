@@ -5,6 +5,9 @@
 		* markTemporary()/isTemporary() can be use to set and query this status
 		* Looping will be disabled when set, and sound will destroy itself when it has finished playing.
 
+	* Added user defined loop points for streamed sounds
+
+
 * Version 1.12
 
 	* Bug fix - delayedActionsList wasn't being executed.

@@ -119,14 +119,15 @@ void MainApp::createScene()
 
 	/** Sound two - prebuffered, streamed, looping */
 	sound = 0;
-	if ( sound = mSoundManager->createSound("Two", "two.ogg", true, true, true) )	
+	if ( sound = mSoundManager->createSound("Two", "fiveptone.wav", true, true) )	
 	{
 		sound->setMaxDistance(300);
 		sound->setReferenceDistance(100);
 		mOgreMonster->attachObject(sound);
 		sound->play();
+		sound->setLoopOffset(5.f);
 	}
-	/** Sound three - non streamed, looping, moving */
+	/** Sound three - non streamed, looping, moving *
 	sound = 0;
 	if ( sound = mSoundManager->createSound("Three", "three.ogg", false, true) )
 	{
@@ -135,14 +136,14 @@ void MainApp::createScene()
 		mOgreMonster->attachObject(sound);
 		sound->play();
 	}
-	/** Sound one - streamed, looping, EFX Direct filter */
+	/** Sound one - streamed, looping, EFX Direct filter *
 	sound = 0;
 	sound = mSoundManager->createSound("background", "background.ogg", true, true);
 	if ( sound ) 
 	{
 		sound->disable3D(true);
 		sound->play();		 
-	}
+	}													  */
 }
 //-----------------------------------------------------------------------
 void MainApp::finishedCB(OgreOggISound* sound)

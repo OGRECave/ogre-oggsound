@@ -90,6 +90,16 @@ namespace OgreOggSound
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
 #endif
+
+		// In case loop point set BEFORE loaded re-check here
+		if ( mLoopOffset>0.f )
+		{
+			if ( mLoopOffset>=mPlayTime )
+			{
+				Ogre::LogManager::getSingleton().logMessage("**** OgreOggStreamSound::open() ERROR - loop time invalid! ****", Ogre::LML_CRITICAL);
+				mLoopOffset=0.f;
+			}
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_release()
@@ -104,6 +114,21 @@ namespace OgreOggSound
 		if ( !mAudioStream.isNull() ) ov_clear(&mOggStream);
 		mPlayPosChanged = false;
 		mPlayPos = 0.f;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggStreamSound::setLoopOffset(Ogre::Real startTime)
+	{
+		// Store requested loop point
+		mLoopOffset=startTime;
+
+		// If loaded check validity
+		if ( !mAudioStream.isNull() )
+			if ( startTime>=mPlayTime ) 
+			{
+				Ogre::LogManager::getSingleton().logMessage("**** OgreOggStreamSound::setLoopOffset() ERROR - loop time invalid! ****", Ogre::LML_CRITICAL);
+				// Invalid - cancel loop point
+				mLoopOffset=0.f;
+			}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStreamSound::_queryBufferInfo()
@@ -299,7 +324,7 @@ namespace OgreOggSound
 				// If set to loop wrap to start of stream
 				if ( mLoop && mSeekable )
 				{
-					if ( ov_time_seek(&mOggStream, 0)!= 0 )
+					if ( ov_time_seek(&mOggStream, 0 + mLoopOffset)!= 0 )
 					{
 						Ogre::LogManager::getSingleton().logMessage("***--- OgreOggStream::_stream() - ERROR looping stream, ogg file NOT seekable!");
 						break;

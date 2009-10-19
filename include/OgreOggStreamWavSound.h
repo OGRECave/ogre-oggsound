@@ -59,6 +59,16 @@ namespace OgreOggSound
 				src Source id.
 		 */
 		void setSource(ALuint& src);	
+		/** Sets the start point of a loopable section of audio.
+		@remarks
+			Allows user to define any start point for a loopable sound, by default this would be 0, or the 
+			entire audio data, but this function can be used to offset the start of the loop. NOTE:- the sound
+			will start playback from the beginning of the audio data but upon looping, if set, it will loop
+			back to the new offset position.
+			@param startTime
+				Position in seconds to offset the loop point.
+		 */
+		void setLoopOffset(Ogre::Real startTime);
 
 	protected:	
 
@@ -157,6 +167,7 @@ namespace OgreOggSound
 		ALenum mFormat;						// OpenAL format
 		bool mStreamEOF;					// EOF flag
 		WavFormatData mFormatData;			// WAVE format structure
+		unsigned long mLoopOffsetBytes;		// Loop offset in bytes
 
 		friend class OgreOggSoundManager;
 	};

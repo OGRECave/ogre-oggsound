@@ -124,6 +124,19 @@ namespace OgreOggSound
 				Boolean: true == loop
 		 */
 		void loop(bool loop){ mLoop = loop; }
+		/** Sets the start point of a loopable section of audio.
+		@remarks
+			Allows user to define any start point for a loopable sound, by default this would be 0, or the 
+			entire audio data, but this function can be used to offset the start of the loop. NOTE:- the sound
+			will start playback from the beginning of the audio data but upon looping, if set, it will loop
+			back to the new offset position.
+			@param startTime
+				Position in seconds to offset the loop point.
+		 */
+		virtual void setLoopOffset(Ogre::Real startTime) {}
+		/** Gets the start point of a loopable section of audio in seconds.
+		 */
+		Ogre::Real getLoopOffset() { return mLoopOffset; }
 		/** Sets the source object for playback.
 		@remarks
 			Abstract function
@@ -616,7 +629,10 @@ namespace OgreOggSound
 
 
 		unsigned long mAudioOffset;		// offset to audio data
-		unsigned long mAudioEnd;		// offset to audio data
+		unsigned long mAudioEnd;		// offset to end of audio data
+		unsigned long mLoopOffset;		// offset to start of loop point
+
+		Ogre::Real mLoopStart;			// offset in seconds to start of loopable audio data
 
 		ALfloat mPlayPos;				// Playback position in seconds
 		std::deque<Ogre::Real> mCuePoints;	// List of play position points

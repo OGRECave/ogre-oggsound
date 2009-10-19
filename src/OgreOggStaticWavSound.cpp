@@ -187,7 +187,7 @@ namespace OgreOggSound
 			throw std::string("Format NOT supported!");
 
 		// Calculate length in seconds
-		mPlayTime = (mAudioEnd-mAudioOffset) / (mFormatData.mFormat->mSamplesPerSec / mFormatData.mFormat->mChannels);
+		mPlayTime = ((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample);
 
 		alGetError();
 		alBufferData(mBuffer, mFormat, sound_buffer, static_cast<ALsizei>(bytesRead), mFormatData.mFormat->mSamplesPerSec);
