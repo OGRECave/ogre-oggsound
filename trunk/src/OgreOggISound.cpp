@@ -109,6 +109,7 @@ namespace OgreOggSound
 	,mScnMan(0)
 	,mAudioOffset(0)
 	,mAudioEnd(0)
+	,mLoopOffset(0)
 	,mLocalTransformDirty(true)
 	,mDisable3D(false)
 	,mSeekable(true)

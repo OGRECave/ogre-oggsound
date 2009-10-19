@@ -37,6 +37,7 @@ namespace OgreOggSound
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamWavSound::OgreOggStreamWavSound(const Ogre::String& name) : OgreOggISound(name)
+	, mLoopOffsetBytes(0)
 	, mStreamEOF(false)
 	{
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=AL_NONE;	
@@ -173,13 +174,29 @@ namespace OgreOggSound
 		}
 
 		// Calculate length in seconds
-		mPlayTime = (mAudioEnd-mAudioOffset) / (mFormatData.mFormat->mSamplesPerSec / mFormatData.mFormat->mChannels);
+		mPlayTime = ((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample);
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
 #endif
+		// Calculate loop offset in bytes
+		// Set BEFORE sound loaded
+		if ( mLoopOffset>0.f )
+		{
+			if ( mLoopOffset<mPlayTime ) 
+			{
+				// Calculate offset in bytes aligned to block align
+				mLoopOffsetBytes = (mLoopOffset * (mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample))/8;
+				mLoopOffsetBytes -= mLoopOffsetBytes % mFormatData.mFormat->mBlockAlign;
+			}
+			else			
+			{
+				Ogre::LogManager::getSingleton().logMessage("**** OgreOggStreamWavSound::open() ERROR - loop time invalid! ****", Ogre::LML_CRITICAL);
+				mLoopOffset=0.f;
+			}
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStreamWavSound::_queryBufferInfo()
@@ -417,6 +434,27 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggStreamWavSound::setLoopOffset(Ogre::Real startTime)
+	{
+		// Store requested loop time
+		mLoopOffset = startTime;
+
+		// Is sound ready?
+		if ( !mAudioStream.isNull() )
+		{
+			// Check valid loop point
+			if ( startTime>=mPlayTime ) 
+			{
+				Ogre::LogManager::getSingleton().logMessage("**** OgreOggStreamWavSound::setLoopOffset() ERROR - loop time invalid! ****", Ogre::LML_CRITICAL);
+				return;
+			}
+
+			// Calculate offset in bytes block aligned
+			mLoopOffsetBytes = mLoopOffset * (mFormatData.mFormat->mSamplesPerSec);
+			mLoopOffsetBytes -= mLoopOffsetBytes % mFormatData.mFormat->mBlockAlign;
+		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStreamWavSound::_stream(ALuint buffer)
 	{
 		std::vector<char> audioData;
@@ -441,7 +479,7 @@ namespace OgreOggSound
 				// If set to loop wrap to start of stream
 				if ( mLoop )
 				{
-					mAudioStream->seek(mAudioOffset);
+					mAudioStream->seek(mAudioOffset + mLoopOffsetBytes);
 					/**	This is the closest we can get to a loop trigger.
 					If, whilst filling the buffers, we need to wrap the stream
 					pointer, trigger the loop callback if defined.
