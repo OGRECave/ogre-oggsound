@@ -186,7 +186,7 @@
 <a name="l00187"></a>00187 <span class="comment">                        throw std::string(&quot;Format NOT supported!&quot;);</span>
 <a name="l00188"></a>00188 <span class="comment"></span>
 <a name="l00189"></a>00189 <span class="comment">                // Calculate length in seconds</span>
-<a name="l00190"></a>00190 <span class="comment">                mPlayTime = (mAudioEnd-mAudioOffset) / (mFormatData.mFormat-&gt;mSamplesPerSec / mFormatData.mFormat-&gt;mChannels);</span>
+<a name="l00190"></a>00190 <span class="comment">                mPlayTime = ((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat-&gt;mSamplesPerSec * mFormatData.mFormat-&gt;mChannels * mFormatData.mFormat-&gt;mBitsPerSample);</span>
 <a name="l00191"></a>00191 <span class="comment"></span>
 <a name="l00192"></a>00192 <span class="comment">                alGetError();</span>
 <a name="l00193"></a>00193 <span class="comment">                alBufferData(mBuffer, mFormat, sound_buffer, static_cast&lt;ALsizei&gt;(bytesRead), mFormatData.mFormat-&gt;mSamplesPerSec);</span>
@@ -469,7 +469,7 @@
 <a name="l00470"></a>00470 <span class="comment">        }</span>
 <a name="l00471"></a>00471 <span class="comment">}</span>
 </pre></div></div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 15 16:12:07 2009 for OgreOggSound by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Tue Oct 20 14:58:07 2009 for OgreOggSound by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
