@@ -123,7 +123,7 @@ namespace OgreOggSound
 
 		// If loaded check validity
 		if ( !mAudioStream.isNull() )
-			if ( startTime>=mPlayTime ) 
+			if ( mLoopOffset>=mPlayTime ) 
 			{
 				Ogre::LogManager::getSingleton().logMessage("**** OgreOggStreamSound::setLoopOffset() ERROR - loop time invalid! ****", Ogre::LML_CRITICAL);
 				// Invalid - cancel loop point
