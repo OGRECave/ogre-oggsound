@@ -443,7 +443,7 @@ namespace OgreOggSound
 		if ( !mAudioStream.isNull() )
 		{
 			// Check valid loop point
-			if ( startTime>=mPlayTime ) 
+			if ( mLoopOffset>=mPlayTime ) 
 			{
 				Ogre::LogManager::getSingleton().logMessage("**** OgreOggStreamWavSound::setLoopOffset() ERROR - loop time invalid! ****", Ogre::LML_CRITICAL);
 				return;

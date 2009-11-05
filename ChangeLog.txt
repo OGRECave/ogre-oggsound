@@ -6,6 +6,8 @@
 		* Looping will be disabled when set, and sound will destroy itself when it has finished playing.
 
 	* Added user defined loop points for streamed sounds
+	
+	* Fixed - mLoopOffset changed to Ogre::Real instead of unsigned long.
 
 
 * Version 1.12

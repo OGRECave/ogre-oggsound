@@ -631,7 +631,7 @@ namespace OgreOggSound
 
 		unsigned long mAudioOffset;		// offset to audio data
 		unsigned long mAudioEnd;		// offset to end of audio data
-		unsigned long mLoopOffset;		// offset to start of loop point
+		Ogre::Real mLoopOffset;			// offset to start of loop point
 
 		Ogre::Real mLoopStart;			// offset in seconds to start of loopable audio data
 
