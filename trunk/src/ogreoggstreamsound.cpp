@@ -517,11 +517,19 @@ namespace OgreOggSound
 				_openImpl(mAudioStream);
 			}
 
-			// Reload data
-			_prebuffer();
+			// If marked for auto-destruction request destroy()
+			if (mTemporary)
+			{
+				mAwaitingDestruction=true;
+			}
+			else
+			{
+				// Reload data
+				_prebuffer();
 
-			// Give up source immediately if specfied
-			if (mGiveUpSource) OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
+				// Give up source immediately if specfied
+				if (mGiveUpSource) OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
+			}
 		}
 	}
 }
