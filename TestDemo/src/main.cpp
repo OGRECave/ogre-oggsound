@@ -85,7 +85,7 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR, INT )
                               0, NULL, wc.hInstance, NULL );*/
 #endif
 
-	showWin32Console();	
+//	showWin32Console();	
 
 	//og = MainOgre::createOgre(hWnd); 	
 	og = new MainOgre(hWnd);

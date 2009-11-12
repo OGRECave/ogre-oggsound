@@ -1,3 +1,7 @@
+* version 1.14
+
+	* Visual Studio project settings tweaked to reduce lib size and improve performance.
+
 * version 1.13
 
 	* Added temporary sounds
