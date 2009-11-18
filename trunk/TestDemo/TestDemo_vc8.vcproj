@@ -119,10 +119,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
+				Optimization="2"
 				AdditionalIncludeDirectories="./include;&quot;$(OGRE_HOME)\OgreMain\include&quot;;&quot;$(OGRE_HOME)\Dependencies\include\&quot;;&quot;$(OGRE_HOME)\Dependencies\include\OIS&quot;;&quot;$(BOOST_ROOT)&quot;;..\INCLUDE;&quot;$(OPENAL_SDK)\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				StringPooling="true"
 				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -139,7 +142,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
 				AdditionalDependencies="OgreOggSound.lib OgreMain.lib OIS.lib"
+				Version="1.13"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(BOOST_ROOT)/lib&quot;;..\release;&quot;$(OGRE_HOME)\lib\&quot;;&quot;$(OGRE_HOME)\Dependencies\lib\Release&quot;"
 				GenerateDebugInformation="true"
