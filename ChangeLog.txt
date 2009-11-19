@@ -1,6 +1,8 @@
 * version 1.14
 
 	* Visual Studio project settings tweaked to reduce lib size and improve performance.
+	
+	* Updated BOOST version to 1.40
 
 * version 1.13
 
