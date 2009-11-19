@@ -16,6 +16,8 @@ Features List:
 * Optional multithreaded streaming 
 	* using BOOST Threads
 
+* Multichannel audio support
+
 * Full 2D/3D audio support
 	* spatialized sound support using mono sound files
 	* 2D/multichannel support 
@@ -29,6 +31,9 @@ Features List:
 * Playback seeking 
 
 * Cue points - Set 'jump-to' points within sounds
+
+* Temporary sounds
+	* Allows creation and automatic destruction of single-play/infrequent sounds.
 
 * Source management
 	* Sources are pooled 

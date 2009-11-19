@@ -4,6 +4,12 @@
 	
 	* Updated BOOST version to 1.40
 
+	* Cleaned up files:
+		* Removed ogg/vorbis directories
+		* 
+introduced a dependencies directory containing headers/libs for ogg/vorbis
+		* Removed TestDemo directory, available on request.
+
 * version 1.13
 
 	* Added temporary sounds
