@@ -31,7 +31,7 @@
 
   OpenAL SDK: http://connect.creativelabs.com/openal/Downloads/OpenAL11CoreSDK.zip
 
-  BOOST: http://www.boost-consulting.com/boost_1_34_1_setup.exe
+  BOOST: http://www.boostpro.com/download
 
 */
 
