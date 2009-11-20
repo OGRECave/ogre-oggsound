@@ -6,9 +6,10 @@
 
 	* Cleaned up files:
 		* Removed ogg/vorbis directories
-		* 
-introduced a dependencies directory containing headers/libs for ogg/vorbis
+		* introduced a dependencies directory containing libs for ogg/vorbis
 		* Removed TestDemo directory, available on request.
+        * Removed Release/Debug folders
+        * Added new lib folder for output, more consistent with other libs
 
 * version 1.13
 
