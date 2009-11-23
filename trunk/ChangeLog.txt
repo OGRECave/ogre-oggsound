@@ -8,8 +8,13 @@
 		* Removed ogg/vorbis directories
 		* introduced a dependencies directory containing libs for ogg/vorbis
 		* Removed TestDemo directory, available on request.
-        * Removed Release/Debug folders
-        * Added new lib folder for output, more consistent with other libs
+        
+	* Removed Release/Debug folders
+        
+	* Added new lib folder for output, more consistent with other libs
+
+	* Removed libs folder from within dependencies, dependencies now contains ogg/vorbis libs.
+
 
 * version 1.13
 
