@@ -33,6 +33,7 @@ Features List:
 * Cue points - Set 'jump-to' points within sounds
 
 * Configurable loop points
+	* By default a sound would loop from start to end, however a user can customise this by offsetting the start point of the loop per sound.
 
 * Temporary sounds
 	* Allows creation and automatic destruction of single-play/infrequent sounds.
