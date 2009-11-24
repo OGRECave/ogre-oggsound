@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundManager.cpp
 * @author  Ian Stangoe
-* @version 1.13
+* @version 1.14
 *
 * @section LICENSE
 *
@@ -41,7 +41,7 @@ namespace OgreOggSound
 {
 	using namespace Ogre;
 
-	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.13";
+	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.14";
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::OgreOggSoundManager() :
