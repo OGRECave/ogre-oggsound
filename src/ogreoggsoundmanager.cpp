@@ -230,8 +230,11 @@ namespace OgreOggSound
 		// If the suggested device is in the list we use it, otherwise select the default device
 		mDevice = alcOpenDevice(deviceInList ? deviceName.c_str() : NULL);
 		if (!mDevice)
-			throw std::string("Unable to create OpenAL device");
-
+		{
+			Ogre::LogManager::getSingletonPtr()->logMessage("OgreOggSoundManager::init() ERROR - Unable to open audio device", Ogre::LML_CRITICAL);
+			return false;
+		}
+		
 		if (!deviceInList)
 			Ogre::LogManager::getSingleton().logMessage("*** --- Choosing: " + Ogre::String(alcGetString(mDevice, ALC_DEVICE_SPECIFIER))+" (Default device)");
 		else
@@ -244,12 +247,18 @@ namespace OgreOggSound
 
 		mContext = alcCreateContext(mDevice, attribs);
 		if (!mContext)
-			throw std::string("Unable to create OpenAL context");
+		{
+			Ogre::LogManager::getSingletonPtr()->logMessage("OgreOggSoundManager::init() ERROR - Unable to create a context", Ogre::LML_CRITICAL);
+			return false;
+		}
 
 		Ogre::LogManager::getSingleton().logMessage("*** --- OpenAL Context successfully created");
 
 		if (!alcMakeContextCurrent(mContext))
-			throw std::string("Unable to set current OpenAL context");
+		{
+			Ogre::LogManager::getSingletonPtr()->logMessage("OgreOggSoundManager::init() ERROR - Unable to set context", Ogre::LML_CRITICAL);
+			return false;
+		}
 #endif
 
 		_checkFeatureSupport();
