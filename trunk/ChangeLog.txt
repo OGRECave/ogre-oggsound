@@ -15,6 +15,9 @@
 
 	* Removed libs folder from within dependencies, dependencies now contains ogg/vorbis libs.
 
+	* Changed exceptions to booleans in OgreOggSoundManager::init()
+		* Function now returns false for any errors instead of crashing.
+
 
 * version 1.13
 

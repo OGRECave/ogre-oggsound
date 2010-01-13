@@ -332,7 +332,7 @@ namespace OgreOggSound
 		const Ogre::StringVector getDeviceList() const;
 		/** Returns pointer to listener.
 		 */
-		OgreOggListener *getListener(){return mListener;};
+		OgreOggListener* getListener() { return mListener; }
 		/** Returns number of sources created.
 		 */
 		int getNumSources() const { return mNumSources; }
