@@ -475,7 +475,8 @@ namespace OgreOggSound
 				// Calculate remaining data size
 				size_t remaining = mAudioEnd-currPos;
 				// Read up to a buffer's worth of data
-				bytes = static_cast<int>(mAudioStream->read(data, remaining));
+				if ( remaining )
+					bytes = static_cast<int>(mAudioStream->read(data, remaining));
 				// If set to loop wrap to start of stream
 				if ( mLoop )
 				{
