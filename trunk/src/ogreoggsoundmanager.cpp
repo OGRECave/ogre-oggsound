@@ -195,16 +195,19 @@ namespace OgreOggSound
 
 		int majorVersion;
 		int minorVersion;
+		ALCdevice* device = alcOpenDevice(NULL);
 
 		// Version Info
-		alcGetIntegerv(NULL, ALC_MAJOR_VERSION, sizeof(majorVersion), &majorVersion);
-		if (alGetError()) 
+	    alcGetIntegerv(device, ALC_MAJOR_VERSION, sizeof(majorVersion), &majorVersion);
+        ALCenum error = alcGetError(device);
+        if (error != ALC_NO_ERROR)
 		{
 			LogManager::getSingleton().logMessage("Unable to get OpenAL Major Version number", Ogre::LML_CRITICAL);
 			return false;
 		}
-		alcGetIntegerv(NULL, ALC_MINOR_VERSION, sizeof(minorVersion), &minorVersion);
-		if (alGetError()) 
+        alcGetIntegerv(device, ALC_MINOR_VERSION, sizeof(minorVersion), &minorVersion);
+        error = alcGetError(device);
+        if (error != ALC_NO_ERROR)
 		{
 			LogManager::getSingleton().logMessage("Unable to get OpenAL Minor Version number", Ogre::LML_CRITICAL);
 			return false;
@@ -251,7 +254,10 @@ namespace OgreOggSound
 		Ogre::LogManager::getSingleton().logMessage("*** --- OpenAL Device successfully created");
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-		ALint attribs[2] = {ALC_MAX_AUXILIARY_SENDS, 4};
+        ALint attribs[2] = {ALC_MAX_AUXILIARY_SENDS, 4};
+#else
+        ALint attribs[1] = {4};
+#endif
 
 		mContext = alcCreateContext(mDevice, attribs);
 		if (!mContext)
@@ -267,7 +273,6 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingletonPtr()->logMessage("OgreOggSoundManager::init() ERROR - Unable to set context", Ogre::LML_CRITICAL);
 			return false;
 		}
-#endif
 
 		_checkFeatureSupport();
 
