@@ -18,6 +18,8 @@
 	* Changed exceptions to booleans in OgreOggSoundManager::init()
 		* Function now returns false for any errors instead of crashing.
 
+	* Fixed linux compiling issues.
+
 
 * version 1.13
 
