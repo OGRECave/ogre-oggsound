@@ -195,23 +195,41 @@ namespace OgreOggSound
 
 		int majorVersion;
 		int minorVersion;
+#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
 		ALCdevice* device = alcOpenDevice(NULL);
-
+#endif
 		// Version Info
-	    alcGetIntegerv(device, ALC_MAJOR_VERSION, sizeof(majorVersion), &majorVersion);
-        ALCenum error = alcGetError(device);
-        if (error != ALC_NO_ERROR)
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+        alGetError();
+	    alcGetIntegerv(NULL, ALC_MINOR_VERSION, sizeof(minorVersion), &minorVersion);
+        if (alGetError())
+		{
+			LogManager::getSingleton().logMessage("Unable to get OpenAL Minor Version number", Ogre::LML_CRITICAL);
+			return false;
+		}
+		alGetError();
+		alcGetIntegerv(NULL, ALC_MAJOR_VERSION, sizeof(majorVersion), &majorVersion);
+        if (alGetError())
 		{
 			LogManager::getSingleton().logMessage("Unable to get OpenAL Major Version number", Ogre::LML_CRITICAL);
 			return false;
 		}
+#else
         alcGetIntegerv(device, ALC_MINOR_VERSION, sizeof(minorVersion), &minorVersion);
-        error = alcGetError(device);
+        ALCenum error = alGetError();
         if (error != ALC_NO_ERROR)
 		{
 			LogManager::getSingleton().logMessage("Unable to get OpenAL Minor Version number", Ogre::LML_CRITICAL);
 			return false;
 		}
+		alcGetIntegerv(device, ALC_MAJOR_VERSION, sizeof(majorVersion), &majorVersion);
+		error = alcGetError();
+        if (error != ALC_NO_ERROR)
+		{
+			LogManager::getSingleton().logMessage("Unable to get OpenAL Major Version number", Ogre::LML_CRITICAL);
+			return false;
+		}
+#endif
 		Ogre::String msg="*** --- OpenAL version " + Ogre::StringConverter::toString(majorVersion) + "." + Ogre::StringConverter::toString(minorVersion);
 		Ogre::LogManager::getSingleton().logMessage(msg, Ogre::LML_TRIVIAL);
 
