@@ -1,3 +1,16 @@
+* version 1.15
+
+	* Bug fix - EFX attach/detach functions added to actions queue
+
+	* Cleaned up warnings for variable conversions
+	
+	* supressed vorbis file warnings
+
+	* Removed prebuilt libs from SVN
+
+	* Paths setup for OGRE 1.7
+
+
 * version 1.14
 
 	* Visual Studio project settings tweaked to reduce lib size and improve performance.
