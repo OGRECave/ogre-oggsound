@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamSound.cpp
 * @author  Ian Stangoe
-* @version 1.14
+* @version 1.15
 *
 * @section LICENSE
 * 
@@ -76,7 +76,7 @@ namespace OgreOggSound
 		mVorbisComment = ov_comment(&mOggStream, -1);
 
 		// Get total playtime in seconds
-		mPlayTime = ov_time_total(&mOggStream, -1);
+		mPlayTime = static_cast<Ogre::Real>(ov_time_total(&mOggStream, -1));
 
 		// Generate audio buffers
 		alGenBuffers(NUM_BUFFERS, mBuffers);

@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamWavSound.cpp
 * @author  Ian Stangoe
-* @version 1.14
+* @version 1.15
 *
 * @section LICENSE
 * 
@@ -174,7 +174,7 @@ namespace OgreOggSound
 		}
 
 		// Calculate length in seconds
-		mPlayTime = ((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample);
+		mPlayTime = static_cast<Ogre::Real>(((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample));
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// Upload to XRAM buffers if available
@@ -188,7 +188,7 @@ namespace OgreOggSound
 			if ( mLoopOffset<mPlayTime ) 
 			{
 				// Calculate offset in bytes aligned to block align
-				mLoopOffsetBytes = (mLoopOffset * (mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample))/8;
+				mLoopOffsetBytes = static_cast<unsigned long>((mLoopOffset * (mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample))/8);
 				mLoopOffsetBytes -= mLoopOffsetBytes % mFormatData.mFormat->mBlockAlign;
 			}
 			else			
@@ -450,7 +450,7 @@ namespace OgreOggSound
 			}
 
 			// Calculate offset in bytes block aligned
-			mLoopOffsetBytes = mLoopOffset * (mFormatData.mFormat->mSamplesPerSec);
+			mLoopOffsetBytes = static_cast<unsigned long>(mLoopOffset * (mFormatData.mFormat->mSamplesPerSec));
 			mLoopOffsetBytes -= mLoopOffsetBytes % mFormatData.mFormat->mBlockAlign;
 		}
 	}

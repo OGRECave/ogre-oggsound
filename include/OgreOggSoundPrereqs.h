@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundPrereqs.h
 * @author  Ian Stangoe
-* @version 1.14
+* @version 1.15
 *
 * @section LICENSE
 * 
@@ -29,6 +29,7 @@
 */
 
 #pragma once
+#pragma warning( disable : 4244 )
 
 #include <Ogre.h>
 

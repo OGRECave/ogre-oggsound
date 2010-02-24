@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStaticWavSound.cpp
 * @author  Ian Stangoe
-* @version 1.14
+* @version 1.15
 *
 * @section LICENSE
 * 
@@ -187,7 +187,7 @@ namespace OgreOggSound
 			throw std::string("Format NOT supported!");
 
 		// Calculate length in seconds
-		mPlayTime = ((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample);
+		mPlayTime = static_cast<Ogre::Real>(((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample));
 
 		alGetError();
 		alBufferData(mBuffer, mFormat, sound_buffer, static_cast<ALsizei>(bytesRead), mFormatData.mFormat->mSamplesPerSec);
