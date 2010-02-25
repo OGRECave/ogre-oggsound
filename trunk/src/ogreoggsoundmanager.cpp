@@ -1134,7 +1134,7 @@ namespace OgreOggSound
 		return true;
 #else
 		// load audio data
-		return _attachEffectToSoundImpl(sName, slotID, effectName, filterName);
+		return _attachEffectToSoundImpl(sound, slotID, effectName, filterName);
 #endif
 	}
 
