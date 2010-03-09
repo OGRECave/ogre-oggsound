@@ -71,6 +71,9 @@ namespace OgreOggSound
 				Position in seconds to offset the loop point.
 		 */
 		void setLoopOffset(Ogre::Real startTime);
+		/** Returns whether sound is mono
+		*/
+		bool isMono() const;
 
 	protected:	
 
