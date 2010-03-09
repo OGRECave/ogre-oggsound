@@ -159,6 +159,9 @@ namespace OgreOggSound
 		/** Returns whether this sound is temporary
 		 */
 		bool isTemporary() const { return mTemporary; }
+		/** Returns whether this sound is mono
+		 */
+		virtual bool isMono() const { return false; } 
 		/** Marks sound as temporary
 		@remarks
 			Auto-destroys itself after finishing playing.

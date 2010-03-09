@@ -130,6 +130,13 @@ namespace OgreOggSound
 				mLoopOffset=0.f;
 			}
 	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	bool	OgreOggStreamSound::isMono() const
+	{
+		return ( (mFormat==AL_FORMAT_MONO16) || (mFormat==AL_FORMAT_MONO8) );
+	}
+
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStreamSound::_queryBufferInfo()
 	{

@@ -8,6 +8,8 @@
 
 	* Removed prebuilt libs from SVN
 
+	* Added isMono() convenience function for determining spatialisation problems.
+
 	* Paths setup for OGRE 1.7
 
 

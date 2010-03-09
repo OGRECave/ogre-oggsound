@@ -213,6 +213,12 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
+	bool	OgreOggStaticWavSound::isMono() const
+	{
+		return ( (mFormat==AL_FORMAT_MONO16) || (mFormat==AL_FORMAT_MONO8) );
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
 	bool	OgreOggStaticWavSound::_queryBufferInfo()
 	{
 		if ( !mFormatData.mFormat ) return false;
