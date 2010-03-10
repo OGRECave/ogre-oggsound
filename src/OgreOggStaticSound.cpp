@@ -45,7 +45,10 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStaticSound::~OgreOggStaticSound()
-	{
+	{		
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundDestroyed(this);
+
 		_release();
 		mVorbisInfo=0;
 		mVorbisComment=0;
@@ -117,6 +120,9 @@ namespace OgreOggSound
 
 		// Register shared buffer
 		OgreOggSoundManager::getSingleton()._registerSharedBuffer(mAudioName, mBuffer);
+
+		// Notify listener
+		if (mListener) mSoundListener->soundLoaded(this);
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -127,6 +133,9 @@ namespace OgreOggSound
 
 		// Filename
 		mAudioName = fName;
+
+		// Notify listener
+		if (mListener) mSoundListener->soundLoaded(this);
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -273,6 +282,9 @@ namespace OgreOggSound
 		if ( mSource==AL_NONE ) return;
 
 		alSourcePause(mSource);
+
+		// Notify listener
+		if (mListener) mSoundListener->soundPaused(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_playImpl()
@@ -290,6 +302,9 @@ namespace OgreOggSound
 
 		alSourcePlay(mSource);
 		mPlay = true;
+
+		// Notify listener
+		if (mListener) mSoundListener->soundPlayed(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_stopImpl()
@@ -300,6 +315,9 @@ namespace OgreOggSound
 		alSourceRewind(mSource);
 		mPlay=false;
 		mPreviousOffset=0;
+
+		// Notify listener
+		if (mListener) mSoundListener->soundStopped(this);
 
 		// Mark for destruction
 		if (mTemporary)
@@ -332,9 +350,6 @@ namespace OgreOggSound
 		if (state == AL_STOPPED)
 		{
 			stop();
-			// Finished callback
-			if ( mFinishedCB && mFinCBEnabled )
-				mFinishedCB->execute(static_cast<OgreOggISound*>(this));
 		}
 		else
 		{
@@ -346,8 +361,8 @@ namespace OgreOggSound
 			// Has the audio looped?
 			if ( mPreviousOffset>bytes )
 			{
-				if ( mLoopCB && mLoopCBEnabled )
-					mLoopCB->execute(static_cast<OgreOggISound*>(this));
+				// Notify listener
+				if (mListener) mSoundListener->soundLooping(this);
 			}
 
 			// Store current offset position

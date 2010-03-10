@@ -101,6 +101,7 @@ namespace OgreOggSound
 		int   dataRead;   // How much data we have read so far
 	};
 
+
 	//! A single sound object
 	/** provides functions for setting audio properties
 	 *	on a 3D sound as well as stop/pause/play operations.
@@ -110,6 +111,41 @@ namespace OgreOggSound
 
 	public:
 	
+		//! Listener callback
+		/** provides hooks into various sound states.
+		*/	
+		class _OGGSOUND_EXPORT SoundListener
+		{
+		public:
+
+			/** constructor 
+			*/
+			SoundListener(){}
+			/** destructor 
+			*/
+			virtual ~SoundListener(){}
+			/** Called when sound data has been loaded
+			*/
+			virtual void soundLoaded(OgreOggISound* sound) {}
+			/** Called when sound is about to be destroyed
+			*/
+			virtual void soundDestroyed(OgreOggISound* sound) {}
+			/** Called when sound is about to play
+			*/
+			virtual void soundPlayed(OgreOggISound* sound) {}
+			/** Called when sound is stopped
+			*/
+			virtual void soundStopped(OgreOggISound* sound) {}
+			/** Called when sound is paused
+			*/
+			virtual void soundPaused(OgreOggISound* sound) {}
+			/** Called when sound loops
+			*/
+			virtual void soundLooping(OgreOggISound* sound) {}
+
+		};
+
+
 		/** Plays sound.
 		 */
 		void play();
@@ -418,65 +454,20 @@ namespace OgreOggSound
 			Overridden from MovableObject.
 		 */
 		virtual Ogre::Real getBoundingRadius(void) const;
-		/** Sets a callback for when sound finishes playing 
-		@remarks
-			Allows custom functions to be notified when this sound finishes playing.
-			@param object 
-				pointer to this sound
-			@param function 
-				pointer to member function
-			@param enabled
-				Sets whether callback should be used
-		*/
-		template<typename T>
-		void setFinishedCallback(T *object, void(T::*function)(OgreOggISound *sound), bool enabled=true)
-		{
-			mFinishedCB = new OSSCallbackPointer<T>(function, object);
-			mFinCBEnabled = enabled;
-		}
-		/** Sets whether the finished callback is called, if defined.
-		@remarks
-			Allows users to enable/disable the callback feature as/when required.
-			@param enable
-				true=on
-		*/
-		void setFinishedCallbackEnabled(bool enable)
-		{
-			mFinCBEnabled = enable;
-		}
-
-		/** Sets a callback for when sound loops
-		@remarks
-			Allows custom functions to be notified when this sound loops.
-			@param object 
-				pointer to this sound
-			@param function 
-				pointer to member function
-			@param enabled
-				Sets whether callback should be used
-		*/
-		template<typename T> void setLoopCallback(T *object, void(T::*function)(OgreOggISound *sound), bool enabled=true)
-		{
-			mLoopCB = new OSSCallbackPointer<T>(function, object);
-			mLoopCBEnabled = enabled;
-		}
-		/** Sets whether the loop callback is called, if defined.
-		@remarks
-			Allows users to enable/disable the callback feature as/when required.
-			@param enable 
-				true=on
-		*/
-		void setLoopCallbackEnabled(bool enable)
-		{
-			mLoopCBEnabled = enable;
-		}
-
 		/** Gets the SceneManager pointer registered at creation.
 		@remarks
 			This will only be set if the sound was created through the plugin method
 			createMovableobject().
 		*/
 		Ogre::SceneManager* getSceneManager() const { return mScnMan; }
+
+		/** Sets a listener object to be notified of events.
+		@remarks
+			Allows state changes to be signaled to an interested party.
+			@param l
+				Listener object pointer.
+		*/
+		void setListener(SoundListener* l) { mSoundListener=l; }
 
 	protected:
 
@@ -592,12 +583,7 @@ namespace OgreOggSound
 		Ogre::DataStreamPtr mAudioStream;
 		ov_callbacks mOggCallbacks;
 
-		// Callbacks  
-		OOSCallback* mLoopCB;
-		OOSCallback* mFinishedCB;
-		bool mFinCBEnabled;
-		bool mLoopCBEnabled;
-
+		SoundListener* mSoundListener;	// Callback object
 		size_t mBufferSize;				// Size of audio buffer (250ms)
 
 		/** Sound properties 

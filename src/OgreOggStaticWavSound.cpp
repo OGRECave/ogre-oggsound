@@ -46,6 +46,9 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 			OgreOggStaticWavSound::~OgreOggStaticWavSound()
 	{
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundDestroyed(this);
+
 		_release();
 		mBufferData.clear();
 		if (mFormatData.mFormat) OGRE_FREE(mFormatData.mFormat, Ogre::MEMCATEGORY_GENERAL);
@@ -195,6 +198,9 @@ namespace OgreOggSound
 
 		// Register shared buffer
 		OgreOggSoundManager::getSingleton()._registerSharedBuffer(mAudioName, mBuffer);
+
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundLoaded(this);
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -205,6 +211,9 @@ namespace OgreOggSound
 
 		// Filename
 		mAudioName = fName;
+
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundLoaded(this);
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -394,6 +403,9 @@ namespace OgreOggSound
 		if ( mSource==AL_NONE ) return;
 
 		alSourcePause(mSource);
+
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundPaused(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void	OgreOggStaticWavSound::_playImpl()
@@ -411,6 +423,9 @@ namespace OgreOggSound
 
 		alSourcePlay(mSource);
 		mPlay = true;
+
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundPlayed(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void	OgreOggStaticWavSound::_stopImpl()
@@ -429,6 +444,9 @@ namespace OgreOggSound
 		// Give up source immediately if specfied
 		else if (mGiveUpSource) 
 			OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
+
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundStopped(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void	OgreOggStaticWavSound::loop(bool loop)
@@ -452,9 +470,6 @@ namespace OgreOggSound
 		if (state == AL_STOPPED)
 		{
 			stop();
-			// Finished callback
-			if ( mFinishedCB && mFinCBEnabled )
-				mFinishedCB->execute(static_cast<OgreOggISound*>(this));
 		}
 		else
 		{
@@ -466,8 +481,8 @@ namespace OgreOggSound
 			// Has the audio looped?
 			if ( mPreviousOffset>bytes )
 			{
-				if ( mLoopCB && mLoopCBEnabled )
-					mLoopCB->execute(static_cast<OgreOggISound*>(this));
+				// Notify listener
+				if ( mSoundListener ) mSoundListener->soundLooping(this);
 			}
 
 			// Store current offset position

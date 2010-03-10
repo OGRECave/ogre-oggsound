@@ -43,7 +43,10 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamSound::~OgreOggStreamSound()
-	{
+	{	
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundDestroyed(this);
+
 		_release();
 		mVorbisInfo=0;
 		mVorbisComment=0;
@@ -98,6 +101,9 @@ namespace OgreOggSound
 				mLoopOffset=0.f;
 			}
 		}
+		
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundLoaded(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_release()
@@ -275,9 +281,6 @@ namespace OgreOggSound
 			if(mStreamEOF)
 			{
 				stop();
-				// Finished callback
-				if ( mFinishedCB && mFinCBEnabled )
-					mFinishedCB->execute(static_cast<OgreOggISound*>(this));
 				return;
 			}
 			else
@@ -349,8 +352,8 @@ namespace OgreOggSound
 						of the sound, lower quality will hold a longer section of audio per buffer.
 						In ALL cases this trigger will happen BEFORE the audio audibly loops!!
 					*/
-					if ( mLoopCB && mLoopCBEnabled )
-						mLoopCB->execute(static_cast<OgreOggISound*>(this));
+					// Notify listener
+					if ( mSoundListener ) mSoundListener->soundLooping(this);
 				}
 				else
 				{
@@ -472,6 +475,9 @@ namespace OgreOggSound
 		if(mSource == AL_NONE) return;
 
 		alSourcePause(mSource);
+		
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundPaused(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_playImpl()
@@ -494,6 +500,9 @@ namespace OgreOggSound
 		}
 		// Set play flag
 		mPlay = true;
+		
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundPlayed(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_stopImpl()
@@ -540,6 +549,9 @@ namespace OgreOggSound
 				// Give up source immediately if specfied
 				if (mGiveUpSource) OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
 			}
+		
+			// Notify listener
+			if ( mSoundListener ) mSoundListener->soundStopped(this);
 		}
 	}
 }
