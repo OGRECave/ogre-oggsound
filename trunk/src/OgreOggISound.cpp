@@ -98,14 +98,10 @@ namespace OgreOggSound
 	,mFade(false) 
 	,mFadeEndAction(OgreOggSound::FC_NONE)  
 	,mStream(false) 
-	,mFinCBEnabled(false) 
-	,mLoopCBEnabled(false) 
 	,mGiveUpSource(false)  
 	,mPlayPosChanged(false)  
 	,mPlayPos(0.f) 
 	,mPriority(0)
-	,mFinishedCB(0) 
-	,mLoopCB(0) 
 	,mScnMan(0)
 	,mAudioOffset(0)
 	,mAudioEnd(0)
@@ -117,6 +113,7 @@ namespace OgreOggSound
 	,mTemporary(false)
 	,mInitialised(false)
 	,mAwaitingDestruction(0)
+	,mSoundListener(0)
 	{
 		// Init some oggVorbis callbacks
 		mOggCallbacks.read_func	= OOSStreamRead;

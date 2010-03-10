@@ -11,6 +11,10 @@
 
 	* Added OgreOggSoundManager::setSceneManager() for setting current default manager for sound creation.
 
+	* Added SoundListener for notification of sound events per sound.
+
+		* notifications are: Loaded/Played/Stopped/Paused/Destroyed/Looping
+
 
 * version 1.15
 

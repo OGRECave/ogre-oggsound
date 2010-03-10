@@ -44,7 +44,10 @@ namespace OgreOggSound
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamWavSound::~OgreOggStreamWavSound()
-	{
+	{		
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundDestroyed(this);
+	
 		_release();
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;
 		if (mFormatData.mFormat) OGRE_FREE(mFormatData.mFormat, Ogre::MEMCATEGORY_GENERAL);
@@ -188,6 +191,9 @@ namespace OgreOggSound
 				mLoopOffset=0.f;
 			}
 		}
+		
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundLoaded(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStreamWavSound::isMono()
@@ -394,9 +400,6 @@ namespace OgreOggSound
 			if(mStreamEOF)
 			{
 				stop();
-				// Finished callback
-				if ( mFinishedCB && mFinCBEnabled )
-					mFinishedCB->execute(static_cast<OgreOggISound*>(this));
 				return;
 			}
 			else
@@ -492,8 +495,8 @@ namespace OgreOggSound
 					of the sound, lower quality will hold a longer section of audio per buffer.
 					In ALL cases this trigger will happen BEFORE the audio audibly loops!!
 					*/
-					if ( mLoopCB && mLoopCBEnabled )
-						mLoopCB->execute(static_cast<OgreOggISound*>(this));
+					// Notify listener
+					if ( mSoundListener ) mSoundListener->soundLooping(this);
 				}
 				else
 				{
@@ -526,9 +529,9 @@ namespace OgreOggSound
 						if the sound was close to eof will likely get triggered), and the quality
 						of the sound, lower quality will hold a longer section of audio per buffer.
 						In ALL cases this trigger will happen BEFORE the audio audibly loops!!
-						*/
-						if ( mLoopCB && mLoopCBEnabled )
-							mLoopCB->execute(static_cast<OgreOggISound*>(this));
+						*/		
+						// Notify listener
+						if ( mSoundListener ) mSoundListener->soundLooping(this);
 					}
 					else
 					{
@@ -608,6 +611,9 @@ namespace OgreOggSound
 		if(mSource == AL_NONE) return;
 
 		alSourcePause(mSource);
+		
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundPaused(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_playImpl()
@@ -630,6 +636,9 @@ namespace OgreOggSound
 
 		// Set play flag
 		mPlay = true;
+		
+		// Notify listener
+		if ( mSoundListener ) mSoundListener->soundPlayed(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::setPlayPosition(Ogre::Real seconds)
@@ -697,6 +706,9 @@ namespace OgreOggSound
 			// Give up source immediately if specfied
 			else if (mGiveUpSource) 
 				OgreOggSoundManager::getSingleton()._releaseSoundSource(this);
+		
+			// Notify listener
+			if ( mSoundListener ) mSoundListener->soundStopped(this);
 		}
 	}
 }
