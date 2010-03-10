@@ -88,8 +88,7 @@ namespace OgreOggSound
 							// Samples check..
 							if ( (mFormatData.mFormat->mBitsPerSample!=16) && (mFormatData.mFormat->mBitsPerSample!=8) )
 							{
-								Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - WAV BitsPerSample not 8/16!!", Ogre::LML_CRITICAL);
-								throw std::string("WAVE load fail!");
+								OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "BitsPerSample NOT 8/16!", "OgreOggStaticWavSound::_openImpl()");
 							}
 
 							// Calculate extra WAV header info
