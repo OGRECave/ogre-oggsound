@@ -5,6 +5,12 @@
 	
 	* Lib must be created through Root::loadPlugin()
 
+	* Added optional parameter to support a default SceneManager for creating sounds
+
+	* Added OgreOggSoundManager::getSceneManager() for getting current default manager.
+
+	* Added OgreOggSoundManager::setSceneManager() for setting current default manager for sound creation.
+
 
 * version 1.15
 
