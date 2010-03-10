@@ -416,22 +416,18 @@ namespace OgreOggSound
 		Ogre::DataStreamPtr soundData;
 		OgreOggISound* sound = 0;
 
-		// Not available - try finding resource in OGRE resources
-		groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
-
 		try
 		{
 			group = groupManager->findGroupContainingResource(file);
 			soundData = groupManager->openResource(file, group);
 		}
-		catch (...)
+		catch (Exception& e)
 		{
-			// Cannot find sound file
-			Ogre::LogManager::getSingleton().logMessage("***--- OgreOggSoundManager::createSound() - Unable to find sound file! have you specified a resource location?", Ogre::LML_CRITICAL);
+			OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, e.getFullDescription(), "OgreOggSoundManager::createSound()");
 			return 0;
 		}
 
-		if		(file.find(".ogg") != std::string::npos || file.find(".OGG") != std::string::npos)
+		if		( file.find(".ogg")!=file.npos || file.find(".OGG")!=file.npos )
 		{
 			// MUST be unique
 			if ( hasSound(name) )
@@ -469,7 +465,7 @@ namespace OgreOggSound
 
 			return sound;
 		}
-		else if	(file.find(".wav") != std::string::npos || file.find(".WAV") != std::string::npos)
+		else if	( file.find(".wav")!=file.npos || file.find(".WAV")!=file.npos )
 		{
 			// MUST be unique
 			if ( hasSound(name) )
@@ -508,9 +504,9 @@ namespace OgreOggSound
 		}
 		else
 		{
-			Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound does not have .ogg extension: "+name;
+			Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound does not have (.ogg | .wav) extension: "+name;
 			Ogre::LogManager::getSingleton().logMessage(msg);
-			return NULL;
+			return 0;
 		}
 	}
 
@@ -518,12 +514,35 @@ namespace OgreOggSound
 	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer, SceneManager* scnMgr)
 	{
 		Ogre::NameValuePairList params;
-		params["fileName"]	= file;
+		Ogre::ResourceGroupManager* groupManager = 0;
+		Ogre::String group = "";
+		OgreOggISound* sound = 0;
+
+		params["file"]		= file;
 		params["stream"]	= stream	? "true" : "false";
 		params["loop"]		= loop		? "true" : "false";
 		params["preBuffer"]	= preBuffer ? "true" : "false";
 
-		OgreOggISound* sound = 0;
+		// Not available - try finding resource in OGRE resources
+		groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
+
+		if ( groupManager )
+		{
+			try
+			{
+				group = groupManager->findGroupContainingResource(file);
+			}
+			catch (Exception& e)
+			{
+				OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, e.getFullDescription(), "OgreOggSoundManager::createSound()");
+				return 0;
+			}
+		}
+		else
+		{
+			OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Unable to locate OGRE resource manager" , "OgreOggSoundManager::createSound()");
+			return 0;
+		}
 
 		// Get first SceneManager if defined
 		if ( !scnMgr ) 
@@ -544,9 +563,9 @@ namespace OgreOggSound
 			sound = static_cast<OgreOggISound*>(scnMgr->createMovableObject( name, OgreOggSoundFactory::FACTORY_TYPE_NAME, &params ));
 			sound->mScnMan = scnMgr;
 		}
-		catch (...)
+		catch (Exception& e)
 		{
-			LogManager::getSingleton().logMessage("***--- createSound() - OgreOggSound plugin not loaded.");
+			OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, e.getFullDescription(), "OgreOggSoundManager::createSound()");
 		}
 		// create Movable Sound
 		return sound;
