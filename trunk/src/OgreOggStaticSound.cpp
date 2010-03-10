@@ -30,8 +30,6 @@
 #include <iostream>
 #include "OgreOggSound.h"
 
-using namespace std;
-
 namespace OgreOggSound
 {
 
@@ -66,7 +64,7 @@ namespace OgreOggSound
 
 		if((result = ov_open_callbacks(&mAudioStream, &mOggStream, NULL, 0, mOggCallbacks)) < 0)
 		{
-			throw string("Could not open Ogg stream. ");
+			OGRE_EXCEPT(Ogre::Exception::ERR_FILE_NOT_FOUND, "Could not open Ogg stream.", "OgreOggStaticSound::_openImpl()");
 			return;
 		}
 
@@ -86,7 +84,7 @@ namespace OgreOggSound
 
 		// Check format support
 		if (!_queryBufferInfo())
-			throw std::string("Format NOT supported!");
+			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Format NOT supported!", "OgreOggStaticSound::_openImpl()");
 
 		alGenBuffers(1, &mBuffer);
 
@@ -113,8 +111,8 @@ namespace OgreOggSound
 		alBufferData(mBuffer, mFormat, &mBufferData[0], static_cast<ALsizei>(mBufferData.size()), mVorbisInfo->rate);
 		if ( alGetError()!=AL_NO_ERROR )
 		{
-			Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticSound::open() - Unable to load audio data into buffer!!", Ogre::LML_CRITICAL);
-			throw std::string("Unable to load buffers with data!");
+			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Unable to load audio data into buffer.", "OgreOggStaticSound::_openImpl()");
+			return;
 		}
 
 		// Register shared buffer
@@ -151,8 +149,10 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggStaticSound::isMono() const
+	bool OgreOggStaticSound::isMono()
 	{
+		if ( !mInitialised ) return false;
+
 		return ( (mFormat==AL_FORMAT_MONO16) || (mFormat==AL_FORMAT_MONO8) );
 	}
 
@@ -262,6 +262,9 @@ namespace OgreOggSound
 
 			// Attach new source
 			mSource=src;
+
+			// Cancel initialisation
+			mInitialised = false;
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/

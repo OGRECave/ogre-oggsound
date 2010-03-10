@@ -30,8 +30,6 @@
 #include <iostream>
 #include "OgreOggSoundManager.h"
 
-using namespace std;
-
 namespace OgreOggSound
 {
 	/*/////////////////////////////////////////////////////////////////*/
@@ -60,8 +58,8 @@ namespace OgreOggSound
 		mAudioStream = fileStream;
 
 		if((result = ov_open_callbacks(&mAudioStream, &mOggStream, NULL, 0, mOggCallbacks)) < 0)
-		{
-			throw string("Could not open Ogg stream. ");
+		{			
+			OGRE_EXCEPT(Ogre::Exception::ERR_FILE_NOT_FOUND, "Could not open Ogg stream.", "OgreOggStreamSound::_openImpl()");
 			return;
 		}
 
@@ -82,8 +80,8 @@ namespace OgreOggSound
 		alGenBuffers(NUM_BUFFERS, mBuffers);
 
 			// Check format support
-		if (!_queryBufferInfo())
-			throw std::string("Format NOT supported!");
+		if (!_queryBufferInfo())			
+			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Format NOT supported!", "OgreOggStreamSound::_openImpl()");
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// Upload to XRAM buffers if available
@@ -132,8 +130,10 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool	OgreOggStreamSound::isMono() const
+	bool OgreOggStreamSound::isMono()
 	{
+		if ( !mInitialised ) return false;
+
 		return ( (mFormat==AL_FORMAT_MONO16) || (mFormat==AL_FORMAT_MONO8) );
 	}
 
@@ -254,6 +254,9 @@ namespace OgreOggSound
 
 			// Set source
 			mSource=src;
+
+			// Cancel initialisation
+			mInitialised = false;
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/

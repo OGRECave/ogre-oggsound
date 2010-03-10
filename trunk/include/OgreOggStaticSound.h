@@ -66,7 +66,7 @@ namespace OgreOggSound
 		void setSource(ALuint& src);	
 		/** Returns whether sound is mono
 		*/
-		bool isMono() const;
+		bool isMono();
 
 	protected:	
 

@@ -73,7 +73,7 @@ namespace OgreOggSound
 		void setLoopOffset(Ogre::Real startTime);
 		/** Returns whether sound is mono
 		*/
-		bool isMono() const;
+		bool isMono();
 
 	protected:	
 
