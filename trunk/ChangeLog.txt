@@ -1,3 +1,11 @@
+* version 1.16
+
+	* Single createSound() function which takes an optional SceneManager pointer
+		* If no scenemanager is provided then the first scenemanager is grabbed from Root.
+	
+	* Lib must be created through Root::loadPlugin()
+
+
 * version 1.15
 
 	* Bug fix - EFX attach/detach functions added to actions queue
