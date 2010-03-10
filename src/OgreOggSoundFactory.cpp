@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundFactory.cpp
 * @author  Ian Stangoe
-* @version 1.15
+* @version 1.16
 *
 * @section LICENSE
 * 
@@ -40,8 +40,7 @@ const String& OgreOggSoundFactory::getType(void) const
 	return FACTORY_TYPE_NAME;
 }
 //-----------------------------------------------------------------------
-MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name,
-	const NameValuePairList* params)
+MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, const NameValuePairList* params)
 {
 	String fileName;
 	bool loop = false;
@@ -87,7 +86,7 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name,
 			"OgreOggSoundFactory::createInstance");
 	}
 
-	return OgreOggSoundManager::getSingletonPtr()->createSound(name,fileName,stream,loop,preBuffer );
+	return OgreOggSoundManager::getSingletonPtr()->_createSoundImpl(name, fileName, stream, loop, preBuffer);
 
 }
 //-----------------------------------------------------------------------
