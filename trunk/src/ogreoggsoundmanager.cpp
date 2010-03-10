@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundManager.cpp
 * @author  Ian Stangoe
-* @version 1.15
+* @version 1.16
 *
 * @section LICENSE
 *
@@ -41,7 +41,7 @@ namespace OgreOggSound
 {
 	using namespace Ogre;
 
-	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.15";
+	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.16";
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::OgreOggSoundManager() :
@@ -168,14 +168,13 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager* OgreOggSoundManager::getSingletonPtr(void)
 	{
-		if (!ms_Singleton) ms_Singleton = OGRE_NEW_T(OgreOggSoundManager, Ogre::MEMCATEGORY_GENERAL)();
 		return ms_Singleton;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager& OgreOggSoundManager::getSingleton(void)
 	{
-		if (!ms_Singleton) ms_Singleton = OGRE_NEW_T(OgreOggSoundManager, Ogre::MEMCATEGORY_GENERAL)();
-		assert( ms_Singleton );  return ( *ms_Singleton );
+		if ( !ms_Singleton ) OGRE_EXCEPT( Ogre::Exception::ERR_ITEM_NOT_FOUND, "'OgreOggSound[_d]' plugin NOT loaded! - use loadPlugin()", "OgreOggSoundManager::getSingleton()");  
+		return ( *ms_Singleton );
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::init(const std::string &deviceName, unsigned int maxSources, unsigned int queueListSize)
@@ -410,7 +409,7 @@ namespace OgreOggSound
 		return vol;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer)
+	OgreOggISound* OgreOggSoundManager::_createSoundImpl(const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer)
 	{
 		Ogre::ResourceGroupManager* groupManager = 0;
 		Ogre::String group;
@@ -516,7 +515,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggISound* OgreOggSoundManager::createSound(SceneManager& scnMgr, const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer)
+	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer, SceneManager* scnMgr)
 	{
 		Ogre::NameValuePairList params;
 		params["fileName"]	= file;
@@ -526,11 +525,24 @@ namespace OgreOggSound
 
 		OgreOggISound* sound = 0;
 
+		// Get first SceneManager if defined
+		if ( !scnMgr ) 
+		{
+			Ogre::SceneManagerEnumerator::SceneManagerIterator it = Ogre::Root::getSingletonPtr()->getSceneManagerIterator();
+			if ( it.hasMoreElements() ) 
+				scnMgr = it.getNext();
+			else
+			{
+				OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "No SceneManagers created yet. create a SceneManager first!", "OgreOggSoundManager::createSound()"); 
+				return 0;
+			}
+		}
+
 		// Catch exception when plugin hasn't been registered
 		try
 		{
-			sound = static_cast<OgreOggISound*>(scnMgr.createMovableObject( name, OgreOggSoundFactory::FACTORY_TYPE_NAME, &params ));
-			sound->mScnMan = &scnMgr;
+			sound = static_cast<OgreOggISound*>(scnMgr->createMovableObject( name, OgreOggSoundFactory::FACTORY_TYPE_NAME, &params ));
+			sound->mScnMan = scnMgr;
 		}
 		catch (...)
 		{

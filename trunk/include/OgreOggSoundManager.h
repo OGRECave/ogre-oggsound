@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundManager.h
 * @author  Ian Stangoe
-* @version 1.15
+* @version 1.16
 *
 * @section LICENSE
 * 
@@ -161,29 +161,10 @@ namespace OgreOggSound
 		ALfloat getMasterVolume();
 		/** Creates a single sound object.
 		@remarks
-			Creates and inits a single sound object, depending on passed
-			parameters this function will create a static/streamed sound.
-			Each sound must have a unique name within the manager.
-			@param name 
-				Unique name of sound
-			@param file 
-				Audio file path string
-			@param stream 
-				Flag indicating if the sound sound be streamed.
-			@param loop 
-				Flag indicating if the file should loop.
-			@param preBuffer 
-				Flag indicating if a source should be attached at creation.
-		 */
-		OgreOggISound* createSound(const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);
-		/** Creates a single sound object.
-		@remarks
 			Plugin specific version of createSound, uses createMovableObject() to instantiate
 			a sound automatically registered with the supplied SceneManager, allows OGRE to automatically
 			cleanup/manage this sound.
 			Each sound must have a unique name within the manager.
-			@param scnMgr 
-				SceneManager to use to create sound
 			@param name 
 				Unique name of sound
 			@param file 
@@ -194,8 +175,10 @@ namespace OgreOggSound
 				Flag indicating if the file should loop.
 			@param preBuffer 
 				Flag indicating if a source should be attached at creation.
+			@param scnMgr
+				Pointer to SceneManager this sound belongs - 0 defaults to first SceneManager defined.
 		 */
-		OgreOggISound* createSound(Ogre::SceneManager& scnMgr, const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);
+		OgreOggISound* createSound(const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false, Ogre::SceneManager* scnMgr=0);
 		/** Gets a named sound.
 		@remarks
 			Returns a named sound object if defined, NULL otherwise.
@@ -645,18 +628,7 @@ namespace OgreOggSound
 #endif
 	private:
 
-		/** Implementation of sound loading
-		@param sound
-			sound pointer.
-		@param file
-			name of sound file.
-		@param stream
-			DataStreamPtr (optional).
-		@param prebuffer
-			Prebuffer flag.
-		*/
-		void _loadSoundImpl(OgreOggISound* sound, const Ogre::String& file, Ogre::DataStreamPtr stream, bool prebuffer);
-		/** Creates a single sound object.
+		/** Creates a single sound object (implementation).
 		@remarks
 			Creates and inits a single sound object, depending on passed
 			parameters this function will create a static/streamed sound.
@@ -673,26 +645,17 @@ namespace OgreOggSound
 				Flag indicating if a source should be attached at creation.
 		 */
 		OgreOggISound* _createSoundImpl(const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);
-		/** Creates a single sound object.
-		@remarks
-			Plugin specific version of createSound, uses createMovableObject() to instantiate
-			a sound automatically registered with the supplied SceneManager, allows OGRE to automatically
-			cleanup/manage this sound.
-			Each sound must have a unique name within the manager.
-			@param scnMgr 
-				SceneManager to use to create sound
-			@param name 
-				Unique name of sound
-			@param file 
-				Audio file path string
-			@param stream 
-				Flag indicating if the sound sound be streamed.
-			@param loop 
-				Flag indicating if the file should loop.
-			@param preBuffer 
-				Flag indicating if a source should be attached at creation.
-		 */
-		OgreOggISound* _createSoundImpl(Ogre::SceneManager& scnMgr, const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);
+		/** Implementation of sound loading
+		@param sound
+			sound pointer.
+		@param file
+			name of sound file.
+		@param stream
+			DataStreamPtr (optional).
+		@param prebuffer
+			Prebuffer flag.
+		*/
+		void _loadSoundImpl(OgreOggISound* sound, const Ogre::String& file, Ogre::DataStreamPtr stream, bool prebuffer);
 		/** Destroys a single sound.
 		@remarks
 			Destroys a single sound object.
