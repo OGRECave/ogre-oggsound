@@ -643,9 +643,11 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::stopAllSounds()
 	{
-#if OGGSOUND_THREADED
+#if OGGSOUND_THREADED 
 		SoundAction action;
-		action.mAction = LQ_STOP_ALL;
+		action.mAction	= LQ_STOP_ALL;
+		action.mParams	= 0;
+		action.mSound	= 0;
 		_requestSoundAction(action);
 #else
 		_stopAllSoundsImpl();
