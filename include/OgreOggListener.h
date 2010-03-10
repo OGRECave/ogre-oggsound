@@ -51,6 +51,7 @@ namespace OgreOggSound
 		OgreOggListener(): mLocalTransformDirty(false)
 			, mPosition(Ogre::Vector3::ZERO)
 			, mVelocity(Ogre::Vector3::ZERO)
+			, mSceneMgr(0)
 		{
 			for (int i=0; i<6; i++ ) mOrientation[i]=0;		
 		};
@@ -153,16 +154,23 @@ namespace OgreOggSound
 			Overridden function from MovableObject.
 		 */
 		virtual void _notifyMoved(void);
+		/** Returns scenemanager which created this listener.
+		 */
+		Ogre::SceneManager* getSceneManager() { return mSceneMgr; }
+		/** Sets scenemanager which created this listener.
+		 */
+		void setSceneManager(Ogre::SceneManager& m) { mSceneMgr=&m; }
 		
 	private:
 
 		/**
 		 * Positional variables
 		 */
-		Ogre::Vector3 mPosition;	// 3D position
-		Ogre::Vector3 mVelocity;	// 3D velocity
-		float mOrientation[6];		// 3D orientation
-		bool mLocalTransformDirty;	// Dirty transforms flag
+		Ogre::Vector3 mPosition;		// 3D position
+		Ogre::Vector3 mVelocity;		// 3D velocity
+		float mOrientation[6];			// 3D orientation
+		bool mLocalTransformDirty;		// Dirty transforms flag
+		Ogre::SceneManager* mSceneMgr;	// Creator 
 
 	};
 }

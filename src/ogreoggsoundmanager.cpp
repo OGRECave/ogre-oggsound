@@ -163,7 +163,7 @@ namespace OgreOggSound
 		alcDestroyContext(mContext);
 		alcCloseDevice(mDevice);
 
-		OGRE_DELETE_T(mListener, OgreOggListener, Ogre::MEMCATEGORY_GENERAL);
+		_destroyListener();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager* OgreOggSoundManager::getSingletonPtr(void)
@@ -177,7 +177,7 @@ namespace OgreOggSound
 		return ( *ms_Singleton );
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::init(const std::string &deviceName, unsigned int maxSources, unsigned int queueListSize)
+	bool OgreOggSoundManager::init(const std::string &deviceName, unsigned int maxSources, unsigned int queueListSize, SceneManager* scnMgr)
 	{
 		if (mDevice) return true;
 
@@ -293,7 +293,22 @@ namespace OgreOggSound
 
 		_checkFeatureSupport();
 
-		mListener = OGRE_NEW_T(OgreOggListener, Ogre::MEMCATEGORY_GENERAL)();
+		// If no manager specified - grab first one 
+		if ( !scnMgr )
+		{
+			Ogre::SceneManagerEnumerator::SceneManagerIterator it=Ogre::Root::getSingletonPtr()->getSceneManagerIterator();
+
+			if ( it.hasMoreElements() ) 
+				mSceneMgr = it.getNext(); 
+			else
+			{
+				OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, "No SceneManager's created - a valid SceneManager is required to create sounds", "OgreOggSoundManager::init()");
+				return false;
+			}
+		}
+
+		// Set default SceneManager pointer
+		mListener = static_cast<OgreOggListener*>(mSceneMgr->createMovableObject("OgreOggSoundListener", OgreOggSoundFactory::FACTORY_TYPE_NAME, 0));
 
 		mNumSources = _createSourcePool();
 
@@ -416,14 +431,22 @@ namespace OgreOggSound
 		Ogre::DataStreamPtr soundData;
 		OgreOggISound* sound = 0;
 
-		try
+		if ( groupManager = Ogre::ResourceGroupManager::getSingletonPtr() )
 		{
-			group = groupManager->findGroupContainingResource(file);
-			soundData = groupManager->openResource(file, group);
+			try
+			{
+				group = groupManager->findGroupContainingResource(file);
+				soundData = groupManager->openResource(file, group);
+			}
+			catch (Exception& e)
+			{
+				OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, e.getFullDescription(), "OgreOggSoundManager::createSound()");
+				return 0;
+			}
 		}
-		catch (Exception& e)
+		else
 		{
-			OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, e.getFullDescription(), "OgreOggSoundManager::createSound()");
+			OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Unable to find Ogre::ResourceGroupManager", "OgreOggSoundManager::createSound()");
 			return 0;
 		}
 
@@ -518,15 +541,13 @@ namespace OgreOggSound
 		Ogre::String group = "";
 		OgreOggISound* sound = 0;
 
-		params["file"]		= file;
+		params["fileName"]	= file;
 		params["stream"]	= stream	? "true" : "false";
 		params["loop"]		= loop		? "true" : "false";
 		params["preBuffer"]	= preBuffer ? "true" : "false";
 
 		// Not available - try finding resource in OGRE resources
-		groupManager = Ogre::ResourceGroupManager::getSingletonPtr();
-
-		if ( groupManager )
+		if ( groupManager = Ogre::ResourceGroupManager::getSingletonPtr() )
 		{
 			try
 			{
@@ -569,6 +590,14 @@ namespace OgreOggSound
 		}
 		// create Movable Sound
 		return sound;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	OgreOggListener* OgreOggSoundManager::_createListener()
+	{
+		OgreOggListener* l = OGRE_NEW_T(OgreOggListener, Ogre::MEMCATEGORY_GENERAL)();
+		l->setSceneManager(*mSceneMgr);
+		return l;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -2071,6 +2100,10 @@ namespace OgreOggSound
 		// Remove references from lists
 		_removeFromLists(sound);
 
+		// Find sound in map
+		SoundMap::iterator i = mSoundMap.find(sound->getName());
+		mSoundMap.erase(i);
+
 		// Delete sound
 		OGRE_DELETE_T(sound, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
 	}
@@ -2094,6 +2127,14 @@ namespace OgreOggSound
 			// Remove from map
 			mSoundMap.erase(i);
 		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_destroyListener()
+	{
+		if ( !mListener ) return;
+
+		OGRE_DELETE_T(mListener, OgreOggListener, Ogre::MEMCATEGORY_GENERAL);
+		mListener = 0;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_checkFeatureSupport()
@@ -2190,7 +2231,8 @@ namespace OgreOggSound
 		SoundMap::iterator i = mSoundMap.begin();
 		while(i != mSoundMap.end())
 		{
-			OGRE_DELETE_T(i->second, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
+			Ogre::SceneManager* s = i->second->getSceneManager();
+			s->destroyMovableObject(i->second->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
 			++i;
 		}
 

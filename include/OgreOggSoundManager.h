@@ -147,12 +147,18 @@ namespace OgreOggSound
 			@param queueListSize
 				Desired size of queue list (optional | Multi-threaded ONLY)
 		 */
-		bool init(const std::string &deviceName = "", unsigned int maxSources=100, unsigned int queueListSize=64);
+		bool init(const std::string &deviceName = "", unsigned int maxSources=100, unsigned int queueListSize=64, Ogre::SceneManager* sMan=0);
 		/** Sets the global volume for all sounds
 			@param vol 
 				global attenuation for all sounds.
 		 */
 		void setMasterVolume(ALfloat vol);
+		/** Sets the default SceneManager for creation of sound objects
+		 */
+		void setSceneManager(Ogre::SceneManager* sMan) { mSceneMgr=sMan; }
+		/** Gets the default SceneManager for creation of sound objects
+		 */
+		Ogre::SceneManager* getSceneManager() { return mSceneMgr; }
 		/** Gets number of currently created sounds
 		 */
 		unsigned int getNumSounds() const { return static_cast<unsigned int>(mSoundMap.size()); }
@@ -788,6 +794,12 @@ namespace OgreOggSound
 			Gets a list of audio device available.
 		 */
 		void _enumDevices();
+		/** Creates a listener object.
+		 */
+		OgreOggListener* _createListener();
+		/** Destroys a listener object.
+		 */
+		void _destroyListener();
 
 		/**
 		 * OpenAL device objects
@@ -899,6 +911,8 @@ namespace OgreOggSound
 
 		ALint	mXRamSizeMB,
 				mXRamFreeMB;
+
+		Ogre::SceneManager* mSceneMgr;			// Default SceneManager to use to create sound objects
 
 		/**	Listener pointer
 		 */

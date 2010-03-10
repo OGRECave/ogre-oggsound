@@ -76,23 +76,28 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, cons
 			// Get fontname
 			preBuffer = StringUtil::match(preBufferIterator->second,"true",false);
 		}
+
+		// when no caption is set
+		if ( name == StringUtil::BLANK || fileName == StringUtil::BLANK )
+		{
+			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
+				"'name & fileName' parameter required when constructing an OgreOggISound.",
+				"OgreOggSoundFactory::createInstance");
+		}
+
+		return OgreOggSoundManager::getSingletonPtr()->_createSoundImpl(name, fileName, stream, loop, preBuffer);
 	}
-
-	// when no caption is set
-	if ( name == StringUtil::BLANK || fileName == StringUtil::BLANK )
-	{
-		OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-			"'name & fileName' parameter required when constructing an OgreOggISound.",
-			"OgreOggSoundFactory::createInstance");
-	}
-
-	return OgreOggSoundManager::getSingletonPtr()->_createSoundImpl(name, fileName, stream, loop, preBuffer);
-
+	else
+		return OgreOggSoundManager::getSingletonPtr()->_createListener();
 }
 //-----------------------------------------------------------------------
 void OgreOggSoundFactory::destroyInstance( MovableObject* obj)
 {
-	// destroy the sound
-	OgreOggSoundManager::getSingletonPtr()->_releaseSoundImpl(static_cast<OgreOggISound*>(obj));
+	if ( dynamic_cast<OgreOggListener*>(obj) )
+		// destroy the listener
+		OgreOggSoundManager::getSingletonPtr()->_destroyListener();
+	else
+		// destroy the sound
+		OgreOggSoundManager::getSingletonPtr()->_releaseSoundImpl(static_cast<OgreOggISound*>(obj));
 }
 //-----------------------------------------------------------------------
