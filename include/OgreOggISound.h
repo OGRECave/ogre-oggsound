@@ -161,7 +161,7 @@ namespace OgreOggSound
 		bool isTemporary() const { return mTemporary; }
 		/** Returns whether this sound is mono
 		 */
-		virtual bool isMono() const { return false; } 
+		virtual bool isMono()=0;  
 		/** Marks sound as temporary
 		@remarks
 			Auto-destroys itself after finishing playing.
@@ -576,7 +576,7 @@ namespace OgreOggSound
 			Calculates a block aligned buffer size of 250ms using
 			sound properties.
 		 */
-		virtual bool _queryBufferInfo()=0;		
+		virtual bool _queryBufferInfo() = 0;		
 
 		/**
 		 * Variables used to fade sound
@@ -630,6 +630,7 @@ namespace OgreOggSound
 		bool mPlayPosChanged;			// Flag indicating playback position has changed
 		bool mSeekable;					// Flag indicating seeking available
 		bool mTemporary;				// Flag indicating sound is temporary
+		bool mInitialised;				// Flag indicating sound is initailised
 		Ogre::uint8 mAwaitingDestruction; // Imminent destruction flag
 
 

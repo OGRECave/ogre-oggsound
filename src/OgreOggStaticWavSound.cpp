@@ -30,8 +30,6 @@
 #include <iostream>
 #include "OgreOggSoundManager.h"
 
-using namespace std;
-
 namespace OgreOggSound
 {
 
@@ -142,32 +140,27 @@ namespace OgreOggSound
 						}
 						else 
 						{
-							Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - Compressed WAV NOT supported!!", Ogre::LML_CRITICAL);
-							throw std::string("WAVE load fail!");
+							OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Compressed wav NOT supported!", "OgreOggStaticWavSound::_openImpl()");
 						}
 					}
 					else
 					{
-						Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - WAV not PCM!!", Ogre::LML_CRITICAL);
-						throw std::string("WAVE load fail!");
+						OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Wav NOT PCM!", "OgreOggStaticWavSound::_openImpl()");
 					}
 				}
 				else
 				{
-					Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - Invalid format!!", Ogre::LML_CRITICAL);
-					throw std::string("WAVE load fail!");
+					OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Invalid Format!", "OgreOggStaticWavSound::_openImpl()");
 				}
 			}
 			else
 			{
-				Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - Not a valid WAVE file!!", Ogre::LML_CRITICAL);
-				throw std::string("WAVE load fail!");
+				OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Not a valid WAVE file!", "OgreOggStaticWavSound::_openImpl()");
 			}
 		}
 		else
 		{
-			Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - Not a valid RIFF file!!", Ogre::LML_CRITICAL);
-			throw std::string("WAVE load fail!");
+			OGRE_EXCEPT(Ogre::Exception::ERR_FILE_NOT_FOUND, "Not a valid RIFF file!", "OgreOggStaticWavSound::_openImpl()");
 		}
 
 
@@ -175,7 +168,10 @@ namespace OgreOggSound
 		alGetError();
 		alGenBuffers(1, &mBuffer);
 		if ( alGetError()!=AL_NO_ERROR )
-			throw std::string("Unable to create OpenAL buffer!");
+		{
+			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Unable to create OpenAL buffer.", "OgreOggStaticWavSound::_openImpl()");
+			return;
+		}
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// Upload to XRAM buffers if available
@@ -184,7 +180,7 @@ namespace OgreOggSound
 #endif
 		// Check format support
 		if (!_queryBufferInfo())
-			throw std::string("Format NOT supported!");
+			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Format NOT supported.", "OgreOggStaticWavSound::_openImpl()");
 
 		// Calculate length in seconds
 		mPlayTime = static_cast<Ogre::Real>(((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample));
@@ -193,8 +189,8 @@ namespace OgreOggSound
 		alBufferData(mBuffer, mFormat, sound_buffer, static_cast<ALsizei>(bytesRead), mFormatData.mFormat->mSamplesPerSec);
 		if ( alGetError()!=AL_NO_ERROR )
 		{
-			Ogre::LogManager::getSingleton().logMessage("*** --- OgreOggStaticWavSound::open() - Unable to load audio data into buffer!!", Ogre::LML_CRITICAL);
-			throw std::string("Unable to load buffers with data!");
+			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Unable to load audio data into buffer!", "OgreOggStaticWavSound::_openImpl()");
+			return;
 		}
 		OGRE_FREE(sound_buffer, Ogre::MEMCATEGORY_GENERAL);
 
@@ -213,8 +209,10 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool	OgreOggStaticWavSound::isMono() const
+	bool	OgreOggStaticWavSound::isMono() 
 	{
+		if ( !mInitialised ) return false;
+
 		return ( (mFormat==AL_FORMAT_MONO16) || (mFormat==AL_FORMAT_MONO8) );
 	}
 
@@ -386,6 +384,9 @@ namespace OgreOggSound
 
 			// Attach new source
 			mSource=src;
+
+			// Cancel initialisation
+			mInitialised = false;
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/

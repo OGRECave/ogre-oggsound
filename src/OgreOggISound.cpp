@@ -115,6 +115,7 @@ namespace OgreOggSound
 	,mSeekable(true)
 	,mSourceRelative(false)
 	,mTemporary(false)
+	,mInitialised(false)
 	,mAwaitingDestruction(0)
 	{
 		// Init some oggVorbis callbacks
@@ -395,6 +396,7 @@ namespace OgreOggSound
 			alSourcei (mSource, AL_SOURCE_RELATIVE, mSourceRelative);
 			alSourcei (mSource, AL_LOOPING, mStream ? AL_FALSE : mLoop);
 			alSourcei (mSource, AL_SOURCE_STATE, AL_INITIAL);
+			mInitialised = true;
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
