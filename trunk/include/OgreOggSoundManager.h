@@ -591,6 +591,12 @@ namespace OgreOggSound
 				Action to perform.
 		*/
 		void _requestSoundAction(const SoundAction& action);
+#endif
+ 
+	private:
+
+#if OGGSOUND_THREADED
+
 		/** Processes queued sound actions.
 		@remarks
 			Presently executes a maximum of 5 actions in a single iteration.
@@ -609,7 +615,16 @@ namespace OgreOggSound
 
 		static::boost::thread *mUpdateThread;
 		static bool mShuttingDown;
-		
+				
+		/** Flag to indicate not to lock mutex when destroying
+		@remarks
+			Its possible Ogre can destroy sound objects without the managers knowledge (~Root() | clearScene() etc..),
+			in this case we need to ensure no thread crashes can occur by locking out the actual destruction. This
+			flag therefore gets set when a destruction is handled through the manager but is left unset whenever a 
+			destruction is scheduled outside of the manager. If unset a lock is aquired BEFORE destroying.
+		*/
+		bool mNoLock; 
+
 		/** Threaded function for streaming updates
 		@remarks
 			Optional threading function specified in OgreOggPreReqs.h.
@@ -632,7 +647,7 @@ namespace OgreOggSound
 		}
 
 #endif
-	private:
+
 
 		/** Creates a single sound object (implementation).
 		@remarks

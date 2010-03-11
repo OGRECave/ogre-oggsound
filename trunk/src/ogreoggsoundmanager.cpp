@@ -65,6 +65,7 @@ namespace OgreOggSound
 		,mMaxSources(100)
 #if OGGSOUND_THREADED
 		,mActionsList(0)
+		,mNoLock(false)
 #endif
 		{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -114,6 +115,7 @@ namespace OgreOggSound
 	OgreOggSoundManager::~OgreOggSoundManager()
 	{
 #if OGGSOUND_THREADED
+		mNoLock = true;
 		mShuttingDown = true;
 		if ( mUpdateThread )
 		{
@@ -130,9 +132,12 @@ namespace OgreOggSound
 				// If parameters specified delete structure
 				if (obj.mParams)
 				{
-					cSound* params = static_cast<cSound*>(obj.mParams);
-					params->mStream.setNull();
-					OGRE_FREE(params, Ogre::MEMCATEGORY_GENERAL);
+					if ( obj.mAction==LQ_LOAD )
+					{
+						cSound* params = static_cast<cSound*>(obj.mParams);
+						params->mStream.setNull();
+					}
+					OGRE_FREE(obj.mParams, Ogre::MEMCATEGORY_GENERAL);
 				}
 			}
 			delete mActionsList;
@@ -146,9 +151,12 @@ namespace OgreOggSound
 				// If parameters specified delete structure
 				if (obj.mParams)
 				{
-					cSound* params = static_cast<cSound*>(obj.mParams);
-					params->mStream.setNull();
-					OGRE_FREE(params, Ogre::MEMCATEGORY_GENERAL);
+					if ( obj.mAction==LQ_LOAD )
+					{
+						cSound* params = static_cast<cSound*>(obj.mParams);
+						params->mStream.setNull();
+					}
+					OGRE_FREE(obj.mParams, Ogre::MEMCATEGORY_GENERAL);
 				}
 			}
 			delete mDelayedActionsList;
@@ -2101,6 +2109,10 @@ namespace OgreOggSound
 	{
 		if (!sound) return;
 
+#ifdef OGGSOUND_THREADED
+		if ( !mNoLock )  boost::recursive_mutex::scoped_lock l(mMutex); 
+#endif
+
 		// Delete sound buffer
 		ALuint src = sound->getSource();
 		if ( src!=AL_NONE ) _releaseSoundSource(sound);
@@ -2120,14 +2132,27 @@ namespace OgreOggSound
 	{
 		if ( !sound ) return;
 
+		// Set flag
+		mNoLock = true;
+
 		// Get SceneManager
 		Ogre::SceneManager* s = sound->getSceneManager();
 		s->destroyMovableObject(sound);
+
+		// Reset flag
+		mNoLock = false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_destroyListener()
 	{
 		if ( !mListener ) return;
+
+#ifdef OGGSOUND_THREADED
+		/** Dumb check to catch external destruction of sounds to avoid potential
+			thread crashes. (manager issued destruction sets this flag)
+		*/
+		if ( !mNoLock ) boost::recursive_mutex::scoped_lock l(mMutex);
+#endif
 
 		OGRE_DELETE_T(mListener, OgreOggListener, Ogre::MEMCATEGORY_GENERAL);
 		mListener = 0;
@@ -2227,8 +2252,15 @@ namespace OgreOggSound
 		SoundMap::iterator i = mSoundMap.begin();
 		while(i != mSoundMap.end())
 		{
+			// Set flag
+			mNoLock = true;
+		
 			Ogre::SceneManager*s = i->second->getSceneManager();
 			s->destroyMovableObject(i->second->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
+
+			// Set flag
+			mNoLock = true;
+	
 			++i;
 		}
 
@@ -2462,7 +2494,7 @@ namespace OgreOggSound
 		Real fTime = (cTime-pTime) * 0.001f;
 
 		// update Listener
-		mListener->update();
+		if ( mListener ) mListener->update();
 
 		// Loop all active sounds
 		ActiveList::const_iterator i = mActiveSounds.begin();
