@@ -34,7 +34,7 @@ namespace OgreOggSound
 {
 
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggStreamWavSound::OgreOggStreamWavSound(const Ogre::String& name) : OgreOggISound(name)
+	OgreOggStreamWavSound::OgreOggStreamWavSound(const Ogre::String& name, const Ogre::SceneManager& scnMgr) : OgreOggISound(name, scnMgr)
 	, mLoopOffsetBytes(0)
 	, mStreamEOF(false)
 	{

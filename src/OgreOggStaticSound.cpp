@@ -34,7 +34,7 @@ namespace OgreOggSound
 {
 
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggStaticSound::OgreOggStaticSound(const Ogre::String& name) : OgreOggISound(name)
+	OgreOggStaticSound::OgreOggStaticSound(const Ogre::String& name, const Ogre::SceneManager& scnMgr) : OgreOggISound(name, scnMgr)
 	,mVorbisInfo(0)
 	,mVorbisComment(0)
 	,mPreviousOffset(0)
