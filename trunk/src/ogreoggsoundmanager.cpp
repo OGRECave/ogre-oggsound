@@ -576,12 +576,11 @@ namespace OgreOggSound
 		// Get first SceneManager if defined
 		if ( !scnMgr ) 
 		{
-			Ogre::SceneManagerEnumerator::SceneManagerIterator it = Ogre::Root::getSingletonPtr()->getSceneManagerIterator();
-			if ( it.hasMoreElements() ) 
-				scnMgr = it.getNext();
+			if ( mSceneMgr ) 
+				scnMgr = mSceneMgr;
 			else
 			{
-				OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "No SceneManagers created yet. create a SceneManager first!", "OgreOggSoundManager::createSound()"); 
+				OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "No SceneManager defined!", "OgreOggSoundManager::createSound()");
 				return 0;
 			}
 			params["sceneManagerName"]=scnMgr->getName();

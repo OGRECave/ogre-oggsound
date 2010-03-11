@@ -838,9 +838,6 @@ namespace OgreOggSound
 		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
 		SharedBufferList mSharedBuffers;		// List of shared static buffers
 
-		/** Manager instance
-		 */
-		static OgreOggSoundManager *pInstance;	// OgreOggSoundManager instance pointer
 		ALCchar* mDeviceStrings;				// List of available devices strings
 		unsigned int mNumSources;				// Number of sources available for sounds
 		unsigned int mMaxSources;				// Maximum Number of sources to allocate
