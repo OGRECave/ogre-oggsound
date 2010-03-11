@@ -33,7 +33,7 @@
 namespace OgreOggSound
 {
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggStreamSound::OgreOggStreamSound(const Ogre::String& name) : OgreOggISound(name)
+	OgreOggStreamSound::OgreOggStreamSound(const Ogre::String& name, const Ogre::SceneManager& scnMgr) : OgreOggISound(name, scnMgr)
 	,mVorbisInfo(0)
 	,mVorbisComment(0)
 	,mStreamEOF(false)

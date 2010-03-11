@@ -424,7 +424,7 @@ namespace OgreOggSound
 		return vol;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggISound* OgreOggSoundManager::_createSoundImpl(const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer)
+	OgreOggISound* OgreOggSoundManager::_createSoundImpl(const SceneManager& scnMgr, const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer)
 	{
 		Ogre::ResourceGroupManager* groupManager = 0;
 		Ogre::String group;
@@ -461,9 +461,9 @@ namespace OgreOggSound
 			}
 
 			if(stream)
-				sound = OGRE_NEW_T(OgreOggStreamSound, Ogre::MEMCATEGORY_GENERAL)(name);
+				sound = OGRE_NEW_T(OgreOggStreamSound, Ogre::MEMCATEGORY_GENERAL)(name, scnMgr);
 			else
-				sound = OGRE_NEW_T(OgreOggStaticSound, Ogre::MEMCATEGORY_GENERAL)(name);
+				sound = OGRE_NEW_T(OgreOggStaticSound, Ogre::MEMCATEGORY_GENERAL)(name, scnMgr);
 
 			// Set loop flag
 			sound->loop(loop);
@@ -499,9 +499,9 @@ namespace OgreOggSound
 			}
 
 			if(stream)
-				sound = OGRE_NEW_T(OgreOggStreamWavSound, Ogre::MEMCATEGORY_GENERAL)(name);
+				sound = OGRE_NEW_T(OgreOggStreamWavSound, Ogre::MEMCATEGORY_GENERAL)(name, scnMgr);
 			else
-				sound = OGRE_NEW_T(OgreOggStaticWavSound, Ogre::MEMCATEGORY_GENERAL)(name);
+				sound = OGRE_NEW_T(OgreOggStaticWavSound, Ogre::MEMCATEGORY_GENERAL)(name, scnMgr);
 
 			// Set loop flag
 			sound->loop(loop);
@@ -576,13 +576,13 @@ namespace OgreOggSound
 				OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "No SceneManagers created yet. create a SceneManager first!", "OgreOggSoundManager::createSound()"); 
 				return 0;
 			}
+			params["sceneManagerName"]=scnMgr->getName();
 		}
 
 		// Catch exception when plugin hasn't been registered
 		try
 		{
 			sound = static_cast<OgreOggISound*>(scnMgr->createMovableObject( name, OgreOggSoundFactory::FACTORY_TYPE_NAME, &params ));
-			sound->mScnMan = scnMgr;
 		}
 		catch (Exception& e)
 		{
@@ -635,6 +635,8 @@ namespace OgreOggSound
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mAction = LQ_DESTROY_ALL;
+		action.mParams = 0;
+		action.mSound = 0;
 		_requestSoundAction(action);
 #else
 		_destroyAllSoundsImpl();
@@ -659,6 +661,8 @@ namespace OgreOggSound
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mAction = LQ_PAUSE_ALL;
+		action.mSound = 0;
+		action.mParams = 0;
 		_requestSoundAction(action);
 #else
 		_pauseAllSoundsImpl();
@@ -670,6 +674,8 @@ namespace OgreOggSound
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mAction = LQ_RESUME_ALL;
+		action.mSound = 0;
+		action.mParams = 0;
 		_requestSoundAction(action);
 #else
 		_resumeAllPausedSoundsImpl();
@@ -2114,21 +2120,9 @@ namespace OgreOggSound
 	{
 		if ( !sound ) return;
 
-		// Find sound in map
-		SoundMap::iterator i = mSoundMap.find(sound->getName());
-
-		// If created via plugin call destroyMovableObject() which will call _destroy()
-		if (sound->mScnMan)
-			sound->mScnMan->destroyMovableObject(sound->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
-		// else call _destroy() directly
-		else
-			_releaseSoundImpl(sound);
-
-		if (i != mSoundMap.end())
-		{
-			// Remove from map
-			mSoundMap.erase(i);
-		}
+		// Get SceneManager
+		Ogre::SceneManager* s = sound->getSceneManager();
+		s->destroyMovableObject(sound);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_destroyListener()
@@ -2233,7 +2227,7 @@ namespace OgreOggSound
 		SoundMap::iterator i = mSoundMap.begin();
 		while(i != mSoundMap.end())
 		{
-			Ogre::SceneManager* s = i->second->getSceneManager();
+			Ogre::SceneManager*s = i->second->getSceneManager();
 			s->destroyMovableObject(i->second->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
 			++i;
 		}

@@ -459,7 +459,7 @@ namespace OgreOggSound
 			This will only be set if the sound was created through the plugin method
 			createMovableobject().
 		*/
-		Ogre::SceneManager* getSceneManager() const { return mScnMan; }
+		Ogre::SceneManager* getSceneManager() const { return &mScnMan; }
 
 		/** Sets a listener object to be notified of events.
 		@remarks
@@ -472,8 +472,12 @@ namespace OgreOggSound
 	protected:
 
 		/** Superclass describing a single sound object.
+		@param name
+			Name of sound within manager
+		@param scnMgr
+			SceneManager which create this sound
 		 */
-		OgreOggISound(const Ogre::String& name, bool seekSupport=false);
+		OgreOggISound(const Ogre::String& name, const Ogre::SceneManager& scnMgr);
 		/** Superclass destructor.
 		 */
 		virtual ~OgreOggISound();
@@ -589,7 +593,7 @@ namespace OgreOggSound
 		/** Sound properties 
 		 */
 		ALuint mSource;					// OpenAL Source
-		Ogre::SceneManager* mScnMan;	// SceneManager pointer for plugin registered sounds
+		Ogre::SceneManager& mScnMan;	// SceneManager reference for plugin registered sounds
 		Ogre::uint8 mPriority;			// Priority assigned to source 
 		Ogre::Vector3 mPosition;		// 3D position
 		Ogre::Vector3 mDirection;		// 3D direction

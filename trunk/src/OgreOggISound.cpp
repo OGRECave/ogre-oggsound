@@ -72,7 +72,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggISound::OgreOggISound(const Ogre::String& name, bool seekSupport) : 
+	OgreOggISound::OgreOggISound(const Ogre::String& name, const Ogre::SceneManager& scnMgr) : 
 	 mName(name)
 	,mSource(0) 
 	,mLoop(false) 
@@ -102,7 +102,7 @@ namespace OgreOggSound
 	,mPlayPosChanged(false)  
 	,mPlayPos(0.f) 
 	,mPriority(0)
-	,mScnMan(0)
+	,mScnMan(const_cast<Ogre::SceneManager&>(scnMgr))
 	,mAudioOffset(0)
 	,mAudioEnd(0)
 	,mLoopOffset(0)

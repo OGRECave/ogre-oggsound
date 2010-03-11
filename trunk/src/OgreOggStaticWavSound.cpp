@@ -34,7 +34,7 @@ namespace OgreOggSound
 {
 
 	/*/////////////////////////////////////////////////////////////////*/
-			OgreOggStaticWavSound::OgreOggStaticWavSound(const Ogre::String& name) : OgreOggISound(name)
+			OgreOggStaticWavSound::OgreOggStaticWavSound(const Ogre::String& name,const Ogre::SceneManager& scnMgr) : OgreOggISound(name, scnMgr)
 		,mAudioName("")
 		,mPreviousOffset(0)
 		,mBuffer(0)

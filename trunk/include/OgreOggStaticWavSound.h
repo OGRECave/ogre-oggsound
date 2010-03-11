@@ -73,7 +73,7 @@ namespace OgreOggSound
 		/**
 		 * Constructor
 		 */
-		OgreOggStaticWavSound(const Ogre::String& name);
+		OgreOggStaticWavSound(const Ogre::String& name,const Ogre::SceneManager& scnMgr);
 		/**
 		 * Destructor
 		 */

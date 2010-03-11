@@ -84,7 +84,7 @@ namespace OgreOggSound
 			@param
 				name Unique name for sound.	
 		 */
-		OgreOggStreamSound(const Ogre::String& name);
+		OgreOggStreamSound(const Ogre::String& name, const Ogre::SceneManager& scnMgr);
 		/**
 		 * Destructor
 		 */

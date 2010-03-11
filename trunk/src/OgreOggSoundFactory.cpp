@@ -46,6 +46,7 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, cons
 	bool loop = false;
 	bool stream = false;
 	bool preBuffer = false;
+	SceneManager* scnMgr = 0;
 
 	if (params != 0)
 	{
@@ -77,15 +78,22 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, cons
 			preBuffer = StringUtil::match(preBufferIterator->second,"true",false);
 		}
 
+		NameValuePairList::const_iterator sManIterator = params->find("sceneManagerName");
+		if (sManIterator != params->end())
+		{
+			// Get fontname
+			scnMgr = Ogre::Root::getSingletonPtr()->getSceneManager(sManIterator->second);
+		}
+
 		// when no caption is set
-		if ( name == StringUtil::BLANK || fileName == StringUtil::BLANK )
+		if ( !scnMgr || name == StringUtil::BLANK || fileName == StringUtil::BLANK )
 		{
 			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
-				"'name & fileName' parameter required when constructing an OgreOggISound.",
+				"'name & fileName & sceneManagerName' parameters required when constructing an OgreOggISound.",
 				"OgreOggSoundFactory::createInstance");
 		}
 
-		return OgreOggSoundManager::getSingletonPtr()->_createSoundImpl(name, fileName, stream, loop, preBuffer);
+		return OgreOggSoundManager::getSingletonPtr()->_createSoundImpl(*scnMgr, name, fileName, stream, loop, preBuffer);
 	}
 	else
 		return OgreOggSoundManager::getSingletonPtr()->_createListener();
