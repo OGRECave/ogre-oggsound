@@ -2108,7 +2108,7 @@ namespace OgreOggSound
 	{
 		if (!sound) return;
 
-#ifdef OGGSOUND_THREADED
+#if OGGSOUND_THREADED
 		if ( !mNoLock )  boost::recursive_mutex::scoped_lock l(mMutex); 
 #endif
 
@@ -2131,22 +2131,25 @@ namespace OgreOggSound
 	{
 		if ( !sound ) return;
 
+#if OGGSOUND_THREADED
 		// Set flag
 		mNoLock = true;
-
+#endif
 		// Get SceneManager
 		Ogre::SceneManager* s = sound->getSceneManager();
 		s->destroyMovableObject(sound);
 
+#if OGGSOUND_THREADED
 		// Reset flag
 		mNoLock = false;
+#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_destroyListener()
 	{
 		if ( !mListener ) return;
 
-#ifdef OGGSOUND_THREADED
+#if OGGSOUND_THREADED
 		/** Dumb check to catch external destruction of sounds to avoid potential
 			thread crashes. (manager issued destruction sets this flag)
 		*/
@@ -2251,15 +2254,17 @@ namespace OgreOggSound
 		SoundMap::iterator i = mSoundMap.begin();
 		while(i != mSoundMap.end())
 		{
+#if OGGSOUND_THREADED
 			// Set flag
 			mNoLock = true;
-		
+#endif	
 			Ogre::SceneManager*s = i->second->getSceneManager();
 			s->destroyMovableObject(i->second->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
 
+#if OGGSOUND_THREADED
 			// Set flag
 			mNoLock = true;
-	
+#endif	
 			++i;
 		}
 
