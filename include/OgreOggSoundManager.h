@@ -346,6 +346,17 @@ namespace OgreOggSound
 				Elapsed frametime.
 		 */
 		void update(Ogre::Real fTime=0.f);
+		/** Sets a resource group name to search for all sounds first.
+		@remarks
+			A speed improvement to skip the cost of searching all resource locations/groups when creating sounds.
+			Will default to searching all groups if sound is not found.
+			@param group
+				Name of OGRE ResourceGroup.
+		 */
+		void setResourceGroupName(const Ogre::String& group) { mResourceGroupName=group; }
+		/** Returns user defined search group name
+		 */
+		const Ogre::String& setResourceGroupName() const { return mResourceGroupName; }
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		/** Sets XRam buffers.
 		@remarks
@@ -925,6 +936,8 @@ namespace OgreOggSound
 
 		ALint	mXRamSizeMB,
 				mXRamFreeMB;
+
+		Ogre::String mResourceGroupName;		// Resource group name to search for all sounds
 
 		Ogre::SceneManager* mSceneMgr;			// Default SceneManager to use to create sound objects
 

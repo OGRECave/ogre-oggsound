@@ -63,6 +63,7 @@ namespace OgreOggSound
 		,mEAXVersion(0)
 		,mDeviceStrings(0)
 		,mMaxSources(100)
+		,mResourceGroupName("")
 #if OGGSOUND_THREADED
 		,mActionsList(0)
 		,mNoLock(false)
@@ -191,7 +192,7 @@ namespace OgreOggSound
 
 		Ogre::LogManager::getSingleton().logMessage("*****************************************", Ogre::LML_TRIVIAL);
 		Ogre::LogManager::getSingleton().logMessage("*** --- Initialising OgreOggSound --- ***", Ogre::LML_TRIVIAL);
-		Ogre::LogManager::getSingleton().logMessage("*** ---     "+OGREOGGSOUND_VERSION_STRING+"     --- ***", Ogre::LML_TRIVIAL);
+		Ogre::LogManager::getSingleton().logMessage("*** ---     "+OGREOGGSOUND_VERSION_STRING+"    --- ***", Ogre::LML_TRIVIAL);
 		Ogre::LogManager::getSingleton().logMessage("*****************************************", Ogre::LML_TRIVIAL);
 
 		// Set source limit
@@ -439,22 +440,29 @@ namespace OgreOggSound
 		Ogre::DataStreamPtr soundData;
 		OgreOggISound* sound = 0;
 
-		if ( groupManager = Ogre::ResourceGroupManager::getSingletonPtr() )
+		try
 		{
-			try
+			if ( groupManager = Ogre::ResourceGroupManager::getSingletonPtr() )
 			{
-				group = groupManager->findGroupContainingResource(file);
-				soundData = groupManager->openResource(file, group);
+				if ( !mResourceGroupName.empty() )
+				{
+					soundData = groupManager->openResource(file, mResourceGroupName);
+				}
+				else
+				{
+					group = groupManager->findGroupContainingResource(file);
+					soundData = groupManager->openResource(file, group);
+				}
 			}
-			catch (Exception& e)
+			else
 			{
-				OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, e.getFullDescription(), "OgreOggSoundManager::createSound()");
+				OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Unable to find Ogre::ResourceGroupManager", "OgreOggSoundManager::createSound()");
 				return 0;
 			}
 		}
-		else
+		catch (Ogre::Exception& e)
 		{
-			OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Unable to find Ogre::ResourceGroupManager", "OgreOggSoundManager::createSound()");
+			OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, e.getFullDescription(), "OgreOggSoundManager::_createSoundImpl()");
 			return 0;
 		}
 
@@ -545,33 +553,12 @@ namespace OgreOggSound
 	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer, SceneManager* scnMgr)
 	{
 		Ogre::NameValuePairList params;
-		Ogre::ResourceGroupManager* groupManager = 0;
-		Ogre::String group = "";
 		OgreOggISound* sound = 0;
 
 		params["fileName"]	= file;
 		params["stream"]	= stream	? "true" : "false";
 		params["loop"]		= loop		? "true" : "false";
 		params["preBuffer"]	= preBuffer ? "true" : "false";
-
-		// Not available - try finding resource in OGRE resources
-		if ( groupManager = Ogre::ResourceGroupManager::getSingletonPtr() )
-		{
-			try
-			{
-				group = groupManager->findGroupContainingResource(file);
-			}
-			catch (Exception& e)
-			{
-				OGRE_EXCEPT(Exception::ERR_INTERNAL_ERROR, e.getFullDescription(), "OgreOggSoundManager::createSound()");
-				return 0;
-			}
-		}
-		else
-		{
-			OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Unable to locate OGRE resource manager" , "OgreOggSoundManager::createSound()");
-			return 0;
-		}
 
 		// Get first SceneManager if defined
 		if ( !scnMgr ) 

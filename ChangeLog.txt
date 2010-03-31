@@ -17,6 +17,10 @@
 
 	* Fixed potential destruction crashes in multi-threaded mode in sound action list.
 
+	* Added get/setResourceGroupName() to OgreOggSoundManager for speed improvements
+		
+		* Removed unnecessary resource group searching to improve sound creation speed.
+
 
 * version 1.15
 
