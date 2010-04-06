@@ -356,7 +356,7 @@ namespace OgreOggSound
 		void setResourceGroupName(const Ogre::String& group) { mResourceGroupName=group; }
 		/** Returns user defined search group name
 		 */
-		const Ogre::String& setResourceGroupName() const { return mResourceGroupName; }
+		const Ogre::String& getResourceGroupName() const { return mResourceGroupName; }
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		/** Sets XRam buffers.
 		@remarks
