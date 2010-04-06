@@ -28,12 +28,12 @@
 * Pre-requisites for building lib
 */
 
-#pragma once
-#pragma warning( disable : 4244 )
-
 #include <Ogre.h>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#	pragma once
+#	pragma warning( disable : 4244 )
+
 #	include "al.h"
 #	include "alc.h"
 #	include "efx.h"

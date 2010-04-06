@@ -1,42 +1,70 @@
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-
-
-
 PROJECT(OgreOggSound)
 
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+# Option.
+SET(OGGSOUND_THREADED YES CACHE BOOL "Enable multi-threaded streamed sounds with Boost")
 
 IF(CMAKE_BUILD_TYPE STREQUAL Debug)
 
-         ADD_DEFINITIONS(-D_DEBUG)
+    # Enable all compiler warnings and debug support.
+    ADD_DEFINITIONS(-D_DEBUG -g -Wall)
 
 ENDIF(CMAKE_BUILD_TYPE STREQUAL Debug)
 
+IF(OGGSOUND_THREADED)
+    ADD_DEFINITIONS(-DOGGSOUND_THREADED=1)
 
-         SET(CMAKE_MODULE_PATH  ${PROJECT_SOURCE_DIR}/cmake-extensions/)
+ELSE(OGGSOUND_THREADED)
+    ADD_DEFINITIONS(-DOGGSOUND_THREADED=0)
 
-         FIND_PACKAGE(PkgConfig)
+ENDIF(OGGSOUND_THREADED)
 
+FIND_PACKAGE(PkgConfig REQUIRED)
 
-         PKG_CHECK_MODULES(OGRE OGRE)
+PKG_CHECK_MODULES(OGRE REQUIRED OGRE)
+PKG_CHECK_MODULES(OPENAL REQUIRED openal)
+PKG_CHECK_MODULES(OGG REQUIRED ogg)
+PKG_CHECK_MODULES(VORBISFILE REQUIRED vorbisfile)
 
-         PKG_CHECK_MODULES(OPENAL openal)
+AUX_SOURCE_DIRECTORY(src OGREOGGSOUND_SRCS)
 
-         PKG_CHECK_MODULES(OGG ogg)
+INCLUDE_DIRECTORIES(include
+                    ${OGRE_INCLUDE_DIRS}
+                    ${OPENAL_INCLUDE_DIRS}
+                    ${OGG_INCLUDE_DIRS}
+                    ${VORBISFILE_INCLUDE_DIRS}
+                    /usr/include/AL
+                    /usr/local/include/AL)
 
-         PKG_CHECK_MODULES(VORBIS vorbis)
+LINK_DIRECTORIES(${OGRE_LIBRARY_DIRS}
+                 ${OPENAL_LIBRARY_DIRS}
+                 ${OGG_INCLUDE_DIRS}
+                 ${VORBISFILE_INCLUDE_DIRS})
 
+LINK_LIBRARIES(${OGRE_LIBRARIES}
+               ${OPENAL_LIBRARIES}
+               ${OGG_LIBRARIES}
+               ${VORBISFILE_LIBRARIES})
 
-         AUX_SOURCE_DIRECTORY(src OGREOGGSOUND_SRCS)
+ADD_LIBRARY(${PROJECT_NAME} SHARED ${OGREOGGSOUND_SRCS})
 
+INSTALL(FILES include/LocklessQueue.h
+              include/OgreOggISound.h
+              include/OgreOggListener.h
+              include/OgreOggSoundCallback.h
+              include/OgreOggSoundFactory.h
+              include/OgreOggSound.h
+              include/OgreOggSoundManager.h
+              include/OgreOggSoundPlugin.h
+              include/OgreOggSoundPrereqs.h
+              include/OgreOggSoundRecord.h
+              include/OgreOggStaticSound.h
+              include/OgreOggStaticWavSound.h
+              include/OgreOggStreamSound.h
+              include/OgreOggStreamWavSound.h
+        DESTINATION include)
 
-         ADD_DEFINITIONS(-DLINUX)
-
-         INCLUDE_DIRECTORIES(include ${OGRE_INCLUDE_DIRS} ${OPENAL_INCLUDE_DIRS} ${OGG_INCLUDE_DIRS} ${VORBIS_INCLUDE_DIRS} /usr/include/AL)
-
-         LINK_DIRECTORIES(${OGRE_LIBRARY_DIRS} ${OPENAL_LIBRARY_DIRS} ${OGG_INCLUDE_DIRS} ${VORBIS_INCLUDE_DIRS})
-
-         LINK_LIBRARIES(${OGRE_LIBRARIES} ${OPENAL_LIBRARIES} ${OGG_LIBRARIES} ${VORBIS_LIBRARIES})
-
-         ADD_LIBRARY(ogreoggsound STATIC ${OGREOGGSOUND_SRCS})
+INSTALL(TARGETS ${PROJECT_NAME}
+        LIBRARY DESTINATION lib)
