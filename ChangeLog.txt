@@ -25,6 +25,8 @@
 
 	* Fixed compiler bugs for linux build
 
+	* Fixed typo bug for getResourceGroupName()
+
 
 * version 1.15
 
