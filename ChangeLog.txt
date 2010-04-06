@@ -21,6 +21,10 @@
 		
 		* Removed unnecessary resource group searching to improve sound creation speed.
 
+	* Updated CMakeLists to allow optional builds and Threaded settings, as created by Kornerr.
+
+	* Fixed compiler bugs for linux build
+
 
 * version 1.15
 
