@@ -570,12 +570,12 @@ namespace OgreOggSound
 				OGRE_EXCEPT(Exception::ERR_ITEM_NOT_FOUND, "No SceneManager defined!", "OgreOggSoundManager::createSound()");
 				return 0;
 			}
-			params["sceneManagerName"]=scnMgr->getName();
 		}
 
 		// Catch exception when plugin hasn't been registered
 		try
 		{
+			params["sceneManagerName"]=scnMgr->getName();
 			sound = static_cast<OgreOggISound*>(scnMgr->createMovableObject( name, OgreOggSoundFactory::FACTORY_TYPE_NAME, &params ));
 		}
 		catch (Exception& e)
