@@ -27,6 +27,8 @@
 
 	* Fixed typo bug for getResourceGroupName()
 
+	* Fixed bug in createSound() when passing a SceneManager pointer
+
 
 * version 1.15
 
