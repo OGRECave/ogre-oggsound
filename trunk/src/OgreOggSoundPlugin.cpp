@@ -62,7 +62,7 @@ void OgreOggSoundPlugin::initialise()
 void OgreOggSoundPlugin::shutdown()
 {
 	// shutdown OgreOggSoundManager here
-	OGRE_DELETE_T(mOgreOggSoundManager, OgreOggSoundManager, Ogre::MEMCATEGORY_GEOMETRY);
+	OGRE_DELETE_T(mOgreOggSoundManager, OgreOggSoundManager, Ogre::MEMCATEGORY_GENERAL);
 	mOgreOggSoundManager = 0;
 }
 //---------------------------------------------------------------------

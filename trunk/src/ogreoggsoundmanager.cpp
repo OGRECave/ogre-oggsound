@@ -237,6 +237,7 @@ namespace OgreOggSound
 			LogManager::getSingleton().logMessage("Unable to get OpenAL Major Version number", Ogre::LML_CRITICAL);
 			return false;
 		}
+		alcCloseDevice(device);
 #endif
 		Ogre::String msg="*** --- OpenAL version " + Ogre::StringConverter::toString(majorVersion) + "." + Ogre::StringConverter::toString(minorVersion);
 		Ogre::LogManager::getSingleton().logMessage(msg, Ogre::LML_TRIVIAL);
@@ -2589,6 +2590,7 @@ namespace OgreOggSound
 					OGRE_FREE(c, Ogre::MEMCATEGORY_GENERAL);
 				}
 				break;
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 			case LQ_ATTACH_EFX:
 				{
 					efxProperty* e = static_cast<efxProperty*>(act.mParams);
@@ -2623,6 +2625,7 @@ namespace OgreOggSound
 					OGRE_FREE(e, Ogre::MEMCATEGORY_GENERAL);
 				}
 				break;
+#endif
 			}
 		}
 
