@@ -29,6 +29,10 @@
 
 	* Fixed bug in createSound() when passing a SceneManager pointer
 
+	* Fixed bug in plugin shutdown - Ogre::MEMCATEGORY_GEOMETRY changed to Ogre::MEMCATEGORY_GENERAL
+
+	* Fixed compile bugs for LINUX build
+
 
 * version 1.15
 
