@@ -224,14 +224,14 @@ namespace OgreOggSound
 		}
 #else
         alcGetIntegerv(device, ALC_MINOR_VERSION, sizeof(minorVersion), &minorVersion);
-        ALCenum error = alGetError(device);
+        ALCenum error = alGetError();
         if (error != ALC_NO_ERROR)
 		{
 			LogManager::getSingleton().logMessage("Unable to get OpenAL Minor Version number", Ogre::LML_CRITICAL);
 			return false;
 		}
 		alcGetIntegerv(device, ALC_MAJOR_VERSION, sizeof(majorVersion), &majorVersion);
-		error = alcGetError(device);
+		error = alcGetError();
         if (error != ALC_NO_ERROR)
 		{
 			LogManager::getSingleton().logMessage("Unable to get OpenAL Major Version number", Ogre::LML_CRITICAL);
