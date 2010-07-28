@@ -1,7 +1,7 @@
 /**
 * @file OgreOggListener.cpp
 * @author  Ian Stangoe
-* @version 1.16
+* @version 1.17
 *
 * @section LICENSE
 * 
