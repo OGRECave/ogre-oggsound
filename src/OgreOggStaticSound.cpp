@@ -122,7 +122,7 @@ namespace OgreOggSound
 		OgreOggSoundManager::getSingleton()._registerSharedBuffer(mAudioName, mBuffer);
 
 		// Notify listener
-		if (mListener) mSoundListener->soundLoaded(this);
+		if (mSoundListener) mSoundListener->soundLoaded(this);
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -135,7 +135,7 @@ namespace OgreOggSound
 		mAudioName = fName;
 
 		// Notify listener
-		if (mListener) mSoundListener->soundLoaded(this);
+		if (mSoundListener) mSoundListener->soundLoaded(this);
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -284,7 +284,7 @@ namespace OgreOggSound
 		alSourcePause(mSource);
 
 		// Notify listener
-		if (mListener) mSoundListener->soundPaused(this);
+		if (mSoundListener) mSoundListener->soundPaused(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_playImpl()
@@ -304,7 +304,7 @@ namespace OgreOggSound
 		mPlay = true;
 
 		// Notify listener
-		if (mListener) mSoundListener->soundPlayed(this);
+		if (mSoundListener) mSoundListener->soundPlayed(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_stopImpl()
@@ -317,7 +317,7 @@ namespace OgreOggSound
 		mPreviousOffset=0;
 
 		// Notify listener
-		if (mListener) mSoundListener->soundStopped(this);
+		if (mSoundListener) mSoundListener->soundStopped(this);
 
 		// Mark for destruction
 		if (mTemporary)
@@ -362,7 +362,7 @@ namespace OgreOggSound
 			if ( mPreviousOffset>bytes )
 			{
 				// Notify listener
-				if (mListener) mSoundListener->soundLooping(this);
+				if (mSoundListener) mSoundListener->soundLooping(this);
 			}
 
 			// Store current offset position
