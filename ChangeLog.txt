@@ -33,6 +33,8 @@
 
 	* Fixed compile bugs for LINUX build
 
+	* Fixed callback bug in OgreOggSoundStatic class
+
 
 * version 1.15
 
