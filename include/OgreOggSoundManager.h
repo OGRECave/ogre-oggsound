@@ -38,10 +38,16 @@
 #include <string>
 
 #if OGGSOUND_THREADED
+#ifdef BOOST_THREAD
 #	include <boost/thread/thread.hpp>
 #	include <boost/function/function0.hpp>
 #	include <boost/thread/recursive_mutex.hpp>
 #	include <boost/thread/xtime.hpp>
+#elif defined POCO_THREAD
+#	include "Poco/ScopedLock.h"
+#	include "Poco/Thread.h"
+#	include "Poco/Mutex.h"
+#endif
 #endif
 
 namespace OgreOggSound
@@ -619,12 +625,27 @@ namespace OgreOggSound
 		 */
 		void _updateBuffers();
 
+#ifdef BOOST_THREAD
 		boost::recursive_mutex mMutex;
+#elif defined POCO_THREAD
+		Poco::Mutex mMutex;
+#endif
 
 		LocklessQueue<SoundAction>* mActionsList;
 		LocklessQueue<SoundAction>* mDelayedActionsList;
 
+#ifdef BOOST_THREAD
 		static::boost::thread *mUpdateThread;
+#elif defined POCO_THREAD
+		static::Poco::Thread *mUpdateThread;
+		class Updater : public Poco::Runnable
+		{
+		public:
+			virtual void run();
+		};
+		friend class Updater;
+		static Updater* mUpdater;
+#endif
 		static bool mShuttingDown;
 				
 		/** Flag to indicate not to lock mutex when destroying
@@ -653,7 +674,12 @@ namespace OgreOggSound
 			{
 				OgreOggSoundManager::getSingleton()._updateBuffers();
 				OgreOggSoundManager::getSingleton()._processQueuedSounds();
+
+#ifdef BOOST_THREAD
 				boost::this_thread::sleep(boost::posix_time::millisec(10));
+#elif defined POCO_THREAD
+				Poco::Thread::sleep(10);
+#endif
 			}
 		}
 
