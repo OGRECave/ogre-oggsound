@@ -768,7 +768,8 @@ namespace OgreOggSound
 		{
 			// Update ALL active sounds
 			ActiveList::const_iterator i=mActiveSounds.begin(); 
-			while ( i!=mActiveSounds.end() )
+			ActiveList::const_iterator end(mActiveSounds.end()); 
+			while ( i!=end )
 			{
 				(*i)->update(fTime);
 				(*i)->_updateAudioBuffers();
