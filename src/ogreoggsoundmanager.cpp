@@ -31,8 +31,21 @@
 #include <string>
 
 #if OGGSOUND_THREADED
+#	ifdef BOOST_THREAD
+	
 	boost::thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
+	
+#	elif defined POCO_THREAD
+	
+	Poco::Thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
+	OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
+
+	void OgreOggSound::OgreOggSoundManager::Updater::run() { OgreOggSound::OgreOggSoundManager::threadUpdate(); }
+
+#	endif
+
 	bool OgreOggSound::OgreOggSoundManager::mShuttingDown = false;
+
 #endif
 
 template<> OgreOggSound::OgreOggSoundManager* Ogre::Singleton<OgreOggSound::OgreOggSoundManager>::ms_Singleton = 0;
@@ -123,6 +136,10 @@ namespace OgreOggSound
 			mUpdateThread->join();
 			OGRE_FREE(mUpdateThread, Ogre::MEMCATEGORY_GENERAL);
 			mUpdateThread = 0;
+#ifndef BOOST_THREAD
+			OGRE_FREE(mUpdater, Ogre::MEMCATEGORY_GENERAL);
+			mUpdater = 0;
+#endif
 		}
 		if ( mActionsList )
 		{
@@ -325,15 +342,22 @@ namespace OgreOggSound
 		msg="*** --- Created " + Ogre::StringConverter::toString(mNumSources) + " sources for simultaneous sounds";
 		Ogre::LogManager::getSingleton().logMessage(msg, Ogre::LML_TRIVIAL);
 
-#	if OGGSOUND_THREADED
+#if OGGSOUND_THREADED
+#	ifdef BOOST_THREAD
 		mUpdateThread = OGRE_NEW_T(boost::thread,Ogre::MEMCATEGORY_GENERAL)(boost::function0<void>(&OgreOggSoundManager::threadUpdate));
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
+#	elif defined POCO_THREAD
+		mUpdateThread = OGRE_NEW_T(Poco::Thread,Ogre::MEMCATEGORY_GENERAL)();
+		mUpdater = OGRE_NEW_T(Updater,Ogre::MEMCATEGORY_GENERAL)();
+		mUpdateThread->start(*mUpdater);
+		Ogre::LogManager::getSingleton().logMessage("*** --- Using POCO threads for streaming");
+#	endif	
 		if (queueListSize)
 		{
 			mActionsList = new LocklessQueue<SoundAction>(queueListSize);
 			mDelayedActionsList = new LocklessQueue<SoundAction>(500);
 		}
-#	endif
+#endif
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// Recording
@@ -2098,7 +2122,11 @@ namespace OgreOggSound
 		if (!sound) return;
 
 #if OGGSOUND_THREADED
+#	ifdef BOOST_THREAD
 		if ( !mNoLock )  boost::recursive_mutex::scoped_lock l(mMutex); 
+#	elif defined POCO_THREAD
+		if ( !mNoLock ) Poco::Mutex::ScopedLock l(mMutex);
+#	endif
 #endif
 
 		// Delete sound buffer
@@ -2142,7 +2170,11 @@ namespace OgreOggSound
 		/** Dumb check to catch external destruction of sounds to avoid potential
 			thread crashes. (manager issued destruction sets this flag)
 		*/
+#	ifdef BOOST_THREAD
 		if ( !mNoLock ) boost::recursive_mutex::scoped_lock l(mMutex);
+#	elif defined POCO_THREAD
+		if ( !mNoLock) Poco::Mutex::ScopedLock l(mMutex);
+#	endif
 #endif
 
 		OGRE_DELETE_T(mListener, OgreOggListener, Ogre::MEMCATEGORY_GENERAL);
