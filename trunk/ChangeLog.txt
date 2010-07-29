@@ -1,6 +1,7 @@
 * version 1.17
 
 	* Added POCO/BOOST thread support by way of defines (BOOST_THREAD/POCO_THREAD) default: BOOST
+		* Fixed missing cpp ammendments
 
 
 * version 1.16
