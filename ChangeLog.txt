@@ -3,6 +3,7 @@
 	* Added POCO/BOOST thread support by way of defines (BOOST_THREAD/POCO_THREAD) default: BOOST
 		* Fixed missing cpp ammendments
 
+	* Wav format bug fixed for 7-channel / 8-channel audio
 
 * version 1.16
 
