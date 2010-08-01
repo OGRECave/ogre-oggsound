@@ -309,7 +309,7 @@ namespace OgreOggSound
 		case 7:
 			{
 				// 16-bit 7.1 surround
-				mFormat = alGetEnumValue("AL_FORMAT_71CHN16");
+				mFormat = alGetEnumValue("AL_FORMAT_61CHN16");
 				if (!mFormat) return false;
 
 				// Queue 250ms of audio data
@@ -322,7 +322,7 @@ namespace OgreOggSound
 		case 8:
 			{
 				// 16-bit 8.1 surround
-				mFormat = alGetEnumValue("AL_FORMAT_81CHN16");
+				mFormat = alGetEnumValue("AL_FORMAT_71CHN16");
 				if (!mFormat) return false;
 
 				// Queue 250ms of audio data
