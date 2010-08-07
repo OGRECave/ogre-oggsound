@@ -75,5 +75,4 @@ INSTALL(FILES include/LocklessQueue.h
               include/OgreOggStreamWavSound.h
         DESTINATION include)
 
-INSTALL(TARGETS ${PROJECT_NAME}
-        LIBRARY DESTINATION lib)
+INSTALL(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib)
