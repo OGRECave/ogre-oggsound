@@ -342,6 +342,11 @@ namespace OgreOggSound
 				Distance.
 		*/
 		void setMaxDistance(float maxDistance);
+		/** Gets sounds maximum distance
+		@remarks
+			Returns -1 on error
+		*/
+		const float getMaxDistance() const;
 		/** Sets sounds rolloff factor
 		@remarks
 			This value sets the rolloff factor applied to the attenuation 
@@ -351,6 +356,11 @@ namespace OgreOggSound
 				rolloffFactor Factor (>0).
 		*/
 		void setRolloffFactor(float rolloffFactor);
+		/** Gets sounds rolloff factor
+		@remarks
+			Returns -1 on error
+		*/
+		const float getRolloffFactor() const;
 		/** Sets sounds reference distance
 		@remarks
 			This value sets the half-volume distance. The distance at which the volume 
@@ -359,6 +369,11 @@ namespace OgreOggSound
 				distance (>0).
 		*/
 		void setReferenceDistance(float referenceDistance);
+		/** Gets sounds reference distance
+		@remarks
+			Returns -1 on error
+		*/
+		const float getReferenceDistance() const;
 		/** Sets sounds pitch
 		@remarks
 			This affects the playback speed of the sound
@@ -366,6 +381,11 @@ namespace OgreOggSound
 				Pitch (>0).
 		*/
 		void setPitch(float pitch);	
+		/** Gets sounds pitch
+		@remarks
+			Returns -1 on error
+		*/
+		const float getPitch() const;	
 		/** Sets whether the positional information is relative to the listener
 		@remarks
 			This specifies whether the sound is attached to listener or in 

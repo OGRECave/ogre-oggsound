@@ -336,6 +336,16 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	const float OgreOggISound::getMaxDistance() const
+	{
+		float val=-1.f;
+		if(mSource != AL_NONE)
+		{
+			alGetSourcef(mSource, AL_MAX_DISTANCE, &val);		
+		}
+		return val;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setRolloffFactor(float rolloffFactor)
 	{
 		if(rolloffFactor < 0) return;
@@ -346,6 +356,16 @@ namespace OgreOggSound
 		{
 			alSourcef(mSource, AL_ROLLOFF_FACTOR, mRolloffFactor);		
 		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	const float OgreOggISound::getRolloffFactor() const
+	{
+		float val=-1.f;
+		if(mSource != AL_NONE)
+		{
+			alGetSourcef(mSource, AL_ROLLOFF_FACTOR, &val);		
+		}
+		return val;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setReferenceDistance(float referenceDistance)
@@ -360,6 +380,17 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	const float OgreOggISound::getReferenceDistance() const
+	{
+		float val=-1.f;
+
+		if(mSource != AL_NONE)
+		{
+			alGetSourcef(mSource, AL_REFERENCE_DISTANCE, &val);		
+		}
+		return val;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setPitch(float pitch)
 	{
 		if ( pitch<=0.f ) return;
@@ -370,6 +401,16 @@ namespace OgreOggSound
 		{
 			alSourcef(mSource, AL_PITCH, mPitch);		
 		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	const float OgreOggISound::getPitch() const
+	{
+		float val=-1.f;
+		if(mSource != AL_NONE)
+		{
+			alGetSourcef(mSource, AL_PITCH, &val);		
+		}
+		return val;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::_initSource()
