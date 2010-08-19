@@ -5,6 +5,9 @@
 
 	* Wav format bug fixed for 7-channel / 8-channel audio
 
+	* Added getter functions for: getMaxDistance() / getPitch() / getRolloffFactor() / getReferenceDistance()
+
+
 * version 1.16
 
 	* Single createSound() function which takes an optional SceneManager pointer
