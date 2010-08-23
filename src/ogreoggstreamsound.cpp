@@ -429,8 +429,8 @@ namespace OgreOggSound
 		if ( mSource==AL_NONE || !mSeekable ) 
 			return;
 
-		bool paused = isPlaying();
-		bool playing = isPaused();
+		bool paused = isPaused();
+		bool playing = isPlaying();
 
 		// Seek...
 		pause();

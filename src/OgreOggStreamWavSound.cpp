@@ -681,6 +681,9 @@ namespace OgreOggSound
 		// Set state
 		if		(playing) play();
 		else if	(paused) pause();
+
+		// Set flag
+		mPlayPosChanged = false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_stopImpl()
