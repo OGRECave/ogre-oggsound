@@ -48,9 +48,9 @@ namespace OgreOggSound
 		@remarks
 			Creates a listener object to act as the ears of the user. 
 		 */
-		OgreOggListener(): mLocalTransformDirty(false)
-			, mPosition(Ogre::Vector3::ZERO)
+		OgreOggListener(): mPosition(Ogre::Vector3::ZERO)
 			, mVelocity(Ogre::Vector3::ZERO)
+			, mLocalTransformDirty(false)
 			, mSceneMgr(0)
 		{
 			for (int i=0; i<6; i++ ) mOrientation[i]=0;		
