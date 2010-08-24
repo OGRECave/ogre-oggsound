@@ -203,7 +203,10 @@ namespace OgreOggSound
 		return ( *ms_Singleton );
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::init(const std::string &deviceName, unsigned int maxSources, unsigned int queueListSize, SceneManager* scnMgr)
+	bool OgreOggSoundManager::init(	const std::string &deviceName, 
+									unsigned int maxSources, 
+									unsigned int queueListSize, 
+									SceneManager* scnMgr)
 	{
 		if (mDevice) return true;
 
@@ -458,7 +461,12 @@ namespace OgreOggSound
 		return vol;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggISound* OgreOggSoundManager::_createSoundImpl(const SceneManager& scnMgr, const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer)
+	OgreOggISound* OgreOggSoundManager::_createSoundImpl(	const SceneManager& scnMgr, 
+															const std::string& name, 
+															const std::string& file, 
+															bool stream, 
+															bool loop, 
+															bool preBuffer)
 	{
 		Ogre::ResourceGroupManager* groupManager = 0;
 		Ogre::String group;
@@ -575,7 +583,12 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name, const std::string& file, bool stream, bool loop, bool preBuffer, SceneManager* scnMgr)
+	OgreOggISound* OgreOggSoundManager::createSound(const std::string& name, 
+													const std::string& file, 
+													bool stream, 
+													bool loop, 
+													bool preBuffer, 
+													SceneManager* scnMgr)
 	{
 		Ogre::NameValuePairList params;
 		OgreOggISound* sound = 0;
@@ -2028,7 +2041,10 @@ namespace OgreOggSound
 		mPausedSounds.clear();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_loadSoundImpl(OgreOggISound* sound, const String& file, DataStreamPtr stream, bool prebuffer)
+	void OgreOggSoundManager::_loadSoundImpl(	OgreOggISound* sound, 
+												const String& file, 
+												DataStreamPtr stream, 
+												bool prebuffer)
 	{
 		if ( !sound ) return;
 
