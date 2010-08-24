@@ -7,6 +7,10 @@
 
 	* Added getter functions for: getMaxDistance() / getPitch() / getRolloffFactor() / getReferenceDistance()
 
+	* Fixed two bugs affecting setPlayPosition() on OGG sounds
+
+	* Fixed initialisation list order warning in OgreOggSoundListener
+
 
 * version 1.16
 
