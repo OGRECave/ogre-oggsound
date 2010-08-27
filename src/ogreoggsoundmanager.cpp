@@ -1980,7 +1980,7 @@ namespace OgreOggSound
 		SoundMap::iterator i = mSoundMap.begin();
 		while(i != mSoundMap.end())
 		{
-			delete i->second;
+			OGRE_DELETE_T(i->second, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
 			++i;
 		}
 
@@ -1991,7 +1991,7 @@ namespace OgreOggSound
 		{
 			if ( b->second->mRefCount>0 )
 				alDeleteBuffers(1, &b->second->mAudioBuffer);
-			delete b->second;
+			OGRE_FREE(b->second, Ogre::MEMCATEGORY_GENERAL);
 			++b;
 		}
 
