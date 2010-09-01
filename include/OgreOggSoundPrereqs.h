@@ -50,8 +50,13 @@
 #		define _OGGSOUND_EXPORT
 #	endif
 #elif OGRE_COMPILER == OGRE_COMPILER_GNUC
-#	include <AL/al.h>
-#	include <AL/alc.h>
+#   if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+#		include <al.h>
+#		include <alc.h>
+#   else
+#		include <AL/al.h>
+#		include <AL/alc.h>
+#	endif
 #	if defined(OGGSOUND_EXPORT) && OGRE_COMP_VER >= 400
 #		define _OGGSOUND_EXPORT __attribute__ ((visibility("default")))
 #	else
