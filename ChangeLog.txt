@@ -11,6 +11,8 @@
 
 	* Fixed initialisation list order warning in OgreOggSoundListener
 
+	* Fixed mSceneMgr pointer not set correctly in init()
+
 
 * version 1.16
 
