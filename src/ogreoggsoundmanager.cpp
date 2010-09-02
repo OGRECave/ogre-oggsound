@@ -340,7 +340,7 @@ namespace OgreOggSound
 			mSceneMgr = scnMgr;
 
 		// Create a listener
-		mListener = static_cast<OgreOggListener*>(mSceneMgr->createMovableObject("OgreOggSoundListener", OgreOggSoundFactory::FACTORY_TYPE_NAME, 0));
+		mListener = dynamic_cast<OgreOggListener*>(mSceneMgr->createMovableObject("OgreOggSoundListener", OgreOggSoundFactory::FACTORY_TYPE_NAME, 0));
 		if ( !mListener )
 		{
 			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Unable to create a listener object", "OgreOggSoundManager::init()");
