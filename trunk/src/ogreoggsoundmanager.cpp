@@ -336,9 +336,16 @@ namespace OgreOggSound
 				return false;
 			}
 		}
+		else
+			mSceneMgr = scnMgr;
 
-		// Set default SceneManager pointer
+		// Create a listener
 		mListener = static_cast<OgreOggListener*>(mSceneMgr->createMovableObject("OgreOggSoundListener", OgreOggSoundFactory::FACTORY_TYPE_NAME, 0));
+		if ( !mListener )
+		{
+			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Unable to create a listener object", "OgreOggSoundManager::init()");
+			return false;
+		}
 
 		mNumSources = _createSourcePool();
 
