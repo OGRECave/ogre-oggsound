@@ -31,21 +31,15 @@
 #include <string>
 
 #if OGGSOUND_THREADED
-#	ifdef BOOST_THREAD
-	
-	boost::thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
-	
-#	elif defined POCO_THREAD
-	
-	Poco::Thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
-	OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
-
-	void OgreOggSound::OgreOggSoundManager::Updater::run() { OgreOggSound::OgreOggSoundManager::threadUpdate(); }
-
+#	if defined POCO_THREAD
+		Poco::Thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
+		OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
+		void OgreOggSound::OgreOggSoundManager::Updater::run() { OgreOggSound::OgreOggSoundManager::threadUpdate(); }
+#	else	
+		boost::thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
 #	endif
 
 	bool OgreOggSound::OgreOggSoundManager::mShuttingDown = false;
-
 #endif
 
 template<> OgreOggSound::OgreOggSoundManager* Ogre::Singleton<OgreOggSound::OgreOggSoundManager>::ms_Singleton = 0;
@@ -340,7 +334,8 @@ namespace OgreOggSound
 			mSceneMgr = scnMgr;
 
 		// Create a listener
-		mListener = dynamic_cast<OgreOggListener*>(mSceneMgr->createMovableObject("OgreOggSoundListener", OgreOggSoundFactory::FACTORY_TYPE_NAME, 0));
+		mListener = _createListener();
+//		dynamic_cast<OgreOggListener*>(mSceneMgr->createMovableObject("OgreOggSoundListener", OgreOggSoundFactory::FACTORY_TYPE_NAME, 0));
 		if ( !mListener )
 		{
 			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Unable to create a listener object", "OgreOggSoundManager::init()");
@@ -353,14 +348,14 @@ namespace OgreOggSound
 		Ogre::LogManager::getSingleton().logMessage(msg, Ogre::LML_TRIVIAL);
 
 #if OGGSOUND_THREADED
-#	ifdef BOOST_THREAD
-		mUpdateThread = OGRE_NEW_T(boost::thread,Ogre::MEMCATEGORY_GENERAL)(boost::function0<void>(&OgreOggSoundManager::threadUpdate));
-		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
-#	elif defined POCO_THREAD
+#	if defined POCO_THREAD
 		mUpdateThread = OGRE_NEW_T(Poco::Thread,Ogre::MEMCATEGORY_GENERAL)();
 		mUpdater = OGRE_NEW_T(Updater,Ogre::MEMCATEGORY_GENERAL)();
 		mUpdateThread->start(*mUpdater);
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using POCO threads for streaming");
+#	else
+		mUpdateThread = OGRE_NEW_T(boost::thread,Ogre::MEMCATEGORY_GENERAL)(boost::function0<void>(&OgreOggSoundManager::threadUpdate));
+		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
 #	endif	
 		if (queueListSize)
 		{
@@ -2145,10 +2140,10 @@ namespace OgreOggSound
 		if (!sound) return;
 
 #if OGGSOUND_THREADED
-#	ifdef BOOST_THREAD
-		if ( !mNoLock )  boost::recursive_mutex::scoped_lock l(mMutex); 
-#	elif defined POCO_THREAD
+#	if defined POCO_THREAD
 		if ( !mNoLock ) Poco::Mutex::ScopedLock l(mMutex);
+#	else
+		if ( !mNoLock )  boost::recursive_mutex::scoped_lock l(mMutex);
 #	endif
 #endif
 
@@ -2193,10 +2188,10 @@ namespace OgreOggSound
 		/** Dumb check to catch external destruction of sounds to avoid potential
 			thread crashes. (manager issued destruction sets this flag)
 		*/
-#	ifdef BOOST_THREAD
-		if ( !mNoLock ) boost::recursive_mutex::scoped_lock l(mMutex);
-#	elif defined POCO_THREAD
+#	ifdef POCO_THREAD
 		if ( !mNoLock) Poco::Mutex::ScopedLock l(mMutex);
+#else
+		if ( !mNoLock ) boost::recursive_mutex::scoped_lock l(mMutex);
 #	endif
 #endif
 
@@ -2542,7 +2537,8 @@ namespace OgreOggSound
 		Real fTime = (cTime-pTime) * 0.001f;
 
 		// update Listener
-		if ( mListener ) mListener->update();
+		if ( mListener ) 
+			mListener->update();
 
 		// Loop all active sounds
 		ActiveList::const_iterator i = mActiveSounds.begin();
