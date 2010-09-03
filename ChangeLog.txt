@@ -1,3 +1,10 @@
+* version 1.18
+
+	* Fixed broken Listener object
+
+	* Minor change to listener creation
+
+
 * version 1.17
 
 	* Added POCO/BOOST thread support by way of defines (BOOST_THREAD/POCO_THREAD) default: BOOST
