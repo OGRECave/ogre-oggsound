@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundManager.cpp
 * @author  Ian Stangoe
-* @version 1.17
+* @version 1.18
 *
 * @section LICENSE
 *
@@ -48,7 +48,7 @@ namespace OgreOggSound
 {
 	using namespace Ogre;
 
-	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.17";
+	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.18";
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::OgreOggSoundManager() :
@@ -334,8 +334,7 @@ namespace OgreOggSound
 			mSceneMgr = scnMgr;
 
 		// Create a listener
-		mListener = _createListener();
-//		dynamic_cast<OgreOggListener*>(mSceneMgr->createMovableObject("OgreOggSoundListener", OgreOggSoundFactory::FACTORY_TYPE_NAME, 0));
+		mListener = dynamic_cast<OgreOggListener*>(mSceneMgr->createMovableObject("OgreOggSoundListener", OgreOggSoundFactory::FACTORY_TYPE_NAME, 0));
 		if ( !mListener )
 		{
 			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Unable to create a listener object", "OgreOggSoundManager::init()");
