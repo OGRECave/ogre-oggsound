@@ -97,6 +97,8 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, cons
 	}
 	else
 		return OgreOggSoundManager::getSingletonPtr()->_createListener();
+
+	return 0;
 }
 //-----------------------------------------------------------------------
 void OgreOggSoundFactory::destroyInstance( MovableObject* obj)
