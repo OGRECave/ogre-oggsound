@@ -130,7 +130,8 @@ namespace OgreOggSound
 			mUpdateThread->join();
 			OGRE_FREE(mUpdateThread, Ogre::MEMCATEGORY_GENERAL);
 			mUpdateThread = 0;
-#ifndef BOOST_THREAD
+			mShuttingDown=false;
+#ifdef POCO_THREAD
 			OGRE_FREE(mUpdater, Ogre::MEMCATEGORY_GENERAL);
 			mUpdater = 0;
 #endif
@@ -181,7 +182,9 @@ namespace OgreOggSound
 
 		alcMakeContextCurrent(0);
 		alcDestroyContext(mContext);
+		mContext=0;
 		alcCloseDevice(mDevice);
+		mDevice=0;
 
 		_destroyListener();
 	}
