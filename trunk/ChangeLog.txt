@@ -4,6 +4,8 @@
 
 	* Minor change to listener creation
 
+	* Fixed no sound bug after Ogre::Root recreation.
+
 
 * version 1.17
 
