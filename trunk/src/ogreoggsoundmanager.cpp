@@ -138,47 +138,55 @@ namespace OgreOggSound
 		}
 		if ( mActionsList )
 		{
-			SoundAction obj;
-			// Clear out action list
-			while (mActionsList->pop(obj))
+			if ( !mActionsList->empty() )
 			{
-				// If parameters specified delete structure
-				if (obj.mParams)
+				SoundAction obj;
+				// Clear out action list
+				while (mActionsList->pop(obj))
 				{
-					if ( obj.mAction==LQ_LOAD )
+					// If parameters specified delete structure
+					if (obj.mParams)
 					{
-						cSound* params = static_cast<cSound*>(obj.mParams);
-						params->mStream.setNull();
+						if ( obj.mAction==LQ_LOAD )
+						{
+							cSound* params = static_cast<cSound*>(obj.mParams);
+							params->mStream.setNull();
+						}
+						OGRE_FREE(obj.mParams, Ogre::MEMCATEGORY_GENERAL);
 					}
-					OGRE_FREE(obj.mParams, Ogre::MEMCATEGORY_GENERAL);
 				}
 			}
 			delete mActionsList;
+			mActionsList=0;
 		}
 		if ( mDelayedActionsList )
 		{
-			SoundAction obj;
-			// Clear out action list
-			while (mDelayedActionsList->pop(obj))
+			if ( !mDelayedActionsList->empty() )
 			{
-				// If parameters specified delete structure
-				if (obj.mParams)
+				SoundAction obj;
+				// Clear out action list
+				while (mDelayedActionsList->pop(obj))
 				{
-					if ( obj.mAction==LQ_LOAD )
+					// If parameters specified delete structure
+					if (obj.mParams)
 					{
-						cSound* params = static_cast<cSound*>(obj.mParams);
-						params->mStream.setNull();
+						if ( obj.mAction==LQ_LOAD )
+						{
+							cSound* params = static_cast<cSound*>(obj.mParams);
+							params->mStream.setNull();
+						}
+						OGRE_FREE(obj.mParams, Ogre::MEMCATEGORY_GENERAL);
 					}
-					OGRE_FREE(obj.mParams, Ogre::MEMCATEGORY_GENERAL);
 				}
 			}
 			delete mDelayedActionsList;
+			mDelayedActionsList=0;
 		}
 #endif
 
 		_releaseAll();
 
-		if ( mRecorder ) OGRE_DELETE_T(mRecorder, OgreOggSoundRecord, Ogre::MEMCATEGORY_GENERAL);
+		if ( mRecorder ) { OGRE_DELETE_T(mRecorder, OgreOggSoundRecord, Ogre::MEMCATEGORY_GENERAL); mRecorder=0; }
 
 		alcMakeContextCurrent(0);
 		alcDestroyContext(mContext);
@@ -2170,7 +2178,7 @@ namespace OgreOggSound
 
 #if OGGSOUND_THREADED
 		// Set flag
-		mNoLock = true;
+		mNoLock = false;
 #endif
 		// Get SceneManager
 		Ogre::SceneManager* s = sound->getSceneManager();
@@ -2178,7 +2186,7 @@ namespace OgreOggSound
 
 #if OGGSOUND_THREADED
 		// Reset flag
-		mNoLock = false;
+		mNoLock = true;
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -2291,13 +2299,15 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_releaseAll()
 	{
+		stopAllSounds();
+
 		// Destroy all sounds
 		SoundMap::iterator i = mSoundMap.begin();
 		while(i != mSoundMap.end())
 		{
 #if OGGSOUND_THREADED
 			// Set flag
-			mNoLock = true;
+			mNoLock = false;
 #endif	
 			Ogre::SceneManager*s = i->second->getSceneManager();
 			s->destroyMovableObject(i->second->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
