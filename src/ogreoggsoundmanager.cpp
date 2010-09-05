@@ -73,7 +73,7 @@ namespace OgreOggSound
 		,mResourceGroupName("")
 #if OGGSOUND_THREADED
 		,mActionsList(0)
-		,mNoLock(false)
+		,mLock(true)
 #endif
 		{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -123,8 +123,12 @@ namespace OgreOggSound
 	OgreOggSoundManager::~OgreOggSoundManager()
 	{
 #if OGGSOUND_THREADED
-		mNoLock = true;
 		mShuttingDown = true;
+#	if defined POCO_THREAD
+		Poco::Mutex::ScopedLock l(mMutex);
+#	else
+		boost::recursive_mutex::scoped_lock l(mMutex);
+#	endif
 		if ( mUpdateThread )
 		{
 			mUpdateThread->join();
@@ -2151,9 +2155,9 @@ namespace OgreOggSound
 
 #if OGGSOUND_THREADED
 #	if defined POCO_THREAD
-		if ( !mNoLock ) Poco::Mutex::ScopedLock l(mMutex);
+		if ( mLock ) Poco::Mutex::ScopedLock l(mMutex);
 #	else
-		if ( !mNoLock )  boost::recursive_mutex::scoped_lock l(mMutex);
+		if ( mLock )  boost::recursive_mutex::scoped_lock l(mMutex);
 #	endif
 #endif
 
@@ -2178,7 +2182,7 @@ namespace OgreOggSound
 
 #if OGGSOUND_THREADED
 		// Set flag
-		mNoLock = false;
+		mLock = false;
 #endif
 		// Get SceneManager
 		Ogre::SceneManager* s = sound->getSceneManager();
@@ -2186,7 +2190,7 @@ namespace OgreOggSound
 
 #if OGGSOUND_THREADED
 		// Reset flag
-		mNoLock = true;
+		mLock = true;
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -2199,9 +2203,9 @@ namespace OgreOggSound
 			thread crashes. (manager issued destruction sets this flag)
 		*/
 #	ifdef POCO_THREAD
-		if ( !mNoLock) Poco::Mutex::ScopedLock l(mMutex);
+		if ( mLock) Poco::Mutex::ScopedLock l(mMutex);
 #else
-		if ( !mNoLock ) boost::recursive_mutex::scoped_lock l(mMutex);
+		if ( mLock ) boost::recursive_mutex::scoped_lock l(mMutex);
 #	endif
 #endif
 
@@ -2307,14 +2311,14 @@ namespace OgreOggSound
 		{
 #if OGGSOUND_THREADED
 			// Set flag
-			mNoLock = false;
+			mLock = false;
 #endif	
 			Ogre::SceneManager*s = i->second->getSceneManager();
 			s->destroyMovableObject(i->second->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
 
 #if OGGSOUND_THREADED
 			// Set flag
-			mNoLock = true;
+			mLock = true;
 #endif	
 			++i;
 		}
