@@ -648,14 +648,14 @@ namespace OgreOggSound
 #endif
 		static bool mShuttingDown;
 				
-		/** Flag to indicate not to lock mutex when destroying
+		/** Flag to indicate whether to lock mutex when destroying
 		@remarks
 			Its possible Ogre can destroy sound objects without the managers knowledge (~Root() | clearScene() etc..),
 			in this case we need to ensure no thread crashes can occur by locking out the actual destruction. This
 			flag therefore gets set when a destruction is handled through the manager but is left unset whenever a 
-			destruction is scheduled outside of the manager. If unset a lock is aquired BEFORE destroying.
+			destruction is scheduled outside of the manager. If set a lock is aquired BEFORE destroying.
 		*/
-		bool mNoLock; 
+		bool mLock; 
 
 		/** Threaded function for streaming updates
 		@remarks
