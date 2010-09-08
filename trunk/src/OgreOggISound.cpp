@@ -469,7 +469,7 @@ namespace OgreOggSound
 	{
 		if (mFade)
 		{
-			if ( (mFadeTimer+=fTime) > mFadeTime )
+			if ( (mFadeTimer+=fTime) >= mFadeTime )
 			{
 				setVolume(mFadeEndVol);
 				mFade = false;
