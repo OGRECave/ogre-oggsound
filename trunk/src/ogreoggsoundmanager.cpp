@@ -2419,7 +2419,7 @@ namespace OgreOggSound
 			if ( _requestSoundSource(sound) )
 			{
 				// Play
-				sound->play();
+				sound->_playImpl();
 
 				// Remove
 				mWaitingSounds.erase(mWaitingSounds.begin());
@@ -2447,7 +2447,7 @@ namespace OgreOggSound
 			if (_requestSoundSource(snd))
 			{
 				// play sound
-				snd->play();
+				snd->_playImpl();
 			}
 		}
 		// Else - kick off list
