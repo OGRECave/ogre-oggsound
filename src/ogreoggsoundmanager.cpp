@@ -2034,11 +2034,14 @@ namespace OgreOggSound
 
 		for (ActiveList::const_iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
 		{
-			// Pause sound
-			(*iter)->_pauseImpl();
+			if ( (*iter)->isPlaying() && !(*iter)->isPaused() )
+			{
+				// Pause sound
+				(*iter)->_pauseImpl();
 
-			// Add to list to allow resuming
-			mPausedSounds.push_back((*iter));
+				// Add to list to allow resuming
+				mPausedSounds.push_back((*iter));
+			}
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
