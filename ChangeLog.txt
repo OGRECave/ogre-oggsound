@@ -6,6 +6,10 @@
 
 	* Fixed no sound bug after Ogre::Root recreation.
 
+	* Changed stopAllSounds() / pauseAllSounds() / resumeAllPausedSounds() to call implementation functions instead of external functions
+		* Fixes bugs where sound actions were getting cued up in the wrong order.
+		* Fixes things like no sound playing after a call to stopAllSounds() then play().
+
 
 * version 1.17
 

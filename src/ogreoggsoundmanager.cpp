@@ -2025,9 +2025,7 @@ namespace OgreOggSound
 		if (mActiveSounds.empty()) return;
 
 		for (ActiveList::const_iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
-		{
-			(*iter)->stop();
-		}
+			(*iter)->_stopImpl();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_pauseAllSoundsImpl()
@@ -2036,14 +2034,11 @@ namespace OgreOggSound
 
 		for (ActiveList::const_iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
 		{
-			if ( (*iter)->isPlaying() && !(*iter)->isPaused() )
-			{
-				// Pause sound
-				(*iter)->pause();
+			// Pause sound
+			(*iter)->_pauseImpl();
 
-				// Add to list to allow resuming
-				mPausedSounds.push_back((*iter));
-			}
+			// Add to list to allow resuming
+			mPausedSounds.push_back((*iter));
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -2052,7 +2047,7 @@ namespace OgreOggSound
 		if (mPausedSounds.empty()) return;
 
 		for (ActiveList::const_iterator iter=mPausedSounds.begin(); iter!=mPausedSounds.end(); ++iter)
-			(*iter)->play();
+			(*iter)->_playImpl();
 
 		mPausedSounds.clear();
 	}
