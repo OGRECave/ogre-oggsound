@@ -53,7 +53,8 @@ namespace OgreOggSound
 			, mLocalTransformDirty(false)
 			, mSceneMgr(0)
 		{
-			for (int i=0; i<6; ++i ) mOrientation[i]=0.f;		
+			for (int i=0; i<6; ++i ) mOrientation[i]=0.f;	
+			mName = "OgreOggListener";
 		};
 		/** Sets the position of the listener.
 		@remarks

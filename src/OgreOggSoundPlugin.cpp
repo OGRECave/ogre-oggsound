@@ -33,8 +33,9 @@ using namespace OgreOggSound;
 const String sPluginName = "OgreOggSound";
 
 //---------------------------------------------------------------------
-OgreOggSoundPlugin::OgreOggSoundPlugin()
-	:mOgreOggSoundFactory(0)
+OgreOggSoundPlugin::OgreOggSoundPlugin() : 
+ mOgreOggSoundFactory(0)
+,mOgreOggSoundManager(0)
 {
 
 }
@@ -46,6 +47,8 @@ const String& OgreOggSoundPlugin::getName() const
 //---------------------------------------------------------------------
 void OgreOggSoundPlugin::install()
 {
+	if ( mOgreOggSoundFactory ) return;
+
 	// Create new factory
 	mOgreOggSoundFactory = OGRE_NEW_T(OgreOggSoundFactory, Ogre::MEMCATEGORY_GENERAL)();
 
@@ -55,12 +58,16 @@ void OgreOggSoundPlugin::install()
 //---------------------------------------------------------------------
 void OgreOggSoundPlugin::initialise()
 {
+	if ( mOgreOggSoundManager ) return;
+
 	//initialise OgreOggSoundManager here
 	mOgreOggSoundManager = OGRE_NEW_T(OgreOggSoundManager, Ogre::MEMCATEGORY_GENERAL)();
 }
 //---------------------------------------------------------------------
 void OgreOggSoundPlugin::shutdown()
 {
+	if ( !mOgreOggSoundManager ) return;
+
 	// shutdown OgreOggSoundManager here
 	OGRE_DELETE_T(mOgreOggSoundManager, OgreOggSoundManager, Ogre::MEMCATEGORY_GENERAL);
 	mOgreOggSoundManager = 0;
@@ -68,6 +75,8 @@ void OgreOggSoundPlugin::shutdown()
 //---------------------------------------------------------------------
 void OgreOggSoundPlugin::uninstall()
 {
+	if ( !mOgreOggSoundFactory ) return;
+
 	// unregister
 	Root::getSingleton().removeMovableObjectFactory(mOgreOggSoundFactory);
 

@@ -677,8 +677,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	const Ogre::String& OgreOggISound::getMovableType(void) const
 	{
-		static Ogre::String typeName = "OgreOggISound";
-		return typeName;
+		return OgreOggSoundFactory::FACTORY_TYPE_NAME;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	const Ogre::AxisAlignedBox& OgreOggISound::getBoundingBox(void) const
