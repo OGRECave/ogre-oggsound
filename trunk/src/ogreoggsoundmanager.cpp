@@ -348,9 +348,7 @@ namespace OgreOggSound
 		else
 			mSceneMgr = scnMgr;
 
-		// Create a listener
-		mListener = dynamic_cast<OgreOggListener*>(mSceneMgr->createMovableObject("OgreOggSoundListener", OgreOggSoundFactory::FACTORY_TYPE_NAME, 0));
-		if ( !mListener )
+		if ( !createListener() ) 
 		{
 			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Unable to create a listener object", "OgreOggSoundManager::init()");
 			return false;
@@ -454,6 +452,15 @@ namespace OgreOggSound
 
 		return deviceVector;
 	}
+	/*/////////////////////////////////////////////////////////////////*/
+	bool OgreOggSoundManager::createListener() 
+	{
+		if ( mListener ) return true;
+
+		// Create a listener
+		return ( (mListener = dynamic_cast<OgreOggListener*>(mSceneMgr->createMovableObject("OgreOggSoundListener", OgreOggSoundFactory::FACTORY_TYPE_NAME, 0)))!=0);
+	}
+	
 	/*/////////////////////////////////////////////////////////////////*/
 	const StringVector OgreOggSoundManager::getSoundList() const
 	{

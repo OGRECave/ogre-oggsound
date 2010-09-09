@@ -98,12 +98,6 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	const Ogre::String& OgreOggListener::getMovableType(void) const
-	{
-		static Ogre::String typeName = "OgreOggListener";
-		return typeName;
-	}
-	/*/////////////////////////////////////////////////////////////////*/
 	const Ogre::AxisAlignedBox& OgreOggListener::getBoundingBox(void) const
 	{
 		static Ogre::AxisAlignedBox aab;
@@ -123,6 +117,11 @@ namespace OgreOggSound
 	void OgreOggListener::visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables)
 	{
 		return;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	const Ogre::String& OgreOggListener::getMovableType(void) const
+	{
+		return OgreOggSoundFactory::FACTORY_TYPE_NAME;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggListener::_notifyAttached(Ogre::Node* node, bool isTagPoint)

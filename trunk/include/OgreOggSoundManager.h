@@ -140,6 +140,13 @@ namespace OgreOggSound
 			audio device.
 		 */
 		~OgreOggSoundManager();
+		/** Creates a listener object for the system
+		@remarks
+			Only needed when clearScene or similar is used which destroys listener object automatically 
+			without the manager knowing. You can therefore use this function to recreate a listener
+			object for the system.
+		 */
+		bool createListener();
 		/** Initialises the audio device.
 		@remarks
 			Attempts to initialise the audio device for sound playback.

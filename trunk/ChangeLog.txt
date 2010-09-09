@@ -10,6 +10,12 @@
 		* Fixes bugs where sound actions were getting cued up in the wrong order.
 		* Fixes things like no sound playing after a call to stopAllSounds() then play().
 
+	* Fixed some plugin loopholes as identified by cycheng here: http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=13383&p=75145#p75145
+
+	* Added a createListener() function for cases where clearScene() is used to destroy all objects
+		* This call will destroy all sounds and listener object and there was no way of recreating a listener previously.
+		* http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=13381
+
 
 * version 1.17
 
