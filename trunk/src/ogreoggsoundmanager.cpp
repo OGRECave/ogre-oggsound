@@ -688,14 +688,23 @@ namespace OgreOggSound
 	void OgreOggSoundManager::destroyAllSounds()
 	{
 #if OGGSOUND_THREADED
-		SoundAction action;
+		/** Dumb check to catch external destruction of sounds to avoid potential
+			thread crashes. (manager issued destruction sets this flag)
+		*/
+#	ifdef POCO_THREAD
+		if ( mLock) Poco::Mutex::ScopedLock l(mMutex);
+#else
+		if ( mLock ) boost::recursive_mutex::scoped_lock l(mMutex);
+#	endif
+#endif
+/*		SoundAction action;
 		action.mAction = LQ_DESTROY_ALL;
 		action.mParams = 0;
 		action.mSound = 0;
 		_requestSoundAction(action);
-#else
+#else*/
 		_destroyAllSoundsImpl();
-#endif
+//#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::stopAllSounds()
