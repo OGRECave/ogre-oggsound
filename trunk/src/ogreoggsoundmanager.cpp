@@ -688,23 +688,15 @@ namespace OgreOggSound
 	void OgreOggSoundManager::destroyAllSounds()
 	{
 #if OGGSOUND_THREADED
-		/** Dumb check to catch external destruction of sounds to avoid potential
-			thread crashes. (manager issued destruction sets this flag)
+		/** Mutex lock to avoid potential thread crashes. 
 		*/
 #	ifdef POCO_THREAD
-		if ( mLock) Poco::Mutex::ScopedLock l(mMutex);
+		Poco::Mutex::ScopedLock l(mMutex);
 #else
-		if ( mLock ) boost::recursive_mutex::scoped_lock l(mMutex);
+		boost::recursive_mutex::scoped_lock l(mMutex);
 #	endif
 #endif
-/*		SoundAction action;
-		action.mAction = LQ_DESTROY_ALL;
-		action.mParams = 0;
-		action.mSound = 0;
-		_requestSoundAction(action);
-#else*/
 		_destroyAllSoundsImpl();
-//#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::stopAllSounds()
@@ -2318,26 +2310,8 @@ namespace OgreOggSound
 	void OgreOggSoundManager::_releaseAll()
 	{
 		stopAllSounds();
+		_destroyAllSoundsImpl();
 
-		// Destroy all sounds
-		SoundMap::iterator i = mSoundMap.begin();
-		while(i != mSoundMap.end())
-		{
-#if OGGSOUND_THREADED
-			// Set flag
-			mLock = false;
-#endif	
-			Ogre::SceneManager*s = i->second->getSceneManager();
-			s->destroyMovableObject(i->second->getName(), OgreOggSoundFactory::FACTORY_TYPE_NAME);
-
-#if OGGSOUND_THREADED
-			// Set flag
-			mLock = true;
-#endif	
-			++i;
-		}
-
-		mSoundMap.clear();
 		// Delete sources
 		SourceList::iterator it = mSourcePool.begin();
 		while (it != mSourcePool.end())
@@ -2349,24 +2323,12 @@ namespace OgreOggSound
 				alSourcei(static_cast<ALuint>((*it)), AL_DIRECT_FILTER, AL_FILTER_NULL);
 				alSource3i(static_cast<ALuint>((*it)), AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, AL_FILTER_NULL);
 #endif
-
  			}
 			alDeleteSources(1,&(*it));
 			++it;
 		}
 
 		mSourcePool.clear();
-		// Shared buffers
-		SharedBufferList::iterator b = mSharedBuffers.begin();
-		while (b != mSharedBuffers.end())
-		{
-			if ( b->second->mRefCount>0 )
-				alDeleteBuffers(1, &b->second->mAudioBuffer);
-			OGRE_FREE(b->second, Ogre::MEMCATEGORY_GENERAL);
-			++b;
-		}
-
-		mSharedBuffers.clear();
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// clear EFX effect lists
@@ -2394,10 +2356,6 @@ namespace OgreOggSound
 			mEffectSlotList.clear();
 		}
 #endif
-		mActiveSounds.clear();
-		mSoundsToReactivate.clear();
-		mWaitingSounds.clear();
-		mPausedSounds.clear();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	int OgreOggSoundManager::_createSourcePool()
