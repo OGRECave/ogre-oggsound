@@ -31,7 +31,7 @@
 #include <string>
 
 #if OGGSOUND_THREADED
-#	if defined POCO_THREAD
+#	ifdef POCO_THREAD
 		Poco::Thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
 		OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
 		void OgreOggSound::OgreOggSoundManager::Updater::run() { OgreOggSound::OgreOggSoundManager::threadUpdate(); }
@@ -73,7 +73,6 @@ namespace OgreOggSound
 		,mResourceGroupName("")
 #if OGGSOUND_THREADED
 		,mActionsList(0)
-		,mLock(true)
 #endif
 		{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -124,11 +123,6 @@ namespace OgreOggSound
 	{
 #if OGGSOUND_THREADED
 		mShuttingDown = true;
-#	if defined POCO_THREAD
-		Poco::Mutex::ScopedLock l(mMutex);
-#	else
-		boost::recursive_mutex::scoped_lock l(mMutex);
-#	endif
 		if ( mUpdateThread )
 		{
 			mUpdateThread->join();
@@ -360,7 +354,7 @@ namespace OgreOggSound
 		Ogre::LogManager::getSingleton().logMessage(msg, Ogre::LML_TRIVIAL);
 
 #if OGGSOUND_THREADED
-#	if defined POCO_THREAD
+#	ifdef POCO_THREAD
 		mUpdateThread = OGRE_NEW_T(Poco::Thread,Ogre::MEMCATEGORY_GENERAL)();
 		mUpdater = OGRE_NEW_T(Updater,Ogre::MEMCATEGORY_GENERAL)();
 		mUpdateThread->start(*mUpdater);
@@ -460,7 +454,6 @@ namespace OgreOggSound
 		// Create a listener
 		return ( (mListener = dynamic_cast<OgreOggListener*>(mSceneMgr->createMovableObject("OgreOggSoundListener", OgreOggSoundFactory::FACTORY_TYPE_NAME, 0)))!=0);
 	}
-	
 	/*/////////////////////////////////////////////////////////////////*/
 	const StringVector OgreOggSoundManager::getSoundList() const
 	{
@@ -687,15 +680,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::destroyAllSounds()
 	{
-#if OGGSOUND_THREADED
-		/** Mutex lock to avoid potential thread crashes. 
-		*/
-#	ifdef POCO_THREAD
-		Poco::Mutex::ScopedLock l(mMutex);
-#else
-		boost::recursive_mutex::scoped_lock l(mMutex);
-#	endif
-#endif
 		_destroyAllSoundsImpl();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -822,7 +806,13 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::update(Ogre::Real fTime)
 	{
-#if !OGGSOUND_THREADED
+#if OGGSOUND_THREADED
+#	ifdef POCO_THREAD
+		Poco::Mutex::ScopedLock l(mMutex);
+#	else
+		boost::recursive_mutex::scoped_lock lock(mMutex);
+#	endif
+#else
 		static Real rTime=0.f;
 	
 		if ( !mActiveSounds.empty() )
@@ -853,14 +843,14 @@ namespace OgreOggSound
 			rTime=0.f;
 		}
 
-		// Destroy temporary sounds
+#endif
+		// Destroy sounds
 		if ( !soundsToDestroy.empty() )
 		{
 			for ( ActiveList::iterator iter=soundsToDestroy.begin(); iter!=soundsToDestroy.end(); ++iter )
-				destroySound((*iter));
+				_destroySoundImpl((*iter));
 			soundsToDestroy.clear();
 		}
-#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	struct OgreOggSoundManager::_sortNearToFar
@@ -2000,15 +1990,31 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_destroyAllSoundsImpl()
 	{
+#if OGGSOUND_THREADED
+		/** Mutex lock to avoid potential thread crashes. 
+		*/
+#	ifdef POCO_THREAD
+		Poco::Mutex::ScopedLock l(mMutex);
+#else
+		boost::recursive_mutex::scoped_lock lock(mMutex);
+#	endif
+#endif
 		// Destroy all sounds
-		SoundMap::iterator i = mSoundMap.begin();
-		while(i != mSoundMap.end())
-		{
-			OGRE_DELETE_T(i->second, OgreOggISound, Ogre::MEMCATEGORY_GENERAL);
-			++i;
-		}
+		StringVector soundList;
 
-		mSoundMap.clear();
+		// Get a list of all sound names
+		for ( SoundMap::iterator i=mSoundMap.begin(); i!=mSoundMap.end(); ++i )
+			soundList.push_back(i->first);
+
+		// Destroy individually outside mSoundMap iteration
+		OgreOggISound* sound=0;
+		for ( StringVector::iterator i=soundList.begin(); i!=soundList.end(); ++i )
+		{
+			if ( sound=getSound((*i)) ) 
+				_destroySoundImpl(sound);
+		}
+		soundList.clear();
+
 		// Shared buffers
 		SharedBufferList::iterator b = mSharedBuffers.begin();
 		while (b != mSharedBuffers.end())
@@ -2159,14 +2165,6 @@ namespace OgreOggSound
 	{
 		if (!sound) return;
 
-#if OGGSOUND_THREADED
-#	if defined POCO_THREAD
-		if ( mLock ) Poco::Mutex::ScopedLock l(mMutex);
-#	else
-		if ( mLock )  boost::recursive_mutex::scoped_lock l(mMutex);
-#	endif
-#endif
-
 		// Delete sound buffer
 		ALuint src = sound->getSource();
 		if ( src!=AL_NONE ) _releaseSoundSource(sound);
@@ -2186,18 +2184,9 @@ namespace OgreOggSound
 	{
 		if ( !sound ) return;
 
-#if OGGSOUND_THREADED
-		// Set flag
-		mLock = false;
-#endif
 		// Get SceneManager
 		Ogre::SceneManager* s = sound->getSceneManager();
 		s->destroyMovableObject(sound);
-
-#if OGGSOUND_THREADED
-		// Reset flag
-		mLock = true;
-#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_destroyListener()
@@ -2211,7 +2200,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		if ( mLock) Poco::Mutex::ScopedLock l(mMutex);
 #else
-		if ( mLock ) boost::recursive_mutex::scoped_lock l(mMutex);
+		boost::recursive_mutex::scoped_lock lock(mMutex);
 #	endif
 #endif
 
@@ -2610,7 +2599,7 @@ namespace OgreOggSound
 			case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); } break;
 			case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl(); }	break;
 			case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl(); } break;
-			case LQ_DESTROY:		{ if ( act.mSound ) _destroySoundImpl(act.mSound); } break;
+			case LQ_DESTROY:		{ if ( act.mSound ) _destroyTemporarySoundImpl(act.mSound); } break;
 			case LQ_DESTROY_TEMPORARY: { if ( act.mSound ) _destroyTemporarySoundImpl(act.mSound); } break;
 			case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); } break;
 			case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); } break;
@@ -2681,7 +2670,7 @@ namespace OgreOggSound
 				case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); } break;
 				case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl(); }	break;
 				case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl(); } break;
-				case LQ_DESTROY:		{ if ( act.mSound ) _destroySoundImpl(act.mSound); } break;
+				case LQ_DESTROY:		{ if ( act.mSound ) _destroyTemporarySoundImpl(act.mSound); } break;
 				case LQ_DESTROY_TEMPORARY: { if ( act.mSound ) _destroyTemporarySoundImpl(act.mSound); } break;
 				case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); } break;
 				case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); } break;

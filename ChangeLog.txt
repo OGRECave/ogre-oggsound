@@ -15,6 +15,10 @@
 	* Added a createListener() function for cases where clearScene() is used to destroy all objects
 		* This call will destroy all sounds and listener object and there was no way of recreating a listener previously.
 		* http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=13381
+	
+	* Fixed crash on exit (Multi-threaded ONLY)
+
+	* Reworked sound destruction to avoid thread crashes (Multi-threaded ONLY)
 
 
 * version 1.17

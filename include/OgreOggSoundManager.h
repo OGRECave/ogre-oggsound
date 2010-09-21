@@ -38,7 +38,7 @@
 #include <string>
 
 #if OGGSOUND_THREADED
-#	if defined POCO_THREAD 
+#	ifdef POCO_THREAD 
 #		include "Poco/ScopedLock.h"
 #		include "Poco/Thread.h"
 #		include "Poco/Mutex.h"
@@ -632,16 +632,11 @@ namespace OgreOggSound
 		 */
 		void _updateBuffers();
 
-#if defined POCO_THREAD
-		Poco::Mutex mMutex;
-#else
-		boost::recursive_mutex mMutex;
-#endif
-
 		LocklessQueue<SoundAction>* mActionsList;
 		LocklessQueue<SoundAction>* mDelayedActionsList;
 
-#if defined POCO_THREAD
+#ifdef POCO_THREAD
+		Poco::Mutex mMutex;
 		static::Poco::Thread *mUpdateThread;
 		class Updater : public Poco::Runnable
 		{
@@ -652,17 +647,9 @@ namespace OgreOggSound
 		static Updater* mUpdater;
 #else
 		static::boost::thread *mUpdateThread;
+		boost::recursive_mutex mMutex;
 #endif
 		static bool mShuttingDown;
-				
-		/** Flag to indicate whether to lock mutex when destroying
-		@remarks
-			Its possible Ogre can destroy sound objects without the managers knowledge (~Root() | clearScene() etc..),
-			in this case we need to ensure no thread crashes can occur by locking out the actual destruction. This
-			flag therefore gets set when a destruction is handled through the manager but is left unset whenever a 
-			destruction is scheduled outside of the manager. If set a lock is aquired BEFORE destroying.
-		*/
-		bool mLock; 
 
 		/** Threaded function for streaming updates
 		@remarks
@@ -678,11 +665,11 @@ namespace OgreOggSound
 		static void threadUpdate()
 		{
 			while(!mShuttingDown)
-			{
+			{		
 				OgreOggSoundManager::getSingleton()._updateBuffers();
 				OgreOggSoundManager::getSingleton()._processQueuedSounds();
 
-#if defined POCO_THREAD
+#ifdef POCO_THREAD
 				Poco::Thread::sleep(10);
 #else
 				boost::this_thread::sleep(boost::posix_time::millisec(10));
@@ -723,13 +710,6 @@ namespace OgreOggSound
 			Prebuffer flag.
 		*/
 		void _loadSoundImpl(OgreOggISound* sound, const Ogre::String& file, Ogre::DataStreamPtr stream, bool prebuffer);
-		/** Destroys a single sound.
-		@remarks
-			Destroys a single sound object.
-			@param sName 
-				Sound name to destroy.
-		 */
-		void _destroySoundImpl(const Ogre::String& sName="");
 		/** Destroys a single sound.
 		@remarks
 			Destroys a single sound object.
