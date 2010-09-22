@@ -22,6 +22,8 @@
 
 	* Mutex optimisation made to OgreOggSoundManager::update()
 
+	* Added a setGlobalPitch() function to OgreOggSoundManager
+
 
 * version 1.17
 

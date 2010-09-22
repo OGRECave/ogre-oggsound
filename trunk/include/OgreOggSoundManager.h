@@ -67,6 +67,7 @@ namespace OgreOggSound
 		LQ_LOAD,
 		LQ_DESTROY,
 		LQ_DESTROY_ALL,
+		LQ_GLOBAL_PITCH,
 		LQ_STOP_ALL,
 		LQ_PAUSE_ALL,
 		LQ_RESUME_ALL,
@@ -217,6 +218,16 @@ namespace OgreOggSound
 				Sound name.
 		 */
 		bool hasSound(const std::string& name);
+		/** Sets the pitch of all sounds.
+		@remarks
+			Sets the pitch modifier applied to all sounds.
+			@param pitch
+				new pitch for all sounds (positive value)
+		 */
+		void setGlobalPitch(float pitch);
+		/** Gets the current global pitch.
+		 */
+		const float getGlobalPitch() const { return mGlobalPitch; }
 		/** Stops all currently playing sounds.
 		 */
 		void stopAllSounds();
@@ -736,6 +747,9 @@ namespace OgreOggSound
 		/** Stops all currently playing sounds.
 		 */
 		void _stopAllSoundsImpl();
+		/** Applys global pitch.
+		 */
+		void _setGlobalPitchImpl();
 		/** Pauses all currently playing sounds.
 		 */
 		void _pauseAllSoundsImpl();
@@ -865,6 +879,8 @@ namespace OgreOggSound
 		ALCchar* mDeviceStrings;				// List of available devices strings
 		unsigned int mNumSources;				// Number of sources available for sounds
 		unsigned int mMaxSources;				// Maximum Number of sources to allocate
+
+		float mGlobalPitch;						// Global pitch modifier
 
 		OgreOggSoundRecord* mRecorder;			// recorder object
 

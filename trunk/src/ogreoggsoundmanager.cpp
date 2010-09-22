@@ -71,6 +71,7 @@ namespace OgreOggSound
 		,mDeviceStrings(0)
 		,mMaxSources(100)
 		,mResourceGroupName("")
+		,mGlobalPitch(1.f)
 #if OGGSOUND_THREADED
 		,mActionsList(0)
 #endif
@@ -696,6 +697,22 @@ namespace OgreOggSound
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::setGlobalPitch(float pitch)
+	{
+		if ( pitch<=0.f ) return;
+
+		mGlobalPitch=pitch;
+#if OGGSOUND_THREADED 
+		SoundAction action;
+		action.mAction	= LQ_GLOBAL_PITCH;
+		action.mParams	= 0;
+		action.mSound	= 0;
+		_requestSoundAction(action);
+#else
+		_setGlobalPitchImpl();
+#endif
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::pauseAllSounds()
 	{
 #if OGGSOUND_THREADED
@@ -761,31 +778,6 @@ namespace OgreOggSound
 		_requestSoundAction(action);
 #else
 		_destroySoundImpl(sound);
-#endif
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_destroyTemporarySoundImpl(OgreOggISound* sound)
-	{
-		if ( !sound ) return;
-
-		for ( ActiveList::iterator iter=soundsToDestroy.begin(); iter!=soundsToDestroy.end(); ++iter )
-			if ((*iter)==sound)
-				return;
-
-		// Add to list
-		soundsToDestroy.push_back(sound);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_destroyTemporarySound(OgreOggISound* sound)
-	{
-#if OGGSOUND_THREADED
-		SoundAction action;
-		action.mAction	= LQ_DESTROY;
-		action.mSound	= sound;
-		action.mParams  = 0;
-		_requestSoundAction(action);
-#else
-		_destroyTemporarySoundImpl(sound);
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1982,6 +1974,31 @@ namespace OgreOggSound
 	}
 #endif
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_destroyTemporarySoundImpl(OgreOggISound* sound)
+	{
+		if ( !sound ) return;
+
+		for ( ActiveList::iterator iter=soundsToDestroy.begin(); iter!=soundsToDestroy.end(); ++iter )
+			if ((*iter)==sound)
+				return;
+
+		// Add to list
+		soundsToDestroy.push_back(sound);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_destroyTemporarySound(OgreOggISound* sound)
+	{
+#if OGGSOUND_THREADED
+		SoundAction action;
+		action.mAction	= LQ_DESTROY;
+		action.mSound	= sound;
+		action.mParams  = 0;
+		_requestSoundAction(action);
+#else
+		_destroyTemporarySoundImpl(sound);
+#endif
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_destroyAllSoundsImpl()
 	{
 #if OGGSOUND_THREADED
@@ -2034,6 +2051,15 @@ namespace OgreOggSound
 
 		for (ActiveList::const_iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
 			(*iter)->_stopImpl();
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::_setGlobalPitchImpl()
+	{
+		if (mSoundMap.empty() ) return;
+
+		// Affect all sounds
+		for (SoundMap::const_iterator iter=mSoundMap.begin(); iter!=mSoundMap.end(); ++iter)
+			iter->second->setPitch(mGlobalPitch);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_pauseAllSoundsImpl()
@@ -2611,6 +2637,7 @@ namespace OgreOggSound
 			case LQ_DESTROY_TEMPORARY: { if ( act.mSound ) _destroyTemporarySoundImpl(act.mSound); } break;
 			case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); } break;
 			case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); } break;
+			case LQ_GLOBAL_PITCH:	{ _setGlobalPitchImpl(); } break;
 			case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); } break;
 			case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); } break;
 			case LQ_RESUME_ALL:		{ _resumeAllPausedSoundsImpl(); } break;
@@ -2682,6 +2709,7 @@ namespace OgreOggSound
 				case LQ_DESTROY_TEMPORARY: { if ( act.mSound ) _destroyTemporarySoundImpl(act.mSound); } break;
 				case LQ_DESTROY_ALL:	{ _destroyAllSoundsImpl(); } break;
 				case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); } break;
+				case LQ_GLOBAL_PITCH:	{ _setGlobalPitchImpl(); } break;
 				case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); } break;
 				case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); } break;
 				case LQ_RESUME_ALL:		{ _resumeAllPausedSoundsImpl(); } break;
