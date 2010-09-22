@@ -8,7 +8,7 @@
 * This source file is part of OgreOggSound, an OpenAL wrapper library for   
 * use with the Ogre Rendering Engine.										 
 *                                                                           
-* Copyright 2009 Ian Stangoe 
+* Copyright 2010 Ian Stangoe 
 *                                                                           
 * OgreOggSound is free software: you can redistribute it and/or modify		  
 * it under the terms of the GNU Lesser General Public License as published	 
