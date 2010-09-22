@@ -20,6 +20,8 @@
 
 	* Reworked sound destruction to avoid thread crashes (Multi-threaded ONLY)
 
+	* Mutex optimisation made to OgreOggSoundManager::update()
+
 
 * version 1.17
 
