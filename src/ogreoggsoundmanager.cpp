@@ -806,13 +806,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::update(Ogre::Real fTime)
 	{
-#if OGGSOUND_THREADED
-#	ifdef POCO_THREAD
-		Poco::Mutex::ScopedLock l(mMutex);
-#	else
-		boost::recursive_mutex::scoped_lock lock(mMutex);
-#	endif
-#else
+#if !OGGSOUND_THREADED
 		static Real rTime=0.f;
 	
 		if ( !mActiveSounds.empty() )
@@ -2165,6 +2159,13 @@ namespace OgreOggSound
 	{
 		if (!sound) return;
 
+#if OGGSOUND_THREADED
+#	ifdef POCO_THREAD
+		Poco::Mutex::ScopedLock l(mMutex);
+#	else
+		boost::recursive_mutex::scoped_lock lock(mMutex);
+#	endif
+#endif
 		// Delete sound buffer
 		ALuint src = sound->getSource();
 		if ( src!=AL_NONE ) _releaseSoundSource(sound);
@@ -2184,6 +2185,13 @@ namespace OgreOggSound
 	{
 		if ( !sound ) return;
 
+#if OGGSOUND_THREADED
+#	ifdef POCO_THREAD
+		Poco::Mutex::ScopedLock l(mMutex);
+#	else
+		boost::recursive_mutex::scoped_lock lock(mMutex);
+#	endif
+#endif
 		// Get SceneManager
 		Ogre::SceneManager* s = sound->getSceneManager();
 		s->destroyMovableObject(sound);
