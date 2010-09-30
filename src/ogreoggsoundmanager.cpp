@@ -2232,7 +2232,7 @@ namespace OgreOggSound
 			thread crashes. (manager issued destruction sets this flag)
 		*/
 #	ifdef POCO_THREAD
-		if ( mLock) Poco::Mutex::ScopedLock l(mMutex);
+		Poco::Mutex::ScopedLock l(mMutex);
 #else
 		boost::recursive_mutex::scoped_lock lock(mMutex);
 #	endif
