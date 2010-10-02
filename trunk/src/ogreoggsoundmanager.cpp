@@ -74,6 +74,7 @@ namespace OgreOggSound
 		,mGlobalPitch(1.f)
 #if OGGSOUND_THREADED
 		,mActionsList(0)
+		,mDelayedActionsList(0)
 #endif
 		{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
