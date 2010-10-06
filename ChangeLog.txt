@@ -26,6 +26,10 @@
 
 	* Destruction of sounds handled immediately, prevents timing issues between destruction/recreation.
 
+	* Added a lockless queue to handle temporary sounds destruction
+		* Requires update() to handle the destruction
+		* Should fix any possible thread crash
+
 
 * version 1.17
 

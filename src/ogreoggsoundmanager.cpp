@@ -182,6 +182,11 @@ namespace OgreOggSound
 			delete mDelayedActionsList;
 			mDelayedActionsList=0;
 		}
+		if ( mSoundsToDestroy )
+		{
+			delete mSoundsToDestroy;
+			mSoundsToDestroy=0;
+		}
 #endif
 
 		_releaseAll();
@@ -369,6 +374,7 @@ namespace OgreOggSound
 		{
 			mActionsList = new LocklessQueue<SoundAction>(queueListSize);
 			mDelayedActionsList = new LocklessQueue<SoundAction>(500);
+			mSoundsToDestroy = new LocklessQueue<OgreOggISound*>(100);
 		}
 #endif
 
@@ -815,11 +821,14 @@ namespace OgreOggSound
 
 #endif
 		// Destroy sounds
-		if ( !soundsToDestroy.empty() )
+		if ( mSoundsToDestroy )
 		{
-			for ( ActiveList::iterator iter=soundsToDestroy.begin(); iter!=soundsToDestroy.end(); ++iter )
-				_destroySoundImpl((*iter));
-			soundsToDestroy.clear();
+			if (!mSoundsToDestroy->empty() )
+			{
+				OgreOggISound* s=0;
+				if ( mSoundsToDestroy->pop(s) )
+					_destroySoundImpl(s);
+			}
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1958,26 +1967,12 @@ namespace OgreOggSound
 	}
 #endif
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::_destroyTemporarySoundImpl(OgreOggISound* sound)
-	{
-		if ( !sound ) return;
-
-		for ( ActiveList::iterator iter=soundsToDestroy.begin(); iter!=soundsToDestroy.end(); ++iter )
-			if ((*iter)==sound)
-				return;
-
-		// Add to list
-		soundsToDestroy.push_back(sound);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_destroyTemporarySound(OgreOggISound* sound)
 	{
+		if (!sound) return;
+
 #if OGGSOUND_THREADED
-		SoundAction action;
-		action.mAction	= LQ_DESTROY_TEMPORARY;
-		action.mSound	= sound;
-		action.mParams  = 0;
-		_requestSoundAction(action);
+		mSoundsToDestroy->push(sound);
 #else
 		_destroySoundImpl(sound);
 #endif
@@ -2599,7 +2594,6 @@ namespace OgreOggSound
 			case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); } break;
 			case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl(); }	break;
 			case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl(); } break;
-			case LQ_DESTROY_TEMPORARY: { if ( act.mSound ) _destroyTemporarySoundImpl(act.mSound); } break;
 			case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); } break;
 			case LQ_GLOBAL_PITCH:	{ _setGlobalPitchImpl(); } break;
 			case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); } break;
@@ -2669,7 +2663,6 @@ namespace OgreOggSound
 				case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); } break;
 				case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl(); }	break;
 				case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl(); } break;
-				case LQ_DESTROY_TEMPORARY: { if ( act.mSound ) _destroyTemporarySoundImpl(act.mSound); } break;
 				case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); } break;
 				case LQ_GLOBAL_PITCH:	{ _setGlobalPitchImpl(); } break;
 				case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); } break;
