@@ -65,8 +65,6 @@ namespace OgreOggSound
 		LQ_STOP,
 		LQ_PAUSE,
 		LQ_LOAD,
-		LQ_DESTROY,
-		LQ_DESTROY_ALL,
 		LQ_GLOBAL_PITCH,
 		LQ_STOP_ALL,
 		LQ_PAUSE_ALL,
@@ -645,6 +643,7 @@ namespace OgreOggSound
 
 		LocklessQueue<SoundAction>* mActionsList;
 		LocklessQueue<SoundAction>* mDelayedActionsList;
+		LocklessQueue<OgreOggISound*>* mSoundsToDestroy;
 
 #ifdef POCO_THREAD
 		Poco::Mutex mMutex;
@@ -871,7 +870,6 @@ namespace OgreOggSound
 		ActiveList mPausedSounds;				// list of sounds currently paused
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		ActiveList mWaitingSounds;				// list of sounds that need playing when sources become available
-		ActiveList soundsToDestroy;				// Temporary sounds list
 		SourceList mSourcePool;					// List of available sources
 		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
 		SharedBufferList mSharedBuffers;		// List of shared static buffers
