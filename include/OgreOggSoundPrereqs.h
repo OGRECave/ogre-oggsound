@@ -30,16 +30,18 @@
 
 #include <Ogre.h>
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #	pragma once
 #	pragma warning( disable : 4244 )
 
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #	include "al.h"
 #	include "alc.h"
-#	include "efx.h"
-#	include "efx-util.h"
-#	include "efx-creative.h"
-#	include "xram.h"
+#	ifdef HAVE_EFX
+#		include	"xram.h"
+#		include "efx.h"
+#		include	"efx-util.h"
+#		include "efx-creative.h"
+#	endif
 #	if OGRE_COMPILER == OGRE_COMPILER_MSVC
 #		ifdef OGGSOUND_EXPORT
 #			define _OGGSOUND_EXPORT __declspec(dllexport)

@@ -77,7 +77,7 @@ namespace OgreOggSound
 		,mDelayedActionsList(0)
 #endif
 		{
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 			// Effect objects
 			alGenEffects = NULL;
 			alDeleteEffects = NULL;
@@ -310,7 +310,7 @@ namespace OgreOggSound
 
 		Ogre::LogManager::getSingleton().logMessage("*** --- OpenAL Device successfully created");
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
         ALint attribs[2] = {ALC_MAX_AUXILIARY_SENDS, 4};
 #else
         ALint attribs[1] = {4};
@@ -788,7 +788,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::update(Ogre::Real fTime)
 	{
-#if !OGGSOUND_THREADED
+#if OGGSOUND_THREADED == 0
 		static Real rTime=0.f;
 	
 		if ( !mActiveSounds.empty() )
@@ -819,7 +819,7 @@ namespace OgreOggSound
 			rTime=0.f;
 		}
 
-#endif
+#else
 		// Destroy sounds
 		if ( mSoundsToDestroy )
 		{
@@ -830,6 +830,7 @@ namespace OgreOggSound
 					_destroySoundImpl(s);
 			}
 		}
+#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	struct OgreOggSoundManager::_sortNearToFar
@@ -1080,7 +1081,9 @@ namespace OgreOggSound
 
 		return false;
 	}
+	
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::isRecordingAvailable() const
 	{
@@ -1096,6 +1099,10 @@ namespace OgreOggSound
 		else
 			return 0;
 	}
+
+#endif
+	
+#if HAVE_EFX
 
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::isEffectSupported(ALint effectID)
@@ -2264,7 +2271,7 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 		// EFX
 		mEFXSupport = _checkEFXSupport();
 		if (mEFXSupport)
@@ -2320,7 +2327,7 @@ namespace OgreOggSound
 		{
 			if ( hasEFXSupport() )
 			{
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 				// Remove filters/effects
 				alSourcei(static_cast<ALuint>((*it)), AL_DIRECT_FILTER, AL_FILTER_NULL);
 				alSource3i(static_cast<ALuint>((*it)), AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, AL_FILTER_NULL);
@@ -2332,7 +2339,7 @@ namespace OgreOggSound
 
 		mSourcePool.clear();
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 		// clear EFX effect lists
 		if ( !mFilterList.empty() )
 		{
@@ -2612,7 +2619,7 @@ namespace OgreOggSound
 					OGRE_FREE(c, Ogre::MEMCATEGORY_GENERAL);
 				}
 				break;
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 			case LQ_ATTACH_EFX:
 				{
 					efxProperty* e = static_cast<efxProperty*>(act.mParams);
@@ -2681,7 +2688,7 @@ namespace OgreOggSound
 						OGRE_FREE(c, Ogre::MEMCATEGORY_GENERAL);
 					}
 					break;
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 				case LQ_ATTACH_EFX:
 					{
 						efxProperty* e = static_cast<efxProperty*>(act.mParams);

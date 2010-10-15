@@ -30,6 +30,9 @@
 		* Requires update() to handle the destruction
 		* Should fix any possible thread crash
 
+	* Added patch from torrque to support mingw and openal-soft
+		* see: http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=13522&p=76021#p76021
+
 
 * version 1.17
 
