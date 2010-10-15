@@ -379,7 +379,7 @@ namespace OgreOggSound
 		/** Returns user defined search group name
 		 */
 		const Ogre::String& getResourceGroupName() const { return mResourceGroupName; }
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 		/** Sets XRam buffers.
 		@remarks
 			Currently defaults to AL_STORAGE_AUTO.
@@ -600,6 +600,10 @@ namespace OgreOggSound
 				OpenAL effect/filter id. (AL_EFFECT... | AL_FILTER...)
 		 */
 		bool isEffectSupported(ALint effectID);
+#endif
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+		OgreOggSoundRecord* createRecorder();
 		/** Gets recording device
 		 */
 		OgreOggSoundRecord* getRecorder() { return mRecorder; }
@@ -608,7 +612,6 @@ namespace OgreOggSound
 		bool isRecordingAvailable() const;
 		/** Creates a recordable object
 		 */
-		OgreOggSoundRecord* createRecorder();
 #endif
 
 #if OGGSOUND_THREADED
@@ -628,7 +631,7 @@ namespace OgreOggSound
  
 	private:
 
-#if OGGSOUND_THREADED
+#if OGGSOUND_THREADED == 1
 
 		/** Processes queued sound actions.
 		@remarks
@@ -788,7 +791,7 @@ namespace OgreOggSound
 		 */
 		void _checkFeatureSupport();
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 
 		/** Checks for EFX hardware support
 		 */
@@ -891,7 +894,7 @@ namespace OgreOggSound
 		*/
 		bool mEFXSupport;						// EFX present flag
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 
 		// Effect objects
 		LPALGENEFFECTS alGenEffects;
