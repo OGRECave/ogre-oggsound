@@ -628,6 +628,8 @@ namespace OgreOggSound
  
 	private:
 
+		LocklessQueue<OgreOggISound*>* mSoundsToDestroy;
+
 #if OGGSOUND_THREADED
 
 		/** Processes queued sound actions.
@@ -643,7 +645,6 @@ namespace OgreOggSound
 
 		LocklessQueue<SoundAction>* mActionsList;
 		LocklessQueue<SoundAction>* mDelayedActionsList;
-		LocklessQueue<OgreOggISound*>* mSoundsToDestroy;
 
 #ifdef POCO_THREAD
 		Poco::Mutex mMutex;
