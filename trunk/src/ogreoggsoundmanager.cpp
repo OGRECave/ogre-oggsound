@@ -776,20 +776,20 @@ namespace OgreOggSound
 		alDistanceModel(value);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::setSpeedOfSound(Ogre::Real speed)
+	void OgreOggSoundManager::setSpeedOfSound(float speed)
 	{
 		alSpeedOfSound(speed);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::setDopplerFactor(Ogre::Real factor)
+	void OgreOggSoundManager::setDopplerFactor(float factor)
 	{
 		alDopplerFactor(factor);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::update(Ogre::Real fTime)
+	void OgreOggSoundManager::update(float fTime)
 	{
 #if OGGSOUND_THREADED == 0
-		static Real rTime=0.f;
+		static float rTime=0.f;
 	
 		if ( !mActiveSounds.empty() )
 		{
@@ -810,7 +810,7 @@ namespace OgreOggSound
 		mListener->update();
 
 		// Limit re-activation
-		if ( (rTime+=fTime) > 0.05 )
+		if ( (rTime+=fTime) > 0.05f )
 		{
 			// try to reactivate any
 			_reactivateQueuedSounds();
@@ -837,7 +837,7 @@ namespace OgreOggSound
 	{
 		bool operator()(OgreOggISound*& sound1, OgreOggISound*& sound2)
 		{
-			Real	d1=0.f,
+			float	d1=0.f,
 					d2=0.f;
 			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
 
@@ -864,7 +864,7 @@ namespace OgreOggSound
 	{
 		bool operator()(OgreOggISound*& sound1, OgreOggISound*& sound2)
 		{
-			Real	d1=0.f,
+			float	d1=0.f,
 					d2=0.f;
 			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
 
@@ -985,7 +985,7 @@ namespace OgreOggSound
 			}
 
 			// Sort by distance
-			Real	d1 = 0.f,
+			float	d1 = 0.f,
 					d2 = 0.f;
 
 			// Sort list by distance
@@ -1571,7 +1571,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::_setEFXSoundPropertiesImpl(OgreOggISound* sound, Ogre::Real airAbsorption, Ogre::Real roomRolloff, Ogre::Real coneOuterHF)
+	bool OgreOggSoundManager::_setEFXSoundPropertiesImpl(OgreOggISound* sound, float airAbsorption, float roomRolloff, float coneOuterHF)
 	{
 		if (!sound) return false;
 
@@ -1602,7 +1602,7 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::setEFXSoundProperties(const std::string& sName, Ogre::Real airAbsorption, Ogre::Real roomRolloff, Ogre::Real coneOuterHF)
+	bool OgreOggSoundManager::setEFXSoundProperties(const std::string& sName, float airAbsorption, float roomRolloff, float coneOuterHF)
 	{
 		OgreOggISound* sound=0;
 		if ( !(sound = getSound(sName)) ) return false;
@@ -1627,7 +1627,7 @@ namespace OgreOggSound
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::setEFXDistanceUnits(Ogre::Real units)
+	void OgreOggSoundManager::setEFXDistanceUnits(float units)
 	{
 		if ( !hasEFXSupport() || units<=0 ) return;
 
@@ -2527,11 +2527,11 @@ namespace OgreOggSound
 		static Ogre::uint32 cTime=0;
 		static Ogre::uint32 pTime=0;
 		static Ogre::Timer timer;
-		static Real rTime=0.f;
+		static float rTime=0.f;
 
 		// Get frame time
 		cTime = timer.getMillisecondsCPU();
-		Real fTime = (cTime-pTime) * 0.001f;
+		float fTime = (cTime-pTime) * 0.001f;
 
 		// update Listener
 		if ( mListener ) 

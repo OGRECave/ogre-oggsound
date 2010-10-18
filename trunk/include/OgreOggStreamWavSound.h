@@ -50,7 +50,7 @@ namespace OgreOggSound
 		@param seconds
 			Play position in seconds 
 		 */
-		void setPlayPosition(Ogre::Real seconds);	
+		void setPlayPosition(float seconds);	
 		/** Sets the source to use for playback.
 		@remarks
 			Sets the source object this sound will use to queue buffers onto
@@ -68,7 +68,7 @@ namespace OgreOggSound
 			@param startTime
 				Position in seconds to offset the loop point.
 		 */
-		void setLoopOffset(Ogre::Real startTime);
+		void setLoopOffset(float startTime);
 		/** Returns whether sound is mono
 		*/
 		bool isMono();

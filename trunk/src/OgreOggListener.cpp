@@ -104,7 +104,7 @@ namespace OgreOggSound
 		return aab;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	Ogre::Real OgreOggListener::getBoundingRadius(void) const
+	float OgreOggListener::getBoundingRadius(void) const
 	{
 		return 0;
 	}

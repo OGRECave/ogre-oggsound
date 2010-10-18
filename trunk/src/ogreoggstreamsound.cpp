@@ -77,7 +77,7 @@ namespace OgreOggSound
 		mVorbisComment = ov_comment(&mOggStream, -1);
 
 		// Get total playtime in seconds
-		mPlayTime = static_cast<Ogre::Real>(ov_time_total(&mOggStream, -1));
+		mPlayTime = static_cast<float>(ov_time_total(&mOggStream, -1));
 
 		// Generate audio buffers
 		alGenBuffers(NUM_BUFFERS, mBuffers);
@@ -120,7 +120,7 @@ namespace OgreOggSound
 		mPlayPos = 0.f;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamSound::setLoopOffset(Ogre::Real startTime)
+	void OgreOggStreamSound::setLoopOffset(float startTime)
 	{
 		// Store requested loop point
 		mLoopOffset=startTime;
@@ -451,7 +451,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamSound::setPlayPosition(Ogre::Real seconds)
+	void OgreOggStreamSound::setPlayPosition(float seconds)
 	{
 		if ( !mSeekable || seconds<0.f ) 
 			return;

@@ -171,10 +171,10 @@ namespace OgreOggSound
 			@param startTime
 				Position in seconds to offset the loop point.
 		 */
-		virtual void setLoopOffset(Ogre::Real startTime) {}
+		virtual void setLoopOffset(float startTime) {}
 		/** Gets the start point of a loopable section of audio in seconds.
 		 */
-		Ogre::Real getLoopOffset() { return mLoopOffset; }
+		float getLoopOffset() { return mLoopOffset; }
 		/** Sets the source object for playback.
 		@remarks
 			Abstract function
@@ -191,7 +191,7 @@ namespace OgreOggSound
 			@param actionOnCompletion 
 				Optional action to perform when fading has finished (default: NONE)
 		*/
-		void startFade(bool dir, Ogre::Real fadeTime, FadeControl actionOnCompletion=OgreOggSound::FC_NONE);
+		void startFade(bool dir, float fadeTime, FadeControl actionOnCompletion=OgreOggSound::FC_NONE);
 		/** Returns whether this sound is temporary
 		 */
 		bool isTemporary() const { return mTemporary; }
@@ -217,7 +217,7 @@ namespace OgreOggSound
 		@param seconds
 			Play position in seconds 
 		 */
-		virtual void setPlayPosition(Ogre::Real seconds);
+		virtual void setPlayPosition(float seconds);
 		/** Returns play status.
 		@remarks
 			Checks source state for AL_PLAYING
@@ -300,7 +300,7 @@ namespace OgreOggSound
 		@remarks
 			Gets the current gain value.
 		 */
-		Ogre::Real getVolume() const;
+		float getVolume() const;
 		/** Sets sounds maximum attenuation volume
 		@remarks
 			This value sets the maximum volume level of the sound when closest 
@@ -409,7 +409,7 @@ namespace OgreOggSound
 			@param fTime
 				Elapsed frametime.
 		*/
-		virtual void update(Ogre::Real fTime);
+		virtual void update(float fTime);
 		/** Gets the sounds source
 		 */
 		ALuint getSource() const { return mSource; }
@@ -434,7 +434,7 @@ namespace OgreOggSound
 			@param seconds
 				Cue point in seconds 
 		 */
-		bool addCuePoint(Ogre::Real seconds);
+		bool addCuePoint(float seconds);
 		/** Removes a cue point
 		 */
 		void removeCuePoint(unsigned short index);
@@ -450,7 +450,7 @@ namespace OgreOggSound
 		@param index
 			position in cue point list to get
 		 */
-		Ogre::Real getCuePoint(unsigned short index);
+		float getCuePoint(unsigned short index);
 		/** Returns number of cue points
 		 */
 		unsigned int getNumCuePoints() { return static_cast<int>(mCuePoints.size()); }
@@ -458,7 +458,7 @@ namespace OgreOggSound
 		@remarks
 			Only valid after file has been opened AND file is seekable.
 		 */
-		Ogre::Real getAudioLength() const { return mPlayTime; }
+		float getAudioLength() const { return mPlayTime; }
 		/** Gets movable type string
 		@remarks
 			Overridden from MovableObject.
@@ -473,7 +473,7 @@ namespace OgreOggSound
 		@remarks
 			Overridden from MovableObject.
 		 */
-		virtual Ogre::Real getBoundingRadius(void) const;
+		virtual float getBoundingRadius(void) const;
 		/** Gets the SceneManager pointer registered at creation.
 		@remarks
 			This will only be set if the sound was created through the plugin method
@@ -574,7 +574,7 @@ namespace OgreOggSound
 		@remarks
 			Updates a fade action.
 		 */
-		void _updateFade(Ogre::Real fTime=0.f);
+		void _updateFade(float fTime=0.f);
 		/** Updates audio buffers 
 		@remarks
 			Abstract function.
@@ -596,10 +596,10 @@ namespace OgreOggSound
 		/**
 		 * Variables used to fade sound
 		 */
-		Ogre::Real mFadeTimer;
-		Ogre::Real mFadeTime;
-		Ogre::Real mFadeInitVol;
-		Ogre::Real mFadeEndVol;
+		float mFadeTimer;
+		float mFadeTime;
+		float mFadeInitVol;
+		float mFadeEndVol;
 		bool mFade;
 		FadeControl mFadeEndAction;
 
@@ -618,17 +618,17 @@ namespace OgreOggSound
 		Ogre::Vector3 mPosition;		// 3D position
 		Ogre::Vector3 mDirection;		// 3D direction
 		Ogre::Vector3 mVelocity;		// 3D velocity
-		Ogre::Real mGain;				// Current volume
-		Ogre::Real mMaxGain;			// Minimum volume
-		Ogre::Real mMinGain;			// Maximum volume
-		Ogre::Real mMaxDistance;		// Maximum attenuation distance
-		Ogre::Real mRolloffFactor;		// Rolloff factor for attenuation
-		Ogre::Real mReferenceDistance;	// Half-volume distance for attenuation
-		Ogre::Real mPitch;				// Current pitch 
-		Ogre::Real mOuterConeGain;		// Outer cone volume
-		Ogre::Real mInnerConeAngle;		// Inner cone angle
-		Ogre::Real mOuterConeAngle;		// outer cone angle
-		Ogre::Real mPlayTime;			// Time in seconds of sound file
+		float mGain;				// Current volume
+		float mMaxGain;			// Minimum volume
+		float mMinGain;			// Maximum volume
+		float mMaxDistance;		// Maximum attenuation distance
+		float mRolloffFactor;		// Rolloff factor for attenuation
+		float mReferenceDistance;	// Half-volume distance for attenuation
+		float mPitch;				// Current pitch 
+		float mOuterConeGain;		// Outer cone volume
+		float mInnerConeAngle;		// Inner cone angle
+		float mOuterConeAngle;		// outer cone angle
+		float mPlayTime;			// Time in seconds of sound file
 		Ogre::String mName;				// Sound name
 		bool mLoop;						// Loop status
 		bool mPlay;						// Play status
@@ -646,12 +646,12 @@ namespace OgreOggSound
 
 		unsigned long mAudioOffset;		// offset to audio data
 		unsigned long mAudioEnd;		// offset to end of audio data
-		Ogre::Real mLoopOffset;			// offset to start of loop point
+		float mLoopOffset;			// offset to start of loop point
 
-		Ogre::Real mLoopStart;			// offset in seconds to start of loopable audio data
+		float mLoopStart;			// offset in seconds to start of loopable audio data
 
 		ALfloat mPlayPos;				// Playback position in seconds
-		std::deque<Ogre::Real> mCuePoints;	// List of play position points
+		std::deque<float> mCuePoints;	// List of play position points
 
 #if OGGSOUND_THREADED
 		/** Returns flag indicating an imminent destruction call
