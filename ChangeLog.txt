@@ -33,6 +33,8 @@
 	* Added patch from torrque to support mingw and openal-soft
 		* see: http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=13522&p=76021#p76021
 
+	* Replaced Ogre::Real with float
+
 
 * version 1.17
 

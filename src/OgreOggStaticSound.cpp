@@ -83,7 +83,7 @@ namespace OgreOggSound
 		mVorbisComment = ov_comment(&mOggStream, -1);
 
 		// Get playtime in secs
-		mPlayTime = static_cast<Ogre::Real>(ov_time_total(&mOggStream, -1));
+		mPlayTime = static_cast<float>(ov_time_total(&mOggStream, -1));
 
 		// Check format support
 		if (!_queryBufferInfo())

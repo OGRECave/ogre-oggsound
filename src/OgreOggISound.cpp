@@ -438,9 +438,9 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	Ogre::Real OgreOggISound::getVolume() const
+	float OgreOggISound::getVolume() const
 	{
-		Ogre::Real vol=0.f;
+		float vol=0.f;
 		if(mSource != AL_NONE)
 		{
 			alGetSourcef(mSource, AL_GAIN, &vol);		
@@ -450,7 +450,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::startFade(bool fDir, Ogre::Real fadeTime, FadeControl actionOnComplete)
+	void OgreOggISound::startFade(bool fDir, float fadeTime, FadeControl actionOnComplete)
 	{
 		mFade=true;
 	    mFadeInitVol=fDir? 0.f : getVolume();
@@ -465,7 +465,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::_updateFade(Ogre::Real fTime)
+	void OgreOggISound::_updateFade(float fTime)
 	{
 		if (mFade)
 		{
@@ -491,7 +491,7 @@ namespace OgreOggSound
 			}
 			else
 			{
-				Ogre::Real vol = (mFadeEndVol-mFadeInitVol)*(mFadeTimer/mFadeTime);
+				float vol = (mFadeEndVol-mFadeInitVol)*(mFadeTimer/mFadeTime);
 				setVolume(mFadeInitVol + vol);
 			}
 		} 
@@ -569,7 +569,7 @@ namespace OgreOggSound
 		return false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::setPlayPosition(Ogre::Real seconds)
+	void OgreOggISound::setPlayPosition(float seconds)
 	{
 		// Invalid time - exit
 		if ( !mSeekable || seconds<0.f ) 
@@ -602,7 +602,7 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggISound::addCuePoint(Ogre::Real seconds)
+	bool OgreOggISound::addCuePoint(float seconds)
 	{
 		// Valid time?
 		if ( seconds > 0.f )
@@ -624,7 +624,7 @@ namespace OgreOggSound
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
-	Ogre::Real OgreOggISound::getCuePoint(unsigned short index)
+	float OgreOggISound::getCuePoint(unsigned short index)
 	{
 		if ( mCuePoints.empty() || ((int)mCuePoints.size()<=index) )
 			return -1.f;
@@ -654,7 +654,7 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::update(Ogre::Real fTime)
+	void OgreOggISound::update(float fTime)
 	{
 		if (mLocalTransformDirty)
 		{
@@ -686,7 +686,7 @@ namespace OgreOggSound
 		return aab;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	Ogre::Real OgreOggISound::getBoundingRadius(void) const
+	float OgreOggISound::getBoundingRadius(void) const
 	{
 		return 0;
 	}

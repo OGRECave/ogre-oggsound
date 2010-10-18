@@ -168,7 +168,7 @@ namespace OgreOggSound
 		}
 
 		// Calculate length in seconds
-		mPlayTime = static_cast<Ogre::Real>(((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample));
+		mPlayTime = static_cast<float>(((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample));
 
 #if HAVE_EFX
 		// Upload to XRAM buffers if available
@@ -438,7 +438,7 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamWavSound::setLoopOffset(Ogre::Real startTime)
+	void OgreOggStreamWavSound::setLoopOffset(float startTime)
 	{
 		// Store requested loop time
 		mLoopOffset = startTime;
@@ -641,7 +641,7 @@ namespace OgreOggSound
 		if ( mSoundListener ) mSoundListener->soundPlayed(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamWavSound::setPlayPosition(Ogre::Real seconds)
+	void OgreOggStreamWavSound::setPlayPosition(float seconds)
 	{
 		if(seconds < 0) return;
 

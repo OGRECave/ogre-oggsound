@@ -98,9 +98,9 @@ namespace OgreOggSound
 	{
 		Ogre::String mEffectName;
 		Ogre::String mFilterName;
-		Ogre::Real mAirAbsorption;
-		Ogre::Real mRolloff;
-		Ogre::Real mConeHF;
+		float mAirAbsorption;
+		float mRolloff;
+		float mConeHF;
 		ALuint mSlotID;
 	};
 
@@ -341,7 +341,7 @@ namespace OgreOggSound
 			@param factor 
 				Factor scale (>0).
 		 */
-		void setDopplerFactor(Ogre::Real factor=1.f);
+		void setDopplerFactor(float factor=1.f);
 		/** Sets speed of sound.
 		@remarks
 			Sets the global speed of sound used in the attenuation algorithm,
@@ -349,7 +349,7 @@ namespace OgreOggSound
 			@param speed 
 				Speed (m/s).
 		 */
-		void setSpeedOfSound(Ogre::Real speed=363.f);
+		void setSpeedOfSound(float speed=363.f);
 		/** Gets a list of device strings
 		@remarks
 			Creates a list of available audio device strings
@@ -367,7 +367,7 @@ namespace OgreOggSound
 			@param fTime 
 				Elapsed frametime.
 		 */
-		void update(Ogre::Real fTime=0.f);
+		void update(float fTime=0.f);
 		/** Sets a resource group name to search for all sounds first.
 		@remarks
 			A speed improvement to skip the cost of searching all resource locations/groups when creating sounds.
@@ -396,7 +396,7 @@ namespace OgreOggSound
 			@param unit 
 				units(meters).
 		 */
-		void setEFXDistanceUnits(Ogre::Real unit=3.3f);
+		void setEFXDistanceUnits(float unit=3.3f);
 		/** Creates a specified EFX filter
 		@remarks
 			Creates a specified EFX filter if hardware supports it.
@@ -435,7 +435,7 @@ namespace OgreOggSound
 			@param coneOuterHF 
 				cone outer gain factor for High frequencies.
 		 */
-		bool setEFXSoundProperties(const std::string& sName, Ogre::Real airAbsorption=0.f, Ogre::Real roomRolloff=0.f, Ogre::Real coneOuterHF=0.f);
+		bool setEFXSoundProperties(const std::string& sName, float airAbsorption=0.f, float roomRolloff=0.f, float coneOuterHF=0.f);
 		/** Sets extended properties on a specified sounds source
 		@remarks
 			Tries to set EFX extended source properties.
@@ -448,7 +448,7 @@ namespace OgreOggSound
 			@param coneOuterHF 
 				cone outer gain factor for High frequencies.
 		 */
-		bool _setEFXSoundPropertiesImpl(OgreOggISound* sound=0, Ogre::Real airAbsorption=0.f, Ogre::Real roomRolloff=0.f, Ogre::Real coneOuterHF=0.f);
+		bool _setEFXSoundPropertiesImpl(OgreOggISound* sound=0, float airAbsorption=0.f, float roomRolloff=0.f, float coneOuterHF=0.f);
 		/** Sets a specified paremeter on an effect
 		@remarks
 			Tries to set a parameter value on a specified effect. Returns true/false.
