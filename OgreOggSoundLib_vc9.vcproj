@@ -129,7 +129,7 @@
 				FavorSizeOrSpeed="0"
 				OmitFramePointers="false"
 				AdditionalIncludeDirectories="./include;&quot;$(OPENAL_SDK)\include&quot;;&quot;$(OGRE)\include\OGRE\&quot;;&quot;$(BOOST_ROOT)&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;OGGSOUND_EXPORT;HAVE_EFX"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;OGGSOUND_EXPORT;BOOST_THREAD"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
