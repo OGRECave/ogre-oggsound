@@ -175,7 +175,7 @@ namespace OgreOggSound
 			return;
 		}
 
-#if HAVE_EFX
+#ifdef HAVE_EFX
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(1, &mBuffer);

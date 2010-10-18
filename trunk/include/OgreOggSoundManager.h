@@ -244,6 +244,7 @@ namespace OgreOggSound
 		/** Destroys all sounds within manager.
 		 */
 		void destroyAllSounds();
+#ifdef HAVE_EFX
 		/** Returns XRAM support status.
 		 */
 		bool hasXRamSupport() { return mXRamSupport; }
@@ -253,6 +254,7 @@ namespace OgreOggSound
 		/** Returns EAX support status.
 		 */
 		bool hasEAXSupport() { return mEAXSupport; }
+#endif
 		/** Destroys a single sound.
 		@remarks
 			Destroys a single sound object.
@@ -379,7 +381,7 @@ namespace OgreOggSound
 		/** Returns user defined search group name
 		 */
 		const Ogre::String& getResourceGroupName() const { return mResourceGroupName; }
-#if HAVE_EFX
+#ifdef HAVE_EFX
 		/** Sets XRam buffers.
 		@remarks
 			Currently defaults to AL_STORAGE_AUTO.
@@ -791,7 +793,7 @@ namespace OgreOggSound
 		 */
 		void _checkFeatureSupport();
 
-#if HAVE_EFX
+#ifdef HAVE_EFX
 
 		/** Checks for EFX hardware support
 		 */
@@ -874,7 +876,6 @@ namespace OgreOggSound
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		ActiveList mWaitingSounds;				// list of sounds that need playing when sources become available
 		SourceList mSourcePool;					// List of available sources
-		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
 		SharedBufferList mSharedBuffers;		// List of shared static buffers
 
 		ALCchar* mDeviceStrings;				// List of available devices strings
@@ -890,11 +891,12 @@ namespace OgreOggSound
 		//! sorts sound list by distance
 		struct _sortFarToNear;
 
+#ifdef HAVE_EFX
+		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
+
 		/**	EFX Support
 		*/
 		bool mEFXSupport;						// EFX present flag
-
-#if HAVE_EFX
 
 		// Effect objects
 		LPALGENEFFECTS alGenEffects;
@@ -942,7 +944,7 @@ namespace OgreOggSound
 
 		LPEAXSETBUFFERMODE mEAXSetBufferMode;
 		LPEAXGETBUFFERMODE mEAXGetBufferMode;
-#endif
+
 		/**	EAX Support
 		*/
 		bool mEAXSupport;						// EAX present flag
@@ -966,6 +968,7 @@ namespace OgreOggSound
 
 		ALint	mXRamSizeMB,
 				mXRamFreeMB;
+#endif
 
 		Ogre::String mResourceGroupName;		// Resource group name to search for all sounds
 
