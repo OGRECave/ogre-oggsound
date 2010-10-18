@@ -244,7 +244,6 @@ namespace OgreOggSound
 		/** Destroys all sounds within manager.
 		 */
 		void destroyAllSounds();
-#ifdef HAVE_EFX
 		/** Returns XRAM support status.
 		 */
 		bool hasXRamSupport() { return mXRamSupport; }
@@ -254,7 +253,6 @@ namespace OgreOggSound
 		/** Returns EAX support status.
 		 */
 		bool hasEAXSupport() { return mEAXSupport; }
-#endif
 		/** Destroys a single sound.
 		@remarks
 			Destroys a single sound object.
@@ -381,7 +379,7 @@ namespace OgreOggSound
 		/** Returns user defined search group name
 		 */
 		const Ogre::String& getResourceGroupName() const { return mResourceGroupName; }
-#ifdef HAVE_EFX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		/** Sets XRam buffers.
 		@remarks
 			Currently defaults to AL_STORAGE_AUTO.
@@ -602,10 +600,6 @@ namespace OgreOggSound
 				OpenAL effect/filter id. (AL_EFFECT... | AL_FILTER...)
 		 */
 		bool isEffectSupported(ALint effectID);
-#endif
-
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-		OgreOggSoundRecord* createRecorder();
 		/** Gets recording device
 		 */
 		OgreOggSoundRecord* getRecorder() { return mRecorder; }
@@ -614,6 +608,7 @@ namespace OgreOggSound
 		bool isRecordingAvailable() const;
 		/** Creates a recordable object
 		 */
+		OgreOggSoundRecord* createRecorder();
 #endif
 
 #if OGGSOUND_THREADED
@@ -633,7 +628,7 @@ namespace OgreOggSound
  
 	private:
 
-#if OGGSOUND_THREADED == 1
+#if OGGSOUND_THREADED
 
 		/** Processes queued sound actions.
 		@remarks
@@ -793,7 +788,7 @@ namespace OgreOggSound
 		 */
 		void _checkFeatureSupport();
 
-#ifdef HAVE_EFX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 
 		/** Checks for EFX hardware support
 		 */
@@ -876,6 +871,7 @@ namespace OgreOggSound
 		ActiveList mSoundsToReactivate;			// list of sounds that need re-activating when sources become available
 		ActiveList mWaitingSounds;				// list of sounds that need playing when sources become available
 		SourceList mSourcePool;					// List of available sources
+		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
 		SharedBufferList mSharedBuffers;		// List of shared static buffers
 
 		ALCchar* mDeviceStrings;				// List of available devices strings
@@ -891,12 +887,11 @@ namespace OgreOggSound
 		//! sorts sound list by distance
 		struct _sortFarToNear;
 
-#ifdef HAVE_EFX
-		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
-
 		/**	EFX Support
 		*/
 		bool mEFXSupport;						// EFX present flag
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 
 		// Effect objects
 		LPALGENEFFECTS alGenEffects;
@@ -944,7 +939,7 @@ namespace OgreOggSound
 
 		LPEAXSETBUFFERMODE mEAXSetBufferMode;
 		LPEAXGETBUFFERMODE mEAXGetBufferMode;
-
+#endif
 		/**	EAX Support
 		*/
 		bool mEAXSupport;						// EAX present flag
@@ -968,7 +963,6 @@ namespace OgreOggSound
 
 		ALint	mXRamSizeMB,
 				mXRamFreeMB;
-#endif
 
 		Ogre::String mResourceGroupName;		// Resource group name to search for all sounds
 
