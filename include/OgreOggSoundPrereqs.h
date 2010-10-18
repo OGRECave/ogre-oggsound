@@ -36,7 +36,7 @@
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #	include "al.h"
 #	include "alc.h"
-#	ifdef HAVE_EFX
+#	if HAVE_EFX
 #		include	"xram.h"
 #		include "efx.h"
 #		include	"efx-util.h"

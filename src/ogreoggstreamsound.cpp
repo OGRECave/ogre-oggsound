@@ -86,7 +86,7 @@ namespace OgreOggSound
 		if (!_queryBufferInfo())			
 			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Format NOT supported!", "OgreOggStreamSound::_openImpl()");
 
-#if HAVE_EFX
+#ifdef HAVE_EFX
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
