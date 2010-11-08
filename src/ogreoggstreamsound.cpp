@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamSound.cpp
 * @author  Ian Stangoe
-* @version 1.18
+* @version 1.19
 *
 * @section LICENSE
 * 
@@ -86,7 +86,7 @@ namespace OgreOggSound
 		if (!_queryBufferInfo())			
 			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Format NOT supported!", "OgreOggStreamSound::_openImpl()");
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
@@ -303,8 +303,18 @@ namespace OgreOggSound
 		while(processed--)
 		{
 			ALuint buffer;
+			ALint size, bits, channels, freq;
 
 			alSourceUnqueueBuffers(mSource, 1, &buffer);
+
+			alGetBufferi(buffer, AL_SIZE, &size);
+			alGetBufferi(buffer, AL_BITS, &bits);
+			alGetBufferi(buffer, AL_CHANNELS, &channels);
+			alGetBufferi(buffer, AL_FREQUENCY, &freq);    
+
+			// Update offset
+			mLastOffset += ((ALuint)size/channels/(bits/8)) / (ALfloat)freq;
+
 			if ( _stream(buffer) ) alSourceQueueBuffers(mSource, 1, &buffer);
 		}
 
@@ -352,6 +362,8 @@ namespace OgreOggSound
 						of the sound, lower quality will hold a longer section of audio per buffer.
 						In ALL cases this trigger will happen BEFORE the audio audibly loops!!
 					*/
+					
+					mLastOffset=0+mLoopOffset;
 					// Notify listener
 					if ( mSoundListener ) mSoundListener->soundLooping(this);
 				}
@@ -378,6 +390,9 @@ namespace OgreOggSound
 		alGetError();
 		// Copy buffer data
 		alBufferData(buffer, mFormat, &audioData[0], static_cast<ALsizei>(audioData.size()), mVorbisInfo->rate);
+
+		// Update offset 
+		mLastOffset+=ov_time_tell(&mOggStream);
 
 		// Cleanup
 		OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);
@@ -467,6 +482,18 @@ namespace OgreOggSound
 	
 		// Set flag
 		mPlayPosChanged = true;
+	}
+
+	/*/////////////////////////////////////////////////////////////////*/
+	float OgreOggStreamSound::getPlayPosition()
+	{
+		if ( !mSeekable || !mSource ) 
+			return -1.f;
+
+		float pos=0.f;
+		alGetSourcef(mSource, AL_SEC_OFFSET, &pos);
+
+		return mLastOffset + pos;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/

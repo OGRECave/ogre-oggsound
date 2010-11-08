@@ -1,7 +1,7 @@
 /**
 * @file OgreOggISound.cpp
 * @author  Ian Stangoe
-* @version 1.18
+* @version 1.19
 *
 * @section LICENSE
 * 
@@ -600,6 +600,25 @@ namespace OgreOggSound
 			mPlayPosChanged = true;
 			mPlayPos = seconds;
 		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	float OgreOggISound::getPlayPosition()
+	{
+		// Invalid time - exit
+		if ( !mSeekable || !mSource ) 
+			return -1.f;
+
+		// Set offset if source available
+		float offset=-1.f;
+		alGetError();
+		alSourcef(mSource, AL_SEC_OFFSET, offset);
+		if (alGetError())
+		{
+			Ogre::LogManager::getSingleton().logMessage("***--- OgreOggISound::setPlayPosition() - Error getting play position", Ogre::LML_CRITICAL);
+			return -1.f;
+		}
+			
+		return offset;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggISound::addCuePoint(float seconds)

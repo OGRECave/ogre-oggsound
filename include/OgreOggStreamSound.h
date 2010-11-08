@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamSound.h
 * @author  Ian Stangoe
-* @version 1.18
+* @version 1.19
 *
 * @section LICENSE
 * 
@@ -53,6 +53,9 @@ namespace OgreOggSound
 			Play position in seconds 
 		 */
 		void setPlayPosition(float seconds);	
+		/** Gets the position of the playback cursor in seconds
+		 */
+		float getPlayPosition();	
 		/** Sets the source to use for playback.
 		@remarks
 			Sets the source object this sound will use to queue buffers onto
@@ -174,6 +177,7 @@ namespace OgreOggSound
 		ALuint mBuffers[NUM_BUFFERS];		// Sound data buffers
 		ALenum mFormat;						// OpenAL format
 		bool mStreamEOF;					// EOF flag
+		float mLastOffset;					// Offset time in seconds
 
 		friend class OgreOggSoundManager;
 	};

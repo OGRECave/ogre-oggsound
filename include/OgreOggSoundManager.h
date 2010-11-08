@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundManager.h
 * @author  Ian Stangoe
-* @version 1.18
+* @version 1.19
 *
 * @section LICENSE
 * 
@@ -379,7 +379,7 @@ namespace OgreOggSound
 		/** Returns user defined search group name
 		 */
 		const Ogre::String& getResourceGroupName() const { return mResourceGroupName; }
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 		/** Sets XRam buffers.
 		@remarks
 			Currently defaults to AL_STORAGE_AUTO.
@@ -600,6 +600,10 @@ namespace OgreOggSound
 				OpenAL effect/filter id. (AL_EFFECT... | AL_FILTER...)
 		 */
 		bool isEffectSupported(ALint effectID);
+#endif
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+		OgreOggSoundRecord* createRecorder();
 		/** Gets recording device
 		 */
 		OgreOggSoundRecord* getRecorder() { return mRecorder; }
@@ -608,7 +612,6 @@ namespace OgreOggSound
 		bool isRecordingAvailable() const;
 		/** Creates a recordable object
 		 */
-		OgreOggSoundRecord* createRecorder();
 #endif
 
 #if OGGSOUND_THREADED
@@ -631,7 +634,6 @@ namespace OgreOggSound
 		LocklessQueue<OgreOggISound*>* mSoundsToDestroy;
 
 #if OGGSOUND_THREADED
-
 		/** Processes queued sound actions.
 		@remarks
 			Presently executes a maximum of 5 actions in a single iteration.
@@ -680,11 +682,11 @@ namespace OgreOggSound
 				OgreOggSoundManager::getSingleton()._updateBuffers();
 				OgreOggSoundManager::getSingleton()._processQueuedSounds();
 
-#ifdef POCO_THREAD
+#	ifdef POCO_THREAD
 				Poco::Thread::sleep(10);
-#else
+#	else	
 				boost::this_thread::sleep(boost::posix_time::millisec(10));
-#endif
+#	endif
 			}
 		}
 
@@ -789,7 +791,7 @@ namespace OgreOggSound
 		 */
 		void _checkFeatureSupport();
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 
 		/** Checks for EFX hardware support
 		 */
@@ -892,7 +894,7 @@ namespace OgreOggSound
 		*/
 		bool mEFXSupport;						// EFX present flag
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 
 		// Effect objects
 		LPALGENEFFECTS alGenEffects;
