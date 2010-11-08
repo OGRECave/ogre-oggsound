@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamWavSound.cpp
 * @author  Ian Stangoe
-* @version 1.18
+* @version 1.19
 *
 * @section LICENSE
 * 
@@ -37,6 +37,7 @@ namespace OgreOggSound
 	OgreOggStreamWavSound::OgreOggStreamWavSound(const Ogre::String& name, const Ogre::SceneManager& scnMgr) : OgreOggISound(name, scnMgr)
 	, mLoopOffsetBytes(0)
 	, mStreamEOF(false)
+	, mLastOffset(0.f)
 	{
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=AL_NONE;	
 		mFormatData.mFormat=0;
@@ -170,7 +171,7 @@ namespace OgreOggSound
 		// Calculate length in seconds
 		mPlayTime = static_cast<float>(((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample));
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
@@ -422,8 +423,23 @@ namespace OgreOggSound
 		while(processed--)
 		{
 			ALuint buffer;
+			ALint size, bits, channels, freq;
 
 			alSourceUnqueueBuffers(mSource, 1, &buffer);
+
+			// Get previous buffer details
+			alGetBufferi(buffer, AL_SIZE, &size);
+			alGetBufferi(buffer, AL_BITS, &bits);
+			alGetBufferi(buffer, AL_CHANNELS, &channels);
+			alGetBufferi(buffer, AL_FREQUENCY, &freq);    
+
+			// Update offset
+			mLastOffset += ((ALuint)size/channels/(bits/8)) / (ALfloat)freq;
+			if ( mLastOffset>mAudioEnd )
+				mLastOffset = mLastOffset-mAudioEnd;
+
+			if(alGetError() != AL_NO_ERROR)
+				mLastOffset+=size/(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample);
 			if ( _stream(buffer) ) 
 			{
 				alSourceQueueBuffers(mSource, 1, &buffer);
@@ -654,6 +670,16 @@ namespace OgreOggSound
 
 		// Set flag
 		mPlayPosChanged = true;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	float OgreOggStreamWavSound::getPlayPosition()
+	{ 
+		if ( !mSource ) return -1.f;
+
+		float time=0.f;
+		alGetSourcef(mSource, AL_SEC_OFFSET, &time);
+
+		return mLastOffset+time;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_updatePlayPosition()

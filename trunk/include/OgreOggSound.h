@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSound.h
 * @author  Ian Stangoe
-* @version 1.18
+* @version 1.19
 *
 * @section LICENSE
 * 

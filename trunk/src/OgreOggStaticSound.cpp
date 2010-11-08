@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStaticSound.cpp
 * @author  Ian Stangoe
-* @version 1.18
+* @version 1.19
 *
 * @section LICENSE
 * 
@@ -104,7 +104,7 @@ namespace OgreOggSound
 		while(sizeRead > 0);
 		OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(1, &mBuffer);

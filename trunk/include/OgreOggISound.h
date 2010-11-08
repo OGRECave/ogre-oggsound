@@ -1,7 +1,7 @@
 /**
 * @file OgreOggISound.h
 * @author  Ian Stangoe
-* @version 1.18
+* @version 1.19
 *
 * @section LICENSE
 * 
@@ -218,6 +218,9 @@ namespace OgreOggSound
 			Play position in seconds 
 		 */
 		virtual void setPlayPosition(float seconds);
+		/** Gets the position of the playback cursor in seconds
+		 */
+		virtual float getPlayPosition();
 		/** Returns play status.
 		@remarks
 			Checks source state for AL_PLAYING
