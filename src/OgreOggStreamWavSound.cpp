@@ -427,19 +427,25 @@ namespace OgreOggSound
 
 			alSourceUnqueueBuffers(mSource, 1, &buffer);
 
-			// Get previous buffer details
+			// Get buffer details
 			alGetBufferi(buffer, AL_SIZE, &size);
 			alGetBufferi(buffer, AL_BITS, &bits);
 			alGetBufferi(buffer, AL_CHANNELS, &channels);
 			alGetBufferi(buffer, AL_FREQUENCY, &freq);    
 
-			// Update offset
+			// Update offset (in seconds)
 			mLastOffset += ((ALuint)size/channels/(bits/8)) / (ALfloat)freq;
-			if ( mLastOffset>mAudioEnd )
-				mLastOffset = mLastOffset-mAudioEnd;
+			if ( mLastOffset>=mPlayTime )
+			{
+				mLastOffset = mLastOffset-mPlayTime;
+				
+				/**	This is the closest we can get to a loop trigger.
+				@remarks 
+					If played data size exceeds audio data size trigger callback.
+				*/
+				if ( mSoundListener ) mSoundListener->soundLooping(this);
+			}
 
-			if(alGetError() != AL_NO_ERROR)
-				mLastOffset+=size/(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample);
 			if ( _stream(buffer) ) 
 			{
 				alSourceQueueBuffers(mSource, 1, &buffer);
@@ -501,18 +507,6 @@ namespace OgreOggSound
 				if ( mLoop )
 				{
 					mAudioStream->seek(mAudioOffset + mLoopOffsetBytes);
-					/**	This is the closest we can get to a loop trigger.
-					If, whilst filling the buffers, we need to wrap the stream
-					pointer, trigger the loop callback if defined.
-					NOTE:- The accuracy of this method will be affected by a number of
-					parameters, namely the buffer size, whether the sound has previously
-					given up its source (therefore it will be re-filling all buffers, which,
-					if the sound was close to eof will likely get triggered), and the quality
-					of the sound, lower quality will hold a longer section of audio per buffer.
-					In ALL cases this trigger will happen BEFORE the audio audibly loops!!
-					*/
-					// Notify listener
-					if ( mSoundListener ) mSoundListener->soundLooping(this);
 				}
 				else
 				{
@@ -679,7 +673,10 @@ namespace OgreOggSound
 		float time=0.f;
 		alGetSourcef(mSource, AL_SEC_OFFSET, &time);
 
-		return mLastOffset+time;
+		if ( (mLastOffset+time)>=mPlayTime )
+			return (mLastOffset+time) - mPlayTime;
+		else
+			return mLastOffset+time;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_updatePlayPosition()
@@ -724,6 +721,7 @@ namespace OgreOggSound
 
 			// Reset stream pointer
 			mAudioStream->seek(mAudioOffset);
+			mLastOffset=0;
 
 			// Reload audio data
 			_prebuffer();

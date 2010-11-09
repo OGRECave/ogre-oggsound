@@ -37,6 +37,7 @@ namespace OgreOggSound
 	,mVorbisInfo(0)
 	,mVorbisComment(0)
 	,mStreamEOF(false)
+	,mLastOffset(0.f)
 	{
 		mStream=true;
 		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=AL_NONE; 
@@ -307,13 +308,24 @@ namespace OgreOggSound
 
 			alSourceUnqueueBuffers(mSource, 1, &buffer);
 
+			// Get buffer details
 			alGetBufferi(buffer, AL_SIZE, &size);
 			alGetBufferi(buffer, AL_BITS, &bits);
 			alGetBufferi(buffer, AL_CHANNELS, &channels);
 			alGetBufferi(buffer, AL_FREQUENCY, &freq);    
 
-			// Update offset
+			// Update offset (in seconds)
 			mLastOffset += ((ALuint)size/channels/(bits/8)) / (ALfloat)freq;
+			if ( mLastOffset>=mPlayTime )
+			{
+				mLastOffset = mLastOffset-mPlayTime;
+				
+				/**	This is the closest we can get to a loop trigger.
+				@remarks 
+					If played data size exceeds audio data size trigger callback.
+				*/
+				if ( mSoundListener ) mSoundListener->soundLooping(this);
+			}
 
 			if ( _stream(buffer) ) alSourceQueueBuffers(mSource, 1, &buffer);
 		}
@@ -352,20 +364,6 @@ namespace OgreOggSound
 						Ogre::LogManager::getSingleton().logMessage("***--- OgreOggStream::_stream() - ERROR looping stream, ogg file NOT seekable!");
 						break;
 					}
-					/**	This is the closest we can get to a loop trigger.
-						If, whilst filling the buffers, we need to wrap the stream
-						pointer, trigger the loop callback if defined.
-						NOTE:- The accuracy of this method will be affected by a number of
-						parameters, namely the buffer size, whether the sound has previously
-						given up its source (therefore it will be re-filling all buffers, which,
-						if the sound was close to eof will likely get triggered), and the quality
-						of the sound, lower quality will hold a longer section of audio per buffer.
-						In ALL cases this trigger will happen BEFORE the audio audibly loops!!
-					*/
-					
-					mLastOffset=0+mLoopOffset;
-					// Notify listener
-					if ( mSoundListener ) mSoundListener->soundLooping(this);
 				}
 				else
 				{
@@ -390,9 +388,6 @@ namespace OgreOggSound
 		alGetError();
 		// Copy buffer data
 		alBufferData(buffer, mFormat, &audioData[0], static_cast<ALsizei>(audioData.size()), mVorbisInfo->rate);
-
-		// Update offset 
-		mLastOffset+=ov_time_tell(&mOggStream);
 
 		// Cleanup
 		OGRE_FREE(data, Ogre::MEMCATEGORY_GENERAL);
@@ -493,7 +488,12 @@ namespace OgreOggSound
 		float pos=0.f;
 		alGetSourcef(mSource, AL_SEC_OFFSET, &pos);
 
-		return mLastOffset + pos;
+		// Wrap if necessary
+		if ((mLastOffset+pos)>=mPlayTime) 
+			return (mLastOffset+pos) - mPlayTime;
+		else
+			return 
+			mLastOffset + pos;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -552,6 +552,7 @@ namespace OgreOggSound
 			if ( mSeekable ) 
 			{
 				ov_time_seek(&mOggStream,0);
+				mLastOffset=0;
 			}
 			// Non-seekable - close/reopen
 			else
