@@ -609,9 +609,9 @@ namespace OgreOggSound
 			return -1.f;
 
 		// Set offset if source available
-		float offset=-1.f;
+		ALfloat offset=-1.f;
 		alGetError();
-		alSourcef(mSource, AL_SEC_OFFSET, offset);
+		alGetSourcef(mSource, AL_SEC_OFFSET, &offset);
 		if (alGetError())
 		{
 			Ogre::LogManager::getSingleton().logMessage("***--- OgreOggISound::setPlayPosition() - Error getting play position", Ogre::LML_CRITICAL);

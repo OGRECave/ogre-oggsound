@@ -1,3 +1,12 @@
+* version 1.19
+
+	* Added patch from torrque to add mingw support.
+	
+	* Added getPlayPosition() function to OgreOggISound
+
+	* Moved streaming loop callback to a more acurate trigger point
+
+
 * version 1.18
 
 	* Fixed broken Listener object
