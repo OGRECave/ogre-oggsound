@@ -456,7 +456,6 @@ namespace OgreOggSound
 		if ( mPlayPosChanged )
 		{
 			_updatePlayPosition();
-			mPlayPosChanged = false;
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -707,6 +706,7 @@ namespace OgreOggSound
 
 		// Set flag
 		mPlayPosChanged = false;
+		mLastOffset = mPlayPos;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_stopImpl()
