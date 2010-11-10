@@ -30,13 +30,23 @@
 
 #include <Ogre.h>
 
+/**
+ * Specifies whether to support EFX effects
+ * 0 - No support
+ * 1 - Add support
+ */
+#ifndef HAVE_EFX
+	#define HAVE_EFX 1
+#endif
+
+
 #   if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #	pragma once
 #	pragma warning( disable : 4244 )
 
 #	include "al.h"
 #	include "alc.h"
-#	ifdef HAVE_EFX
+#	if HAVE_EFX
 #		include "efx.h"
 #		include "efx-util.h"
 #		include "efx-creative.h"

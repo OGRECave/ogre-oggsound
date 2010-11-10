@@ -458,6 +458,7 @@ namespace OgreOggSound
 
 		// Set flag
 		mPlayPosChanged = false;
+		mLastOffset = mPlayPos;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
