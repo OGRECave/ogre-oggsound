@@ -244,15 +244,6 @@ namespace OgreOggSound
 		/** Destroys all sounds within manager.
 		 */
 		void destroyAllSounds();
-		/** Returns XRAM support status.
-		 */
-		bool hasXRamSupport() { return mXRamSupport; }
-		/** Returns EFX support status.
-		 */
-		bool hasEFXSupport() { return mEFXSupport; }
-		/** Returns EAX support status.
-		 */
-		bool hasEAXSupport() { return mEAXSupport; }
 		/** Destroys a single sound.
 		@remarks
 			Destroys a single sound object.
@@ -380,6 +371,15 @@ namespace OgreOggSound
 		 */
 		const Ogre::String& getResourceGroupName() const { return mResourceGroupName; }
 #if HAVE_EFX
+		/** Returns XRAM support status.
+		 */
+		bool hasXRamSupport() { return mXRamSupport; }
+		/** Returns EFX support status.
+		 */
+		bool hasEFXSupport() { return mEFXSupport; }
+		/** Returns EAX support status.
+		 */
+		bool hasEAXSupport() { return mEAXSupport; }
 		/** Sets XRam buffers.
 		@remarks
 			Currently defaults to AL_STORAGE_AUTO.
@@ -790,9 +790,7 @@ namespace OgreOggSound
 			them with the LogManager.
 		 */
 		void _checkFeatureSupport();
-
 #if HAVE_EFX
-
 		/** Checks for EFX hardware support
 		 */
 		bool _checkEFXSupport();
@@ -890,11 +888,10 @@ namespace OgreOggSound
 		//! sorts sound list by distance
 		struct _sortFarToNear;
 
+#if HAVE_EFX
 		/**	EFX Support
 		*/
 		bool mEFXSupport;						// EFX present flag
-
-#if HAVE_EFX
 
 		// Effect objects
 		LPALGENEFFECTS alGenEffects;
@@ -942,7 +939,7 @@ namespace OgreOggSound
 
 		LPEAXSETBUFFERMODE mEAXSetBufferMode;
 		LPEAXGETBUFFERMODE mEAXGetBufferMode;
-#endif
+
 		/**	EAX Support
 		*/
 		bool mEAXSupport;						// EAX present flag
@@ -966,6 +963,7 @@ namespace OgreOggSound
 
 		ALint	mXRamSizeMB,
 				mXRamFreeMB;
+#endif
 
 		Ogre::String mResourceGroupName;		// Resource group name to search for all sounds
 

@@ -180,6 +180,7 @@ namespace OgreOggSound
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
 			OgreOggSoundManager::getSingleton().setXRamBuffer(1, &mBuffer);
 #endif
+
 		// Check format support
 		if (!_queryBufferInfo())
 			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Format NOT supported.", "OgreOggStaticWavSound::_openImpl()");

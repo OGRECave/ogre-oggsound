@@ -27,18 +27,19 @@
 * 
 * Pre-requisites for building lib
 */
-
-#include <Ogre.h>
+#include <OgreVector3.h>
+#include <OgreDataStream.h>
+#include <OgreMovableObject.h>
+#include <OgreLogManager.h>
 
 /**
- * Specifies whether to support EFX effects
- * 0 - No support
- * 1 - Add support
+ * Specifies whether EFX enhancements are supported
+ * 0 - EFX not supported
+ * 1 - Enable EFX suport
  */
 #ifndef HAVE_EFX
 	#define HAVE_EFX 1
 #endif
-
 
 #   if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #	pragma once
