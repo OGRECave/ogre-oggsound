@@ -77,7 +77,7 @@ namespace OgreOggSound
 		,mDelayedActionsList(0)
 #endif
 		{
-#if HAVE_EFX 
+#if HAVE_EFX
 			// Effect objects
 			alGenEffects = NULL;
 			alDeleteEffects = NULL;
@@ -116,9 +116,10 @@ namespace OgreOggSound
 			alGetAuxiliaryEffectSlotiv = NULL;
 			alGetAuxiliaryEffectSlotf = NULL;
 			alGetAuxiliaryEffectSlotfv = NULL;
-#endif
+
 			mNumEffectSlots = 0;
 			mNumSendsPerSource = 0;
+#endif
 		}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::~OgreOggSoundManager()
@@ -1103,7 +1104,6 @@ namespace OgreOggSound
 #endif
 	
 #if HAVE_EFX
-
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::isEffectSupported(ALint effectID)
 	{
@@ -2271,7 +2271,7 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 
-#if HAVE_EFX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// EFX
 		mEFXSupport = _checkEFXSupport();
 		if (mEFXSupport)
@@ -2327,7 +2327,7 @@ namespace OgreOggSound
 		{
 			if ( hasEFXSupport() )
 			{
-#if HAVE_EFX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 				// Remove filters/effects
 				alSourcei(static_cast<ALuint>((*it)), AL_DIRECT_FILTER, AL_FILTER_NULL);
 				alSource3i(static_cast<ALuint>((*it)), AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, AL_FILTER_NULL);
@@ -2339,7 +2339,7 @@ namespace OgreOggSound
 
 		mSourcePool.clear();
 
-#if HAVE_EFX
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		// clear EFX effect lists
 		if ( !mFilterList.empty() )
 		{

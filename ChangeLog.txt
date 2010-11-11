@@ -6,6 +6,8 @@
 
 	* Moved streaming loop callback to a more acurate trigger point
 
+	* Removed <Ogre.h> include for individually used headers
+
 
 * version 1.18
 
