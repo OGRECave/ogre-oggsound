@@ -32,18 +32,18 @@
 #include <OgreMovableObject.h>
 #include <OgreLogManager.h>
 
+#   if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#	pragma once
+#	pragma warning( disable : 4244 )
+
 /**
  * Specifies whether EFX enhancements are supported
  * 0 - EFX not supported
  * 1 - Enable EFX suport
  */
-#ifndef HAVE_EFX
-	#define HAVE_EFX 1
-#endif
-
-#   if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-#	pragma once
-#	pragma warning( disable : 4244 )
+#	ifndef HAVE_EFX
+#		define HAVE_EFX 1
+#	endif
 
 #	include "al.h"
 #	include "alc.h"
