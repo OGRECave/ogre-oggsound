@@ -8,6 +8,9 @@
 
 	* Removed <Ogre.h> include for individually used headers
 
+	* Moved #define of HAVE_EFX into windows build only
+		* Previously caused build issues on linux/mac where that support wasn't available, by default its disabled everywhere but windows.
+
 
 * version 1.18
 
