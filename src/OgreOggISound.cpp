@@ -131,7 +131,7 @@ namespace OgreOggSound
 	{
 #if OGGSOUND_THREADED
 		SoundAction action;
-		action.mSound = this;
+		action.mSound = mName;
 		action.mAction = LQ_PLAY;
 		action.mParams = 0;
 		OgreOggSoundManager::getSingletonPtr()->_requestSoundAction(action);
@@ -144,7 +144,7 @@ namespace OgreOggSound
 	{
 #if OGGSOUND_THREADED
 		SoundAction action;
-		action.mSound = this;
+		action.mSound = mName;
 		action.mAction = LQ_STOP;
 		action.mParams = 0;
 		OgreOggSoundManager::getSingletonPtr()->_requestSoundAction(action);
@@ -157,7 +157,7 @@ namespace OgreOggSound
 	{
 #if OGGSOUND_THREADED
 		SoundAction action;
-		action.mSound = this;
+		action.mSound = mName;
 		action.mAction = LQ_PAUSE;
 		action.mParams = 0;
 		OgreOggSoundManager::getSingletonPtr()->_requestSoundAction(action);

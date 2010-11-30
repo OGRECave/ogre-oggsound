@@ -36,10 +36,11 @@
 		OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
 		void OgreOggSound::OgreOggSoundManager::Updater::run() { OgreOggSound::OgreOggSoundManager::threadUpdate(); }
 #	else	
-		boost::thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
+//		boost::thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
+//		boost::mutex OgreOggSound::OgreOggSoundManager::mMutex;
 #	endif
 
-	bool OgreOggSound::OgreOggSoundManager::mShuttingDown = false;
+//	bool OgreOggSound::OgreOggSoundManager::mShuttingDown = false;
 #endif
 
 template<> OgreOggSound::OgreOggSoundManager* Ogre::Singleton<OgreOggSound::OgreOggSoundManager>::ms_Singleton = 0;
@@ -75,6 +76,8 @@ namespace OgreOggSound
 #if OGGSOUND_THREADED
 		,mActionsList(0)
 		,mDelayedActionsList(0)
+		,mUpdateThread(0)
+		,mShuttingDown(false)
 #endif
 		{
 #if HAVE_EFX
@@ -368,8 +371,8 @@ namespace OgreOggSound
 		mUpdateThread->start(*mUpdater);
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using POCO threads for streaming");
 #	else
-		mUpdateThread = OGRE_NEW_T(boost::thread,Ogre::MEMCATEGORY_GENERAL)(boost::function0<void>(&OgreOggSoundManager::threadUpdate));
-		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming");
+		mUpdateThread = OGRE_NEW_T(boost::thread,Ogre::MEMCATEGORY_GENERAL)(boost::bind(&OgreOggSoundManager::threadUpdate, this));
+		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming", Ogre::LML_TRIVIAL);
 #	endif	
 		if (queueListSize)
 		{
@@ -551,7 +554,7 @@ namespace OgreOggSound
 			c->mStream		= soundData;
 			action.mAction	= LQ_LOAD;
 			action.mParams	= c;
-			action.mSound	= sound;
+			action.mSound	= sound->getName();
 			_requestSoundAction(action);
 #else
 			// load audio data
@@ -588,7 +591,7 @@ namespace OgreOggSound
 			c->mStream		= soundData;
 			action.mAction	= LQ_LOAD;
 			action.mParams	= c;
-			action.mSound	= sound;
+			action.mSound	= sound->getName();
 			_requestSoundAction(action);
 #else
 			// Load audio file
@@ -698,7 +701,7 @@ namespace OgreOggSound
 		SoundAction action;
 		action.mAction	= LQ_STOP_ALL;
 		action.mParams	= 0;
-		action.mSound	= 0;
+		action.mSound	= "";
 		_requestSoundAction(action);
 #else
 		_stopAllSoundsImpl();
@@ -714,7 +717,7 @@ namespace OgreOggSound
 		SoundAction action;
 		action.mAction	= LQ_GLOBAL_PITCH;
 		action.mParams	= 0;
-		action.mSound	= 0;
+		action.mSound	= "";
 		_requestSoundAction(action);
 #else
 		_setGlobalPitchImpl();
@@ -726,7 +729,7 @@ namespace OgreOggSound
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mAction = LQ_PAUSE_ALL;
-		action.mSound = 0;
+		action.mSound = "";
 		action.mParams = 0;
 		_requestSoundAction(action);
 #else
@@ -739,7 +742,7 @@ namespace OgreOggSound
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mAction = LQ_RESUME_ALL;
-		action.mSound = 0;
+		action.mSound = "";
 		action.mParams = 0;
 		_requestSoundAction(action);
 #else
@@ -1230,7 +1233,7 @@ namespace OgreOggSound
 		e->mSlotID		= slotID;
 		action.mAction	= LQ_ATTACH_EFX;
 		action.mParams	= e;
-		action.mSound	= sound;
+		action.mSound	= sound->getName();
 		_requestSoundAction(action);
 		return true;
 #else
@@ -1253,7 +1256,7 @@ namespace OgreOggSound
 		e->mSlotID		= 255;
 		action.mAction	= LQ_ATTACH_EFX;
 		action.mParams	= e;
-		action.mSound	= sound;
+		action.mSound	= sound->getName();
 		_requestSoundAction(action);
 		return true;
 #else
@@ -1411,7 +1414,7 @@ namespace OgreOggSound
 		e->mConeHF		= 0.f;
 		action.mAction	= LQ_DETACH_EFX;
 		action.mParams	= e;
-		action.mSound	= sound;
+		action.mSound	= sound->getName();
 		_requestSoundAction(action);
 		return true;
 #else
@@ -1437,7 +1440,7 @@ namespace OgreOggSound
 		e->mConeHF		= 0.f;
 		action.mAction	= LQ_DETACH_EFX;
 		action.mParams	= e;
-		action.mSound	= sound;
+		action.mSound	= sound->getName();
 		_requestSoundAction(action);
 		return true;
 #else
@@ -1618,7 +1621,7 @@ namespace OgreOggSound
 		e->mConeHF		= coneOuterHF;
 		action.mAction	= LQ_SET_EFX_PROPERTY;
 		action.mParams	= e;
-		action.mSound	= sound;
+		action.mSound	= sound->getName();
 		_requestSoundAction(action);
 		return true;
 #else
@@ -1993,7 +1996,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		Poco::Mutex::ScopedLock l(mMutex);
 #else
-		boost::recursive_mutex::scoped_lock lock(mMutex);
+		boost::recursive_mutex::scoped_lock l(mMutex);
 #	endif
 #endif
 		// Destroy all sounds
@@ -2104,7 +2107,6 @@ namespace OgreOggSound
 				Ogre::LogManager::getSingleton().logMessage(msg);
 			}
 		}
-
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_removeFromLists(OgreOggSound::OgreOggISound *sound)
@@ -2175,7 +2177,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		Poco::Mutex::ScopedLock l(mMutex);
 #	else
-		boost::recursive_mutex::scoped_lock lock(mMutex);
+		boost::recursive_mutex::scoped_lock scoped_lock(mMutex);
 #	endif
 #endif
 		// Delete sound buffer
@@ -2197,13 +2199,6 @@ namespace OgreOggSound
 	{
 		if ( !sound ) return;
 
-#if OGGSOUND_THREADED
-#	ifdef POCO_THREAD
-		Poco::Mutex::ScopedLock l(mMutex);
-#	else
-		boost::recursive_mutex::scoped_lock lock(mMutex);
-#	endif
-#endif
 		// Get SceneManager
 		Ogre::SceneManager* s = sound->getSceneManager();
 		s->destroyMovableObject(sound);
@@ -2220,7 +2215,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		Poco::Mutex::ScopedLock l(mMutex);
 #else
-		boost::recursive_mutex::scoped_lock lock(mMutex);
+		boost::recursive_mutex::scoped_lock l(mMutex);
 #	endif
 #endif
 
@@ -2448,7 +2443,7 @@ namespace OgreOggSound
 		SoundAction action;
 		action.mAction	= LQ_REACTIVATE;
 		action.mParams	= 0;
-		action.mSound	= 0;
+		action.mSound	= "";
 		_requestSoundAction(action);
 #else
 		_reactivateQueuedSoundsImpl();
@@ -2598,22 +2593,60 @@ namespace OgreOggSound
 		{
 			switch ( act.mAction )
 			{
-			case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); } break;
-			case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl(); }	break;
-			case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl(); } break;
-			case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); } break;
-			case LQ_GLOBAL_PITCH:	{ _setGlobalPitchImpl(); } break;
-			case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); } break;
-			case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); } break;
-			case LQ_RESUME_ALL:		{ _resumeAllPausedSoundsImpl(); } break;
+			case LQ_PLAY:			
+				{ 
+					if ( hasSound(act.mSound) )
+						getSound(act.mSound)->_playImpl(); 
+				} 
+				break;
+			case LQ_PAUSE:			
+				{ 
+					if ( hasSound(act.mSound) )
+						getSound(act.mSound)->_pauseImpl(); 
+				} 
+				break;
+			case LQ_STOP:			
+				{ 
+					if ( hasSound(act.mSound) )
+						getSound(act.mSound)->_stopImpl(); 
+				} 
+				break;
+			case LQ_REACTIVATE:		
+				{ 
+					_reactivateQueuedSoundsImpl(); 
+				} 
+				break;
+			case LQ_GLOBAL_PITCH:	
+				{ 
+					_setGlobalPitchImpl(); 
+				} 
+				break;
+			case LQ_STOP_ALL:		
+				{ 
+					_stopAllSoundsImpl(); 
+				} 
+				break;
+			case LQ_PAUSE_ALL:		
+				{ 
+					_pauseAllSoundsImpl(); 
+				} 
+				break;
+			case LQ_RESUME_ALL:		
+				{ 
+					_resumeAllPausedSoundsImpl(); 
+				} 
+				break;
 			case LQ_LOAD:
 				{
 					cSound* c = static_cast<cSound*>(act.mParams);
-					if ( act.mSound ) 
-						_loadSoundImpl(act.mSound, c->mFileName, c->mStream, c->mPrebuffer);
-
-					// Cleanup..
-					c->mStream.setNull();
+					if ( hasSound(act.mSound) )
+					{
+						OgreOggISound* s = getSound(act.mSound); 
+						_loadSoundImpl(s, c->mFileName, c->mStream, c->mPrebuffer);
+		
+						// Cleanup..
+						c->mStream.setNull();
+					}
 
 					// Delete
 					OGRE_FREE(c, Ogre::MEMCATEGORY_GENERAL);
@@ -2623,11 +2656,14 @@ namespace OgreOggSound
 			case LQ_ATTACH_EFX:
 				{
 					efxProperty* e = static_cast<efxProperty*>(act.mParams);
-					if ( act.mSound && !e->mEffectName.empty() && !e->mFilterName.empty() ) 
-						_attachEffectToSoundImpl(act.mSound, e->mSlotID, e->mEffectName, e->mFilterName);
-					else
-						_attachFilterToSoundImpl(act.mSound, e->mFilterName);
-
+					if ( hasSound(act.mSound) )
+					{
+						OgreOggISound* s = getSound(act.mSound); 
+						if ( !e->mEffectName.empty() && !e->mFilterName.empty() ) 
+							_attachEffectToSoundImpl(s, e->mSlotID, e->mEffectName, e->mFilterName);
+						else
+							_attachFilterToSoundImpl(s, e->mFilterName);
+					}
 					// Delete
 					OGRE_FREE(e, Ogre::MEMCATEGORY_GENERAL);
 				}
@@ -2635,11 +2671,14 @@ namespace OgreOggSound
 			case LQ_DETACH_EFX:
 				{
 					efxProperty* e = static_cast<efxProperty*>(act.mParams);
-					if ( act.mSound && e->mSlotID!=255 ) 
-						_detachEffectFromSoundImpl(act.mSound, e->mSlotID);
-					else
-						_detachFilterFromSoundImpl(act.mSound);
-
+					if ( hasSound(act.mSound) )
+					{
+						OgreOggISound* s = getSound(act.mSound); 
+						if ( e->mSlotID!=255 ) 
+							_detachEffectFromSoundImpl(s, e->mSlotID);
+						else
+							_detachFilterFromSoundImpl(s);
+					}
 					// Delete
 					OGRE_FREE(e, Ogre::MEMCATEGORY_GENERAL);
 				}
@@ -2647,9 +2686,11 @@ namespace OgreOggSound
 			case LQ_SET_EFX_PROPERTY:
 				{
 					efxProperty* e = static_cast<efxProperty*>(act.mParams);
-					if ( act.mSound ) 
-						_setEFXSoundPropertiesImpl(act.mSound, e->mAirAbsorption, e->mRolloff, e->mConeHF);
-
+					if ( hasSound(act.mSound) )
+					{
+						OgreOggISound* s = getSound(act.mSound); 
+						_setEFXSoundPropertiesImpl(s, e->mAirAbsorption, e->mRolloff, e->mConeHF);
+					}
 					// Delete
 					OGRE_FREE(e, Ogre::MEMCATEGORY_GENERAL);
 				}
@@ -2667,19 +2708,57 @@ namespace OgreOggSound
 			{
 				switch ( act.mAction )
 				{
-				case LQ_PLAY:			{ if ( act.mSound ) act.mSound->_playImpl(); } break;
-				case LQ_PAUSE:			{ if ( act.mSound ) act.mSound->_pauseImpl(); }	break;
-				case LQ_STOP:			{ if ( act.mSound ) act.mSound->_stopImpl(); } break;
-				case LQ_REACTIVATE:		{ _reactivateQueuedSoundsImpl(); } break;
-				case LQ_GLOBAL_PITCH:	{ _setGlobalPitchImpl(); } break;
-				case LQ_STOP_ALL:		{ _stopAllSoundsImpl(); } break;
-				case LQ_PAUSE_ALL:		{ _pauseAllSoundsImpl(); } break;
-				case LQ_RESUME_ALL:		{ _resumeAllPausedSoundsImpl(); } break;
+				case LQ_PLAY:			
+					{ 
+						if ( hasSound(act.mSound) )
+							getSound(act.mSound)->_playImpl(); 
+					} 
+					break;
+				case LQ_PAUSE:			
+					{ 
+						if ( hasSound(act.mSound) )
+							getSound(act.mSound)->_pauseImpl(); 
+					} 
+					break;
+				case LQ_STOP:			
+					{ 
+						if ( hasSound(act.mSound) )
+							getSound(act.mSound)->_stopImpl(); 
+					} 
+					break;
+				case LQ_REACTIVATE:		
+					{ 
+						_reactivateQueuedSoundsImpl(); 
+					} 
+					break;
+				case LQ_GLOBAL_PITCH:	
+					{ 
+						_setGlobalPitchImpl(); 
+					} 
+					break;
+				case LQ_STOP_ALL:		
+					{ 
+						_stopAllSoundsImpl(); 
+					} 
+					break;
+				case LQ_PAUSE_ALL:		
+					{ 
+						_pauseAllSoundsImpl(); 
+					} 
+					break;
+				case LQ_RESUME_ALL:		
+					{ 
+						_resumeAllPausedSoundsImpl(); 
+					} 
+					break;
 				case LQ_LOAD:
 					{
 						cSound* c = static_cast<cSound*>(act.mParams);
-						if ( act.mSound ) 
-							_loadSoundImpl(act.mSound, c->mFileName, c->mStream, c->mPrebuffer);
+						if ( hasSound(act.mSound) )
+						{
+							OgreOggISound* s = getSound(act.mSound); 
+							_loadSoundImpl(s, c->mFileName, c->mStream, c->mPrebuffer);
+						}
 
 						// Cleanup..
 						c->mStream.setNull();
@@ -2692,11 +2771,14 @@ namespace OgreOggSound
 				case LQ_ATTACH_EFX:
 					{
 						efxProperty* e = static_cast<efxProperty*>(act.mParams);
-						if ( act.mSound && !e->mEffectName.empty() && !e->mFilterName.empty() ) 
-							_attachEffectToSoundImpl(act.mSound, e->mSlotID, e->mEffectName, e->mFilterName);
-						else
-							_attachFilterToSoundImpl(act.mSound, e->mFilterName);
-
+						if ( hasSound(act.mSound) )
+						{
+							OgreOggISound* s = getSound(act.mSound); 
+							if ( !e->mEffectName.empty() && !e->mFilterName.empty() ) 
+								_attachEffectToSoundImpl(s, e->mSlotID, e->mEffectName, e->mFilterName);
+							else
+								_attachFilterToSoundImpl(s, e->mFilterName);
+						}
 						// Delete
 						OGRE_FREE(e, Ogre::MEMCATEGORY_GENERAL);
 					}
@@ -2704,11 +2786,14 @@ namespace OgreOggSound
 				case LQ_DETACH_EFX:
 					{
 						efxProperty* e = static_cast<efxProperty*>(act.mParams);
-						if ( act.mSound && e->mSlotID!=255 ) 
-							_detachEffectFromSoundImpl(act.mSound, e->mSlotID);
-						else
-							_detachFilterFromSoundImpl(act.mSound);
-
+						if ( hasSound(act.mSound) )
+						{
+							OgreOggISound* s = getSound(act.mSound); 
+							if ( e->mSlotID!=255 ) 
+								_detachEffectFromSoundImpl(s, e->mSlotID);
+							else
+								_detachFilterFromSoundImpl(s);
+						}
 						// Delete
 						OGRE_FREE(e, Ogre::MEMCATEGORY_GENERAL);
 					}
@@ -2716,9 +2801,11 @@ namespace OgreOggSound
 				case LQ_SET_EFX_PROPERTY:
 					{
 						efxProperty* e = static_cast<efxProperty*>(act.mParams);
-						if ( act.mSound ) 
-							_setEFXSoundPropertiesImpl(act.mSound, e->mAirAbsorption, e->mRolloff, e->mConeHF);
-
+						if ( hasSound(act.mSound) )
+						{
+							OgreOggISound* s = getSound(act.mSound); 
+							_setEFXSoundPropertiesImpl(s, e->mAirAbsorption, e->mRolloff, e->mConeHF);
+						}
 						// Delete
 						OGRE_FREE(e, Ogre::MEMCATEGORY_GENERAL);
 					}

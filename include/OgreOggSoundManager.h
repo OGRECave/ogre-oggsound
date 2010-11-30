@@ -79,7 +79,7 @@ namespace OgreOggSound
 	//! Holds information about a sound action
 	struct SoundAction
 	{
-		OgreOggISound*	mSound;
+		Ogre::String	mSound;
 		SOUND_ACTION	mAction;
 		void*			mParams;
 	};
@@ -659,10 +659,10 @@ namespace OgreOggSound
 		friend class Updater;
 		static Updater* mUpdater;
 #else
-		static::boost::thread *mUpdateThread;
+		boost::thread* mUpdateThread;
 		boost::recursive_mutex mMutex;
 #endif
-		static bool mShuttingDown;
+		volatile bool mShuttingDown;
 
 		/** Threaded function for streaming updates
 		@remarks
@@ -675,10 +675,16 @@ namespace OgreOggSound
 			stopped by OpenAL. Static sounds do not suffer this problem because all the
 			audio data is preloaded into memory.
 		 */
-		static void threadUpdate()
+		void threadUpdate()
 		{
 			while(!mShuttingDown)
 			{		
+#	ifdef POCO_THREAD
+				Poco::Mutex::ScopedLock l(mMutex);
+#	else	
+				boost::recursive_mutex::scoped_lock scoped_lock(mMutex);
+#	endif
+
 				OgreOggSoundManager::getSingleton()._updateBuffers();
 				OgreOggSoundManager::getSingleton()._processQueuedSounds();
 
