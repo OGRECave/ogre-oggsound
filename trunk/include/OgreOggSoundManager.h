@@ -678,21 +678,18 @@ namespace OgreOggSound
 		void threadUpdate()
 		{
 			while(!mShuttingDown)
-			{		
-#	ifdef POCO_THREAD
+			{	
+				// Sleep outside mutex lock
+#ifdef POCO_THREAD 
+				Poco::Thread::sleep(10);
 				Poco::Mutex::ScopedLock l(mMutex);
-#	else	
+#else	
+				boost::this_thread::sleep(boost::posix_time::millisec(10));
 				boost::recursive_mutex::scoped_lock scoped_lock(mMutex);
-#	endif
-
+#endif
+				// Wrap lock tight around critical section
 				OgreOggSoundManager::getSingleton()._updateBuffers();
 				OgreOggSoundManager::getSingleton()._processQueuedSounds();
-
-#	ifdef POCO_THREAD
-				Poco::Thread::sleep(10);
-#	else	
-				boost::this_thread::sleep(boost::posix_time::millisec(10));
-#	endif
 			}
 		}
 
