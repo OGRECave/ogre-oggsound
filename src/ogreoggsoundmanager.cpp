@@ -578,6 +578,9 @@ namespace OgreOggSound
 			// Set loop flag
 			sound->loop(loop);
 
+			// Add to list
+			mSoundMap[name]=sound;
+
 #if OGGSOUND_THREADED
 			SoundAction action;
 			cSound* c		= OGRE_NEW_T(cSound, Ogre::MEMCATEGORY_GENERAL);
@@ -592,9 +595,6 @@ namespace OgreOggSound
 			// Load audio file
 			_loadSoundImpl(sound, file, soundData, preBuffer);
 #endif
-			// Add to list
-			mSoundMap[name]=sound;
-
 			return sound;
 		}
 		else
