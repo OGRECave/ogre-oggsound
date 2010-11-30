@@ -680,14 +680,16 @@ namespace OgreOggSound
 			while(!mShuttingDown)
 			{	
 #ifdef POCO_THREAD 
+				// Sleep outside mutex lock
 				Poco::Thread::sleep(0);
-				Poco::Thread::scopeed_lock();
+				// Wrap lock tight around critical section
+				Poco::Mutex::ScopedLock l(mMutex);
 #else	
+				// Sleep outside mutex lock
 				boost::this_thread::sleep(boost::posix_time::milliseconds(0));
+				// Wrap lock tight around critical section
 				boost::recursive_mutex::scoped_lock l(mMutex);
 #endif
-				// Sleep outside mutex lock
-				// Wrap lock tight around critical section
 				_updateBuffers();
 				_processQueuedSounds();
 			}
