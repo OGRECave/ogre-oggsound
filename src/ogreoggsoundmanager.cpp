@@ -35,12 +35,7 @@
 		Poco::Thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
 		OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
 		void OgreOggSound::OgreOggSoundManager::Updater::run() { OgreOggSound::OgreOggSoundManager::threadUpdate(); }
-#	else	
-//		boost::thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
-//		boost::mutex OgreOggSound::OgreOggSoundManager::mMutex;
 #	endif
-
-//	bool OgreOggSound::OgreOggSoundManager::mShuttingDown = false;
 #endif
 
 template<> OgreOggSound::OgreOggSoundManager* Ogre::Singleton<OgreOggSound::OgreOggSoundManager>::ms_Singleton = 0;
