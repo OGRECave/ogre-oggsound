@@ -11,6 +11,12 @@
 	* Moved #define of HAVE_EFX into windows build only
 		* Previously caused build issues on linux/mac where that support wasn't available, by default its disabled everywhere but windows.
 
+	* Fixed mutex locking? 
+		* Added a lock to the update function which seems to correctly lock synchronisation between main thread and worker thread.
+		* Solves a crash where quitting app whilst loading a sound would casue a crash, it would appear the locking wasn't working correctly,
+		* fixed by adding a lock to the updateThread() function, but was under the impression this was unnecessary :s
+		* Any performance issues please let me know! 
+
 
 * version 1.18
 
