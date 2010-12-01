@@ -660,7 +660,7 @@ namespace OgreOggSound
 		static Updater* mUpdater;
 #else
 		boost::thread* mUpdateThread;
-		boost::recursive_mutex mMutex;
+		boost::mutex mMutex;
 #endif
 		volatile bool mShuttingDown;
 
@@ -683,7 +683,7 @@ namespace OgreOggSound
 #ifdef POCO_THREAD
 					Poco::Mutex::ScopedLock l(mMutex);
 #else
-					boost::recursive_mutex::scoped_lock l(mMutex);
+					boost::mutex::scoped_lock lock(mMutex);
 #endif
 					_updateBuffers();
 					_processQueuedSounds();
