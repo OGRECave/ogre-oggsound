@@ -181,12 +181,13 @@ namespace OgreOggSound
 			delete mDelayedActionsList;
 			mDelayedActionsList=0;
 		}
+#endif
+
 		if ( mSoundsToDestroy )
 		{
 			delete mSoundsToDestroy;
 			mSoundsToDestroy=0;
 		}
-#endif
 
 		_releaseAll();
 
@@ -359,6 +360,7 @@ namespace OgreOggSound
 		msg="*** --- Created " + Ogre::StringConverter::toString(mNumSources) + " sources for simultaneous sounds";
 		Ogre::LogManager::getSingleton().logMessage(msg, Ogre::LML_TRIVIAL);
 
+		mSoundsToDestroy = new LocklessQueue<OgreOggISound*>(100);
 #if OGGSOUND_THREADED
 #	ifdef POCO_THREAD
 		mUpdateThread = OGRE_NEW_T(Poco::Thread,Ogre::MEMCATEGORY_GENERAL)();
@@ -373,7 +375,6 @@ namespace OgreOggSound
 		{
 			mActionsList = new LocklessQueue<SoundAction>(queueListSize);
 			mDelayedActionsList = new LocklessQueue<SoundAction>(500);
-			mSoundsToDestroy = new LocklessQueue<OgreOggISound*>(100);
 		}
 #endif
 
@@ -818,7 +819,7 @@ namespace OgreOggSound
 			rTime=0.f;
 		}
 
-#else
+#endif
 		// Destroy sounds
 		if ( mSoundsToDestroy )
 		{
@@ -829,7 +830,6 @@ namespace OgreOggSound
 					_destroySoundImpl(s);
 			}
 		}
-#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	struct OgreOggSoundManager::_sortNearToFar
@@ -1976,11 +1976,7 @@ namespace OgreOggSound
 	{
 		if (!sound) return;
 
-#if OGGSOUND_THREADED
 		mSoundsToDestroy->push(sound);
-#else
-		_destroySoundImpl(sound);
-#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_destroyAllSoundsImpl()
