@@ -660,7 +660,6 @@ namespace OgreOggSound
 		static Updater* mUpdater;
 #else
 		boost::thread* mUpdateThread;
-		boost::mutex mMutex;
 #endif
 		volatile bool mShuttingDown;
 
@@ -675,30 +674,8 @@ namespace OgreOggSound
 			stopped by OpenAL. Static sounds do not suffer this problem because all the
 			audio data is preloaded into memory.
 		 */
-		void threadUpdate()
-		{
-			while(!mShuttingDown)
-			{	
-				{
-#ifdef POCO_THREAD
-					Poco::Mutex::ScopedLock l(mMutex);
-#else
-					boost::mutex::scoped_lock lock(mMutex);
+		void threadUpdate();
 #endif
-					_updateBuffers();
-					_processQueuedSounds();
-				}
-#ifdef POCO_THREAD
-				Poco::Thread::sleep(10);
-#else
-				boost::this_thread::sleep(boost::posix_time::milliseconds(10));
-#endif
-			}
-		}
-
-#endif
-
-
 		/** Creates a single sound object (implementation).
 		@remarks
 			Creates and inits a single sound object, depending on passed
