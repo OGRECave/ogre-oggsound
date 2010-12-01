@@ -16,6 +16,8 @@
 		* Solves a crash where quitting app whilst loading a sound would casue a crash, it would appear the locking wasn't working correctly,
 		* fixed by adding a lock to the updateThread() function, but was under the impression this was unnecessary :s
 		* Any performance issues please let me know! 
+	
+	* Fixed crash bug in temporary sounds for non-threaded lib version
 
 
 * version 1.18
