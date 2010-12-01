@@ -679,6 +679,11 @@ namespace OgreOggSound
 		{
 			while(!mShuttingDown)
 			{	
+#ifdef POCO_THREAD
+				Poco::Mutex::ScopedLock l(mMutex);
+#else
+				boost::recursive_mutex::scoped_lock l(mMutex);
+#endif
 				_updateBuffers();
 				_processQueuedSounds();
 			}

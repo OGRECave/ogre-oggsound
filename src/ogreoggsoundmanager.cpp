@@ -540,6 +540,9 @@ namespace OgreOggSound
 			// Set loop flag
 			sound->loop(loop);
 
+			// Add to list
+			mSoundMap[name]=sound;
+
 #if OGGSOUND_THREADED
 
 			SoundAction action;
@@ -555,9 +558,6 @@ namespace OgreOggSound
 			// load audio data
 			_loadSoundImpl(sound, file, soundData, preBuffer);
 #endif
-			// Add to list
-			mSoundMap[name]=sound;
-
 			return sound;
 		}
 		else if	( file.find(".wav")!=file.npos || file.find(".WAV")!=file.npos )
