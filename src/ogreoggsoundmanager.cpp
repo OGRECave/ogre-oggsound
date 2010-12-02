@@ -36,7 +36,7 @@
 		OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
 		void OgreOggSound::OgreOggSoundManager::Updater::run() { OgreOggSound::OgreOggSoundManager::threadUpdate(); }
 #	else
-		boost::mutex mMutex;
+		boost::recursive_mutex mMutex;
 #	endif
 #endif
 
@@ -1989,7 +1989,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		Poco::Mutex::ScopedLock l(mMutex);
 #else
-		boost::mutex::scoped_lock l(mMutex);
+		boost::recursive_mutex::scoped_lock lock(mMutex);
 #	endif
 #endif
 		// Destroy all sounds
@@ -2170,7 +2170,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		Poco::Mutex::ScopedLock l(mMutex);
 #	else
-		boost::mutex::scoped_lock scoped_lock(mMutex);
+		boost::recursive_mutex::scoped_lock scoped_lock(mMutex);
 #	endif
 #endif
 		// Delete sound buffer
@@ -2208,7 +2208,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		Poco::Mutex::ScopedLock l(mMutex);
 #else
-		boost::mutex::scoped_lock l(mMutex);
+		boost::recursive_mutex::scoped_lock lock(mMutex);
 #	endif
 #endif
 
@@ -2518,7 +2518,7 @@ namespace OgreOggSound
 #ifdef POCO_THREAD
 				Poco::Mutex::ScopedLock l(mMutex);
 #else
-				boost::mutex::scoped_lock lock(mMutex);
+				boost::recursive_mutex::scoped_lock lock(mMutex);
 #endif
 				_updateBuffers();
 				_processQueuedSounds();
