@@ -2170,7 +2170,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		Poco::Mutex::ScopedLock l(mMutex);
 #	else
-		boost::recursive_mutex::scoped_lock scoped_lock(mMutex);
+		boost::recursive_mutex::scoped_lock lock(mMutex);
 #	endif
 #endif
 		// Delete sound buffer
