@@ -53,35 +53,35 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, cons
 		NameValuePairList::const_iterator fileNameIterator = params->find("fileName");
 		if (fileNameIterator != params->end())
 		{
-			// Get fontname
+			// Get filename
 			fileName = fileNameIterator->second;
 		}
 
 		NameValuePairList::const_iterator loopIterator = params->find("loop");
 		if (loopIterator != params->end())
 		{
-			// Get fontname
+			// Get loop setting
 			loop = StringUtil::match(loopIterator->second,"true",false);
 		}
 
 		NameValuePairList::const_iterator streamIterator = params->find("stream");
 		if (streamIterator != params->end())
 		{
-			// Get fontname
+			// Get stream flag
 			stream = StringUtil::match(streamIterator->second,"true",false);
 		}
 
 		NameValuePairList::const_iterator preBufferIterator = params->find("preBuffer");
 		if (preBufferIterator != params->end())
 		{
-			// Get fontname
+			// Get prebuffer flag
 			preBuffer = StringUtil::match(preBufferIterator->second,"true",false);
 		}
 
 		NameValuePairList::const_iterator sManIterator = params->find("sceneManagerName");
 		if (sManIterator != params->end())
 		{
-			// Get fontname
+			// Get SceneManager name
 			scnMgr = Ogre::Root::getSingletonPtr()->getSceneManager(sManIterator->second);
 		}
 
