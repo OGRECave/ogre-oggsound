@@ -55,6 +55,7 @@ namespace OgreOggSound
 		,mDevice(0)
 		,mContext(0)
 		,mListener(0)
+#if HAVE_EFX
 		,mEAXSupport(false)
 		,mEFXSupport(false)
 		,mXRamSupport(false)
@@ -64,8 +65,9 @@ namespace OgreOggSound
 		,mXRamHardware(0)
 		,mXRamAccessible(0)
 		,mCurrentXRamMode(0)
-		,mRecorder(0)
 		,mEAXVersion(0)
+#endif
+		,mRecorder(0)
 		,mDeviceStrings(0)
 		,mMaxSources(100)
 		,mResourceGroupName("")
@@ -365,10 +367,10 @@ namespace OgreOggSound
 		mSoundsToDestroy = new LocklessQueue<OgreOggISound*>(100);
 #if OGGSOUND_THREADED
 #	ifdef POCO_THREAD
-		mUpdateThread = OGRE_NEW_T(Poco::Thread,Ogre::MEMCATEGORY_GENERAL)();
-		mUpdater = OGRE_NEW_T(Updater,Ogre::MEMCATEGORY_GENERAL)();
+		mUpdateThread = OGRE_NEW_T(Poco::Thread, Ogre::MEMCATEGORY_GENERAL)();
+		mUpdater = OGRE_NEW_T(Updater, Ogre::MEMCATEGORY_GENERAL)();
 		mUpdateThread->start(*mUpdater);
-		Ogre::LogManager::getSingleton().logMessage("*** --- Using POCO threads for streaming");
+		Ogre::LogManager::getSingleton().logMessage("*** --- Using POCO threads for streaming", Ogre::LML_TRIVIAL);
 #	else
 		mUpdateThread = OGRE_NEW_T(boost::thread, Ogre::MEMCATEGORY_GENERAL)(boost::bind(&OgreOggSoundManager::threadUpdate, this));
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming", Ogre::LML_TRIVIAL);
@@ -2259,7 +2261,7 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingleton().logMessage(msg);
 		}
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 		// EFX
 		mEFXSupport = _checkEFXSupport();
 		if (mEFXSupport)
@@ -2313,21 +2315,21 @@ namespace OgreOggSound
 		SourceList::iterator it = mSourcePool.begin();
 		while (it != mSourcePool.end())
 		{
+#if HAVE_EFX
 			if ( hasEFXSupport() )
 			{
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 				// Remove filters/effects
 				alSourcei(static_cast<ALuint>((*it)), AL_DIRECT_FILTER, AL_FILTER_NULL);
 				alSource3i(static_cast<ALuint>((*it)), AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, AL_FILTER_NULL);
-#endif
  			}
+#endif
 			alDeleteSources(1,&(*it));
 			++it;
 		}
 
 		mSourcePool.clear();
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if HAVE_EFX
 		// clear EFX effect lists
 		if ( !mFilterList.empty() )
 		{
