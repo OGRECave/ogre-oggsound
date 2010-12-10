@@ -615,6 +615,11 @@ namespace OgreOggSound
 #endif
 
 #if OGGSOUND_THREADED
+#	if POCO_THREAD
+		static Poco::Mutex mMutex;
+#	else
+		static boost::recursive_mutex mMutex;
+#	endif
 
 		/** Pushes a sound action request onto the queue
 		@remarks
@@ -649,7 +654,6 @@ namespace OgreOggSound
 		LocklessQueue<SoundAction>* mDelayedActionsList;
 
 #ifdef POCO_THREAD
-		Poco::Mutex mMutex;
 		static::Poco::Thread *mUpdateThread;
 		class Updater : public Poco::Runnable
 		{
@@ -659,9 +663,9 @@ namespace OgreOggSound
 		friend class Updater;
 		static Updater* mUpdater;
 #else
-		boost::thread* mUpdateThread;
+		static boost::thread* mUpdateThread;
 #endif
-		volatile bool mShuttingDown;
+		static bool mShuttingDown;
 
 		/** Threaded function for streaming updates
 		@remarks
@@ -674,7 +678,26 @@ namespace OgreOggSound
 			stopped by OpenAL. Static sounds do not suffer this problem because all the
 			audio data is preloaded into memory.
 		 */
-		void threadUpdate();
+		static void threadUpdate()
+		{
+			while(!mShuttingDown)
+			{	
+				{
+#ifdef POCO_THREAD
+					Poco::Mutex::ScopedLock l(OgreOggSoundManager::getSingletonPtr()->mMutex);
+#else
+					boost::recursive_mutex::scoped_lock lock(OgreOggSoundManager::getSingletonPtr()->mMutex);
+#endif
+					OgreOggSoundManager::getSingletonPtr()->_updateBuffers();
+					OgreOggSoundManager::getSingletonPtr()->_processQueuedSounds();
+				}
+#ifdef POCO_THREAD
+				Poco::Thread::sleep(10);
+#else
+				boost::this_thread::sleep(boost::posix_time::milliseconds(10));
+#endif
+			}
+		}
 #endif
 		/** Creates a single sound object (implementation).
 		@remarks

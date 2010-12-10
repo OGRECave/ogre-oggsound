@@ -19,6 +19,11 @@
 	
 	* Fixed crash bug in temporary sounds for non-threaded lib version
 
+	* Fixed linux compile errors about EFX
+
+	* Fixed POCO compile errors
+ 
+
 
 * version 1.18
 
