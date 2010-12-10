@@ -35,9 +35,12 @@
 		Poco::Thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
 		OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
 		void OgreOggSound::OgreOggSoundManager::Updater::run() { OgreOggSound::OgreOggSoundManager::threadUpdate(); }
+		Poco::Mutex OgreOggSound::OgreOggSoundManager::mMutex;
 #	else
-		boost::recursive_mutex mMutex;
+		boost::thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
+		boost::recursive_mutex OgreOggSound::OgreOggSoundManager::mMutex;
 #	endif
+	bool OgreOggSound::OgreOggSoundManager::mShuttingDown = false;
 #endif
 
 template<> OgreOggSound::OgreOggSoundManager* Ogre::Singleton<OgreOggSound::OgreOggSoundManager>::ms_Singleton = 0;
@@ -75,8 +78,6 @@ namespace OgreOggSound
 #if OGGSOUND_THREADED
 		,mActionsList(0)
 		,mDelayedActionsList(0)
-		,mUpdateThread(0)
-		,mShuttingDown(false)
 #endif
 		{
 #if HAVE_EFX
@@ -372,7 +373,7 @@ namespace OgreOggSound
 		mUpdateThread->start(*mUpdater);
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using POCO threads for streaming", Ogre::LML_TRIVIAL);
 #	else
-		mUpdateThread = OGRE_NEW_T(boost::thread, Ogre::MEMCATEGORY_GENERAL)(boost::bind(&OgreOggSoundManager::threadUpdate, this));
+		mUpdateThread = OGRE_NEW_T(boost::thread, Ogre::MEMCATEGORY_GENERAL)(boost::function0<void>(&OgreOggSoundManager::threadUpdate, this));
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming", Ogre::LML_TRIVIAL);
 #	endif	
 		if (queueListSize)
@@ -2511,27 +2512,6 @@ namespace OgreOggSound
 		return true;
 	}
 #if OGGSOUND_THREADED
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::threadUpdate()
-	{
-		while(!mShuttingDown)
-		{	
-			{
-#ifdef POCO_THREAD
-				Poco::Mutex::ScopedLock l(mMutex);
-#else
-				boost::recursive_mutex::scoped_lock lock(mMutex);
-#endif
-				_updateBuffers();
-				_processQueuedSounds();
-			}
-#ifdef POCO_THREAD
-			Poco::Thread::sleep(10);
-#else
-			boost::this_thread::sleep(boost::posix_time::milliseconds(10));
-#endif
-		}
-	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_updateBuffers()
 	{
