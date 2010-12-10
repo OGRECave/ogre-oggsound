@@ -38,7 +38,7 @@
 #include <string>
 
 #if OGGSOUND_THREADED
-#	ifdef POCO_THREAD 
+#	ifdef POCO_THREAD
 #		include "Poco/ScopedLock.h"
 #		include "Poco/Thread.h"
 #		include "Poco/Mutex.h"
@@ -654,7 +654,7 @@ namespace OgreOggSound
 		LocklessQueue<SoundAction>* mDelayedActionsList;
 
 #ifdef POCO_THREAD
-		static::Poco::Thread *mUpdateThread;
+		static Poco::Thread* mUpdateThread;
 		class Updater : public Poco::Runnable
 		{
 		public:
