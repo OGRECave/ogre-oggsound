@@ -34,7 +34,6 @@
 #	ifdef POCO_THREAD
 		Poco::Thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
 		OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
-		void OgreOggSound::OgreOggSoundManager::Updater::run() { OgreOggSound::OgreOggSoundManager::threadUpdate(); }
 		Poco::Mutex OgreOggSound::OgreOggSoundManager::mMutex;
 #	else
 		boost::thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;

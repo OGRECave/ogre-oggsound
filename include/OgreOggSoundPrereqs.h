@@ -34,6 +34,7 @@
 #include <OgreLogManager.h>
 
 #   if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+
 #	pragma once
 #	pragma warning( disable : 4244 )
 
