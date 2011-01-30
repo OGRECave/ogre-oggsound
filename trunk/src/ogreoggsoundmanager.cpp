@@ -224,10 +224,10 @@ namespace OgreOggSound
 	{
 		if (mDevice) return true;
 
-		Ogre::LogManager::getSingleton().logMessage("*****************************************", Ogre::LML_TRIVIAL);
-		Ogre::LogManager::getSingleton().logMessage("*** --- Initialising OgreOggSound --- ***", Ogre::LML_TRIVIAL);
-		Ogre::LogManager::getSingleton().logMessage("*** ---     "+OGREOGGSOUND_VERSION_STRING+"    --- ***", Ogre::LML_TRIVIAL);
-		Ogre::LogManager::getSingleton().logMessage("*****************************************", Ogre::LML_TRIVIAL);
+		Ogre::LogManager::getSingleton().logMessage("*****************************************", Ogre::LML_NORMAL);
+		Ogre::LogManager::getSingleton().logMessage("*** --- Initialising OgreOggSound --- ***", Ogre::LML_NORMAL);
+		Ogre::LogManager::getSingleton().logMessage("*** ---     "+OGREOGGSOUND_VERSION_STRING+"    --- ***", Ogre::LML_NORMAL);
+		Ogre::LogManager::getSingleton().logMessage("*****************************************", Ogre::LML_NORMAL);
 
 		// Set source limit
 		mMaxSources = maxSources;
@@ -274,7 +274,7 @@ namespace OgreOggSound
 		alcCloseDevice(device);
 #endif
 		Ogre::String msg="*** --- OpenAL version " + Ogre::StringConverter::toString(majorVersion) + "." + Ogre::StringConverter::toString(minorVersion);
-		Ogre::LogManager::getSingleton().logMessage(msg, Ogre::LML_TRIVIAL);
+		Ogre::LogManager::getSingleton().logMessage(msg, Ogre::LML_NORMAL);
 
 		/*
 		** OpenAL versions prior to 1.0 DO NOT support device enumeration, so we
@@ -362,7 +362,7 @@ namespace OgreOggSound
 		mNumSources = _createSourcePool();
 
 		msg="*** --- Created " + Ogre::StringConverter::toString(mNumSources) + " sources for simultaneous sounds";
-		Ogre::LogManager::getSingleton().logMessage(msg, Ogre::LML_TRIVIAL);
+		Ogre::LogManager::getSingleton().logMessage(msg, Ogre::LML_NORMAL);
 
 		mSoundsToDestroy = new LocklessQueue<OgreOggISound*>(100);
 #if OGGSOUND_THREADED
@@ -370,10 +370,10 @@ namespace OgreOggSound
 		mUpdateThread = OGRE_NEW_T(Poco::Thread, Ogre::MEMCATEGORY_GENERAL)();
 		mUpdater = OGRE_NEW_T(Updater, Ogre::MEMCATEGORY_GENERAL)();
 		mUpdateThread->start(*mUpdater);
-		Ogre::LogManager::getSingleton().logMessage("*** --- Using POCO threads for streaming", Ogre::LML_TRIVIAL);
+		Ogre::LogManager::getSingleton().logMessage("*** --- Using POCO threads for streaming", Ogre::LML_NORMAL);
 #	else
 		mUpdateThread = OGRE_NEW_T(boost::thread, Ogre::MEMCATEGORY_GENERAL)(boost::function0<void>(&OgreOggSoundManager::threadUpdate, this));
-		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming", Ogre::LML_TRIVIAL);
+		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming", Ogre::LML_NORMAL);
 #	endif	
 		if (queueListSize)
 		{
@@ -388,20 +388,20 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingleton().logMessage("*** --- Recording devices NOT detected!", Ogre::LML_NORMAL);
 		else
 		{
-			LogManager::getSingleton().logMessage("*** --- Recording devices available:", Ogre::LML_TRIVIAL);
+			LogManager::getSingleton().logMessage("*** --- Recording devices available:", Ogre::LML_NORMAL);
 			OgreOggSoundRecord* r=0;
 			if ( r=createRecorder() )
 			{
 				OgreOggSoundRecord::RecordDeviceList list=r->getCaptureDeviceList();
 				for ( OgreOggSoundRecord::RecordDeviceList::iterator iter=list.begin(); iter!=list.end(); ++iter )
-					Ogre::LogManager::getSingleton().logMessage("***--- '"+(*iter)+"'", Ogre::LML_TRIVIAL);
+					Ogre::LogManager::getSingleton().logMessage("***--- '"+(*iter)+"'", Ogre::LML_NORMAL);
 				OGRE_DELETE_T(r, OgreOggSoundRecord, Ogre::MEMCATEGORY_GENERAL);
 			}
 		}
 #endif
-		Ogre::LogManager::getSingleton().logMessage("*****************************************", Ogre::LML_TRIVIAL);
-		Ogre::LogManager::getSingleton().logMessage("*** ---  OgreOggSound Initialised --- ***", Ogre::LML_TRIVIAL);
-		Ogre::LogManager::getSingleton().logMessage("*****************************************", Ogre::LML_TRIVIAL);
+		Ogre::LogManager::getSingleton().logMessage("*****************************************", Ogre::LML_NORMAL);
+		Ogre::LogManager::getSingleton().logMessage("*** ---  OgreOggSound Initialised --- ***", Ogre::LML_NORMAL);
+		Ogre::LogManager::getSingleton().logMessage("*****************************************", Ogre::LML_NORMAL);
 
 		return true;
 	}
