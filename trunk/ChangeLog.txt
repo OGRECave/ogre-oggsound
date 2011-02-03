@@ -1,3 +1,7 @@
+* Version 1.2
+
+	* Licensed under the MIT licensing terms.
+
 * version 1.19
 
 	* Added patch from torrque to add mingw support.
