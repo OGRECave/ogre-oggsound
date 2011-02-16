@@ -174,7 +174,7 @@ namespace OgreOggSound
 		}
 
 		// Calculate length in seconds
-		mPlayTime = static_cast<float>(((mAudioEnd-mAudioOffset)*8) /(mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample));
+		mPlayTime = static_cast<float>(((mAudioEnd-mAudioOffset)*8.f) / static_cast<float>((mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample)));
 
 #if HAVE_EFX
 		// Upload to XRAM buffers if available
@@ -494,9 +494,10 @@ namespace OgreOggSound
 
 		// Create buffer
 		data = OGRE_ALLOC_T(char, mBufferSize, Ogre::MEMCATEGORY_GENERAL);
+		memset(data, 0, mBufferSize);
 		
 		// Read only what was asked for
-		while(static_cast<int>(audioData.size()) < mBufferSize)
+		while( !mStreamEOF && (static_cast<int>(audioData.size()) < mBufferSize) )
 		{
 			size_t currPos = mAudioStream->tell();
 			// Is looping about to occur?
