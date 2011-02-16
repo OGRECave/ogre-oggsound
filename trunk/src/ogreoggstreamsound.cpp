@@ -352,9 +352,10 @@ namespace OgreOggSound
 
 		// Create buffer
 		data = OGRE_ALLOC_T(char, mBufferSize, Ogre::MEMCATEGORY_GENERAL);
+		memset(data, 0, mBufferSize);
 		
 		// Read only what was asked for
-		while(static_cast<int>(audioData.size()) < mBufferSize)
+		while( !mStreamEOF && (static_cast<int>(audioData.size()) < mBufferSize) )
 		{
 			// Read up to a buffer's worth of data
 			bytes = ov_read(&mOggStream, data, static_cast<int>(mBufferSize), 0, 2, 1, &section);

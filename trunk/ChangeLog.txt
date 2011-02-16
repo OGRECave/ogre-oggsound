@@ -2,6 +2,10 @@
 
 	* Licensed under the MIT licensing terms.
 
+	* Bug fix - playtime incorrectly calculated for WAV sounds
+
+	* Bug fix - streamed sounds incorrectly wrapping around when remaining audio data is less then buffer size.
+
 * version 1.19
 
 	* Added patch from torrque to add mingw support.
