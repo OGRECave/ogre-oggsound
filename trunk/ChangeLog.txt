@@ -6,6 +6,8 @@
 
 	* Bug fix - streamed sounds incorrectly wrapping around when remaining audio data is less then buffer size.
 
+	* Added a OgreOggSoundManager::setForceMutex() function for switching between asynchronous sound actions & blocking sound actions (multi-threaded version ONLY - Useful for ensuring an action has completed before moving on, synching sound to animations??)
+
 * version 1.19
 
 	* Added patch from torrque to add mingw support.
