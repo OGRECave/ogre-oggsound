@@ -7,6 +7,11 @@
 	* Bug fix - streamed sounds incorrectly wrapping around when remaining audio data is less then buffer size.
 
 	* Added a OgreOggSoundManager::setForceMutex() function for switching between asynchronous sound actions & blocking sound actions (multi-threaded version ONLY - Useful for ensuring an action has completed before moving on, synching sound to animations??)
+		* Added per-call setting of this attribute if necessary for the following functions:
+			* createSound()
+			* play()
+			* stop()
+			* pause()
 
 * version 1.19
 

@@ -86,6 +86,7 @@ namespace OgreOggSound
 	{
 		Ogre::String	mSound;
 		SOUND_ACTION	mAction;
+		bool			mImmediately;
 		void*			mParams;
 	};
 
@@ -201,7 +202,7 @@ namespace OgreOggSound
 			@param scnMgr
 				Pointer to SceneManager this sound belongs - 0 defaults to first SceneManager defined.
 		 */
-		OgreOggISound* createSound(const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false, Ogre::SceneManager* scnMgr=0);
+		OgreOggISound* createSound(const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false, Ogre::SceneManager* scnMgr=0, bool immediate=false);
 		/** Gets a named sound.
 		@remarks
 			Returns a named sound object if defined, NULL otherwise.
@@ -744,7 +745,7 @@ namespace OgreOggSound
 			@param preBuffer 
 				Flag indicating if a source should be attached at creation.
 		 */
-		OgreOggISound* _createSoundImpl(const Ogre::SceneManager& scnMgr, const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false);
+		OgreOggISound* _createSoundImpl(const Ogre::SceneManager& scnMgr, const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false, bool immediate=false);
 		/** Implementation of sound loading
 		@param sound
 			sound pointer.

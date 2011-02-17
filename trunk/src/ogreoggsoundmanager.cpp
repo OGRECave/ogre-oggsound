@@ -500,7 +500,8 @@ namespace OgreOggSound
 															const std::string& file, 
 															bool stream, 
 															bool loop, 
-															bool preBuffer)
+															bool preBuffer,
+															bool immediate)
 	{
 		Ogre::ResourceGroupManager* groupManager = 0;
 		Ogre::String group;
@@ -563,6 +564,7 @@ namespace OgreOggSound
 			c->mStream		= soundData;
 			action.mAction	= LQ_LOAD;
 			action.mParams	= c;
+			action.mImmediately = immediate;
 			action.mSound	= sound->getName();
 			_requestSoundAction(action);
 #else
@@ -600,6 +602,7 @@ namespace OgreOggSound
 			c->mStream		= soundData;
 			action.mAction	= LQ_LOAD;
 			action.mParams	= c;
+			action.mImmediately = immediate;
 			action.mSound	= sound->getName();
 			_requestSoundAction(action);
 #else
@@ -622,7 +625,8 @@ namespace OgreOggSound
 													bool stream, 
 													bool loop, 
 													bool preBuffer, 
-													SceneManager* scnMgr)
+													SceneManager* scnMgr,
+													bool immediate)
 	{
 		Ogre::NameValuePairList params;
 		OgreOggISound* sound = 0;
@@ -631,6 +635,7 @@ namespace OgreOggSound
 		params["stream"]	= stream	? "true" : "false";
 		params["loop"]		= loop		? "true" : "false";
 		params["preBuffer"]	= preBuffer ? "true" : "false";
+		params["immediate"]	= immediate ? "true" : "false";
 
 		// Get first SceneManager if defined
 		if ( !scnMgr ) 
@@ -706,6 +711,7 @@ namespace OgreOggSound
 #if OGGSOUND_THREADED 
 		SoundAction action;
 		action.mAction	= LQ_STOP_ALL;
+		action.mImmediately = false;
 		action.mParams	= 0;
 		action.mSound	= "";
 		_requestSoundAction(action);
@@ -723,6 +729,7 @@ namespace OgreOggSound
 		SoundAction action;
 		action.mAction	= LQ_GLOBAL_PITCH;
 		action.mParams	= 0;
+		action.mImmediately = false;
 		action.mSound	= "";
 		_requestSoundAction(action);
 #else
@@ -737,6 +744,7 @@ namespace OgreOggSound
 		action.mAction = LQ_PAUSE_ALL;
 		action.mSound = "";
 		action.mParams = 0;
+		action.mImmediately = false;
 		_requestSoundAction(action);
 #else
 		_pauseAllSoundsImpl();
@@ -750,6 +758,7 @@ namespace OgreOggSound
 		action.mAction = LQ_RESUME_ALL;
 		action.mSound = "";
 		action.mParams = 0;
+		action.mImmediately = false;
 		_requestSoundAction(action);
 #else
 		_resumeAllPausedSoundsImpl();
@@ -1239,6 +1248,7 @@ namespace OgreOggSound
 		action.mAction	= LQ_ATTACH_EFX;
 		action.mParams	= e;
 		action.mSound	= sound->getName();
+		action.mImmediately = false;
 		_requestSoundAction(action);
 		return true;
 #else
@@ -1262,6 +1272,7 @@ namespace OgreOggSound
 		action.mAction	= LQ_ATTACH_EFX;
 		action.mParams	= e;
 		action.mSound	= sound->getName();
+		action.mImmediately = false;
 		_requestSoundAction(action);
 		return true;
 #else
@@ -1420,6 +1431,7 @@ namespace OgreOggSound
 		action.mAction	= LQ_DETACH_EFX;
 		action.mParams	= e;
 		action.mSound	= sound->getName();
+		action.mImmediately = false;
 		_requestSoundAction(action);
 		return true;
 #else
@@ -1446,6 +1458,7 @@ namespace OgreOggSound
 		action.mAction	= LQ_DETACH_EFX;
 		action.mParams	= e;
 		action.mSound	= sound->getName();
+		action.mImmediately = false;
 		_requestSoundAction(action);
 		return true;
 #else
@@ -1627,6 +1640,7 @@ namespace OgreOggSound
 		action.mAction	= LQ_SET_EFX_PROPERTY;
 		action.mParams	= e;
 		action.mSound	= sound->getName();
+		action.mImmediately = false;
 		_requestSoundAction(action);
 		return true;
 #else
@@ -2445,6 +2459,7 @@ namespace OgreOggSound
 		action.mAction	= LQ_REACTIVATE;
 		action.mParams	= 0;
 		action.mSound	= "";
+		action.mImmediately = false;
 		_requestSoundAction(action);
 #else
 		_reactivateQueuedSoundsImpl();

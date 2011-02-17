@@ -51,6 +51,7 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, cons
 	bool loop = false;
 	bool stream = false;
 	bool preBuffer = false;
+	bool immediate = false;
 	SceneManager* scnMgr = 0;
 
 	if (params != 0)
@@ -83,6 +84,13 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, cons
 			preBuffer = StringUtil::match(preBufferIterator->second,"true",false);
 		}
 
+		NameValuePairList::const_iterator immediateIterator = params->find("immediate");
+		if (immediateIterator != params->end())
+		{
+			// Get prebuffer flag
+			immediate = StringUtil::match(immediateIterator->second,"true",false);
+		}
+
 		NameValuePairList::const_iterator sManIterator = params->find("sceneManagerName");
 		if (sManIterator != params->end())
 		{
@@ -98,7 +106,7 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, cons
 				"OgreOggSoundFactory::createInstance");
 		}
 
-		return OgreOggSoundManager::getSingletonPtr()->_createSoundImpl(*scnMgr, name, fileName, stream, loop, preBuffer);
+		return OgreOggSoundManager::getSingletonPtr()->_createSoundImpl(*scnMgr, name, fileName, stream, loop, preBuffer, immediate);
 	}
 	else
 		return OgreOggSoundManager::getSingletonPtr()->_createListener();

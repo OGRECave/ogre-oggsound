@@ -153,13 +153,13 @@ namespace OgreOggSound
 
 		/** Plays sound.
 		 */
-		void play();
+		void play(bool immediate=false);
 		/** Pauses sound.
 		 */
-		void pause();
+		void pause(bool immediate=false);
 		/** Stops sound.
 		 */
-		void stop();
+		void stop(bool immediate=false);
 		/** Sets looping status.
 		@remarks
 			@param loop
