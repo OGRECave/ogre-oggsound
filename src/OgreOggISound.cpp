@@ -132,12 +132,13 @@ namespace OgreOggSound
 		mAudioStream.setNull();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::play()
+	void OgreOggISound::play(bool immediate)
 	{
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mSound = mName;
 		action.mAction = LQ_PLAY;
+		action.mImmediately = immediate;
 		action.mParams = 0;
 		OgreOggSoundManager::getSingletonPtr()->_requestSoundAction(action);
 #else
@@ -145,12 +146,13 @@ namespace OgreOggSound
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::stop()
+	void OgreOggISound::stop(bool immediate)
 	{
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mSound = mName;
 		action.mAction = LQ_STOP;
+		action.mImmediately = immediate;
 		action.mParams = 0;
 		OgreOggSoundManager::getSingletonPtr()->_requestSoundAction(action);
 #else
@@ -158,12 +160,13 @@ namespace OgreOggSound
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::pause()
+	void OgreOggISound::pause(bool immediate)
 	{
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mSound = mName;
 		action.mAction = LQ_PAUSE;
+		action.mImmediately = immediate;
 		action.mParams = 0;
 		OgreOggSoundManager::getSingletonPtr()->_requestSoundAction(action);
 #else
