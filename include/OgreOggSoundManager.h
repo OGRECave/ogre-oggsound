@@ -637,6 +637,12 @@ namespace OgreOggSound
 				Action to perform.
 		*/
 		void _requestSoundAction(const SoundAction& action);
+		/** Sets the mForceMutex flag for switching between non-blocking/blocking action calls.
+		@remarks
+			@param on
+				Flag indicating status of mForceMutex var.
+		*/
+		void setForceMutex(bool on) { mForceMutex=on; }
 #endif
  
 	private:
@@ -671,6 +677,22 @@ namespace OgreOggSound
 		static boost::thread* mUpdateThread;
 #endif
 		static bool mShuttingDown;
+
+		/** Flag indicating that a mutex should be used whenever an action is requested.
+		@remarks
+			In certain instances user may require that an action is performed inline,
+			rather then the default: queued and performed asynchronously. This global flag
+			will affect all subsequent asynchronous calls to execute immediately, with the
+			disadvantage that it will block the main thread. NOTE:- this doesn't affect
+			buffer updates, which will still be handled asynchronously.
+		*/
+		bool mForceMutex;			 
+									
+		/** Performs a requested action.
+		@param act
+			Action struct describing action to perform
+		 */
+		void _performAction(const SoundAction& act);
 
 		/** Threaded function for streaming updates
 		@remarks
