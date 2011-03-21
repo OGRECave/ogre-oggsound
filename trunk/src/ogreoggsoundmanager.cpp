@@ -372,6 +372,11 @@ namespace OgreOggSound
 
 		mSoundsToDestroy = new LocklessQueue<OgreOggISound*>(100);
 #if OGGSOUND_THREADED
+		if (queueListSize)
+		{
+			mActionsList = new LocklessQueue<SoundAction>(queueListSize);
+			mDelayedActionsList = new LocklessQueue<SoundAction>(500);
+		}
 #	ifdef POCO_THREAD
 		mUpdateThread = OGRE_NEW_T(Poco::Thread, Ogre::MEMCATEGORY_GENERAL)();
 		mUpdater = OGRE_NEW_T(Updater, Ogre::MEMCATEGORY_GENERAL)();
@@ -381,11 +386,6 @@ namespace OgreOggSound
 		mUpdateThread = OGRE_NEW_T(boost::thread, Ogre::MEMCATEGORY_GENERAL)(boost::function0<void>(&OgreOggSoundManager::threadUpdate, this));
 		Ogre::LogManager::getSingleton().logMessage("*** --- Using BOOST threads for streaming", Ogre::LML_NORMAL);
 #	endif	
-		if (queueListSize)
-		{
-			mActionsList = new LocklessQueue<SoundAction>(queueListSize);
-			mDelayedActionsList = new LocklessQueue<SoundAction>(500);
-		}
 #endif
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -2702,7 +2702,7 @@ namespace OgreOggSound
 			return;
 		}
 
-		if ( !mActionsList || !mDelayedActionsList ) return;
+		if ( !mActionsList && !mDelayedActionsList ) return;
 
 		// If there are queued actions waiting:
 		// add new action to the end of this list.
