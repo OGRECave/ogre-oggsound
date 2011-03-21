@@ -187,7 +187,9 @@ namespace OgreOggSound
 		virtual void setSource(ALuint& src) = 0;
 		/** Starts a fade in/out of the sound volume
 		@remarks
-			Triggers a fade in/out of the sounds volume over time.
+			Triggers a fade in/out of the sounds volume over time. 
+			Uses the current volume as the initial level to fade from, 
+			then either 0 or mMaxGain will be used as the fade to level.
 
 			@param dir 
 				Direction to fade. (true=in | false=out)

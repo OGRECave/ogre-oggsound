@@ -449,23 +449,27 @@ namespace OgreOggSound
 	float OgreOggISound::getVolume() const
 	{
 		float vol=0.f;
+
+		// Check if a source is available
 		if(mSource != AL_NONE)
 		{
 			alGetSourcef(mSource, AL_GAIN, &vol);		
+			return vol;
 		}
-
-		return vol;
+		// If not - return requested setting.
+		else
+			return mGain;
 	}
 
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::startFade(bool fDir, float fadeTime, FadeControl actionOnComplete)
 	{
-		mFade=true;
-	    mFadeInitVol=fDir? 0.f : getVolume();
-		mFadeEndVol=fDir?1.f:0.f;
-		mFadeTimer=0.f;
-		mFadeEndAction=actionOnComplete;
-		mFadeTime = fadeTime;
+		mFade			= true;
+	    mFadeInitVol	= getVolume();
+		mFadeEndVol		= fDir ? mMaxGain : 0.f;
+		mFadeTimer		= 0.f;
+		mFadeEndAction	= actionOnComplete;
+		mFadeTime		= fadeTime;
 		// Automatically start if not currently playing
 		if ( mFadeEndVol==1 )
 			if ( !isPlaying() )
