@@ -248,17 +248,34 @@ namespace OgreOggSound
 #endif
 		// Version Info
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-        alGetError();
+        ALenum error = 0;
+		alGetError();
 	    alcGetIntegerv(NULL, ALC_MINOR_VERSION, sizeof(minorVersion), &minorVersion);
-        if (alGetError())
+        if (error = alGetError())
 		{
+			switch (error)
+			{
+			case AL_INVALID_NAME:		{ LogManager::getSingleton().logMessage("Invalid Name when attempting: OpenAL Minor Version number", Ogre::LML_CRITICAL); }		break;
+			case AL_INVALID_ENUM:		{ LogManager::getSingleton().logMessage("Invalid Enum when attempting: OpenAL Minor Version number", Ogre::LML_CRITICAL); }		break;
+			case AL_INVALID_VALUE:		{ LogManager::getSingleton().logMessage("Invalid Value when attempting: OpenAL Minor Version number", Ogre::LML_CRITICAL);}		break;
+			case AL_INVALID_OPERATION:	{ LogManager::getSingleton().logMessage("Invalid Operation when attempting: OpenAL Minor Version number", Ogre::LML_CRITICAL); }break;
+			case AL_OUT_OF_MEMORY:		{ LogManager::getSingleton().logMessage("Out of memory when attempting: OpenAL Minor Version number", Ogre::LML_CRITICAL); }	break;
+			}
 			LogManager::getSingleton().logMessage("Unable to get OpenAL Minor Version number", Ogre::LML_CRITICAL);
 			return false;
 		}
 		alGetError();
 		alcGetIntegerv(NULL, ALC_MAJOR_VERSION, sizeof(majorVersion), &majorVersion);
-        if (alGetError())
+        if (error = alGetError())
 		{
+			switch (error)
+			{
+			case AL_INVALID_NAME:		{ LogManager::getSingleton().logMessage("Invalid Name when attempting: OpenAL Minor Version number", Ogre::LML_CRITICAL); }		break;
+			case AL_INVALID_ENUM:		{ LogManager::getSingleton().logMessage("Invalid Enum when attempting: OpenAL Minor Version number", Ogre::LML_CRITICAL); }		break;
+			case AL_INVALID_VALUE:		{ LogManager::getSingleton().logMessage("Invalid Value when attempting: OpenAL Minor Version number", Ogre::LML_CRITICAL);}		break;
+			case AL_INVALID_OPERATION:	{ LogManager::getSingleton().logMessage("Invalid Operation when attempting: OpenAL Minor Version number", Ogre::LML_CRITICAL); }break;
+			case AL_OUT_OF_MEMORY:		{ LogManager::getSingleton().logMessage("Out of memory when attempting: OpenAL Minor Version number", Ogre::LML_CRITICAL); }	break;
+			}
 			LogManager::getSingleton().logMessage("Unable to get OpenAL Major Version number", Ogre::LML_CRITICAL);
 			return false;
 		}

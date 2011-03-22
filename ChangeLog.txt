@@ -13,6 +13,9 @@
 			* stop()
 			* pause()
 
+	* Tweaked sound fading
+
+
 * version 1.19
 
 	* Added patch from torrque to add mingw support.
