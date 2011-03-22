@@ -251,7 +251,7 @@ namespace OgreOggSound
         ALenum error = 0;
 		alGetError();
 	    alcGetIntegerv(NULL, ALC_MINOR_VERSION, sizeof(minorVersion), &minorVersion);
-        if (error = alGetError())
+        if ((error = alGetError())!=AL_NO_ERROR)
 		{
 			switch (error)
 			{
@@ -266,7 +266,7 @@ namespace OgreOggSound
 		}
 		alGetError();
 		alcGetIntegerv(NULL, ALC_MAJOR_VERSION, sizeof(majorVersion), &majorVersion);
-        if (error = alGetError())
+        if ((error = alGetError())!=AL_NO_ERROR)
 		{
 			switch (error)
 			{
