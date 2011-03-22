@@ -471,7 +471,7 @@ namespace OgreOggSound
 		mFadeEndAction	= actionOnComplete;
 		mFadeTime		= fadeTime;
 		// Automatically start if not currently playing
-		if ( mFadeEndVol==1 )
+		if ( mFadeEndVol==mMaxGain )
 			if ( !isPlaying() )
 				this->play();
 	}
