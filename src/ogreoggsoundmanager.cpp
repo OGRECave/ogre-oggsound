@@ -79,6 +79,7 @@ namespace OgreOggSound
 		,mMaxSources(100)
 		,mResourceGroupName("")
 		,mGlobalPitch(1.f)
+		,mSoundsToDestroy(0)
 #if OGGSOUND_THREADED
 		,mActionsList(0)
 		,mDelayedActionsList(0)
