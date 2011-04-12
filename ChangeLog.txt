@@ -15,6 +15,9 @@
 
 	* Tweaked sound fading
 
+	* Finished off optional (execute command now) flag for MULTI-THREADED mode, allows user to specify per-sound immediate (blocking) execution of some common sound actions,
+		* Play / Stop / Pause / create
+
 
 * version 1.19
 
