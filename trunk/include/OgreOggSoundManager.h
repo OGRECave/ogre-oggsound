@@ -201,6 +201,9 @@ namespace OgreOggSound
 				Flag indicating if a source should be attached at creation.
 			@param scnMgr
 				Pointer to SceneManager this sound belongs - 0 defaults to first SceneManager defined.
+			@param immediately
+				Optional flag to indicate creation should occur immediately and not be passed to background thread
+				for queueing. Can be used to overcome the random creation time which might not be acceptable (MULTI-THREADED ONLY)
 		 */
 		OgreOggISound* createSound(const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false, Ogre::SceneManager* scnMgr=0, bool immediate=false);
 		/** Gets a named sound.

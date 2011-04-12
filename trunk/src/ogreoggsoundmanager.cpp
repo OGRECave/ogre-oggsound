@@ -2709,7 +2709,7 @@ namespace OgreOggSound
 	{
 		// If user has requested a mutex be used for every action,
 		// action is performed immediately and blocks main thread.
-		if ( mForceMutex )
+		if ( mForceMutex || action.mImmediately )
 		{
 #ifdef POCO_THREAD
 			Poco::Mutex::ScopedLock l(mMutex);
