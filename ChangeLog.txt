@@ -1,3 +1,13 @@
+* Version 1.21
+
+	* Tweaked sound fading
+
+	* Finished off optional (execute command now) flag for MULTI-THREADED mode, allows user to specify per-sound immediate (blocking) execution of some common sound actions,
+		* Play / Stop / Pause / create
+
+	* Bug fix - EOF flag wasn't being reset correctly stopping stream sounds being replayed after finished playing.
+
+
 * Version 1.2
 
 	* Licensed under the MIT licensing terms.
@@ -12,13 +22,6 @@
 			* play()
 			* stop()
 			* pause()
-
-	* Tweaked sound fading
-
-	* Finished off optional (execute command now) flag for MULTI-THREADED mode, allows user to specify per-sound immediate (blocking) execution of some common sound actions,
-		* Play / Stop / Pause / create
-
-	* Bug fix - EOF flag wasn't being reset correctly stopping stream sounds being replayed after finished playing.
 
 * version 1.19
 
