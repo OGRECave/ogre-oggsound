@@ -713,6 +713,7 @@ namespace OgreOggSound
 		// Set flag
 		mPlayPosChanged = false;
 		mLastOffset = mPlayPos;
+		mStreamEOF=false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_stopImpl()
@@ -728,6 +729,7 @@ namespace OgreOggSound
 			// Reset stream pointer
 			mAudioStream->seek(mAudioOffset);
 			mLastOffset=0;
+			mStreamEOF=false;
 
 			// Reload audio data
 			_prebuffer();
