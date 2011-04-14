@@ -463,6 +463,7 @@ namespace OgreOggSound
 		else if ( paused ) pause();
 
 		// Set flag
+		mStreamEOF=false;
 		mPlayPosChanged = false;
 		mLastOffset = mPlayPos;
 	}
@@ -560,6 +561,7 @@ namespace OgreOggSound
 			{
 				ov_time_seek(&mOggStream,0);
 				mLastOffset=0;
+				mStreamEOF=false;
 			}
 			// Non-seekable - close/reopen
 			else

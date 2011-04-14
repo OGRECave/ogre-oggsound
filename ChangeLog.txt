@@ -18,6 +18,7 @@
 	* Finished off optional (execute command now) flag for MULTI-THREADED mode, allows user to specify per-sound immediate (blocking) execution of some common sound actions,
 		* Play / Stop / Pause / create
 
+	* Bug fix - EOF flag wasn't being reset correctly stopping stream sounds being replayed after finished playing.
 
 * version 1.19
 
