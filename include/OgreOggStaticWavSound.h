@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStaticWavSound.h
 * @author  Ian Stangoe
-* @version 1.19
+* @version v1.21
 *
 * @section LICENSE
 * 
