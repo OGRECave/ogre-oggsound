@@ -7,6 +7,8 @@
 
 	* Bug fix - EOF flag wasn't being reset correctly stopping stream sounds being replayed after finished playing.
 
+	* Added openal path for EFX-Util lib on windows
+
 
 * Version 1.2
 
