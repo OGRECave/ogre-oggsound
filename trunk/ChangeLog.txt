@@ -1,3 +1,9 @@
+* Version 1.22
+	
+	* Added support for OGRE 1.8 (singleton rename)
+
+	* Fixed crash when unloading/reloading OgreOggSound plugin
+
 * Version 1.21
 
 	* Tweaked sound fading
