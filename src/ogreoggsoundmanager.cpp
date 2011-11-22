@@ -47,13 +47,17 @@
 	bool OgreOggSound::OgreOggSoundManager::mShuttingDown = false;
 #endif
 
-template<> OgreOggSound::OgreOggSoundManager* Ogre::Singleton<OgreOggSound::OgreOggSoundManager>::ms_Singleton = 0;
+#if OGRE_VERSION_MAJOR == 1 && OGRE_VERSION_MINOR <= 7    
+	template<> OgreOggSound::OgreOggSoundManager* Ogre::Singleton<OgreOggSound::OgreOggSoundManager>::ms_Singleton = 0;
+#else
+	template<> OgreOggSound::OgreOggSoundManager* Ogre::Singleton<OgreOggSound::OgreOggSoundManager>::msSingleton = 0;
+#endif
 
 namespace OgreOggSound
 {
 	using namespace Ogre;
 
-	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.21";
+	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.22";
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::OgreOggSoundManager() :
@@ -193,7 +197,6 @@ namespace OgreOggSound
 			mDelayedActionsList=0;
 		}
 #endif
-
 		if ( mSoundsToDestroy )
 		{
 			delete mSoundsToDestroy;
@@ -210,18 +213,35 @@ namespace OgreOggSound
 		alcCloseDevice(mDevice);
 		mDevice=0;
 
-		_destroyListener();
+		if ( mListener )
+		{
+			Ogre::SceneManager* s = mListener->getSceneManager();
+			s->destroyAllMovableObjectsByType("OgreOggISound");
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager* OgreOggSoundManager::getSingletonPtr(void)
 	{
+#if OGRE_VERSION_MAJOR == 1 && OGRE_VERSION_MINOR <= 7    
 		return ms_Singleton;
+#else
+		return msSingleton;
+#endif	
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager& OgreOggSoundManager::getSingleton(void)
 	{
-		if ( !ms_Singleton ) OGRE_EXCEPT( Ogre::Exception::ERR_ITEM_NOT_FOUND, "'OgreOggSound[_d]' plugin NOT loaded! - use loadPlugin()", "OgreOggSoundManager::getSingleton()");  
+#if OGRE_VERSION_MAJOR == 1 && OGRE_VERSION_MINOR <= 7    
+		if ( !ms_Singleton ) 
+#else
+		if ( !msSingleton )
+#endif
+			OGRE_EXCEPT( Ogre::Exception::ERR_ITEM_NOT_FOUND, "'OgreOggSound[_d]' plugin NOT loaded! - use loadPlugin()", "OgreOggSoundManager::getSingleton()");  
+#if OGRE_VERSION_MAJOR == 1 && OGRE_VERSION_MINOR <= 7    
 		return ( *ms_Singleton );
+#else
+		return ( *msSingleton );
+#endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::init(	const std::string &deviceName, 

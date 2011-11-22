@@ -50,8 +50,8 @@ extern "C" void _OGGSOUND_EXPORT dllStartPlugin( void )
 
 	// Register
 	Root::getSingleton().installPlugin(mOgreOggSoundPlugin);
-
 }
+
 extern "C" void _OGGSOUND_EXPORT dllStopPlugin( void )
 {
 	Root::getSingleton().uninstallPlugin(mOgreOggSoundPlugin);
