@@ -713,15 +713,7 @@ namespace OgreOggSound
 		{
 			while(!mShuttingDown)
 			{	
-				{
-#ifdef POCO_THREAD
-					Poco::Mutex::ScopedLock l(OgreOggSoundManager::getSingletonPtr()->mMutex);
-#else
-					boost::recursive_mutex::scoped_lock lock(OgreOggSoundManager::getSingletonPtr()->mMutex);
-#endif
-					OgreOggSoundManager::getSingletonPtr()->_updateBuffers();
-					OgreOggSoundManager::getSingletonPtr()->_processQueuedSounds();
-				}
+				OgreOggSoundManager::getSingletonPtr()->_updateBuffers();
 #ifdef POCO_THREAD
 				Poco::Thread::sleep(10);
 #else
