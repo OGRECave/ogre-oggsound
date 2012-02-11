@@ -67,7 +67,7 @@
 				AdditionalDependencies="efx-util.lib OpenAL32.lib vorbis_static_d.lib vorbisfile_static_d.lib ogg_static_d.lib OgreMain_d.lib "
 				OutputFile="$(OutDir)\$(ProjectName)_d.dll"
 				Version="1.21"
-				AdditionalLibraryDirectories="./dependencies;&quot;$(OPENAL_SDK)\libs\Win32&quot;;&quot;$(OGRE)\lib\$(ConfigurationName)\&quot;;&quot;$(BOOST_ROOT)/lib&quot;"
+				AdditionalLibraryDirectories="./dependencies;&quot;$(OPENAL_SDK)\libs\win32\EFX-UTIL_MT&quot;;&quot;$(OPENAL_SDK)\libs\Win32&quot;;&quot;$(OGRE)\lib\$(ConfigurationName)\&quot;;&quot;$(BOOST_ROOT)/lib&quot;"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 				GenerateDebugInformation="true"
 				RandomizedBaseAddress="1"
@@ -95,7 +95,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="copy &quot;$(OutDir)\$(TargetFileName)&quot; &quot;$(SolutionDir)TestDemo\Debug\$(TargetFileName)&quot;"
-				ExcludedFromBuild="true"
+				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 		<Configuration
@@ -186,7 +186,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="copy &quot;$(OutDir)\$(TargetFileName)&quot; &quot;$(SolutionDir)TestDemo\Release\$(TargetFileName)&quot;"
-				ExcludedFromBuild="true"
+				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 		<Configuration

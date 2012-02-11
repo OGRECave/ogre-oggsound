@@ -945,6 +945,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_requestSoundSource(OgreOggISound* sound)
 	{
+		boost::recursive_mutex::scoped_lock l(mMutex);
+
 		// Does sound need a source?
 		if (!sound) return false;
 
@@ -1046,6 +1048,9 @@ namespace OgreOggSound
 
 			// Sort list by distance
 			mActiveSounds.sort(_sortFarToNear());
+			Ogre::LogManager::getSingleton().logMessage("*** _sortFarToNear() ***", Ogre::LML_CRITICAL);
+			for ( OgreOggSound::ActiveList::iterator it=mActiveSounds.begin(); it!=mActiveSounds.end(); ++it )
+				Ogre::LogManager::getSingleton().logMessage(Ogre::StringConverter::toString((*it)->isMono()), Ogre::LML_CRITICAL);
 
 			// Lists should be sorted:	Active-->furthest to Nearest
 			//							Reactivate-->Nearest to furthest
@@ -2230,7 +2235,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		Poco::Mutex::ScopedLock l(mMutex);
 #	else
-		boost::recursive_mutex::scoped_lock lock(mMutex);
+		boost::recursive_mutex::scoped_lock l(mMutex);
 #	endif
 #endif
 		// Delete sound buffer
@@ -2268,7 +2273,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		Poco::Mutex::ScopedLock l(mMutex);
 #else
-		boost::recursive_mutex::scoped_lock lock(mMutex);
+		boost::recursive_mutex::scoped_lock l(mMutex);
 #	endif
 #endif
 
@@ -2467,6 +2472,9 @@ namespace OgreOggSound
 
 		// Sort list by distance
 		mActiveSounds.sort(_sortNearToFar());
+		Ogre::LogManager::getSingleton().logMessage("*** _sortNearToFar() ***", Ogre::LML_CRITICAL);
+		for ( OgreOggSound::ActiveList::iterator it=mActiveSounds.begin(); it!=mActiveSounds.end(); ++it )
+			Ogre::LogManager::getSingleton().logMessage(Ogre::StringConverter::toString((*it)->isMono()), Ogre::LML_CRITICAL);
 
 		// Get sound object from front of list
 		OgreOggISound* snd = mSoundsToReactivate.front();
@@ -2573,6 +2581,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_updateBuffers()
 	{
+		boost::recursive_mutex::scoped_lock l(mMutex);
+
 		static Ogre::uint32 cTime=0;
 		static Ogre::uint32 pTime=0;
 		static Ogre::Timer timer;
@@ -2609,6 +2619,10 @@ namespace OgreOggSound
 			_reactivateQueuedSoundsImpl();
 			rTime=0.f;
 		}
+
+
+		// Handle actions
+		_processQueuedSounds();
 
 		// Reset timer
 		pTime=cTime;
@@ -2734,7 +2748,7 @@ namespace OgreOggSound
 #ifdef POCO_THREAD
 			Poco::Mutex::ScopedLock l(mMutex);
 #else
-			boost::recursive_mutex::scoped_lock lock(mMutex);
+			boost::recursive_mutex::scoped_lock l(mMutex);
 #endif
 			_performAction(action);
 			return;

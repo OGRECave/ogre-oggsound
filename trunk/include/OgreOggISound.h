@@ -205,6 +205,9 @@ namespace OgreOggSound
 		/** Returns whether this sound is mono
 		 */
 		virtual bool isMono()=0;  
+		/** Returns whether this sounds position is fixed (as heard by the listener)
+		 */
+		bool isRelative();  
 		/** Marks sound as temporary
 		@remarks
 			Auto-destroys itself after finishing playing.
