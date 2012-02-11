@@ -174,15 +174,6 @@ namespace OgreOggSound
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggISound::isRelative()
-	{
-		if ( !mSource ) return false;
-
-		ALint rel=0;
-		alGetSourcei(mSource, AL_SOURCE_RELATIVE, &rel);
-		return (rel!=0);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::disable3D(bool disable)
 	{
 		// Set flag
