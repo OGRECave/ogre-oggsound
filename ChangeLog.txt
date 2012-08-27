@@ -1,3 +1,7 @@
+* version 1.23
+
+	* Fixed ambiguous mName member variable in OgreOggISound  
+
 * Version 1.22
 	
 	* Added support for OGRE 1.8 (singleton rename)
