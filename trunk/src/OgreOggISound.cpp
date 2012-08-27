@@ -1,7 +1,7 @@
 /**
 * @file OgreOggISound.cpp
 * @author  Ian Stangoe
-* @version v1.21
+* @version v1.23
 *
 * @section LICENSE
 * 
@@ -78,7 +78,7 @@ namespace OgreOggSound
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound::OgreOggISound(const Ogre::String& name, const Ogre::SceneManager& scnMgr) : 
-	 mName(name)
+	 MovableObject(name)
 	,mSource(0) 
 	,mLoop(false) 
 	,mPlay(false) 

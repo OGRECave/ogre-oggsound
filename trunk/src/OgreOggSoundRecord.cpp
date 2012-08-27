@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundRecord.cpp
 * @author  Ian Stangoe
-* @version v1.21
+* @version v1.23
 *
 * @section LICENSE
 * 
