@@ -897,6 +897,8 @@ namespace OgreOggSound
 					d2=0.f;
 			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
 
+			if ( !sound1->isMono() ) return false;
+
 			if ( sound1->isRelativeToListener() )
 				d1 = sound1->getPosition().length();
 			else
@@ -924,6 +926,8 @@ namespace OgreOggSound
 					d2=0.f;
 			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
 
+			if ( !sound1->isMono() ) return false;
+
 			if ( sound1->isRelativeToListener() )
 				d1 = sound1->getPosition().length();
 			else
@@ -945,8 +949,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_requestSoundSource(OgreOggISound* sound)
 	{
-		boost::recursive_mutex::scoped_lock l(mMutex);
-
 		// Does sound need a source?
 		if (!sound) return false;
 
@@ -1048,26 +1050,35 @@ namespace OgreOggSound
 
 			// Sort list by distance
 			mActiveSounds.sort(_sortFarToNear());
-			Ogre::LogManager::getSingleton().logMessage("*** _sortFarToNear() ***", Ogre::LML_CRITICAL);
-			for ( OgreOggSound::ActiveList::iterator it=mActiveSounds.begin(); it!=mActiveSounds.end(); ++it )
-				Ogre::LogManager::getSingleton().logMessage(Ogre::StringConverter::toString((*it)->isMono()), Ogre::LML_CRITICAL);
 
 			// Lists should be sorted:	Active-->furthest to Nearest
 			//							Reactivate-->Nearest to furthest
 			OgreOggISound* snd1 = mActiveSounds.front();
+			bool needsSwapping = false;
 
-			if ( snd1->isRelativeToListener() )
-				d1 = snd1->getPosition().length();
+			// Non-positional sounds override positional
+			if ( snd1->isMono() && !sound->isMono() )
+			{
+				needsSwapping = true;
+			}
+			// Else test distance
 			else
-				d1 = snd1->getPosition().distance(mListener->getPosition());
+			{
+				if ( snd1->isRelativeToListener() )
+					d1 = snd1->getPosition().length();
+				else
+					d1 = snd1->getPosition().distance(mListener->getPosition());
 
-			if ( sound->isRelativeToListener() )
-				d1 = sound->getPosition().length();
-			else
-				d1 = sound->getPosition().distance(mListener->getPosition());
+				if ( sound->isRelativeToListener() )
+					d2 = sound->getPosition().length();
+				else
+					d2 = sound->getPosition().distance(mListener->getPosition());
+
+				if ( d1>d2 ) needsSwapping = true;
+			}
 
 			// Needs swapping?
-			if ( d1>d2 )
+			if ( needsSwapping )
 			{
 				ALuint src = snd1->getSource();
 				ALuint nullSrc = AL_NONE;
@@ -1142,7 +1153,7 @@ namespace OgreOggSound
 
 		return false;
 	}
-	
+
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 
 	/*/////////////////////////////////////////////////////////////////*/
