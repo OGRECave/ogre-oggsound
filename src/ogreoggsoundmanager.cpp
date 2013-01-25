@@ -8,7 +8,7 @@
 * This source file is part of OgreOggSound, an OpenAL wrapper library for
 * use with the Ogre Rendering Engine.
 *
-* Copyright (c) 2011 <Ian Stangoe>
+* Copyright (c) 2013 <Ian Stangoe>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -57,7 +57,7 @@ namespace OgreOggSound
 {
 	using namespace Ogre;
 
-	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.23";
+	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.22";
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::OgreOggSoundManager() :
@@ -84,9 +84,12 @@ namespace OgreOggSound
 		,mResourceGroupName("")
 		,mGlobalPitch(1.f)
 		,mSoundsToDestroy(0)
+		,mFadeVolume(false)
+		,mFadeIn(false)
+		,mFadeTime(0.f)
+		,mFadeTimer(0.f)
 #if OGGSOUND_THREADED
 		,mActionsList(0)
-		,mDelayedActionsList(0)
 		,mForceMutex(false)
 #endif
 		{
@@ -172,29 +175,6 @@ namespace OgreOggSound
 			}
 			delete mActionsList;
 			mActionsList=0;
-		}
-		if ( mDelayedActionsList )
-		{
-			if ( !mDelayedActionsList->empty() )
-			{
-				SoundAction obj;
-				// Clear out action list
-				while (mDelayedActionsList->pop(obj))
-				{
-					// If parameters specified delete structure
-					if (obj.mParams)
-					{
-						if ( obj.mAction==LQ_LOAD )
-						{
-							cSound* params = static_cast<cSound*>(obj.mParams);
-							params->mStream.setNull();
-						}
-						OGRE_FREE(obj.mParams, Ogre::MEMCATEGORY_GENERAL);
-					}
-				}
-			}
-			delete mDelayedActionsList;
-			mDelayedActionsList=0;
 		}
 #endif
 		if ( mSoundsToDestroy )
@@ -413,7 +393,6 @@ namespace OgreOggSound
 		if (queueListSize)
 		{
 			mActionsList = new LocklessQueue<SoundAction>(queueListSize);
-			mDelayedActionsList = new LocklessQueue<SoundAction>(500);
 		}
 #	ifdef POCO_THREAD
 		mUpdateThread = OGRE_NEW_T(Poco::Thread, Ogre::MEMCATEGORY_GENERAL)();
@@ -789,6 +768,13 @@ namespace OgreOggSound
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::fadeMasterVolume(float time, bool fadeIn)
+	{
+		mFadeVolume = true;
+		mFadeTime = time;
+		mFadeIn = fadeIn;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::resumeAllPausedSounds()
 	{
 #if OGGSOUND_THREADED
@@ -877,6 +863,28 @@ namespace OgreOggSound
 		}
 
 #endif
+		// Fade volume
+		if ( mFadeVolume )
+		{
+			mFadeTimer+=fTime;
+
+			if ( mFadeTimer > mFadeTime )
+			{
+				mFadeVolume = false;
+				setMasterVolume(mFadeIn ? 1.f : 0.f);
+			}
+			else
+			{
+				ALfloat vol = 1.f;
+				if ( mFadeIn )
+					vol = (mFadeTimer/mFadeTime);
+				else
+					vol = 1.f - (mFadeTimer/mFadeTime);
+
+				setMasterVolume(vol);
+			}
+		}
+
 		// Destroy sounds
 		if ( mSoundsToDestroy )
 		{
@@ -910,6 +918,7 @@ namespace OgreOggSound
 				d2 = sound2->getPosition().distance(lPos);
 
 			// Check sort order
+			if ( !sound1->isMono() && sound2->isMono() ) return false;
 			if ( d1<d2 )	return true;
 			if ( d1>d2 )	return false;
 
@@ -939,6 +948,7 @@ namespace OgreOggSound
 				d2 = sound2->getPosition().distance(lPos);
 
 			// Check sort order
+			if ( !sound1->isMono() && sound2->isMono() ) return true;
 			if ( d1>d2 )	return true;
 			if ( d1<d2 )	return false;
 
@@ -1054,31 +1064,19 @@ namespace OgreOggSound
 			// Lists should be sorted:	Active-->furthest to Nearest
 			//							Reactivate-->Nearest to furthest
 			OgreOggISound* snd1 = mActiveSounds.front();
-			bool needsSwapping = false;
 
-			// Non-positional sounds override positional
-			if ( snd1->isMono() && !sound->isMono() )
-			{
-				needsSwapping = true;
-			}
-			// Else test distance
+			if ( snd1->isRelativeToListener() )
+				d1 = snd1->getPosition().length();
 			else
-			{
-				if ( snd1->isRelativeToListener() )
-					d1 = snd1->getPosition().length();
-				else
-					d1 = snd1->getPosition().distance(mListener->getPosition());
+				d1 = snd1->getPosition().distance(mListener->getPosition());
 
-				if ( sound->isRelativeToListener() )
-					d2 = sound->getPosition().length();
-				else
-					d2 = sound->getPosition().distance(mListener->getPosition());
-
-				if ( d1>d2 ) needsSwapping = true;
-			}
+			if ( sound->isRelativeToListener() )
+				d1 = sound->getPosition().length();
+			else
+				d1 = sound->getPosition().distance(mListener->getPosition());
 
 			// Needs swapping?
-			if ( needsSwapping )
+			if ( d1>d2 )
 			{
 				ALuint src = snd1->getSource();
 				ALuint nullSrc = AL_NONE;
@@ -1153,7 +1151,7 @@ namespace OgreOggSound
 
 		return false;
 	}
-
+	
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -2246,7 +2244,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		Poco::Mutex::ScopedLock l(mMutex);
 #	else
-		boost::recursive_mutex::scoped_lock l(mMutex);
+		boost::recursive_mutex::scoped_lock lock(mMutex);
 #	endif
 #endif
 		// Delete sound buffer
@@ -2284,7 +2282,7 @@ namespace OgreOggSound
 #	ifdef POCO_THREAD
 		Poco::Mutex::ScopedLock l(mMutex);
 #else
-		boost::recursive_mutex::scoped_lock l(mMutex);
+		boost::recursive_mutex::scoped_lock lock(mMutex);
 #	endif
 #endif
 
@@ -2483,9 +2481,6 @@ namespace OgreOggSound
 
 		// Sort list by distance
 		mActiveSounds.sort(_sortNearToFar());
-		Ogre::LogManager::getSingleton().logMessage("*** _sortNearToFar() ***", Ogre::LML_CRITICAL);
-		for ( OgreOggSound::ActiveList::iterator it=mActiveSounds.begin(); it!=mActiveSounds.end(); ++it )
-			Ogre::LogManager::getSingleton().logMessage(Ogre::StringConverter::toString((*it)->isMono()), Ogre::LML_CRITICAL);
 
 		// Get sound object from front of list
 		OgreOggISound* snd = mSoundsToReactivate.front();
@@ -2592,8 +2587,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_updateBuffers()
 	{
-		boost::recursive_mutex::scoped_lock l(mMutex);
-
 		static Ogre::uint32 cTime=0;
 		static Ogre::uint32 pTime=0;
 		static Ogre::Timer timer;
@@ -2630,10 +2623,6 @@ namespace OgreOggSound
 			_reactivateQueuedSoundsImpl();
 			rTime=0.f;
 		}
-
-
-		// Handle actions
-		_processQueuedSounds();
 
 		// Reset timer
 		pTime=cTime;
@@ -2759,53 +2748,28 @@ namespace OgreOggSound
 #ifdef POCO_THREAD
 			Poco::Mutex::ScopedLock l(mMutex);
 #else
-			boost::recursive_mutex::scoped_lock l(mMutex);
+			boost::recursive_mutex::scoped_lock lock(mMutex);
 #endif
 			_performAction(action);
 			return;
 		}
 
-		if ( !mActionsList && !mDelayedActionsList ) return;
+		if ( !mActionsList ) return;
 
-		// If there are queued actions waiting:
-		// add new action to the end of this list.
-		// Preserves linear sequencing
-		if ( !mDelayedActionsList->empty() )
-		{
-			mDelayedActionsList->push(action);
-		}
-		// Attempt to push onto main actions list
-		else
-		{
-			// If that fails add to delayed actions list
-			if ( !mActionsList->push(action) )
-				mDelayedActionsList->push(action);
-		}
+		mActionsList->push(action);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_processQueuedSounds()
 	{
-		if ( !mActionsList && !mDelayedActionsList ) return;
+		if ( !mActionsList ) return;
 
 		SoundAction act;
 		int i=0;
 
 		// Perform sound requests 
-		// Maximum 5 requests per frame
-		while ( ((i++)<5) && mActionsList->pop(act) )
+		while ( mActionsList->pop(act) )
 		{
 			_performAction(act);
-		}
-
-		// If main list is empty and there are queued requests
-		// Start clearing them out...
-		if ( i<5 )
-		{
-			// Maximum 5 requests per frame
-			while ( ((i++)<5) && mDelayedActionsList->pop(act) )
-			{
-				_performAction(act);
-			}
 		}
 	}
 #endif
