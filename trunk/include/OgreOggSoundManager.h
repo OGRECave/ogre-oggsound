@@ -8,7 +8,7 @@
 * This source file is part of OgreOggSound, an OpenAL wrapper library for   
 * use with the Ogre Rendering Engine.										 
 *                                                                           
-* Copyright (c) 2011 <Ian Stangoe>
+* Copyright (c) 2013 <Ian Stangoe>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -165,7 +165,7 @@ namespace OgreOggSound
 			@param queueListSize
 				Desired size of queue list (optional | Multi-threaded ONLY)
 		 */
-		bool init(const std::string &deviceName = "", unsigned int maxSources=100, unsigned int queueListSize=64, Ogre::SceneManager* sMan=0);
+		bool init(const std::string &deviceName = "", unsigned int maxSources=100, unsigned int queueListSize=100, Ogre::SceneManager* sMan=0);
 		/** Sets the global volume for all sounds
 			@param vol 
 				global attenuation for all sounds.
@@ -350,6 +350,11 @@ namespace OgreOggSound
 				Speed (m/s).
 		 */
 		void setSpeedOfSound(float speed=363.f);
+		/** Fades master volume in/out
+		@remarks
+			Allows fading of in/out of alls sounds
+		 */
+		void fadeMasterVolume(float time, bool fadeIn);
 		/** Gets a list of device strings
 		@remarks
 			Creates a list of available audio device strings
@@ -666,7 +671,6 @@ namespace OgreOggSound
 		void _updateBuffers();
 
 		LocklessQueue<SoundAction>* mActionsList;
-		LocklessQueue<SoundAction>* mDelayedActionsList;
 
 #ifdef POCO_THREAD
 		static Poco::Thread* mUpdateThread;
@@ -713,7 +717,15 @@ namespace OgreOggSound
 		{
 			while(!mShuttingDown)
 			{	
-				OgreOggSoundManager::getSingletonPtr()->_updateBuffers();
+				{
+#ifdef POCO_THREAD
+					Poco::Mutex::ScopedLock l(OgreOggSoundManager::getSingletonPtr()->mMutex);
+#else
+					boost::recursive_mutex::scoped_lock lock(OgreOggSoundManager::getSingletonPtr()->mMutex);
+#endif
+					OgreOggSoundManager::getSingletonPtr()->_updateBuffers();
+					OgreOggSoundManager::getSingletonPtr()->_processQueuedSounds();
+				}
 #ifdef POCO_THREAD
 				Poco::Thread::sleep(10);
 #else
@@ -903,6 +915,13 @@ namespace OgreOggSound
 		SourceList mSourcePool;					// List of available sources
 		FeatureList mEFXSupportList;			// List of supported EFX effects by OpenAL ID
 		SharedBufferList mSharedBuffers;		// List of shared static buffers
+
+		/** Fading vars
+		*/																  
+		Ogre::Real mFadeTime;					// Time over which to fade
+		Ogre::Real mFadeTimer;					// Timer for fade
+		bool mFadeIn;							// Direction fade in/out
+		bool mFadeVolume;						// Flag for fading
 
 		ALCchar* mDeviceStrings;				// List of available devices strings
 		unsigned int mNumSources;				// Number of sources available for sounds

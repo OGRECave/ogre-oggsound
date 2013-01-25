@@ -8,7 +8,7 @@
 * This source file is part of OgreOggSound, an OpenAL wrapper library for   
 * use with the Ogre Rendering Engine.										 
 *                                                                           
-* Copyright (c) 2011 <Ian Stangoe>
+* Copyright (c) 2013 <Ian Stangoe>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -423,6 +423,9 @@ namespace OgreOggSound
 		/** Gets the sounds source
 		 */
 		ALuint getSource() const { return mSource; }
+		/** Gets the sounds name
+		 */
+		const Ogre::String& getName( void ) const { return mName; }
 		/** Gets the sounds priority
 		 */
 		Ogre::uint8 getPriority() const { return mPriority; }
@@ -636,6 +639,7 @@ namespace OgreOggSound
 		float mInnerConeAngle;		// Inner cone angle
 		float mOuterConeAngle;		// outer cone angle
 		float mPlayTime;			// Time in seconds of sound file
+		Ogre::String mName;				// Sound name
 		bool mLoop;						// Loop status
 		bool mPlay;						// Play status
 		bool mDisable3D;				// 3D status

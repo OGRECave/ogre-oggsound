@@ -1,7 +1,12 @@
 * version 1.23
 
 	* Fixed ambiguous mName member variable in OgreOggISound 
+	
 	* Fixed bug detailed here: http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=29607
+		* Non-playing sounds
+	
+	* Fixed bug detailed here: http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=29797
+		* Potential crash
 
 * Version 1.22
 	

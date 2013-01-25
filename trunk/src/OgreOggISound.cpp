@@ -8,7 +8,7 @@
 * This source file is part of OgreOggSound, an OpenAL wrapper library for   
 * use with the Ogre Rendering Engine.										 
 *                                                                           
-* Copyright (c) 2011 <Ian Stangoe>
+* Copyright (c) 2013 <Ian Stangoe>
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -78,7 +78,7 @@ namespace OgreOggSound
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound::OgreOggISound(const Ogre::String& name, const Ogre::SceneManager& scnMgr) : 
-	 MovableObject(name)
+	 mName(name)
 	,mSource(0) 
 	,mLoop(false) 
 	,mPlay(false) 
