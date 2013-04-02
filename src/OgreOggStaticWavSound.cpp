@@ -390,11 +390,15 @@ namespace OgreOggSound
 		}
 		else
 		{
-			// Need to stop sound BEFORE unqueuing
-			alSourceStop(mSource);
+			// Validity check
+			if ( mSource!=AL_NONE )
+			{
+				// Need to stop sound BEFORE unqueuing
+				alSourceStop(mSource);
 
-			// Unqueue buffer
-			alSourcei(mSource, AL_BUFFER, 0);
+				// Unqueue buffer
+				alSourcei(mSource, AL_BUFFER, 0);
+			}
 
 			// Attach new source
 			mSource=src;

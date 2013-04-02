@@ -129,7 +129,6 @@ namespace OgreOggSound
 		// Notify listener
 		if (mSoundListener) mSoundListener->soundLoaded(this);
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_openImpl(const Ogre::String& fName, ALuint& buffer)
 	{
@@ -142,7 +141,6 @@ namespace OgreOggSound
 		// Notify listener
 		if (mSoundListener) mSoundListener->soundLoaded(this);
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_release()
 	{
@@ -161,7 +159,6 @@ namespace OgreOggSound
 		// Queue buffer
 		alSourcei(mSource, AL_BUFFER, mBuffer);
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStaticSound::isMono()
 	{
@@ -169,7 +166,6 @@ namespace OgreOggSound
 
 		return ( (mFormat==AL_FORMAT_MONO16) || (mFormat==AL_FORMAT_MONO8) );
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStaticSound::_queryBufferInfo()
 	{
@@ -268,11 +264,15 @@ namespace OgreOggSound
 		}
 		else
 		{
-			// Need to stop sound BEFORE unqueuing
-			alSourceStop(mSource);
+			// Validity check
+			if ( mSource!=AL_NONE )
+			{
+				// Need to stop sound BEFORE unqueuing
+				alSourceStop(mSource);
 
-			// Unqueue buffer
-			alSourcei(mSource, AL_BUFFER, 0);
+				// Unqueue buffer
+				alSourcei(mSource, AL_BUFFER, 0);
+			}
 
 			// Attach new source
 			mSource=src;
