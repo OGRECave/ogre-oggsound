@@ -1,7 +1,7 @@
 /**
 * @file OgreOggISound.h
 * @author  Ian Stangoe
-* @version 1.2
+* @version 1.23
 *
 * @section LICENSE
 * 
