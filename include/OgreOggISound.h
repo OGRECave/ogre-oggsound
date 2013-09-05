@@ -54,7 +54,7 @@ namespace OgreOggSound
 	typedef struct
 	{
 		char chunkID[4];            // 'data' or 'fact'
-		long int length;
+		long length;
 	} ChunkHeader;
   
 	//! WAVEFORMATEX header information
@@ -63,16 +63,16 @@ namespace OgreOggSound
 	typedef struct
 	{
 		char mRIFF[4];						// 'RIFF'
-		unsigned long int mLength;
+		unsigned long mLength;
 		char mWAVE[4];						// 'WAVE'
 		char mFMT[4];						// 'fmt '
-		unsigned long int mHeaderSize;		// varies...
-		unsigned short int mFormatTag;
-		unsigned short int mChannels;		// 1,2 for stereo data is (l,r) pairs
-		unsigned long int mSamplesPerSec;
-		unsigned long int mAvgBytesPerSec;
-		unsigned short int mBlockAlign;      
-		unsigned short int mBitsPerSample;
+		unsigned long mHeaderSize;			// varies...
+		unsigned short mFormatTag;
+		unsigned short mChannels;			// 1,2 for stereo data is (l,r) pairs
+		unsigned long mSamplesPerSec;
+		unsigned long mAvgBytesPerSec;
+		unsigned short mBlockAlign;      
+		unsigned short mBitsPerSample;
 	} WaveHeader;
 
 	//! WAVEFORMATEXTENSIBLE sound information
