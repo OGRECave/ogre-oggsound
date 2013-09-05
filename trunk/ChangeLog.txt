@@ -11,6 +11,8 @@
 	* Fixed bug detailed here: http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=29880
 		* Potential double destroy on source (Only affects static ogg/wav sounds, streamed versions are fine)
 
+	* Fixed 64-bit WAVE bug detailed here: http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=30027
+
 * Version 1.22
 	
 	* Added support for OGRE 1.8 (singleton rename)
