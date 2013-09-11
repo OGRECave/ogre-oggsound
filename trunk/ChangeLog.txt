@@ -1,3 +1,9 @@
+* version 1.24
+
+	* Changed some types for 64-bit compatibility
+	
+	* Updated oggvorbis to 1.3.3
+
 * version 1.23
 
 	* Fixed ambiguous mName member variable in OgreOggISound 

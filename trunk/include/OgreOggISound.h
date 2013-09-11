@@ -54,7 +54,7 @@ namespace OgreOggSound
 	typedef struct
 	{
 		char chunkID[4];            // 'data' or 'fact'
-		long length;
+		int length;
 	} ChunkHeader;
   
 	//! WAVEFORMATEX header information
@@ -63,14 +63,14 @@ namespace OgreOggSound
 	typedef struct
 	{
 		char mRIFF[4];						// 'RIFF'
-		unsigned long mLength;
+		unsigned int mLength;
 		char mWAVE[4];						// 'WAVE'
 		char mFMT[4];						// 'fmt '
-		unsigned long mHeaderSize;			// varies...
+		unsigned int mHeaderSize;			// varies...
 		unsigned short mFormatTag;
 		unsigned short mChannels;			// 1,2 for stereo data is (l,r) pairs
-		unsigned long mSamplesPerSec;
-		unsigned long mAvgBytesPerSec;
+		unsigned int mSamplesPerSec;
+		unsigned int mAvgBytesPerSec;
 		unsigned short mBlockAlign;      
 		unsigned short mBitsPerSample;
 	} WaveHeader;
@@ -82,7 +82,7 @@ namespace OgreOggSound
 	{
 		WaveHeader*		mFormat;
 		unsigned short	mSamples;
-		unsigned long	mChannelMask;
+		unsigned int	mChannelMask;
 		char			mSubFormat[16];	
 	} WavFormatData;
 
@@ -654,8 +654,8 @@ namespace OgreOggSound
 		Ogre::uint8 mAwaitingDestruction; // Imminent destruction flag
 
 
-		unsigned long mAudioOffset;		// offset to audio data
-		unsigned long mAudioEnd;		// offset to end of audio data
+		unsigned int mAudioOffset;		// offset to audio data
+		unsigned int mAudioEnd;		// offset to end of audio data
 		float mLoopOffset;			// offset to start of loop point
 
 		float mLoopStart;			// offset in seconds to start of loopable audio data

@@ -65,9 +65,9 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>efx-util.lib;OpenAL32.lib;vorbis_static_d.lib;vorbisfile_static_d.lib;ogg_static_d.lib;OgreMain_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>efx-util.lib;OpenAL32.lib;libvorbis_static_d.lib;libvorbisfile_static_d.lib;libogg_static_d.lib;OgreMain_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <Version>1.23</Version>
+      <Version>1.24</Version>
       <AdditionalLibraryDirectories>./dependencies;$(OPENAL_SDK)\libs\win32\EFX-UTIL_MT;$(OPENAL_SDK)\libs\Win32;$(OGRE)\lib\$(Configuration)\;$(BOOST_ROOT)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -102,8 +102,8 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>efx-util.lib;OpenAL32.lib;vorbis_static.lib;vorbisfile_static.lib;ogg_static.lib;OgreMain.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <Version>1.23</Version>
+      <AdditionalDependencies>efx-util.lib;OpenAL32.lib;libvorbis_static.lib;libvorbisfile_static.lib;libogg_static.lib;OgreMain.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <Version>1.24</Version>
       <AdditionalLibraryDirectories>./dependencies;$(OPENAL_SDK)\libs\win32;$(OPENAL_SDK)\libs\Win32\EFX-Util_MT;$(OGRE)\lib\$(Configuration);$(BOOST_ROOT)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>

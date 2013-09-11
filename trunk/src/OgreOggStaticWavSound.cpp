@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStaticWavSound.cpp
 * @author  Ian Stangoe
-* @version v1.23
+* @version v1.24
 *
 * @section LICENSE
 * 
@@ -100,14 +100,14 @@ namespace OgreOggSound
 							}
 
 							// Calculate extra WAV header info
-							unsigned long int extraBytes = mFormatData.mFormat->mHeaderSize - (sizeof(WaveHeader) - 20);
+							unsigned int extraBytes = mFormatData.mFormat->mHeaderSize - (sizeof(WaveHeader) - 20);
 
 							// If WAVEFORMATEXTENSIBLE read attributes
 							if (mFormatData.mFormat->mFormatTag==0xFFFE)
 							{
-								extraBytes-=static_cast<unsigned long int>(mAudioStream->read(&mFormatData.mSamples, 2));
-								extraBytes-=static_cast<unsigned long int>(mAudioStream->read(&mFormatData.mChannelMask, 2));
-								extraBytes-=static_cast<unsigned long int>(mAudioStream->read(&mFormatData.mSubFormat, 16));
+								extraBytes-=static_cast<unsigned int>(mAudioStream->read(&mFormatData.mSamples, 2));
+								extraBytes-=static_cast<unsigned int>(mAudioStream->read(&mFormatData.mChannelMask, 2));
+								extraBytes-=static_cast<unsigned int>(mAudioStream->read(&mFormatData.mSubFormat, 16));
 							}
 		
 							// Skip
@@ -122,7 +122,7 @@ namespace OgreOggSound
 								if ( c.chunkID[0]=='d' && c.chunkID[1]=='a' && c.chunkID[2]=='t' && c.chunkID[3]=='a' )
 								{
 									// Store byte offset of start of audio data
-									mAudioOffset = static_cast<unsigned long>(mAudioStream->tell());
+									mAudioOffset = static_cast<unsigned int>(mAudioStream->tell());
 
 									// Check data size
 									int fileCheck = c.length % mFormatData.mFormat->mBlockAlign;

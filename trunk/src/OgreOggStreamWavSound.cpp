@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamWavSound.cpp
 * @author  Ian Stangoe
-* @version v1.23
+* @version v1.24
 *
 * @section LICENSE
 * 
@@ -97,14 +97,14 @@ namespace OgreOggSound
 							}
 
 							// Calculate extra WAV header info
-							long int extraBytes = mFormatData.mFormat->mHeaderSize - (sizeof(WaveHeader) - 20);
+							int extraBytes = mFormatData.mFormat->mHeaderSize - (sizeof(WaveHeader) - 20);
 
 							// If WAVEFORMATEXTENSIBLE read attributes
 							if (mFormatData.mFormat->mFormatTag==0xFFFE)
 							{
-								extraBytes-=static_cast<long>(mAudioStream->read(&mFormatData.mSamples, 2));
-								extraBytes-=static_cast<long>(mAudioStream->read(&mFormatData.mChannelMask, 2));
-								extraBytes-=static_cast<long>(mAudioStream->read(&mFormatData.mSubFormat, 16));
+								extraBytes-=static_cast<int>(mAudioStream->read(&mFormatData.mSamples, 2));
+								extraBytes-=static_cast<int>(mAudioStream->read(&mFormatData.mChannelMask, 2));
+								extraBytes-=static_cast<int>(mAudioStream->read(&mFormatData.mSubFormat, 16));
 							}
 		
 							// Skip
@@ -119,7 +119,7 @@ namespace OgreOggSound
 								if ( c.chunkID[0]=='d' && c.chunkID[1]=='a' && c.chunkID[2]=='t' && c.chunkID[3]=='a' )
 								{
 									// Store byte offset of start of audio data
-									mAudioOffset = static_cast<unsigned long>(mAudioStream->tell());
+									mAudioOffset = static_cast<unsigned int>(mAudioStream->tell());
 
 									// Check data size
 									int fileCheck = c.length % mFormatData.mFormat->mBlockAlign;
@@ -188,7 +188,7 @@ namespace OgreOggSound
 			if ( mLoopOffset<mPlayTime ) 
 			{
 				// Calculate offset in bytes aligned to block align
-				mLoopOffsetBytes = static_cast<unsigned long>((mLoopOffset * (mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample))/8);
+				mLoopOffsetBytes = static_cast<unsigned int>((mLoopOffset * (mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample))/8);
 				mLoopOffsetBytes -= mLoopOffsetBytes % mFormatData.mFormat->mBlockAlign;
 			}
 			else			
@@ -480,7 +480,7 @@ namespace OgreOggSound
 			}
 
 			// Calculate offset in bytes block aligned
-			mLoopOffsetBytes = static_cast<unsigned long>(mLoopOffset * (mFormatData.mFormat->mSamplesPerSec));
+			mLoopOffsetBytes = static_cast<unsigned int>(mLoopOffset * (mFormatData.mFormat->mSamplesPerSec));
 			mLoopOffsetBytes -= mLoopOffsetBytes % mFormatData.mFormat->mBlockAlign;
 		}
 	}

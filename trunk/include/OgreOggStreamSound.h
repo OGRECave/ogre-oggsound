@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamSound.h
 * @author  Ian Stangoe
-* @version v1.23
+* @version v1.24
 *
 * @section LICENSE
 * 

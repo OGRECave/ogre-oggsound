@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamWavSound.h
 * @author  Ian Stangoe
-* @version v1.23
+* @version v1.24
 *
 * @section LICENSE
 * 
@@ -178,7 +178,7 @@ namespace OgreOggSound
 		ALenum mFormat;						// OpenAL format
 		bool mStreamEOF;					// EOF flag
 		WavFormatData mFormatData;			// WAVE format structure
-		unsigned long mLoopOffsetBytes;		// Loop offset in bytes
+		unsigned int mLoopOffsetBytes;		// Loop offset in bytes
 		float mLastOffset;					// Offset in seconds
 
 		friend class OgreOggSoundManager;
