@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundRecord.h
 * @author  Ian Stangoe
-* @version v1.23
+* @version v1.24
 *
 * @section LICENSE
 * 
@@ -60,13 +60,13 @@ namespace OgreOggSound
 	struct WAVEHEADER
 	{
 		char			szRIFF[4];
-		long			lRIFFSize;
+		int				lRIFFSize;
 		char			szWave[4];
 		char			szFmt[4];
-		long			lFmtSize;
+		int				lFmtSize;
 		wFormat			wfex;
 		char			szData[4];
-		long			lDataSize;
+		int				lDataSize;
 	};
 
 	//! Captures audio data
