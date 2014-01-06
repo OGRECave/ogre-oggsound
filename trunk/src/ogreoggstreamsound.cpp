@@ -61,12 +61,10 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_openImpl(Ogre::DataStreamPtr& fileStream)
 	{
-		int result;
-
 		// Store stream pointer
 		mAudioStream = fileStream;
 
-		if((result = ov_open_callbacks(&mAudioStream, &mOggStream, NULL, 0, mOggCallbacks)) < 0)
+		if( ov_open_callbacks(&mAudioStream, &mOggStream, NULL, 0, mOggCallbacks) < 0 )
 		{			
 			OGRE_EXCEPT(Ogre::Exception::ERR_FILE_NOT_FOUND, "Could not open Ogg stream.", "OgreOggStreamSound::_openImpl()");
 			return;
@@ -349,7 +347,6 @@ namespace OgreOggSound
 	{
 		std::vector<char> audioData;
 		char* data;
-		int  bytes = 0;
 		int  section = 0;
 		int  result = 0;
 
@@ -360,6 +357,7 @@ namespace OgreOggSound
 		// Read only what was asked for
 		while( !mStreamEOF && (static_cast<int>(audioData.size()) < mBufferSize) )
 		{
+			int  bytes = 0;
 			// Read up to a buffer's worth of data
 			bytes = ov_read(&mOggStream, data, static_cast<int>(mBufferSize), 0, 2, 1, &section);
 			// EOF check
