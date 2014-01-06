@@ -330,7 +330,7 @@ namespace OgreOggSound
 			Ogre::StringVector deviceList = getDeviceList();
 			std::stringstream ss;
 			Ogre::StringVector::iterator deviceItr;
-			for(deviceItr = deviceList.begin(); deviceItr != deviceList.end() && (*deviceItr).compare("") != 0; deviceItr++)
+			for(deviceItr = deviceList.begin(); deviceItr != deviceList.end() && (*deviceItr).compare("") != 0; ++deviceItr)
 			{
 				deviceInList |= (*deviceItr).compare(deviceName) == 0;
 				ss << "*** --- " << (*deviceItr);
@@ -2085,9 +2085,9 @@ namespace OgreOggSound
 			soundList.push_back(i->first);
 
 		// Destroy individually outside mSoundMap iteration
-		OgreOggISound* sound=0;
 		for ( StringVector::iterator i=soundList.begin(); i!=soundList.end(); ++i )
 		{
+			OgreOggISound* sound=0;
 			if ( sound=getSound((*i)) ) 
 				_destroySoundImpl(sound);
 		}
@@ -2600,7 +2600,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_updateBuffers()
 	{
-		static Ogre::uint32 cTime=0;
+		static Ogre::uint32 cTime;
 		static Ogre::uint32 pTime=0;
 		static Ogre::Timer timer;
 		static float rTime=0.f;
@@ -2777,8 +2777,6 @@ namespace OgreOggSound
 		if ( !mActionsList ) return;
 
 		SoundAction act;
-		int i=0;
-
 		// Perform sound requests 
 		while ( mActionsList->pop(act) )
 		{

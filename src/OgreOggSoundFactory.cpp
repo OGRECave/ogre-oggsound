@@ -48,14 +48,15 @@ const String& OgreOggSoundFactory::getType(void) const
 MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, const NameValuePairList* params)
 {
 	String fileName;
-	bool loop = false;
-	bool stream = false;
-	bool preBuffer = false;
-	bool immediate = false;
-	SceneManager* scnMgr = 0;
 
 	if (params != 0)
 	{
+		bool loop = false;
+		bool stream = false;
+		bool preBuffer = false;
+		bool immediate = false;
+		SceneManager* scnMgr = 0;
+
 		NameValuePairList::const_iterator fileNameIterator = params->find("fileName");
 		if (fileNameIterator != params->end())
 		{

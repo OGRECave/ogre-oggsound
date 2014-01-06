@@ -62,8 +62,6 @@ namespace OgreOggSound
 	void OgreOggStreamWavSound::_openImpl(Ogre::DataStreamPtr& fileStream)
 	{
 		// WAVE descriptor vars
-		char*			sound_buffer=0;
-		int				bytesRead=0;
 		ChunkHeader		c;
 
 		// Store stream pointer
