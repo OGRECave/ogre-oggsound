@@ -164,12 +164,28 @@ namespace OgreOggSound
 					// If parameters specified delete structure
 					if (obj.mParams)
 					{
-						if ( obj.mAction==LQ_LOAD )
-						{
-							cSound* params = static_cast<cSound*>(obj.mParams);
-							params->mStream.setNull();
+						switch ( obj.mAction )
+						{			
+						case LQ_LOAD:
+							{
+								cSound* params = static_cast<cSound*>(obj.mParams);
+								params->mStream.setNull();	
+								OGRE_DELETE_T(params, cSound, Ogre::MEMCATEGORY_GENERAL);
+							}
+							break;	   
+						case LQ_ATTACH_EFX:
+						case LQ_DETACH_EFX:
+						case LQ_SET_EFX_PROPERTY:
+							{
+								OGRE_DELETE_T(static_cast<efxProperty*>(obj.mParams), efxProperty, Ogre::MEMCATEGORY_GENERAL);
+							}
+							break;	 
+						default:
+							{
+								OGRE_FREE(obj.mParams, Ogre::MEMCATEGORY_GENERAL);
+							}
+							break;
 						}
-						OGRE_FREE(obj.mParams, Ogre::MEMCATEGORY_GENERAL);
 					}
 				}
 			}
@@ -502,8 +518,7 @@ namespace OgreOggSound
 	{
 		if ( (vol>=0.f) && (vol<=1.f) )
 			alListenerf(AL_GAIN, vol);
-	}
-
+	}		 
 	/*/////////////////////////////////////////////////////////////////*/
 	ALfloat OgreOggSoundManager::getMasterVolume()
 	{
@@ -686,8 +701,7 @@ namespace OgreOggSound
 		OgreOggListener* l = OGRE_NEW_T(OgreOggListener, Ogre::MEMCATEGORY_GENERAL)();
 		l->setSceneManager(*mSceneMgr);
 		return l;
-	}
-
+	}		
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound* OgreOggSoundManager::getSound(const std::string& name)
 	{
@@ -1113,8 +1127,7 @@ namespace OgreOggSound
 
 		// Uh oh - won't be played
 		return false;
-	}
-
+	}	  
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_releaseSoundSource(OgreOggISound* sound)
 	{
@@ -1150,8 +1163,7 @@ namespace OgreOggSound
 		}
 
 		return false;
-	}
-	
+	}	 	
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 
 	/*/////////////////////////////////////////////////////////////////*/
@@ -1170,8 +1182,7 @@ namespace OgreOggSound
 			return 0;
 	}
 
-#endif
-	
+#endif																				  	
 #if HAVE_EFX
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::isEffectSupported(ALint effectID)
@@ -2152,18 +2163,22 @@ namespace OgreOggSound
 	{
 		if ( !sound ) return;
 
-		ALuint buffer=AL_NONE;
+		sharedAudioBuffer* buffer=0;
 
 		if ( !sound->mStream )
 			// Is there a shared buffer?
 			buffer = _getSharedBuffer(file);
 
-		if (buffer==AL_NONE)
+		if (!buffer)
+		{
 			// Load audio file
 			sound->_openImpl(stream);
+		}
 		else
+		{
 			// Use shared buffer if available
 			sound->_openImpl(file, buffer);
+		}
 
 		// If requested to preBuffer - grab free source and init
 		if (prebuffer)
@@ -2375,8 +2390,7 @@ namespace OgreOggSound
 	void OgreOggSoundManager::_enumDevices()
 	{
 		mDeviceStrings = const_cast<ALCchar*>(alcGetString(0,ALC_DEVICE_SPECIFIER));
-	}
-
+	}					  
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_releaseAll()
 	{
@@ -2518,19 +2532,16 @@ namespace OgreOggSound
 #endif
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	ALuint OgreOggSoundManager::_getSharedBuffer(const String& sName)
+	sharedAudioBuffer* OgreOggSoundManager::_getSharedBuffer(const String& sName)
 	{
 		if ( sName.empty() ) return AL_NONE;
 
 		SharedBufferList::iterator f;
 		if ( ( f = mSharedBuffers.find(sName) ) != mSharedBuffers.end() )
-		{
-			f->second->mRefCount++;
-			return f->second->mAudioBuffer;
-		}
-		return AL_NONE;
-	}
+			return f->second;
 
+		return AL_NONE;
+	}	 
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_releaseSharedBuffer(const String& sName, ALuint& buffer)
 	{
@@ -2559,10 +2570,9 @@ namespace OgreOggSound
 			}
 		}
 		return false;
-	}
-
+	}	
 	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggSoundManager::_registerSharedBuffer(const String& sName, ALuint& buffer)
+	bool OgreOggSoundManager::_registerSharedBuffer(const String& sName, ALuint& buffer, OgreOggISound* parent)
 	{
 		if ( sName.empty() ) return false;
 
@@ -2577,6 +2587,9 @@ namespace OgreOggSound
 
 			// Set ref count
 			buf->mRefCount = 1;
+
+			// Set parent ptr
+			buf->mParent = parent;
 
 			// Add to list
 			mSharedBuffers[sName] = buf;
@@ -2689,7 +2702,7 @@ namespace OgreOggSound
 				}
 
 				// Delete
-				OGRE_FREE(c, Ogre::MEMCATEGORY_GENERAL);
+				OGRE_DELETE_T(c, cSound, Ogre::MEMCATEGORY_GENERAL);
 			}
 			break;
 #if HAVE_EFX
@@ -2705,7 +2718,7 @@ namespace OgreOggSound
 						_attachFilterToSoundImpl(s, e->mFilterName);
 				}
 				// Delete
-				OGRE_FREE(e, Ogre::MEMCATEGORY_GENERAL);
+				OGRE_DELETE_T(e, efxProperty, Ogre::MEMCATEGORY_GENERAL);
 			}
 			break;
 		case LQ_DETACH_EFX:
@@ -2720,7 +2733,7 @@ namespace OgreOggSound
 						_detachFilterFromSoundImpl(s);
 				}
 				// Delete
-				OGRE_FREE(e, Ogre::MEMCATEGORY_GENERAL);
+				OGRE_DELETE_T(e, efxProperty, Ogre::MEMCATEGORY_GENERAL);
 			}
 			break;
 		case LQ_SET_EFX_PROPERTY:
@@ -2732,7 +2745,7 @@ namespace OgreOggSound
 					_setEFXSoundPropertiesImpl(s, e->mAirAbsorption, e->mRolloff, e->mConeHF);
 				}
 				// Delete
-				OGRE_FREE(e, Ogre::MEMCATEGORY_GENERAL);
+				OGRE_DELETE_T(e, efxProperty, Ogre::MEMCATEGORY_GENERAL);
 			}
 			break;
 #endif

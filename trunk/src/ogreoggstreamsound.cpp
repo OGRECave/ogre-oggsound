@@ -45,7 +45,8 @@ namespace OgreOggSound
 	,mLastOffset(0.f)
 	{
 		mStream=true;
-		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=AL_NONE; 
+		mBuffers = OGRE_ALLOC_T(ALuint, NUM_BUFFERS, Ogre::MEMCATEGORY_GENERAL);
+		memset(mBuffers, AL_NONE, sizeof(ALuint) * NUM_BUFFERS); 
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamSound::~OgreOggStreamSound()
@@ -56,7 +57,6 @@ namespace OgreOggSound
 		_release();
 		mVorbisInfo=0;
 		mVorbisComment=0;
-		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_openImpl(Ogre::DataStreamPtr& fileStream)
@@ -139,16 +139,14 @@ namespace OgreOggSound
 				// Invalid - cancel loop point
 				mLoopOffset=0.f;
 			}
-	}
-
+	}  
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStreamSound::isMono()
 	{
 		if ( !mInitialised ) return false;
 
 		return ( (mFormat==AL_FORMAT_MONO16) || (mFormat==AL_FORMAT_MONO8) );
-	}
-
+	}					  
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggStreamSound::_queryBufferInfo()
 	{
@@ -287,6 +285,11 @@ namespace OgreOggSound
 			if(mStreamEOF)
 			{
 				stop();
+				
+				// Finished callback
+				if ( mSoundListener ) 
+					mSoundListener->soundFinished(this);
+				
 				return;
 			}
 			else
@@ -437,8 +440,7 @@ namespace OgreOggSound
 			// Any problems?
 			if ( alGetError()!=AL_NO_ERROR ) Ogre::LogManager::getSingleton().logMessage("*** Unable to unqueue buffers");
 		}
-	}
-
+	}		 
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_updatePlayPosition()
 	{
@@ -466,8 +468,7 @@ namespace OgreOggSound
 		mStreamEOF=false;
 		mPlayPosChanged = false;
 		mLastOffset = mPlayPos;
-	}
-
+	}			   
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::setPlayPosition(float seconds)
 	{
@@ -485,8 +486,7 @@ namespace OgreOggSound
 	
 		// Set flag
 		mPlayPosChanged = true;
-	}
-
+	}	 
 	/*/////////////////////////////////////////////////////////////////*/
 	float OgreOggStreamSound::getPlayPosition()
 	{
@@ -502,8 +502,7 @@ namespace OgreOggSound
 		else
 			return 
 			mLastOffset + pos;
-	}
-
+	}			  
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_pauseImpl()
 	{

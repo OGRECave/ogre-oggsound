@@ -1,7 +1,7 @@
 /**
 * @file OgreOggISound.h
 * @author  Ian Stangoe
-* @version 1.23
+* @version 1.24
 *
 * @section LICENSE
 * 
@@ -53,7 +53,7 @@ namespace OgreOggSound
 	// Chunk section within a wav file ('data'/'fact'/'cue' etc..)
 	typedef struct
 	{
-		char chunkID[4];            // 'data' or 'fact'
+		char chunkID[4];	// 'data' or 'fact'
 		int length;
 	} ChunkHeader;
   
@@ -62,13 +62,13 @@ namespace OgreOggSound
 	*/
 	typedef struct
 	{
-		char mRIFF[4];						// 'RIFF'
+		char mRIFF[4];					// 'RIFF'
 		unsigned int mLength;
-		char mWAVE[4];						// 'WAVE'
-		char mFMT[4];						// 'fmt '
-		unsigned int mHeaderSize;			// varies...
+		char mWAVE[4];					// 'WAVE'
+		char mFMT[4];					// 'fmt '
+		unsigned int mHeaderSize;		// varies...
 		unsigned short mFormatTag;
-		unsigned short mChannels;			// 1,2 for stereo data is (l,r) pairs
+		unsigned short mChannels;		// 1,2 for stereo data is (l,r) pairs
 		unsigned int mSamplesPerSec;
 		unsigned int mAvgBytesPerSec;
 		unsigned short mBlockAlign;      
@@ -80,10 +80,10 @@ namespace OgreOggSound
 	*/
 	typedef struct
 	{
-		WaveHeader*		mFormat;
-		unsigned short	mSamples;
-		unsigned int	mChannelMask;
-		char			mSubFormat[16];	
+		WaveHeader*	mFormat;
+		unsigned short mSamples;
+		unsigned int mChannelMask;
+		char mSubFormat[16];	
 	} WavFormatData;
 
 	//! Action to perform after a fade has completed.
@@ -137,10 +137,13 @@ namespace OgreOggSound
 			virtual void soundDestroyed(OgreOggISound* sound) {}
 			/** Called when sound is about to play
 			*/
-			virtual void soundPlayed(OgreOggISound* sound) {}
+			virtual void soundPlayed(OgreOggISound* sound) {}		   
 			/** Called when sound is stopped
 			*/
 			virtual void soundStopped(OgreOggISound* sound) {}
+			/** Called when sound has finished playing in its entirety
+			*/
+			virtual void soundFinished(OgreOggISound* sound) {}
 			/** Called when sound is paused
 			*/
 			virtual void soundPaused(OgreOggISound* sound) {}
@@ -149,8 +152,7 @@ namespace OgreOggSound
 			virtual void soundLooping(OgreOggISound* sound) {}
 
 		};
-
-
+	
 		/** Plays sound.
 		 */
 		void play(bool immediate=false);
@@ -489,7 +491,7 @@ namespace OgreOggSound
 			This will only be set if the sound was created through the plugin method
 			createMovableobject().
 		*/
-		Ogre::SceneManager* getSceneManager() const { return &mScnMan; }
+		Ogre::SceneManager* getSceneManager() const { return &mScnMan; }   
 
 		/** Sets a listener object to be notified of events.
 		@remarks
@@ -499,6 +501,28 @@ namespace OgreOggSound
 		*/
 		void setListener(SoundListener* l) { mSoundListener=l; }
 
+		/** Sets properties of a shared resource.
+		@remarks
+			Sets a number of properties relating to audio of a shared resource.
+			@param s
+				OgreOggISound pointer of parent sound.
+		*/
+		void _setSharedProperties(OgreOggISound* s);
+	
+		/** Gets properties of a shared resource.
+		@remarks
+			Gets a number of properties relating to audio of a shared resource.
+			@param buffer
+				Reference to a pointer to an OpenAL buffer
+			@param length
+				Reference to an object to store audio length
+			@param buffer
+				Reference to an object to store loopOffset in bytes
+			@param buffer
+				Reference to an object to store buffer format
+		*/
+		void _getSharedProperties(ALuint*& buffer, float& length, ALenum& format); 
+	
 	protected:
 
 		/** Superclass describing a single sound object.
@@ -521,7 +545,7 @@ namespace OgreOggSound
 			Abstract function
 			Optional opening function for (Static sounds only)
 		 */
-		virtual void _openImpl(const Ogre::String& fName, ALuint& buffer) {};
+		virtual void _openImpl(const Ogre::String& fName, sharedAudioBuffer* buffer=0) {};
 		/** Play implementation.
 		@remarks
 			Abstract function
@@ -628,17 +652,17 @@ namespace OgreOggSound
 		Ogre::Vector3 mPosition;		// 3D position
 		Ogre::Vector3 mDirection;		// 3D direction
 		Ogre::Vector3 mVelocity;		// 3D velocity
-		float mGain;				// Current volume
-		float mMaxGain;			// Minimum volume
-		float mMinGain;			// Maximum volume
-		float mMaxDistance;		// Maximum attenuation distance
-		float mRolloffFactor;		// Rolloff factor for attenuation
-		float mReferenceDistance;	// Half-volume distance for attenuation
-		float mPitch;				// Current pitch 
-		float mOuterConeGain;		// Outer cone volume
-		float mInnerConeAngle;		// Inner cone angle
-		float mOuterConeAngle;		// outer cone angle
-		float mPlayTime;			// Time in seconds of sound file
+		float mGain;					// Current volume
+		float mMaxGain;					// Minimum volume
+		float mMinGain;					// Maximum volume
+		float mMaxDistance;				// Maximum attenuation distance
+		float mRolloffFactor;			// Rolloff factor for attenuation
+		float mReferenceDistance;		// Half-volume distance for attenuation
+		float mPitch;					// Current pitch 
+		float mOuterConeGain;			// Outer cone volume
+		float mInnerConeAngle;			// Inner cone angle
+		float mOuterConeAngle;			// outer cone angle
+		float mPlayTime;				// Time in seconds of sound file
 		Ogre::String mName;				// Sound name
 		bool mLoop;						// Loop status
 		bool mPlay;						// Play status
@@ -652,13 +676,14 @@ namespace OgreOggSound
 		bool mTemporary;				// Flag indicating sound is temporary
 		bool mInitialised;				// Flag indicating sound is initailised
 		Ogre::uint8 mAwaitingDestruction; // Imminent destruction flag
+	
+		ALuint* mBuffers;				// Audio buffer(s)
+		ALenum mFormat;					// OpenAL format
 
-
-		unsigned int mAudioOffset;		// offset to audio data
-		unsigned int mAudioEnd;		// offset to end of audio data
-		float mLoopOffset;			// offset to start of loop point
-
-		float mLoopStart;			// offset in seconds to start of loopable audio data
+		unsigned long mAudioOffset;		// offset to audio data
+		unsigned long mAudioEnd;		// offset to end of audio data
+		float mLoopOffset;				// offset to start of loop point		 
+		float mLoopStart;				// offset in seconds to start of loopable audio data
 
 		ALfloat mPlayPos;				// Playback position in seconds
 		std::deque<float> mCuePoints;	// List of play position points

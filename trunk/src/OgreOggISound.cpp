@@ -43,9 +43,8 @@ namespace OgreOggSound
 	size_t	OOSStreamRead(void *ptr, size_t size, size_t nmemb, void *datasource)
 	{
 		Ogre::DataStreamPtr dataStream = *reinterpret_cast<Ogre::DataStreamPtr*>(datasource);
-		return dataStream->read(ptr, size);
+		return dataStream->read(ptr, size * nmemb);
 	}
-
 	int		OOSStreamSeek(void *datasource, ogg_int64_t offset, int whence)
 	{
 		Ogre::DataStreamPtr dataStream = *reinterpret_cast<Ogre::DataStreamPtr*>(datasource);
@@ -64,12 +63,10 @@ namespace OgreOggSound
 
 		return 0;
 	}
-
 	int		OOSStreamClose(void *datasource)
 	{
 		return 0;
 	}
-
 	long	OOSStreamTell(void *datasource)
 	{
 		Ogre::DataStreamPtr dataStream = *reinterpret_cast<Ogre::DataStreamPtr*>(datasource);
@@ -119,6 +116,7 @@ namespace OgreOggSound
 	,mInitialised(false)
 	,mAwaitingDestruction(0)
 	,mSoundListener(0)
+	,mBuffers(0)
 	{
 		// Init some oggVorbis callbacks
 		mOggCallbacks.read_func	= OOSStreamRead;
@@ -130,6 +128,21 @@ namespace OgreOggSound
 	OgreOggISound::~OgreOggISound() 
 	{
 		mAudioStream.setNull();
+		if ( mBuffers ) 
+			OGRE_FREE(mBuffers, Ogre::MEMCATEGORY_GENERAL);
+		mBuffers=0;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::_getSharedProperties(ALuint*& buffer, float& length, ALenum& format) 
+	{
+		buffer = mBuffers;
+		length = mPlayTime;
+		format = mFormat;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggISound::_setSharedProperties(OgreOggISound* s) 
+	{
+		s->_getSharedProperties(mBuffers, mPlayTime, mFormat); 
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::play(bool immediate)
@@ -460,7 +473,6 @@ namespace OgreOggSound
 		else
 			return mGain;
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::startFade(bool fDir, float fadeTime, FadeControl actionOnComplete)
 	{
@@ -475,7 +487,6 @@ namespace OgreOggSound
 			if ( !isPlaying() )
 				this->play();
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::_updateFade(float fTime)
 	{
@@ -508,7 +519,6 @@ namespace OgreOggSound
 			}
 		} 
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::_markPlayPosition()
 	{
@@ -524,7 +534,6 @@ namespace OgreOggSound
 		alSourcePause(mSource);
 		alGetSourcef(mSource, AL_SEC_OFFSET, &mPlayPos);
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::_recoverPlayPosition()
 	{
@@ -538,7 +547,6 @@ namespace OgreOggSound
 			Ogre::LogManager::getSingleton().logMessage("***--- OgreOggISound::_recoverPlayPosition() - Unable to set play position", Ogre::LML_CRITICAL);
 		}
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggISound::isPlaying() const
 	{
@@ -547,7 +555,7 @@ namespace OgreOggSound
 			ALenum state;
 			alGetError();    
 			alGetSourcei(mSource, AL_SOURCE_STATE, &state);
-			return (state == AL_PLAYING);
+			return (mPlay || (state == AL_PLAYING));
 		}
 
 		// May have been kicked off and is currently waiting to be reactivated
@@ -584,7 +592,7 @@ namespace OgreOggSound
 	void OgreOggISound::setPlayPosition(float seconds)
 	{
 		// Invalid time - exit
-		if ( !mSeekable || seconds<0.f ) 
+		if ( !mSeekable || mPlayTime<=0.f || seconds<0.f ) 
 			return;
 
 		// Wrap time
@@ -653,7 +661,6 @@ namespace OgreOggSound
 		// Erase element
 		mCuePoints.erase(mCuePoints.begin()+index);
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	float OgreOggISound::getCuePoint(unsigned short index)
 	{
@@ -663,7 +670,6 @@ namespace OgreOggSound
 		// get element
 		return mCuePoints.at(index);
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setCuePoint(unsigned short index)
 	{
@@ -673,7 +679,6 @@ namespace OgreOggSound
 		// set cue point
 		setPlayPosition(mCuePoints.at(index));
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setRelativeToListener(bool relative)
 	{

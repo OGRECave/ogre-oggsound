@@ -237,14 +237,13 @@ void	OgreOggSoundRecord::stopRecording()
 		mFile.seekp(42);
 		mFile.write(reinterpret_cast<char*>(&mDataSize), 4);
 		mFile.close();
-	}
-
+	}						  
 
 	// Destroy audio buffer
 	if ( mBuffer ) 	OGRE_FREE(mBuffer, Ogre::MEMCATEGORY_GENERAL);
 
 	// Close the Capture Device
-	if (mCaptureDevice) alcCaptureCloseDevice(mCaptureDevice);
+	if ( mCaptureDevice ) alcCaptureCloseDevice(mCaptureDevice);
 }
 
 

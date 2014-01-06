@@ -88,6 +88,21 @@
 #	include "xram.h"
 #	define _OGGSOUND_EXPORT
 #endif
+	
+namespace OgreOggSound
+{
+	class OgreOggISound;
+
+	//! Holds information about a static shared audio buffer.
+	struct sharedAudioBuffer
+	{
+		ALuint mAudioBuffer;
+		unsigned int mRefCount;
+		OgreOggISound* mParent;
+	};
+
+	typedef std::map<std::string, sharedAudioBuffer*> SharedBufferList;
+};
 
 /**
  * Specifies whether to use threads for streaming

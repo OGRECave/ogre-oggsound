@@ -63,6 +63,8 @@ namespace OgreOggSound
 	typedef std::list<OgreOggISound*> ActiveList;
 	typedef std::deque<ALuint> SourceList;
 	
+	class OgreOggISound;
+
 	//! Various sound commands
 	enum SOUND_ACTION
 	{
@@ -109,16 +111,6 @@ namespace OgreOggSound
 		float mConeHF;
 		ALuint mSlotID;
 	};
-
-	//! Holds information about a static shared audio buffer.
-	struct sharedAudioBuffer
-	{
-		ALuint mAudioBuffer;
-		unsigned int mRefCount;
-
-	};
-
-	typedef std::map<std::string, sharedAudioBuffer*> SharedBufferList;
 
 	//! Sound Manager: Manages all sounds for an application
 	class _OGGSOUND_EXPORT OgreOggSoundManager : public Ogre::Singleton<OgreOggSoundManager>
@@ -325,7 +317,7 @@ namespace OgreOggSound
 			@param buffer
 				OpenAL buffer ID holding audio data
 		 */
-		bool _registerSharedBuffer(const Ogre::String& sName, ALuint& buffer);
+		bool _registerSharedBuffer(const Ogre::String& sName, ALuint& buffer, OgreOggISound* parent=0);
 		/** Sets distance model.
 		@remarks
 			Sets the global distance attenuation algorithm used by all
@@ -818,7 +810,7 @@ namespace OgreOggSound
 			@param sName
 				Name of audio file
 		 */
-		ALuint _getSharedBuffer(const Ogre::String& sName);
+		sharedAudioBuffer* _getSharedBuffer(const Ogre::String& sName);
 		/** Releases all sounds and buffers
 		@remarks
 			Release all sounds and their associated OpenAL objects
