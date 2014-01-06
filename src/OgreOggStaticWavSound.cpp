@@ -42,11 +42,11 @@ namespace OgreOggSound
 			OgreOggStaticWavSound::OgreOggStaticWavSound(const Ogre::String& name,const Ogre::SceneManager& scnMgr) : OgreOggISound(name, scnMgr)
 		,mAudioName("")
 		,mPreviousOffset(0)
-		,mBuffer(0)
 		{
 			mStream=false;
 			mFormatData.mFormat=0;
 			mBufferData.clear();
+			mBuffers = OGRE_ALLOC_T(ALuint, 1, Ogre::MEMCATEGORY_GENERAL);
 		}
 	/*/////////////////////////////////////////////////////////////////*/
 			OgreOggStaticWavSound::~OgreOggStaticWavSound()
@@ -173,7 +173,7 @@ namespace OgreOggSound
 
 		// Create OpenAL buffer
 		alGetError();
-		alGenBuffers(1, &mBuffer);
+		alGenBuffers(1, mBuffers);
 		if ( alGetError()!=AL_NO_ERROR )
 		{
 			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Unable to create OpenAL buffer.", "OgreOggStaticWavSound::_openImpl()");
@@ -183,7 +183,7 @@ namespace OgreOggSound
 #if HAVE_EFX
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
-			OgreOggSoundManager::getSingleton().setXRamBuffer(1, &mBuffer);
+			OgreOggSoundManager::getSingleton().setXRamBuffer(1, mBuffers);
 #endif
 
 		// Check format support
@@ -194,7 +194,7 @@ namespace OgreOggSound
 		mPlayTime = static_cast<float>(((mAudioEnd-mAudioOffset)*8.f) / static_cast<float>((mFormatData.mFormat->mSamplesPerSec * mFormatData.mFormat->mChannels * mFormatData.mFormat->mBitsPerSample)));
 
 		alGetError();
-		alBufferData(mBuffer, mFormat, sound_buffer, static_cast<ALsizei>(bytesRead), mFormatData.mFormat->mSamplesPerSec);
+		alBufferData(*mBuffers, mFormat, sound_buffer, static_cast<ALsizei>(bytesRead), mFormatData.mFormat->mSamplesPerSec);
 		if ( alGetError()!=AL_NO_ERROR )
 		{
 			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Unable to load audio data into buffer!", "OgreOggStaticWavSound::_openImpl()");
@@ -203,33 +203,32 @@ namespace OgreOggSound
 		OGRE_FREE(sound_buffer, Ogre::MEMCATEGORY_GENERAL);
 
 		// Register shared buffer
-		OgreOggSoundManager::getSingleton()._registerSharedBuffer(mAudioName, mBuffer);
+		OgreOggSoundManager::getSingleton()._registerSharedBuffer(mAudioName, *mBuffers);
 
 		// Notify listener
 		if ( mSoundListener ) mSoundListener->soundLoaded(this);
 	}
-
-	/*/////////////////////////////////////////////////////////////////*/
-	void	OgreOggStaticWavSound::_openImpl(const Ogre::String& fName, ALuint& buffer)
+	/*/////////////////////////////////////////////////////////////////*/	  
+	void	OgreOggStaticWavSound::_openImpl(const Ogre::String& fName, sharedAudioBuffer* buffer)
 	{
+		if ( !buffer ) return;
+
 		// Set buffer
-		mBuffer = buffer;
+		_setSharedProperties(buffer->mParent);
 
 		// Filename
 		mAudioName = fName;
 
 		// Notify listener
 		if ( mSoundListener ) mSoundListener->soundLoaded(this);
-	}
-
+	}   
 	/*/////////////////////////////////////////////////////////////////*/
 	bool	OgreOggStaticWavSound::isMono() 
 	{
 		if ( !mInitialised ) return false;
 
 		return ( (mFormat==AL_FORMAT_MONO16) || (mFormat==AL_FORMAT_MONO8) );
-	}
-
+	}					   
 	/*/////////////////////////////////////////////////////////////////*/
 	bool	OgreOggStaticWavSound::_queryBufferInfo()
 	{
@@ -361,7 +360,7 @@ namespace OgreOggSound
 	{
 		ALuint src=AL_NONE;
 		setSource(src);
-		OgreOggSoundManager::getSingleton()._releaseSharedBuffer(mAudioName, mBuffer);
+		OgreOggSoundManager::getSingleton()._releaseSharedBuffer(mAudioName, *mBuffers);
 		mPlayPosChanged = false;
 		mPlayPos = 0.f;
 	}
@@ -371,9 +370,8 @@ namespace OgreOggSound
 		if (mSource==AL_NONE) return;
 
 		// Queue buffer
-		alSourcei(mSource, AL_BUFFER, mBuffer);
-	}
-
+		alSourcei(mSource, AL_BUFFER, *mBuffers);
+	}					
 	/*/////////////////////////////////////////////////////////////////*/
 	void	OgreOggStaticWavSound::setSource(ALuint& src)
 	{
@@ -480,6 +478,10 @@ namespace OgreOggSound
 		if (state == AL_STOPPED)
 		{
 			stop();
+			
+			// Finished callback
+			if ( mSoundListener ) 
+				mSoundListener->soundFinished(this);
 		}
 		else
 		{

@@ -179,8 +179,6 @@ namespace OgreOggSound
 		OggVorbis_File mOggStream;			// OggVorbis file structure
 		vorbis_info* mVorbisInfo;			// Vorbis info
 		vorbis_comment* mVorbisComment;		// Vorbis comments
-		ALuint mBuffers[NUM_BUFFERS];		// Sound data buffers
-		ALenum mFormat;						// OpenAL format
 		bool mStreamEOF;					// EOF flag
 		float mLastOffset;					// Offset time in seconds
 

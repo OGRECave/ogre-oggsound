@@ -174,8 +174,6 @@ namespace OgreOggSound
 		/**
 		 * Ogg file variables
 		 */
-		ALuint mBuffers[NUM_BUFFERS];		// Sound data buffers
-		ALenum mFormat;						// OpenAL format
 		bool mStreamEOF;					// EOF flag
 		WavFormatData mFormatData;			// WAVE format structure
 		unsigned int mLoopOffsetBytes;		// Loop offset in bytes

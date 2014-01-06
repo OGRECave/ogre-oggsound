@@ -44,7 +44,8 @@ namespace OgreOggSound
 	, mStreamEOF(false)
 	, mLastOffset(0.f)
 	{
-		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=AL_NONE;	
+		mBuffers = OGRE_ALLOC_T(ALuint, NUM_BUFFERS, Ogre::MEMCATEGORY_GENERAL);   
+		memset(mBuffers, AL_NONE, sizeof(ALuint) * NUM_BUFFERS); 
 		mFormatData.mFormat=0;
 		mStream = true;	   
 	}
@@ -55,7 +56,6 @@ namespace OgreOggSound
 		if ( mSoundListener ) mSoundListener->soundDestroyed(this);
 	
 		_release();
-		for ( int i=0; i<NUM_BUFFERS; i++ ) mBuffers[i]=0;
 		if (mFormatData.mFormat) OGRE_FREE(mFormatData.mFormat, Ogre::MEMCATEGORY_GENERAL);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
@@ -405,7 +405,12 @@ namespace OgreOggSound
 		{
 			if(mStreamEOF)
 			{
-				stop();
+				stop();			
+
+				// Finished callback
+				if ( mSoundListener ) 
+					mSoundListener->soundFinished(this);
+
 				return;
 			}
 			else
