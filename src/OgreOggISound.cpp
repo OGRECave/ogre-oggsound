@@ -116,26 +116,23 @@ namespace OgreOggSound
 	,mInitialised(false)
 	,mAwaitingDestruction(0)
 	,mSoundListener(0)
-	,mBuffers(0)
 	{
 		// Init some oggVorbis callbacks
 		mOggCallbacks.read_func	= OOSStreamRead;
 		mOggCallbacks.close_func= OOSStreamClose;
 		mOggCallbacks.seek_func	= OOSStreamSeek;
 		mOggCallbacks.tell_func	= OOSStreamTell;
+		mBuffers.setNull();
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound::~OgreOggISound() 
 	{
 		mAudioStream.setNull();
-		if ( mBuffers ) 
-			OGRE_FREE(mBuffers, Ogre::MEMCATEGORY_GENERAL);
-		mBuffers=0;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::_getSharedProperties(ALuint*& buffer, float& length, ALenum& format) 
+	void OgreOggISound::_getSharedProperties(BufferListPtr& buffers, float& length, ALenum& format) 
 	{
-		buffer = mBuffers;
+		buffers = mBuffers;
 		length = mPlayTime;
 		format = mFormat;
 	}
