@@ -116,6 +116,9 @@ namespace OgreOggSound
 
 	public:
 	
+		typedef std::vector<ALuint> BufferList;	  // A list of the IDs of all OpenAL buffers being used by a sound. This is a vector so that it can be passed around as an array to the various OpenAL functions.
+		typedef Ogre::SharedPtr<BufferList> BufferListPtr;	// An Ogre::SharedPtr to the list of buffer IDs. This makes it easier to pass the values to multiple OgreOggISound instances without having
+		
 		//! Listener callback
 		/** provides hooks into various sound states.
 		*/	
@@ -512,8 +515,8 @@ namespace OgreOggSound
 		/** Gets properties of a shared resource.
 		@remarks
 			Gets a number of properties relating to audio of a shared resource.
-			@param buffer
-				Reference to a pointer to an OpenAL buffer
+			@param buffers
+				Reference to an array of OpenAL buffers
 			@param length
 				Reference to an object to store audio length
 			@param buffer
@@ -521,7 +524,7 @@ namespace OgreOggSound
 			@param buffer
 				Reference to an object to store buffer format
 		*/
-		void _getSharedProperties(ALuint*& buffer, float& length, ALenum& format); 
+		void _getSharedProperties(BufferListPtr& buffers, float& length, ALenum& format); 
 	
 	protected:
 
@@ -677,7 +680,7 @@ namespace OgreOggSound
 		bool mInitialised;				// Flag indicating sound is initailised
 		Ogre::uint8 mAwaitingDestruction; // Imminent destruction flag
 	
-		ALuint* mBuffers;				// Audio buffer(s)
+		BufferListPtr mBuffers;			// Audio buffer(s)
 		ALenum mFormat;					// OpenAL format
 
 		unsigned long mAudioOffset;		// offset to audio data

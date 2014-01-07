@@ -43,9 +43,8 @@ namespace OgreOggSound
 	, mLoopOffsetBytes(0)
 	, mStreamEOF(false)
 	, mLastOffset(0.f)
-	{
-		mBuffers = OGRE_ALLOC_T(ALuint, NUM_BUFFERS, Ogre::MEMCATEGORY_GENERAL);   
-		memset(mBuffers, AL_NONE, sizeof(ALuint) * NUM_BUFFERS); 
+	{																			   
+		mBuffers.bind(new std::vector<ALuint>(NUM_BUFFERS, AL_NONE));
 		mFormatData.mFormat=0;
 		mStream = true;	   
 	}
@@ -160,8 +159,8 @@ namespace OgreOggSound
 		}
 
 		// Create OpenAL buffer
-		alGetError();
-		alGenBuffers(NUM_BUFFERS, mBuffers);
+		alGetError();							   
+		alGenBuffers(NUM_BUFFERS, &(*mBuffers)[0]);
 		if ( alGetError()!=AL_NO_ERROR )
 			OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, "Unable to create OpenAL buffer.", "OgreOggStreamWavSound::_openImpl()");
 
@@ -177,7 +176,7 @@ namespace OgreOggSound
 #if HAVE_EFX
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
-			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
+			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, &(*mBuffers)[0]);
 #endif
 		// Calculate loop offset in bytes
 		// Set BEFORE sound loaded
@@ -341,9 +340,9 @@ namespace OgreOggSound
 			setSource(src);
 		}
 		for (int i=0; i<NUM_BUFFERS; i++)
-		{
-			if (mBuffers[i]!=AL_NONE)
-				alDeleteBuffers(1, &mBuffers[i]);
+		{													
+			if ((*mBuffers)[i]!=AL_NONE)
+				alDeleteBuffers(1, &(*mBuffers)[i]);
 		}
 		mPlayPosChanged = false;
 		mPlayPos = 0.f;
@@ -355,9 +354,9 @@ namespace OgreOggSound
 
 		int i=0;
 		while ( i<NUM_BUFFERS )
-		{
-			if ( _stream(mBuffers[i]) )
-				alSourceQueueBuffers(mSource, 1, &mBuffers[i++]);
+		{															
+			if ( _stream((*mBuffers)[i]) )
+				alSourceQueueBuffers(mSource, 1, &(*mBuffers)[i++]);
 			else
 				break;
 		}

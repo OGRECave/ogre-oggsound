@@ -44,9 +44,8 @@ namespace OgreOggSound
 	,mStreamEOF(false)
 	,mLastOffset(0.f)
 	{
-		mStream=true;
-		mBuffers = OGRE_ALLOC_T(ALuint, NUM_BUFFERS, Ogre::MEMCATEGORY_GENERAL);
-		memset(mBuffers, AL_NONE, sizeof(ALuint) * NUM_BUFFERS); 
+		mStream=true;															
+		mBuffers.bind(new std::vector<ALuint>(NUM_BUFFERS, AL_NONE));
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamSound::~OgreOggStreamSound()
@@ -84,7 +83,7 @@ namespace OgreOggSound
 		mPlayTime = static_cast<float>(ov_time_total(&mOggStream, -1));
 
 		// Generate audio buffers
-		alGenBuffers(NUM_BUFFERS, mBuffers);
+		alGenBuffers(NUM_BUFFERS, &(*mBuffers)[0]);
 
 			// Check format support
 		if (!_queryBufferInfo())			
@@ -93,7 +92,7 @@ namespace OgreOggSound
 #if HAVE_EFX
 		// Upload to XRAM buffers if available
 		if ( OgreOggSoundManager::getSingleton().hasXRamSupport() )
-			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, mBuffers);
+			OgreOggSoundManager::getSingleton().setXRamBuffer(NUM_BUFFERS, &(*mBuffers)[0]);
 #endif
 
 		// In case loop point set BEFORE loaded re-check here
@@ -115,9 +114,9 @@ namespace OgreOggSound
 		ALuint src=AL_NONE;
 		setSource(src);
 		for (int i=0; i<NUM_BUFFERS; i++)
-		{
-			if (mBuffers[i]!=AL_NONE)
-				alDeleteBuffers(1, &mBuffers[i]);
+		{										   
+			if ((*mBuffers)[i]!=AL_NONE)
+				alDeleteBuffers(1, &(*mBuffers)[i]);
 		}
 		if ( !mAudioStream.isNull() ) ov_clear(&mOggStream);
 		mPlayPosChanged = false;
@@ -234,9 +233,9 @@ namespace OgreOggSound
 
 		int i=0;
 		while ( i<NUM_BUFFERS )
-		{
-			if ( _stream(mBuffers[i]) )
-				alSourceQueueBuffers(mSource, 1, &mBuffers[i++]);
+		{															   
+			if ( _stream((*mBuffers)[i]) )
+				alSourceQueueBuffers(mSource, 1, &(*mBuffers)[i++]);
 			else
 				break;
 		}
