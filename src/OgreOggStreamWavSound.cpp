@@ -390,7 +390,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_updateAudioBuffers()
 	{
-		if(mSource == AL_NONE || !mPlay) return;
+		if (!isPlaying()) return;
 
 		ALenum state;
 		alGetSourcei(mSource, AL_SOURCE_STATE, &state);
@@ -628,6 +628,7 @@ namespace OgreOggSound
 		if(mSource == AL_NONE) return;
 
 		alSourcePause(mSource);
+		mState = SS_PAUSED;
 		
 		// Notify listener
 		if ( mSoundListener ) mSoundListener->soundPaused(this);
@@ -652,7 +653,7 @@ namespace OgreOggSound
 		}
 
 		// Set play flag
-		mPlay = true;
+		mState = SS_PLAYING;
 		
 		// Notify listener
 		if ( mSoundListener ) mSoundListener->soundPlayed(this);
@@ -726,7 +727,7 @@ namespace OgreOggSound
 			_dequeue();
 
 			// Stop playback
-			mPlay=false;
+			mState = SS_STOPPED;
 
 			// Reset stream pointer
 			mAudioStream->seek(mAudioOffset);

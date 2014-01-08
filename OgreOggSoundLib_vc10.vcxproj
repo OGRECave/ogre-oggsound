@@ -52,7 +52,7 @@
     <ClCompile>
       <AdditionalOptions>/MP4 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>./include;$(OPENAL_SDK)\include\;$(OGRE)\include\OGRE\;$(BOOST_ROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;$(OPENAL_SDK)\include\;$(OGRE)\x86\include\OGRE\;$(BOOST_ROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;OGGSOUND_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -68,7 +68,7 @@
       <AdditionalDependencies>efx-util.lib;OpenAL32.lib;libvorbis_static_d.lib;libvorbisfile_static_d.lib;libogg_static_d.lib;OgreMain_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <Version>1.24</Version>
-      <AdditionalLibraryDirectories>./dependencies;$(OPENAL_SDK)\libs\win32\EFX-UTIL_MT;$(OPENAL_SDK)\libs\Win32;$(OGRE)\lib\$(Configuration)\;$(BOOST_ROOT)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>./dependencies;$(OPENAL_SDK)\libs\win32\EFX-UTIL_MT;$(OPENAL_SDK)\libs\Win32;$(OGRE)\x86\lib\$(Configuration)\;$(BOOST_ROOT)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -87,7 +87,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>false</OmitFramePointers>
-      <AdditionalIncludeDirectories>./include;$(OPENAL_SDK)\include;$(OGRE)\include\OGRE\;$(BOOST_ROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include;$(OPENAL_SDK)\include;$(OGRE)\x86\include\OGRE\;$(BOOST_ROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;OGGSOUND_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -104,7 +104,7 @@
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>efx-util.lib;OpenAL32.lib;libvorbis_static.lib;libvorbisfile_static.lib;libogg_static.lib;OgreMain.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Version>1.24</Version>
-      <AdditionalLibraryDirectories>./dependencies;$(OPENAL_SDK)\libs\win32;$(OPENAL_SDK)\libs\Win32\EFX-Util_MT;$(OGRE)\lib\$(Configuration);$(BOOST_ROOT)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>./dependencies;$(OPENAL_SDK)\libs\win32;$(OPENAL_SDK)\libs\Win32\EFX-Util_MT;$(OGRE)\x86\lib\$(Configuration);$(BOOST_ROOT)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>

@@ -98,6 +98,21 @@ namespace OgreOggSound
 		FC_STOP		= 0x02
 	};
 
+	//! The current state of the sound.
+	/** 
+	@remarks
+		This is separate from what OpenAL thinks the current state of the sound is. A separate state is maintained in order to make
+		sure the correct state is available when using multi-threaded sound streaming since the OpenAL sound is stopped and started
+		multiple times while it is still technically in a "playing" state.
+	*/
+	enum SoundState
+	{
+		SS_NONE,
+		SS_PLAYING,
+		SS_PAUSED,
+		SS_STOPPED
+	};
+
 	//!Structure describing an ogg stream
 	struct SOggFile
 	{
@@ -170,7 +185,7 @@ namespace OgreOggSound
 			@param loop
 				Boolean: true == loop
 		 */
-		void loop(bool loop){ mLoop = loop; }
+		inline void loop(bool loop) { mLoop = loop; }
 		/** Sets the start point of a loopable section of audio.
 		@remarks
 			(NOTE:- Streamed sounds ONLY)
@@ -184,7 +199,7 @@ namespace OgreOggSound
 		virtual void setLoopOffset(float startTime) {}
 		/** Gets the start point of a loopable section of audio in seconds.
 		 */
-		float getLoopOffset() { return mLoopOffset; }
+		inline float getLoopOffset() { return mLoopOffset; }
 		/** Sets the source object for playback.
 		@remarks
 			Abstract function
@@ -206,7 +221,7 @@ namespace OgreOggSound
 		void startFade(bool dir, float fadeTime, FadeControl actionOnCompletion=OgreOggSound::FC_NONE);
 		/** Returns whether this sound is temporary
 		 */
-		bool isTemporary() const { return mTemporary; }
+		inline bool isTemporary() const { return mTemporary; }
 		/** Returns whether this sound is mono
 		 */
 		virtual bool isMono()=0;  
@@ -214,7 +229,7 @@ namespace OgreOggSound
 		@remarks
 			Auto-destroys itself after finishing playing.
 		*/
-		void markTemporary() { mTemporary=true; }
+		inline void markTemporary() { mTemporary=true; }
 		/** Allows switchable spatialisation for this sound.
 		@remarks
 			Switch's spatialisation on/off for mono sounds, no-effect for stereo sounds.
@@ -233,26 +248,29 @@ namespace OgreOggSound
 		/** Gets the position of the playback cursor in seconds
 		 */
 		virtual float getPlayPosition();
+		/** Gets the current state the sound is in
+		 */
+		inline SoundState getState() const { return mState; }
 		/** Returns play status.
 		@remarks
-			Checks source state for AL_PLAYING
+			Checks for a valid source before checking the state value
 		 */
-		bool isPlaying() const;
+		inline bool isPlaying() const { return mSource != AL_NONE && mState == SS_PLAYING; }
 		/** Returns pause status.
 		@remarks
-			Checks source state for AL_PAUSED
+			Checks for a valid source before checking the state value
 		 */
-		bool isPaused() const;
+		inline bool isPaused() const { return mSource != AL_NONE && mState == SS_PAUSED; }
 		/** Returns stop status.
 		@remarks
-			Checks source state for AL_STOPPED
+			Checks for a valid source before checking the state value
 		 */
-		bool isStopped() const;
+		inline bool isStopped() const { return mSource != AL_NONE && mState == SS_STOPPED; }
 		/** Returns position status.
 		@remarks
 			Returns whether position is local to listener or in world-space
 		 */
-		bool isRelativeToListener() const { return mSourceRelative; }
+		inline bool isRelativeToListener() const { return mSourceRelative; }
 		/** Sets whether source is given up when stopped.
 		@remarks
 			This flag indicates that the sound should immediately give up its source if finished playing
@@ -261,7 +279,7 @@ namespace OgreOggSound
 			@param giveup 
 				true = release source immediately
 		 */
-		void setGiveUpSourceOnStop(bool giveup=false) { mGiveUpSource=giveup; }
+		inline void setGiveUpSourceOnStop(bool giveup=false) { mGiveUpSource=giveup; }
 		/** Sets sounds position.
 		@param posx 
 			x position
@@ -411,13 +429,13 @@ namespace OgreOggSound
 		void setRelativeToListener(bool relative);
 		/** Gets sounds position
 		*/
-		const Ogre::Vector3& getPosition() const {return mPosition;}
+		inline const Ogre::Vector3& getPosition() const {return mPosition;}
 		/** Gets the sounds direction
 		 */
-		const Ogre::Vector3& getDirection() const {return mDirection;}
+		inline const Ogre::Vector3& getDirection() const {return mDirection;}
 		/** Returns fade status.
 		 */
-		bool isFading() const { return mFade; }
+		inline bool isFading() const { return mFade; }
 		/** Updates sund
 		@remarks
 			Updates sounds position, buffers and state
@@ -427,13 +445,13 @@ namespace OgreOggSound
 		virtual void update(float fTime);
 		/** Gets the sounds source
 		 */
-		ALuint getSource() const { return mSource; }
+		inline ALuint getSource() const { return mSource; }
 		/** Gets the sounds name
 		 */
-		const Ogre::String& getName( void ) const { return mName; }
+		inline const Ogre::String& getName( void ) const { return mName; }
 		/** Gets the sounds priority
 		 */
-		Ogre::uint8 getPriority() const { return mPriority; }
+		inline Ogre::uint8 getPriority() const { return mPriority; }
 		/** Sets the sounds priority
 		@remarks
 			This can be used to specify a priority to the sound which
@@ -442,7 +460,7 @@ namespace OgreOggSound
 			@param priority 
 				(0..255)
 		 */
-		void setPriority(Ogre::uint8 priority) { mPriority=priority; }
+		inline void setPriority(Ogre::uint8 priority) { mPriority=priority; }
 		/** Adds a time position in a sound as a cue point
 		@remarks
 			Allows the setting of a 'jump-to' point within an audio file. Returns the true on success. 
@@ -455,7 +473,7 @@ namespace OgreOggSound
 		void removeCuePoint(unsigned short index);
 		/** Clears entire list of cue points
 		 */
-		void clearCuePoints() { mCuePoints.clear(); }
+		inline void clearCuePoints() { mCuePoints.clear(); }
 		/** Shifts the play position to a previously set cue point position.
 		@param index
 			position in cue point list to apply
@@ -468,12 +486,12 @@ namespace OgreOggSound
 		float getCuePoint(unsigned short index);
 		/** Returns number of cue points
 		 */
-		unsigned int getNumCuePoints() { return static_cast<int>(mCuePoints.size()); }
+		inline unsigned int getNumCuePoints() { return static_cast<int>(mCuePoints.size()); }
 		/** Gets the length of the audio file in seconds
 		@remarks
 			Only valid after file has been opened AND file is seekable.
 		 */
-		float getAudioLength() const { return mPlayTime; }
+		inline float getAudioLength() const { return mPlayTime; }
 		/** Gets movable type string
 		@remarks
 			Overridden from MovableObject.
@@ -494,7 +512,7 @@ namespace OgreOggSound
 			This will only be set if the sound was created through the plugin method
 			createMovableobject().
 		*/
-		Ogre::SceneManager* getSceneManager() const { return &mScnMan; }   
+		inline Ogre::SceneManager* getSceneManager() const { return &mScnMan; }   
 
 		/** Sets a listener object to be notified of events.
 		@remarks
@@ -502,7 +520,7 @@ namespace OgreOggSound
 			@param l
 				Listener object pointer.
 		*/
-		void setListener(SoundListener* l) { mSoundListener=l; }
+		inline void setListener(SoundListener* l) { mSoundListener=l; }
 
 		/** Sets properties of a shared resource.
 		@remarks
@@ -667,8 +685,8 @@ namespace OgreOggSound
 		float mOuterConeAngle;			// outer cone angle
 		float mPlayTime;				// Time in seconds of sound file
 		Ogre::String mName;				// Sound name
+		SoundState mState;				// Sound state
 		bool mLoop;						// Loop status
-		bool mPlay;						// Play status
 		bool mDisable3D;				// 3D status
 		bool mGiveUpSource;				// Flag to indicate whether sound should release its source when stopped
 		bool mStream;					// Stream flag
