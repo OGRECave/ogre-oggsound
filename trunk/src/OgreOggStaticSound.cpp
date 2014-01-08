@@ -289,7 +289,8 @@ namespace OgreOggSound
 		mState = SS_PAUSED;
 
 		// Notify listener
-		if (mSoundListener) mSoundListener->soundPaused(this);
+		if (mSoundListener) 
+			mSoundListener->soundPaused(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_playImpl()
@@ -309,7 +310,8 @@ namespace OgreOggSound
 		mState = SS_PLAYING;
 
 		// Notify listener
-		if (mSoundListener) mSoundListener->soundPlayed(this);
+		if (mSoundListener) 
+			mSoundListener->soundPlayed(this);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_stopImpl()
@@ -371,7 +373,8 @@ namespace OgreOggSound
 			if ( mPreviousOffset>bytes )
 			{
 				// Notify listener
-				if (mSoundListener) mSoundListener->soundLooping(this);
+				if (mSoundListener) 
+					mSoundListener->soundLooping(this);
 			}
 
 			// Store current offset position

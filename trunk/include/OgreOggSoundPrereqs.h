@@ -96,9 +96,9 @@ namespace OgreOggSound
 	//! Holds information about a static shared audio buffer.
 	struct sharedAudioBuffer
 	{
-		ALuint mAudioBuffer;
-		unsigned int mRefCount;
-		OgreOggISound* mParent;
+		ALuint mAudioBuffer;		/// OpenAL buffer
+		unsigned int mRefCount;		/// Reference counter
+		OgreOggISound* mParent;		/// Parent OgreOggISound ptr for shared properties
 	};
 
 	typedef std::map<std::string, sharedAudioBuffer*> SharedBufferList;
@@ -110,7 +110,7 @@ namespace OgreOggSound
  * 1 - BOOST multithreaded
  */
 #ifndef OGGSOUND_THREADED
-	#define OGGSOUND_THREADED 0
+	#define OGGSOUND_THREADED 1
 #endif
 
 
