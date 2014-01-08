@@ -78,7 +78,7 @@ namespace OgreOggSound
 	 mName(name)
 	,mSource(0) 
 	,mLoop(false) 
-	,mPlay(false) 
+	,mState(SS_NONE) 
 	,mPosition(0,0,0) 
 	,mReferenceDistance(1.0f) 
 	,mDirection(0,0,0) 
@@ -543,47 +543,6 @@ namespace OgreOggSound
 		{
 			Ogre::LogManager::getSingleton().logMessage("***--- OgreOggISound::_recoverPlayPosition() - Unable to set play position", Ogre::LML_CRITICAL);
 		}
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggISound::isPlaying() const
-	{
-		if(mSource != AL_NONE)
-		{
-			ALenum state;
-			alGetError();    
-			alGetSourcei(mSource, AL_SOURCE_STATE, &state);
-			return (mPlay || (state == AL_PLAYING));
-		}
-
-		// May have been kicked off and is currently waiting to be reactivated
-		// Return its previous status..
-		return false;
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggISound::isPaused() const
-	{
-		if(mSource != AL_NONE)
-		{
-			ALenum state;
-			alGetError();    
-			alGetSourcei(mSource, AL_SOURCE_STATE, &state);
-			return (state == AL_PAUSED);
-		}
-
-		return false;
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	bool OgreOggISound::isStopped() const
-	{
-		if(mSource != AL_NONE)
-		{
-			ALenum state;
-			alGetError();    
-			alGetSourcei(mSource, AL_SOURCE_STATE, &state);
-			return (!mPlay && (state == AL_STOPPED));
-		}
-
-		return false;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::setPlayPosition(float seconds)

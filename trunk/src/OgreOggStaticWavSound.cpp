@@ -411,6 +411,7 @@ namespace OgreOggSound
 		if ( mSource==AL_NONE ) return;
 
 		alSourcePause(mSource);
+		mState = SS_PAUSED;
 
 		// Notify listener
 		if ( mSoundListener ) mSoundListener->soundPaused(this);
@@ -430,7 +431,7 @@ namespace OgreOggSound
 			setPlayPosition(mPlayPos);
 
 		alSourcePlay(mSource);
-		mPlay = true;
+		mState = SS_PLAYING;
 
 		// Notify listener
 		if ( mSoundListener ) mSoundListener->soundPlayed(this);
@@ -442,7 +443,7 @@ namespace OgreOggSound
 
 		alSourceStop(mSource);
 		alSourceRewind(mSource);
-		mPlay=false;
+		mState = SS_STOPPED;
 		mPreviousOffset=0;
 
 		if (mTemporary)
@@ -469,7 +470,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void	OgreOggStaticWavSound::_updateAudioBuffers()
 	{
-		if(mSource == AL_NONE || !mPlay)
+		if (!isPlaying())
 			return;
 
 		ALenum state;
