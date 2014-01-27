@@ -2640,7 +2640,6 @@ namespace OgreOggSound
 		// Reset timer
 		pTime=cTime;
 	}
-
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_performAction(const SoundAction& act)
 	{
