@@ -32,9 +32,7 @@
 * 
 * Base class for a single sound
 */
-
 #pragma once
-
 
 #include "OgreOggSoundPrereqs.h"
 #include <string>

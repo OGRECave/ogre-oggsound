@@ -37,6 +37,7 @@
 
 #include "OgreOggSoundPrereqs.h"
 #include "OgreOggSound.h"
+#include "OgreOggISound.h"
 #include "LocklessQueue.h"
 
 #include <map>
@@ -64,6 +65,7 @@ namespace OgreOggSound
 	typedef std::deque<ALuint> SourceList;
 	
 	class OgreOggISound;
+
 
 	//! Various sound commands
 	enum SOUND_ACTION
@@ -643,7 +645,7 @@ namespace OgreOggSound
 			@param on
 				Flag indicating status of mForceMutex var.
 		*/
-		void setForceMutex(bool on) { mForceMutex=on; }
+		inline void setForceMutex(bool on) { mForceMutex=on; }
 #endif
  
 	private:

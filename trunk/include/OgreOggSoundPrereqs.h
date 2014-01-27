@@ -32,6 +32,7 @@
 * 
 * Pre-requisites for building lib
 */
+#pragma once 
 
 #include <OgreVector3.h>
 #include <OgreDataStream.h>
@@ -40,7 +41,6 @@
 
 #   if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 
-#	pragma once
 #	pragma warning( disable : 4244 )
 
 /**

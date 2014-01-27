@@ -28,6 +28,7 @@ SET (SOURCE_FILES
     src/OgreOggSoundFactory.cpp
     src/OgreOggSoundManager.cpp
     src/OgreOggSoundPlugin.cpp
+    src/OgreOggSoundPluginDllStart.cpp
     src/OgreOggSoundRecord.cpp
     src/OgreOggStaticSound.cpp
     src/OgreOggStaticWavSound.cpp
