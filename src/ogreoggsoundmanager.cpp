@@ -266,9 +266,9 @@ namespace OgreOggSound
 		// Version Info
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         ALenum error = 0;
-		alGetError();
+		alcGetError(NULL);
 	    alcGetIntegerv(NULL, ALC_MINOR_VERSION, sizeof(minorVersion), &minorVersion);
-        if ((error = alGetError())!=AL_NO_ERROR)
+        if ((error = alcGetError(NULL))!=AL_NO_ERROR)
 		{
 			switch (error)
 			{
@@ -281,9 +281,9 @@ namespace OgreOggSound
 			LogManager::getSingleton().logMessage("Unable to get OpenAL Minor Version number", Ogre::LML_CRITICAL);
 			return false;
 		}
-		alGetError();
+		alcGetError(NULL);
 		alcGetIntegerv(NULL, ALC_MAJOR_VERSION, sizeof(majorVersion), &majorVersion);
-        if ((error = alGetError())!=AL_NO_ERROR)
+        if ((error = alcGetError(NULL))!=AL_NO_ERROR)
 		{
 			switch (error)
 			{
