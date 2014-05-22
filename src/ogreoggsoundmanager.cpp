@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundManager.cpp
 * @author  Ian Stangoe
-* @version v1.24
+* @version v1.25
 *
 * @section LICENSE
 *
@@ -57,7 +57,7 @@ namespace OgreOggSound
 {
 	using namespace Ogre;
 
-	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.22";
+	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.25";
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::OgreOggSoundManager() :
@@ -801,17 +801,6 @@ namespace OgreOggSound
 #else
 		_resumeAllPausedSoundsImpl();
 #endif
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::muteAllSounds()
-	{
-		alGetListenerf(AL_GAIN, &mOrigVolume);
-		alListenerf(AL_GAIN, 0.f);
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggSoundManager::unmuteAllSounds()
-	{
-		alListenerf(AL_GAIN, mOrigVolume);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::destroySound(const Ogre::String& sName)

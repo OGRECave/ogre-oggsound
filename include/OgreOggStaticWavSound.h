@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStaticWavSound.h
 * @author  Ian Stangoe
-* @version v1.24
+* @version v1.25
 *
 * @section LICENSE
 * 
@@ -72,6 +72,9 @@ namespace OgreOggSound
 		/** Returns whether sound is mono
 		*/
 		bool isMono();
+		/** Gets the sounds file name
+		 */
+		virtual const Ogre::String& getFileName( void ) const { return mAudioName; }
 
 	protected:	
 

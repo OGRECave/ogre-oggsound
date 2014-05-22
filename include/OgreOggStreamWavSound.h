@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamWavSound.h
 * @author  Ian Stangoe
-* @version v1.24
+* @version v1.25
 *
 * @section LICENSE
 * 
@@ -58,7 +58,7 @@ namespace OgreOggSound
 		void setPlayPosition(float seconds);	
 		/** Gets the position of the playback cursor in seconds
 		 */
-		float getPlayPosition();	
+		float getPlayPosition() const;	
 		/** Sets the source to use for playback.
 		@remarks
 			Sets the source object this sound will use to queue buffers onto

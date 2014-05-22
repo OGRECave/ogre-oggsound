@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundPrereqs.h
 * @author  Ian Stangoe
-* @version v1.24
+* @version v1.25
 *
 * @section LICENSE
 * 
@@ -107,10 +107,10 @@ namespace OgreOggSound
 /**
  * Specifies whether to use threads for streaming
  * 0 - No multithreading
- * 1 - BOOST multithreaded
+ * 1 - BOOST/POCO multithreaded
  */
 #ifndef OGGSOUND_THREADED
-	#define OGGSOUND_THREADED 1
+	#define OGGSOUND_THREADED 0
 #endif
 
 

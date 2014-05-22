@@ -245,7 +245,7 @@ namespace OgreOggSound
 		virtual void setPlayPosition(float seconds);
 		/** Gets the position of the playback cursor in seconds
 		 */
-		virtual float getPlayPosition();
+		virtual float getPlayPosition() const;
 		/** Gets the current state the sound is in
 		 */
 		inline SoundState getState() const { return mState; }
@@ -447,6 +447,9 @@ namespace OgreOggSound
 		/** Gets the sounds name
 		 */
 		inline const Ogre::String& getName( void ) const { return mName; }
+		/** Gets the sounds file name
+		 */
+		virtual const Ogre::String& getFileName( void ) const { return mAudioStream.isNull() ? Ogre::StringUtil::BLANK : mAudioStream->getName(); }
 		/** Gets the sounds priority
 		 */
 		inline Ogre::uint8 getPriority() const { return mPriority; }

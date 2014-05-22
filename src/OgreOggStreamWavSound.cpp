@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamWavSound.cpp
 * @author  Ian Stangoe
-* @version v1.24
+* @version v1.25
 *
 * @section LICENSE
 * 
@@ -674,7 +674,7 @@ namespace OgreOggSound
 		mPlayPosChanged = true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	float OgreOggStreamWavSound::getPlayPosition()
+	float OgreOggStreamWavSound::getPlayPosition() const
 	{ 
 		if ( !mSource ) return -1.f;
 

@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundManager.h
 * @author  Ian Stangoe
-* @version v1.24
+* @version v1.25
 *
 * @section LICENSE
 * 
@@ -237,10 +237,10 @@ namespace OgreOggSound
 		void pauseAllSounds();
 		/** Mutes all sounds.
 		 */
-		void muteAllSounds();
+		inline void muteAllSounds() { alGetListenerf(AL_GAIN, &mOrigVolume); setMasterVolume(0.f); }
 		/** Un mutes all sounds.
 		 */
-		void unmuteAllSounds();
+		inline void unmuteAllSounds() { setMasterVolume(mOrigVolume); }
 		/** Resumes all previously playing sounds.
 		 */
 		void resumeAllPausedSounds();
