@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStaticSound.cpp
 * @author  Ian Stangoe
-* @version v1.24
+* @version v1.25
 *
 * @section LICENSE
 * 

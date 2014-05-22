@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamSound.cpp
 * @author  Ian Stangoe
-* @version v1.24
+* @version v1.25
 *
 * @section LICENSE
 * 
@@ -485,7 +485,7 @@ namespace OgreOggSound
 		mPlayPosChanged = true;
 	}	 
 	/*/////////////////////////////////////////////////////////////////*/
-	float OgreOggStreamSound::getPlayPosition()
+	float OgreOggStreamSound::getPlayPosition() const
 	{
 		if ( !mSeekable || !mSource ) 
 			return -1.f;
