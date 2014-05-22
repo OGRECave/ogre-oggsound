@@ -3,6 +3,11 @@
 	* Added patches from shenjoku: http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=30226
 		* Path name getter for sound
 		* const qualifier added to getter functions
+	
+	* Changed device list query to return all devices
+	
+	* Added Context/Device getters
+	
 
 * version 1.24
 

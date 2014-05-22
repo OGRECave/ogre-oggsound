@@ -216,30 +216,6 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggSoundManager* OgreOggSoundManager::getSingletonPtr(void)
-	{
-#if OGRE_VERSION_MAJOR == 1 && OGRE_VERSION_MINOR <= 7    
-		return ms_Singleton;
-#else
-		return msSingleton;
-#endif	
-	}
-	/*/////////////////////////////////////////////////////////////////*/
-	OgreOggSoundManager& OgreOggSoundManager::getSingleton(void)
-	{
-#if OGRE_VERSION_MAJOR == 1 && OGRE_VERSION_MINOR <= 7    
-		if ( !ms_Singleton ) 
-#else
-		if ( !msSingleton )
-#endif
-			OGRE_EXCEPT( Ogre::Exception::ERR_ITEM_NOT_FOUND, "'OgreOggSound[_d]' plugin NOT loaded! - use loadPlugin()", "OgreOggSoundManager::getSingleton()");  
-#if OGRE_VERSION_MAJOR == 1 && OGRE_VERSION_MINOR <= 7    
-		return ( *ms_Singleton );
-#else
-		return ( *msSingleton );
-#endif
-	}
-	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::init(	const std::string &deviceName, 
 									unsigned int maxSources, 
 									unsigned int queueListSize, 
@@ -448,7 +424,7 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	const StringVector OgreOggSoundManager::getDeviceList() const
 	{
-		const ALCchar* deviceList = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
+		const ALCchar* deviceList = alcGetString(NULL, ALC_ALL_DEVICES_SPECIFIER);
 
 		Ogre::StringVector deviceVector;
 		/*
