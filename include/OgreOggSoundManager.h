@@ -126,12 +126,6 @@ namespace OgreOggSound
 		/** Creates a manager for all sounds within the application.
 		 */
 		OgreOggSoundManager();
-		/** Gets a singleton reference.
-		 */
-		static OgreOggSoundManager& getSingleton(void);
-		/** Gets a singleton reference.
-		 */
-		static OgreOggSoundManager* getSingletonPtr(void);
 		/** Destroys this manager.
 		@remarks
 			Destroys all sound objects and thread if defined. Cleans up
@@ -160,6 +154,12 @@ namespace OgreOggSound
 				Desired size of queue list (optional | Multi-threaded ONLY)
 		 */
 		bool init(const std::string &deviceName = "", unsigned int maxSources=100, unsigned int queueListSize=100, Ogre::SceneManager* sMan=0);
+		/** Gets the openal device ptr
+		*/
+		const ALCdevice* getOpenalDevice() { return mDevice; }
+		/** Gets the openal context ptr
+		*/
+		const ALCcontext* getOpenalContext() { return mContext; }
 		/** Sets the global volume for all sounds
 			@param vol 
 				global attenuation for all sounds.
