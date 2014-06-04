@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamWavSound.cpp
 * @author  Ian Stangoe
-* @version v1.25
+* @version v1.26
 *
 * @section LICENSE
 * 
@@ -44,7 +44,7 @@ namespace OgreOggSound
 	, mStreamEOF(false)
 	, mLastOffset(0.f)
 	{																			   
-		mBuffers.bind(new std::vector<ALuint>(NUM_BUFFERS, AL_NONE));
+		mBuffers.bind(new BufferList(NUM_BUFFERS, AL_NONE));
 		mFormatData.mFormat=0;
 		mStream = true;	   
 	}
@@ -625,6 +625,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_pauseImpl()
 	{
+		assert(mState != SS_DESTROYED);
+
 		if(mSource == AL_NONE) return;
 
 		alSourcePause(mSource);
@@ -636,6 +638,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_playImpl()
 	{
+		assert(mState != SS_DESTROYED);
+
 		if(isPlaying())	return;
 
 		// Grab a source if not already attached
@@ -721,6 +725,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamWavSound::_stopImpl()
 	{
+		assert(mState != SS_DESTROYED);
+
 		if(mSource != AL_NONE)
 		{
 			// Remove audio data from source
@@ -739,6 +745,7 @@ namespace OgreOggSound
 
 			if (mTemporary)
 			{
+				mState = SS_DESTROYED;
 				OgreOggSoundManager::getSingleton()._destroyTemporarySound(this);
 			}
 			// Give up source immediately if specfied

@@ -1,7 +1,7 @@
 /**
 * @file OgreOggISound.h
 * @author  Ian Stangoe
-* @version 1.24
+* @version 1.26
 *
 * @section LICENSE
 * 
@@ -108,7 +108,8 @@ namespace OgreOggSound
 		SS_NONE,
 		SS_PLAYING,
 		SS_PAUSED,
-		SS_STOPPED
+		SS_STOPPED,
+		SS_DESTROYED
 	};
 
 	//!Structure describing an ogg stream
@@ -128,10 +129,7 @@ namespace OgreOggSound
 	{
 
 	public:
-	
-		typedef std::vector<ALuint> BufferList;	  // A list of the IDs of all OpenAL buffers being used by a sound. This is a vector so that it can be passed around as an array to the various OpenAL functions.
-		typedef Ogre::SharedPtr<BufferList> BufferListPtr;	// An Ogre::SharedPtr to the list of buffer IDs. This makes it easier to pass the values to multiple OgreOggISound instances without having
-		
+
 		//! Listener callback
 		/** provides hooks into various sound states.
 		*/	
@@ -526,10 +524,10 @@ namespace OgreOggSound
 		/** Sets properties of a shared resource.
 		@remarks
 			Sets a number of properties relating to audio of a shared resource.
-			@param s
-				OgreOggISound pointer of parent sound.
+			@param buffer
+				Pointer to the shared buffer to copy the properties from.
 		*/
-		void _setSharedProperties(OgreOggISound* s);
+		void _setSharedProperties(sharedAudioBuffer* buffer);
 	
 		/** Gets properties of a shared resource.
 		@remarks

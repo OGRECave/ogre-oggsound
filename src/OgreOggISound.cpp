@@ -1,7 +1,7 @@
 /**
 * @file OgreOggISound.cpp
 * @author  Ian Stangoe
-* @version v1.25
+* @version v1.26
 *
 * @section LICENSE
 * 
@@ -137,13 +137,17 @@ namespace OgreOggSound
 		format = mFormat;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggISound::_setSharedProperties(OgreOggISound* s) 
+	void OgreOggISound::_setSharedProperties(sharedAudioBuffer* buffer) 
 	{
-		s->_getSharedProperties(mBuffers, mPlayTime, mFormat); 
+		mBuffers = buffer->mBuffers;
+		mPlayTime = buffer->mPlayTime;
+		mFormat = buffer->mFormat;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::play(bool immediate)
 	{
+		assert(mState != SS_DESTROYED);
+
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mSound = mName;
@@ -158,6 +162,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::stop(bool immediate)
 	{
+		assert(mState != SS_DESTROYED);
+
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mSound = mName;
@@ -172,6 +178,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggISound::pause(bool immediate)
 	{
+		assert(mState != SS_DESTROYED);
+
 #if OGGSOUND_THREADED
 		SoundAction action;
 		action.mSound = mName;
