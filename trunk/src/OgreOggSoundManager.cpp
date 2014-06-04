@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundManager.cpp
 * @author  Ian Stangoe 
-* @version v1.25
+* @version v1.26
 *
 * @section LICENSE
 *
@@ -57,7 +57,7 @@ namespace OgreOggSound
 {
 	using namespace Ogre;
 
-	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.25";
+	const Ogre::String OgreOggSoundManager::OGREOGGSOUND_VERSION_STRING = "OgreOggSound v1.26";
 
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggSoundManager::OgreOggSoundManager() :
@@ -870,8 +870,16 @@ namespace OgreOggSound
 			if (!mSoundsToDestroy->empty() )
 			{
 				OgreOggISound* s=0;
-				if ( mSoundsToDestroy->pop(s) )
-					_destroySoundImpl(s);
+				int count=0;
+				do
+				{
+					if ( mSoundsToDestroy->pop(s) )
+					{
+						_destroySoundImpl(s);
+						count++;
+					}
+				}
+				while(!mSoundsToDestroy->empty() && count<5);
 			}
 		}
 	}
@@ -1050,9 +1058,9 @@ namespace OgreOggSound
 				d1 = snd1->getPosition().distance(mListener->getPosition());
 
 			if ( sound->isRelativeToListener() )
-				d1 = sound->getPosition().length();
+				d2 = sound->getPosition().length();
 			else
-				d1 = sound->getPosition().distance(mListener->getPosition());
+				d2 = sound->getPosition().distance(mListener->getPosition());
 
 			// Needs swapping?
 			if ( d1>d2 )
@@ -2143,6 +2151,9 @@ namespace OgreOggSound
 		{
 			// Use shared buffer if available
 			sound->_openImpl(file, buffer);
+
+			// Increment the reference count since this buffer is now being used for another sound.
+			++buffer->mRefCount;
 		}
 
 		// If requested to preBuffer - grab free source and init
@@ -2359,6 +2370,14 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_releaseAll()
 	{
+		// Clear all of the various containers of sounds. This will make releasing MUCH faster since each sound won't have to
+		// bother searching for and manually removing themselves from the lists, which really doesn't matter when everything is
+		// being destroyed.
+		mSoundsToReactivate.clear();
+		mPausedSounds.clear();
+		mWaitingSounds.clear();
+		mActiveSounds.clear();
+
 		stopAllSounds();
 		_destroyAllSoundsImpl();
 
@@ -2526,7 +2545,7 @@ namespace OgreOggSound
 					alDeleteBuffers(1, &f->second->mAudioBuffer);
 
 					// Delete struct
-					OGRE_FREE(f->second, Ogre::MEMCATEGORY_GENERAL);
+					OGRE_DELETE_T(f->second, sharedAudioBuffer, Ogre::MEMCATEGORY_GENERAL);
 
 					// Remove from list
 					mSharedBuffers.erase(f);
@@ -2545,7 +2564,7 @@ namespace OgreOggSound
 		if ( ( f = mSharedBuffers.find(sName) ) == mSharedBuffers.end() )
 		{
 			// Create struct
-			sharedAudioBuffer* buf = OGRE_ALLOC_T(sharedAudioBuffer, 1, Ogre::MEMCATEGORY_GENERAL);
+			sharedAudioBuffer* buf = OGRE_NEW_T(sharedAudioBuffer, Ogre::MEMCATEGORY_GENERAL);
 
 			// Set buffer
 			buf->mAudioBuffer = buffer;
@@ -2553,8 +2572,8 @@ namespace OgreOggSound
 			// Set ref count
 			buf->mRefCount = 1;
 
-			// Set parent ptr
-			buf->mParent = parent;
+			// Copy the shared information into the buffer so it can be passed around to every other sound that needs it.
+			parent->_getSharedProperties(buf->mBuffers, buf->mPlayTime, buf->mFormat);
 
 			// Add to list
 			mSharedBuffers[sName] = buf;

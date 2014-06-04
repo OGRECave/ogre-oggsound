@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundManager.h
 * @author  Ian Stangoe
-* @version v1.25
+* @version v1.26
 *
 * @section LICENSE
 * 
@@ -627,6 +627,7 @@ namespace OgreOggSound
 		static Poco::Mutex mMutex;
 #	else
 		static boost::recursive_mutex mMutex;
+		static boost::recursive_mutex mSoundMutex;
 #	endif
 
 		/** Pushes a sound action request onto the queue
@@ -890,6 +891,10 @@ namespace OgreOggSound
 		/** Destroys a listener object.
 		 */
 		void _destroyListener();
+
+		/** Calculates the distance a sound is from the specified listener position.
+		 */
+		static Ogre::Real _calculateDistanceToListener(OgreOggISound * sound, const Ogre::Vector3 & listenerPos);
 
 		/**
 		 * OpenAL device objects

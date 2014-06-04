@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStaticSound.cpp
 * @author  Ian Stangoe
-* @version v1.25
+* @version v1.26
 *
 * @section LICENSE
 * 
@@ -46,7 +46,7 @@ namespace OgreOggSound
 	,mAudioName("")
 	{
 		mStream=false;														
-		mBuffers.bind(new std::vector<ALuint>(1, AL_NONE));
+		mBuffers.bind(new BufferList(1, AL_NONE));
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStaticSound::~OgreOggStaticSound()
@@ -132,7 +132,7 @@ namespace OgreOggSound
 		if ( !buffer ) return;
 
 		// Set buffer
-		_setSharedProperties(buffer->mParent);
+		_setSharedProperties(buffer);
 
 		// Filename
 		mAudioName = fName;
@@ -283,6 +283,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_pauseImpl()
 	{
+		assert(mState != SS_DESTROYED);
+
 		if ( mSource==AL_NONE ) return;
 
 		alSourcePause(mSource);
@@ -295,6 +297,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_playImpl()
 	{
+		assert(mState != SS_DESTROYED);
+
 		if(isPlaying())
 			return;
 
@@ -316,6 +320,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStaticSound::_stopImpl()
 	{
+		assert(mState != SS_DESTROYED);
+
 		if ( mSource==AL_NONE || isStopped() ) return;
 
 		alSourceStop(mSource);
@@ -329,6 +335,7 @@ namespace OgreOggSound
 		// Mark for destruction
 		if (mTemporary)
 		{
+			mState = SS_DESTROYED;
 			OgreOggSoundManager::getSingletonPtr()->_destroyTemporarySound(this);
 		}
 		// Give up source immediately if specfied

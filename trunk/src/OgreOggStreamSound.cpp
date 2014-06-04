@@ -1,7 +1,7 @@
 /**
 * @file OgreOggStreamSound.cpp
 * @author  Ian Stangoe
-* @version v1.25
+* @version v1.26
 *
 * @section LICENSE
 * 
@@ -45,7 +45,7 @@ namespace OgreOggSound
 	,mLastOffset(0.f)
 	{
 		mStream=true;															
-		mBuffers.bind(new std::vector<ALuint>(NUM_BUFFERS, AL_NONE));
+		mBuffers.bind(new BufferList(NUM_BUFFERS, AL_NONE));
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggStreamSound::~OgreOggStreamSound()
@@ -503,6 +503,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_pauseImpl()
 	{
+		assert(mState != SS_DESTROYED);
+
 		if(mSource == AL_NONE) return;
 
 		alSourcePause(mSource);
@@ -514,6 +516,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_playImpl()
 	{
+		assert(mState != SS_DESTROYED);
+
 		if (isPlaying())
 			return;
 
@@ -539,6 +543,8 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamSound::_stopImpl()
 	{
+		assert(mState != SS_DESTROYED);
+
 		if(mSource != AL_NONE)
 		{
 			// Remove audio data from source
@@ -549,6 +555,7 @@ namespace OgreOggSound
 
 			if (mTemporary)
 			{
+				mState = SS_DESTROYED;
 				OgreOggSoundManager::getSingletonPtr()->_destroyTemporarySound(this);
 				return;
 			}

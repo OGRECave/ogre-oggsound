@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundListener.h
 * @author  Ian Stangoe
-* @version v1.25
+* @version v1.26
 *
 * @section LICENSE
 * 
@@ -81,7 +81,7 @@ namespace OgreOggSound
 		void setPosition(const Ogre::Vector3 &pos);
 		/** Gets the position of the listener.
 		*/
-		const Ogre::Vector3& getPosition() { return mPosition; }
+		Ogre::Vector3 getPosition() const;
 		/** Sets the orientation of the listener.
 		@remarks
 			Sets the 3D orientation of the listener. This is a manual method,
@@ -104,7 +104,7 @@ namespace OgreOggSound
 		void setOrientation(const Ogre::Quaternion &q);
 		/** Gets the orientation of the listener.
 		*/
-		Ogre::Vector3 getOrientation() { return Ogre::Vector3(mOrientation[0],mOrientation[1],mOrientation[2]); }
+		Ogre::Vector3 getOrientation() const;
 		/** Sets sounds velocity.
 		@param
 			vel 3D x/y/z velocity
@@ -168,6 +168,14 @@ namespace OgreOggSound
 		void setSceneManager(Ogre::SceneManager& m) { mSceneMgr=&m; }
 		
 	private:
+
+#if OGGSOUND_THREADED
+#	if POCO_THREAD
+		static Poco::Mutex mMutex;
+#	else
+		static boost::recursive_mutex mMutex;
+#	endif
+#endif
 
 		/**
 		 * Positional variables

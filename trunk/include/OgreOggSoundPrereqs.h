@@ -1,7 +1,7 @@
 /**
 * @file OgreOggSoundPrereqs.h
 * @author  Ian Stangoe
-* @version v1.25
+* @version v1.26
 *
 * @section LICENSE
 * 
@@ -91,14 +91,25 @@
 	
 namespace OgreOggSound
 {
-	class OgreOggISound;
+	typedef std::vector<ALuint> BufferList; // A list of the IDs of all OpenAL buffers being used by a sound. This is a vector so that it can be passed around as an array to the various OpenAL functions.
+	typedef Ogre::SharedPtr<BufferList> BufferListPtr; // An Ogre::SharedPtr to the list of buffer IDs. This makes it easier to pass the values to multiple OgreOggISound instances without having to manage memory.
 
 	//! Holds information about a static shared audio buffer.
 	struct sharedAudioBuffer
 	{
-		ALuint mAudioBuffer;		/// OpenAL buffer
-		unsigned int mRefCount;		/// Reference counter
-		OgreOggISound* mParent;		/// Parent OgreOggISound ptr for shared properties
+		sharedAudioBuffer() :
+			 mAudioBuffer(AL_NONE)
+			,mRefCount(0)
+			,mBuffers()
+			,mPlayTime(0.0)
+			,mFormat(AL_NONE)
+		{ }
+
+		ALuint mAudioBuffer;	/// OpenAL buffer
+		unsigned int mRefCount;	/// Reference counter
+		BufferListPtr mBuffers;	/// The cached common buffers to use between all sounds using this shared audio buffer.
+		float mPlayTime;		/// The cached play time of the audio buffer.
+		ALenum mFormat;			/// The cached format of the audio buffer.
 	};
 
 	typedef std::map<std::string, sharedAudioBuffer*> SharedBufferList;

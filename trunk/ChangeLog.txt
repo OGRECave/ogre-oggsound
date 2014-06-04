@@ -1,3 +1,12 @@
+* version 1.26 (Potentially unstable multi-threaded version)
+
+	* Added patches to fix a number of multi-threaded issues discovered by shenjoku:
+		* http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=30239&p=102725#p102725
+		* http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=30243
+		* http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=30240
+		* http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=30246
+		* http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=30244
+
 * version 1.25
 
 	* Added patches from shenjoku: http://www.ogre3d.org/addonforums/viewtopic.php?f=19&t=30226
