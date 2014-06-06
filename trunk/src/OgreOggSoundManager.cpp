@@ -40,9 +40,11 @@
 		Poco::Thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
 		OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
 		Poco::Mutex OgreOggSound::OgreOggSoundManager::mMutex;
+		Poco::Mutex OgreOggSound::OgreOggSoundManager::mSoundMutex;
 #	else
 		boost::thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
 		boost::recursive_mutex OgreOggSound::OgreOggSoundManager::mMutex;
+		boost::recursive_mutex OgreOggSound::OgreOggSoundManager::mSoundMutex;
 #	endif
 	bool OgreOggSound::OgreOggSoundManager::mShuttingDown = false;
 #endif
@@ -484,6 +486,14 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	const StringVector OgreOggSoundManager::getSoundList() const
 	{
+		#if OGGSOUND_THREADED
+		#	ifdef POCO_THREAD
+				Poco::Mutex::ScopedLock soundLock(mSoundMutex);
+		#else
+				boost::recursive_mutex::scoped_lock soundLock(mSoundMutex);
+		#	endif
+		#endif
+
 		StringVector list;
 		for ( SoundMap::const_iterator iter=mSoundMap.begin(); iter!=mSoundMap.end(); ++iter )
 			list.push_back((*iter).first);
@@ -560,6 +570,14 @@ namespace OgreOggSound
 			// Set loop flag
 			sound->loop(loop);
 
+			#if OGGSOUND_THREADED
+			#	ifdef POCO_THREAD
+					Poco::Mutex::ScopedLock soundLock(mSoundMutex);
+			#else
+					boost::recursive_mutex::scoped_lock soundLock(mSoundMutex);
+			#	endif
+			#endif
+
 			// Add to list
 			mSoundMap[name]=sound;
 
@@ -598,6 +616,14 @@ namespace OgreOggSound
 
 			// Set loop flag
 			sound->loop(loop);
+
+			#if OGGSOUND_THREADED
+			#	ifdef POCO_THREAD
+					Poco::Mutex::ScopedLock soundLock(mSoundMutex);
+			#else
+					boost::recursive_mutex::scoped_lock soundLock(mSoundMutex);
+			#	endif
+			#endif
 
 			// Add to list
 			mSoundMap[name]=sound;
@@ -681,6 +707,14 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	OgreOggISound* OgreOggSoundManager::getSound(const std::string& name)
 	{
+		#if OGGSOUND_THREADED
+		#	ifdef POCO_THREAD
+				Poco::Mutex::ScopedLock soundLock(mSoundMutex);
+		#else
+				boost::recursive_mutex::scoped_lock soundLock(mSoundMutex);
+		#	endif
+		#endif
+
 		SoundMap::iterator i = mSoundMap.find(name);
 		if(i == mSoundMap.end()) return 0;
 #if OGGSOUND_THREADED
@@ -695,6 +729,14 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::hasSound(const std::string& name)
 	{
+		#if OGGSOUND_THREADED
+		#	ifdef POCO_THREAD
+				Poco::Mutex::ScopedLock soundLock(mSoundMutex);
+		#else
+				boost::recursive_mutex::scoped_lock soundLock(mSoundMutex);
+		#	endif
+		#endif
+
 		SoundMap::iterator i = mSoundMap.find(name);
 		if(i == mSoundMap.end())
 			return false;
@@ -886,62 +928,54 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	struct OgreOggSoundManager::_sortNearToFar
 	{
+		_sortNearToFar(const Ogre::Vector3 & listenerPos) : mListenerPos(listenerPos) { }
+
 		bool operator()(OgreOggISound*& sound1, OgreOggISound*& sound2)
 		{
-			float	d1=0.f,
-					d2=0.f;
-			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
-
 			if ( !sound1->isMono() ) return false;
-
-			if ( sound1->isRelativeToListener() )
-				d1 = sound1->getPosition().length();
-			else
-				d1 = sound1->getPosition().distance(lPos);
-
-			if ( sound2->isRelativeToListener() )
-				d2 = sound2->getPosition().length();
-			else
-				d2 = sound2->getPosition().distance(lPos);
 
 			// Check sort order
 			if ( !sound1->isMono() && sound2->isMono() ) return false;
+
+			const Ogre::Real d1 = OgreOggSoundManager::_calculateDistanceToListener(sound1, mListenerPos);
+			const Ogre::Real d2 = OgreOggSoundManager::_calculateDistanceToListener(sound2, mListenerPos);
+
 			if ( d1<d2 )	return true;
 			if ( d1>d2 )	return false;
 
 			// Equal - don't sort
 			return false;
 		}
+
+		private:
+
+			Ogre::Vector3 mListenerPos;
 	};
 	/*/////////////////////////////////////////////////////////////////*/
 	struct OgreOggSoundManager::_sortFarToNear
 	{
+		_sortFarToNear(const Ogre::Vector3 & listenerPos) : mListenerPos(listenerPos) { }
+
 		bool operator()(OgreOggISound*& sound1, OgreOggISound*& sound2)
 		{
-			float	d1=0.f,
-					d2=0.f;
-			Vector3	lPos=OgreOggSoundManager::getSingleton().getListener()->getPosition();
-
 			if ( !sound1->isMono() ) return false;
-
-			if ( sound1->isRelativeToListener() )
-				d1 = sound1->getPosition().length();
-			else
-				d1 = sound1->getPosition().distance(lPos);
-
-			if ( sound2->isRelativeToListener() )
-				d2 = sound2->getPosition().length();
-			else
-				d2 = sound2->getPosition().distance(lPos);
 
 			// Check sort order
 			if ( !sound1->isMono() && sound2->isMono() ) return true;
+
+			const Ogre::Real d1 = OgreOggSoundManager::_calculateDistanceToListener(sound1, mListenerPos);
+			const Ogre::Real d2 = OgreOggSoundManager::_calculateDistanceToListener(sound2, mListenerPos);
+
 			if ( d1>d2 )	return true;
 			if ( d1<d2 )	return false;
 
 			// Equal - don't sort
 			return false;
 		}
+
+		private:
+
+			Ogre::Vector3 mListenerPos;
 	};
 	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_requestSoundSource(OgreOggISound* sound)
@@ -1022,14 +1056,24 @@ namespace OgreOggSound
 				{
 					ALuint src = (*iter)->getSource();
 					ALuint nullSrc = AL_NONE;
-					// Pause sounds
-					(*iter)->pause();
+
+					if ((*iter)->getState() != SS_DESTROYED)
+					{
+						// Pause sounds
+						(*iter)->pause();
+					}
+
 					// Remove source
 					(*iter)->setSource(nullSrc);
 					// Attach source to new sound
 					sound->setSource(src);
+
 					// Add to reactivate list
-					mSoundsToReactivate.push_back((*iter));
+					if ((*iter)->getState() != SS_DESTROYED)
+					{
+						mSoundsToReactivate.push_back((*iter));
+					}
+
 					// Remove relinquished sound from active list
 					mActiveSounds.erase(iter);
 					// Add new sound to active list
@@ -1041,48 +1085,53 @@ namespace OgreOggSound
 					++iter;
 			}
 
-			// Sort by distance
-			float	d1 = 0.f,
-					d2 = 0.f;
-
-			// Sort list by distance
-			mActiveSounds.sort(_sortFarToNear());
-
-			// Lists should be sorted:	Active-->furthest to Nearest
-			//							Reactivate-->Nearest to furthest
-			OgreOggISound* snd1 = mActiveSounds.front();
-
-			if ( snd1->isRelativeToListener() )
-				d1 = snd1->getPosition().length();
-			else
-				d1 = snd1->getPosition().distance(mListener->getPosition());
-
-			if ( sound->isRelativeToListener() )
-				d2 = sound->getPosition().length();
-			else
-				d2 = sound->getPosition().distance(mListener->getPosition());
-
-			// Needs swapping?
-			if ( d1>d2 )
+			if (mListener)
 			{
-				ALuint src = snd1->getSource();
-				ALuint nullSrc = AL_NONE;
-				// Pause sounds
-				snd1->pause();
-				snd1->_markPlayPosition();
-				// Remove source
-				snd1->setSource(nullSrc);
-				// Attach source to new sound
-				sound->setSource(src);
-				sound->_recoverPlayPosition();
-				// Add to reactivate list
-				mSoundsToReactivate.push_back(snd1);
-				// Remove relinquished sound from active list
-				mActiveSounds.erase(mActiveSounds.begin());					 
-				// Add new sound to active list
-				mActiveSounds.push_back(sound);
-				// Return success
-				return true;
+				const Ogre::Vector3 listenerPos(mListener->getPosition());
+
+				// Sort list by distance
+				mActiveSounds.sort(_sortFarToNear(listenerPos));
+
+				// Lists should be sorted:	Active-->furthest to Nearest
+				//							Reactivate-->Nearest to furthest
+				OgreOggISound* snd1 = mActiveSounds.front();
+
+				// Sort by distance
+				const Ogre::Real d1 = _calculateDistanceToListener(snd1, listenerPos);
+				const Ogre::Real d2 = _calculateDistanceToListener(sound, listenerPos);
+
+				// Needs swapping?
+				if ( d1>d2 )
+				{
+					ALuint src = snd1->getSource();
+					ALuint nullSrc = AL_NONE;
+
+					if (snd1->getState() != SS_DESTROYED)
+					{
+						// Pause sounds
+						snd1->pause();
+						snd1->_markPlayPosition();
+					}
+
+					// Remove source
+					snd1->setSource(nullSrc);
+					// Attach source to new sound
+					sound->setSource(src);
+					sound->_recoverPlayPosition();
+
+					// Add to reactivate list
+					if (snd1->getState() != SS_DESTROYED)
+					{
+						mSoundsToReactivate.push_back(snd1);
+					}
+
+					// Remove relinquished sound from active list
+					mActiveSounds.erase(mActiveSounds.begin());					 
+					// Add new sound to active list
+					mActiveSounds.push_back(sound);
+					// Return success
+					return true;
+				}
 			}
 		}
 
@@ -2053,6 +2102,14 @@ namespace OgreOggSound
 		// Destroy all sounds
 		StringVector soundList;
 
+		#if OGGSOUND_THREADED
+		#	ifdef POCO_THREAD
+				Poco::Mutex::ScopedLock soundLock(mSoundMutex);
+		#else
+				boost::recursive_mutex::scoped_lock soundLock(mSoundMutex);
+		#	endif
+		#endif
+
 		// Get a list of all sound names
 		for ( SoundMap::iterator i=mSoundMap.begin(); i!=mSoundMap.end(); ++i )
 			soundList.push_back(i->first);
@@ -2090,11 +2147,25 @@ namespace OgreOggSound
 		if (mActiveSounds.empty()) return;
 
 		for (ActiveList::const_iterator iter=mActiveSounds.begin(); iter!=mActiveSounds.end(); ++iter)
-			(*iter)->_stopImpl();
+		{
+			// If the sound was destroyed then we're not allowed to modify its state so don't bother trying to stop it.
+			if ((*iter)->getState() != SS_DESTROYED)
+			{
+				(*iter)->_stopImpl();
+			}
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_setGlobalPitchImpl()
 	{
+		#if OGGSOUND_THREADED
+		#	ifdef POCO_THREAD
+				Poco::Mutex::ScopedLock soundLock(mSoundMutex);
+		#else
+				boost::recursive_mutex::scoped_lock soundLock(mSoundMutex);
+		#	endif
+		#endif
+
 		if (mSoundMap.empty() ) return;
 
 		// Affect all sounds
@@ -2246,6 +2317,14 @@ namespace OgreOggSound
 		_removeFromLists(sound);
 
 		// Find sound in map
+		#if OGGSOUND_THREADED
+		#	ifdef POCO_THREAD
+				Poco::Mutex::ScopedLock soundLock(mSoundMutex);
+		#else
+				boost::recursive_mutex::scoped_lock soundLock(mSoundMutex);
+		#	endif
+		#endif
+
 		SoundMap::iterator i = mSoundMap.find(sound->getName());
 		mSoundMap.erase(i);
 
@@ -2279,6 +2358,11 @@ namespace OgreOggSound
 
 		OGRE_DELETE_T(mListener, OgreOggListener, Ogre::MEMCATEGORY_GENERAL);
 		mListener = 0;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	Ogre::Real OgreOggSoundManager::_calculateDistanceToListener(OgreOggISound * sound, const Ogre::Vector3 & listenerPos)
+	{
+		return sound->isRelativeToListener() ? sound->getPosition().length() : sound->getPosition().distance(listenerPos);
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_checkFeatureSupport()
@@ -2477,26 +2561,31 @@ namespace OgreOggSound
 		// Any sounds to re-activate?
 		if (mSoundsToReactivate.empty()) return;
 
-		// Sort list by distance
-		mActiveSounds.sort(_sortNearToFar());
-
-		// Get sound object from front of list
-		OgreOggISound* snd = mSoundsToReactivate.front();
-
-		// Check sound hasn't been stopped whilst in list
-		if ( !snd->isPlaying() )
+		if (mListener)
 		{
-			// Try to request a source for sound
-			if (_requestSoundSource(snd))
+			const Ogre::Vector3 listenerPos(mListener->getPosition());
+
+			// Sort list by distance
+			mActiveSounds.sort(_sortNearToFar(listenerPos));
+
+			// Get sound object from front of list
+			OgreOggISound* snd = mSoundsToReactivate.front();
+
+			// Check sound hasn't been stopped or destroyed whilst in list
+			if ( !snd->isPlaying() && snd->getState() != SS_DESTROYED)
 			{
-				// play sound
-				snd->_playImpl();
+				// Try to request a source for sound
+				if (_requestSoundSource(snd))
+				{
+					// play sound
+					snd->_playImpl();
+				}
 			}
-		}
-		// Else - kick off list
-		else
-		{
-			mSoundsToReactivate.erase(mSoundsToReactivate.begin());
+			// Else - kick off list
+			else
+			{
+				mSoundsToReactivate.erase(mSoundsToReactivate.begin());
+			}
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
