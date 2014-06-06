@@ -625,6 +625,7 @@ namespace OgreOggSound
 #if OGGSOUND_THREADED
 #	if POCO_THREAD
 		static Poco::Mutex mMutex;
+		static Poco::Mutex mSoundMutex;
 #	else
 		static boost::recursive_mutex mMutex;
 		static boost::recursive_mutex mSoundMutex;
