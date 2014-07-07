@@ -100,7 +100,6 @@ namespace OgreOggSound
 		bool mPrebuffer;
 		Ogre::String mFileName;
 		ALuint mBuffer;
-		Ogre::DataStreamPtr mStream;
 	};
 
 	//! Holds information about a EFX effect.
@@ -374,10 +373,10 @@ namespace OgreOggSound
 			@param group
 				Name of OGRE ResourceGroup.
 		 */
-		void setResourceGroupName(const Ogre::String& group) { mResourceGroupName=group; }
+		void setResourceGroupName(const Ogre::String& group);
 		/** Returns user defined search group name
 		 */
-		const Ogre::String& getResourceGroupName() const { return mResourceGroupName; }
+		Ogre::String getResourceGroupName() const;
 #if HAVE_EFX
 		/** Returns XRAM support status.
 		 */
@@ -626,9 +625,11 @@ namespace OgreOggSound
 #	if POCO_THREAD
 		static Poco::Mutex mMutex;
 		static Poco::Mutex mSoundMutex;
+		static Poco::Mutex mResourceGroupNameMutex;
 #	else
 		static boost::recursive_mutex mMutex;
 		static boost::recursive_mutex mSoundMutex;
+		static boost::recursive_mutex mResourceGroupNameMutex;
 #	endif
 
 		/** Pushes a sound action request onto the queue
@@ -754,12 +755,10 @@ namespace OgreOggSound
 			sound pointer.
 		@param file
 			name of sound file.
-		@param stream
-			DataStreamPtr (optional).
 		@param prebuffer
 			Prebuffer flag.
 		*/
-		void _loadSoundImpl(OgreOggISound* sound, const Ogre::String& file, Ogre::DataStreamPtr stream, bool prebuffer);
+		void _loadSoundImpl(OgreOggISound* sound, const Ogre::String& file, bool prebuffer);
 		/** Destroys a single sound.
 		@remarks
 			Destroys a single sound object.
@@ -815,6 +814,11 @@ namespace OgreOggSound
 				Name of audio file
 		 */
 		sharedAudioBuffer* _getSharedBuffer(const Ogre::String& sName);
+		/** Opens the specified file as a new data stream.
+			@param file
+				The path to the resource file to open.
+		 */
+		Ogre::DataStreamPtr _openStream(const Ogre::String& file) const;
 		/** Releases all sounds and buffers
 		@remarks
 			Release all sounds and their associated OpenAL objects

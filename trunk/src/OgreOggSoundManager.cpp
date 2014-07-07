@@ -41,10 +41,12 @@
 		OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
 		Poco::Mutex OgreOggSound::OgreOggSoundManager::mMutex;
 		Poco::Mutex OgreOggSound::OgreOggSoundManager::mSoundMutex;
+		Poco::Mutex OgreOggSound::OgreOggSoundManager::mResourceGroupNameMutex;
 #	else
 		boost::thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
 		boost::recursive_mutex OgreOggSound::OgreOggSoundManager::mMutex;
 		boost::recursive_mutex OgreOggSound::OgreOggSoundManager::mSoundMutex;
+		boost::recursive_mutex OgreOggSound::OgreOggSoundManager::mResourceGroupNameMutex;
 #	endif
 	bool OgreOggSound::OgreOggSoundManager::mShuttingDown = false;
 #endif
@@ -170,9 +172,7 @@ namespace OgreOggSound
 						{			
 						case LQ_LOAD:
 							{
-								cSound* params = static_cast<cSound*>(obj.mParams);
-								params->mStream.setNull();	
-								OGRE_DELETE_T(params, cSound, Ogre::MEMCATEGORY_GENERAL);
+								OGRE_DELETE_T(static_cast<cSound*>(obj.mParams), cSound, Ogre::MEMCATEGORY_GENERAL);
 							}
 							break;	   
 						case LQ_ATTACH_EFX:
@@ -521,36 +521,7 @@ namespace OgreOggSound
 															bool preBuffer,
 															bool immediate)
 	{
-		Ogre::ResourceGroupManager* groupManager = 0;
-		Ogre::String group;
-		Ogre::DataStreamPtr soundData;
 		OgreOggISound* sound = 0;
-
-		try
-		{
-			if ( groupManager = Ogre::ResourceGroupManager::getSingletonPtr() )
-			{
-				if ( !mResourceGroupName.empty() )
-				{
-					soundData = groupManager->openResource(file, mResourceGroupName);
-				}
-				else
-				{
-					group = groupManager->findGroupContainingResource(file);
-					soundData = groupManager->openResource(file, group);
-				}
-			}
-			else
-			{
-				OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Unable to find Ogre::ResourceGroupManager", "OgreOggSoundManager::createSound()");
-				return 0;
-			}
-		}
-		catch (Ogre::Exception& e)
-		{
-			OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, e.getFullDescription(), "OgreOggSoundManager::_createSoundImpl()");
-			return 0;
-		}
 
 		if		( file.find(".ogg")!=file.npos || file.find(".OGG")!=file.npos )
 		{
@@ -587,7 +558,6 @@ namespace OgreOggSound
 			cSound* c		= OGRE_NEW_T(cSound, Ogre::MEMCATEGORY_GENERAL);
 			c->mFileName	= file;
 			c->mPrebuffer	= preBuffer;
-			c->mStream		= soundData;
 			action.mAction	= LQ_LOAD;
 			action.mParams	= c;
 			action.mImmediately = immediate;
@@ -595,7 +565,7 @@ namespace OgreOggSound
 			_requestSoundAction(action);
 #else
 			// load audio data
-			_loadSoundImpl(sound, file, soundData, preBuffer);
+			_loadSoundImpl(sound, file, preBuffer);
 #endif
 			return sound;
 		}
@@ -633,7 +603,6 @@ namespace OgreOggSound
 			cSound* c		= OGRE_NEW_T(cSound, Ogre::MEMCATEGORY_GENERAL);
 			c->mFileName	= file;
 			c->mPrebuffer	= preBuffer; 
-			c->mStream		= soundData;
 			action.mAction	= LQ_LOAD;
 			action.mParams	= c;
 			action.mImmediately = immediate;
@@ -641,7 +610,7 @@ namespace OgreOggSound
 			_requestSoundAction(action);
 #else
 			// Load audio file
-			_loadSoundImpl(sound, file, soundData, preBuffer);
+			_loadSoundImpl(sound, file, preBuffer);
 #endif
 			return sound;
 		}
@@ -924,6 +893,32 @@ namespace OgreOggSound
 				while(!mSoundsToDestroy->empty() && count<5);
 			}
 		}
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::setResourceGroupName(const Ogre::String& group)
+	{
+		#if OGGSOUND_THREADED
+		#	ifdef POCO_THREAD
+				Poco::Mutex::ScopedLock l(mResourceGroupNameMutex);
+		#else
+				boost::recursive_mutex::scoped_lock l(mResourceGroupNameMutex);
+		#	endif
+		#endif
+
+		mResourceGroupName = group;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
+	Ogre::String OgreOggSoundManager::getResourceGroupName() const
+	{
+		#if OGGSOUND_THREADED
+		#	ifdef POCO_THREAD
+				Poco::Mutex::ScopedLock l(mResourceGroupNameMutex);
+		#else
+				boost::recursive_mutex::scoped_lock l(mResourceGroupNameMutex);
+		#	endif
+		#endif
+
+		return mResourceGroupName;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	struct OgreOggSoundManager::_sortNearToFar
@@ -2202,7 +2197,6 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_loadSoundImpl(	OgreOggISound* sound, 
 												const String& file, 
-												DataStreamPtr stream, 
 												bool prebuffer)
 	{
 		if ( !sound ) return;
@@ -2216,7 +2210,7 @@ namespace OgreOggSound
 		if (!buffer)
 		{
 			// Load audio file
-			sound->_openImpl(stream);
+			sound->_openImpl(_openStream(file));
 		}
 		else
 		{
@@ -2616,6 +2610,45 @@ namespace OgreOggSound
 		return AL_NONE;
 	}	 
 	/*/////////////////////////////////////////////////////////////////*/
+	Ogre::DataStreamPtr OgreOggSoundManager::_openStream(const Ogre::String& file) const
+	{
+		Ogre::DataStreamPtr result;
+		Ogre::ResourceGroupManager* groupManager = 0;
+		Ogre::String group;
+
+		try
+		{
+			if (groupManager = Ogre::ResourceGroupManager::getSingletonPtr())
+			{
+				// Have to use the getter to retrieve the mResourceGroupName member since this function can be called in a separate
+				// thread and the getter has thread safety.
+				const Ogre::String resourceGroupName = getResourceGroupName();
+
+				if (!resourceGroupName.empty())
+				{
+					result = groupManager->openResource(file, resourceGroupName);
+				}
+				else
+				{
+					group = groupManager->findGroupContainingResource(file);
+					result = groupManager->openResource(file, group);
+				}
+			}
+			else
+			{
+				OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, "Unable to find Ogre::ResourceGroupManager", "OgreOggSoundManager::createSound()");
+				result.setNull();
+			}
+		}
+		catch (Ogre::Exception& e)
+		{
+			OGRE_EXCEPT(Exception::ERR_FILE_NOT_FOUND, e.getFullDescription(), "OgreOggSoundManager::_createSoundImpl()");
+			result.setNull();
+		}
+
+		return result;
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	bool OgreOggSoundManager::_releaseSharedBuffer(const String& sName, ALuint& buffer)
 	{
 		if ( sName.empty() ) return false;
@@ -2767,10 +2800,7 @@ namespace OgreOggSound
 				if ( hasSound(act.mSound) )
 				{
 					OgreOggISound* s = getSound(act.mSound); 
-					_loadSoundImpl(s, c->mFileName, c->mStream, c->mPrebuffer);
-
-					// Cleanup..
-					c->mStream.setNull();
+					_loadSoundImpl(s, c->mFileName, c->mPrebuffer);
 				}
 
 				// Delete
