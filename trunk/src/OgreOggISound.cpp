@@ -208,14 +208,13 @@ namespace OgreOggSound
 		if ( mDisable3D )
 		{
 			mSourceRelative = true;
-			mReferenceDistance = 1.f;
 			mPosition = Ogre::Vector3::ZERO;
 
 			if ( mSource!=AL_NONE ) 
 			{
 				alSourcei(mSource, AL_SOURCE_RELATIVE, mSourceRelative);
-				alSourcef(mSource, AL_REFERENCE_DISTANCE, mReferenceDistance);
 				alSource3f(mSource, AL_POSITION, mPosition.x, mPosition.y, mPosition.z);
+				alSource3f(mSource, AL_VELOCITY, mPosition.x, mPosition.y, mPosition.z);
 			}
 		}
 		/** Enable 3D
