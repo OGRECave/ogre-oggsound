@@ -36,13 +36,14 @@
 #include <string>
 
 #if OGGSOUND_THREADED
-#	ifdef POCO_THREAD
-		Poco::Thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
+#   ifdef POCO_THREAD
+		Poco::Thread* OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
 		OgreOggSound::OgreOggSoundManager::Updater* OgreOggSound::OgreOggSoundManager::mUpdater = 0;
+		void OgreOggSound::OgreOggSoundManager::Updater::run() { OgreOggSound::OgreOggSoundManager::threadUpdate(); }
 		Poco::Mutex OgreOggSound::OgreOggSoundManager::mMutex;
 		Poco::Mutex OgreOggSound::OgreOggSoundManager::mSoundMutex;
 		Poco::Mutex OgreOggSound::OgreOggSoundManager::mResourceGroupNameMutex;
-#	else
+#   else
 		boost::thread *OgreOggSound::OgreOggSoundManager::mUpdateThread = 0;
 		boost::recursive_mutex OgreOggSound::OgreOggSoundManager::mMutex;
 		boost::recursive_mutex OgreOggSound::OgreOggSoundManager::mSoundMutex;
