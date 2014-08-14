@@ -542,16 +542,19 @@ namespace OgreOggSound
 			// Set loop flag
 			sound->loop(loop);
 
+			// Here we lock the sound mutex directly instead of using a scoped lock and immediately unlock it after modifying the
+			// sound map. The reason for this is that if a scoped lock is used it is possible that update thread will attempt to
+			// lock it before _requestSoundAction() is called which can cause the application to hang forever.
 			#if OGGSOUND_THREADED
-			#	ifdef POCO_THREAD
-					Poco::Mutex::ScopedLock soundLock(mSoundMutex);
-			#else
-					boost::recursive_mutex::scoped_lock soundLock(mSoundMutex);
-			#	endif
+				mSoundMutex.lock();
 			#endif
 
 			// Add to list
 			mSoundMap[name]=sound;
+
+			#if OGGSOUND_THREADED
+				mSoundMutex.unlock();
+			#endif
 
 #if OGGSOUND_THREADED
 
@@ -588,16 +591,19 @@ namespace OgreOggSound
 			// Set loop flag
 			sound->loop(loop);
 
+			// Here we lock the sound mutex directly instead of using a scoped lock and immediately unlock it after modifying the
+			// sound map. The reason for this is that if a scoped lock is used it is possible that update thread will attempt to
+			// lock it before _requestSoundAction() is called which can cause the application to hang forever.
 			#if OGGSOUND_THREADED
-			#	ifdef POCO_THREAD
-					Poco::Mutex::ScopedLock soundLock(mSoundMutex);
-			#else
-					boost::recursive_mutex::scoped_lock soundLock(mSoundMutex);
-			#	endif
+				mSoundMutex.lock();
 			#endif
 
 			// Add to list
 			mSoundMap[name]=sound;
+
+			#if OGGSOUND_THREADED
+				mSoundMutex.unlock();
+			#endif
 
 #if OGGSOUND_THREADED
 			SoundAction action;
