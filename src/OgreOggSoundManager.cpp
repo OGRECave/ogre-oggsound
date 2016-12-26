@@ -2216,8 +2216,9 @@ namespace OgreOggSound
 
 		if (!buffer)
 		{
+		    Ogre::DataStreamPtr stream = _openStream(file);
 			// Load audio file
-			sound->_openImpl(_openStream(file));
+			sound->_openImpl(stream);
 		}
 		else
 		{

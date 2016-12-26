@@ -100,7 +100,7 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, cons
 		}
 
 		// when no caption is set
-		if ( !scnMgr || name == StringUtil::BLANK || fileName == StringUtil::BLANK )
+		if ( !scnMgr || name == "" || fileName == "" )
 		{
 			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
 				"'name & fileName & sceneManagerName' parameters required when constructing an OgreOggISound.",

@@ -37,8 +37,8 @@ SET (SOURCE_FILES
 )
   
 # Option.
-SET(OGGSOUND_THREADED YES CACHE BOOL "Enable multi-threaded streamed sounds")
-SET(USE_POCO YES CACHE BOOL "Use POCO Threads?")
+SET(OGGSOUND_THREADED NO CACHE BOOL "Enable multi-threaded streamed sounds")
+SET(USE_POCO NO CACHE BOOL "Use POCO Threads?")
 
 IF(CMAKE_BUILD_TYPE STREQUAL Debug)
 
@@ -69,21 +69,19 @@ ELSE()
     ADD_DEFINITIONS(-DOGGSOUND_THREADED=0)
 ENDIF()
 
+FIND_PACKAGE(OGRE 1.10 REQUIRED)
+FIND_PACKAGE(OpenAL QUIET REQUIRED)
+
 IF (APPLE)
-   FIND_PACKAGE(OPENAL REQUIRED)
-   FIND_LIBRARY(OGRE OGRE REQUIRED)
    FIND_LIBRARY(OGG Ogg REQUIRED)
    FIND_LIBRARY(VORBIS Vorbis REQUIRED)
 
    set(OGG_LIBRARIES ${OGG})
    set(VORBISFILE_LIBRARIES ${VORBIS})
    set(VORBISFILE_INCLUDE_DIRS ${VORBIS_INCLUDE_DIRS})   
-   set(OPENAL_INCLUDE_DIRS ${OPENAL_INCLUDE_DIRS} ${OPENAL_INCLUDE_DIR})
-   set(OPENAL_LIBRARIES ${OPENAL_LIBRARIES} ${OPENAL_LIBRARY})
 ELSE (APPLE) 
 	IF (UNIX)
 		FIND_PACKAGE(PkgConfig REQUIRED)
-		PKG_CHECK_MODULES(OGRE REQUIRED OGRE)
 		PKG_CHECK_MODULES(OPENAL REQUIRED openal)
 		PKG_CHECK_MODULES(OGG REQUIRED ogg)
 		PKG_CHECK_MODULES(VORBISFILE REQUIRED vorbisfile)
@@ -96,9 +94,7 @@ INCLUDE_DIRECTORIES(include
                     ${OGRE_INCLUDE_DIRS}
                     ${OPENAL_INCLUDE_DIRS}
                     ${OGG_INCLUDE_DIRS}
-                    ${VORBISFILE_INCLUDE_DIRS}
-                    /usr/include/AL
-                    /usr/local/include/AL)
+                    ${VORBISFILE_INCLUDE_DIRS})
 
 LINK_DIRECTORIES(${OGRE_LIBRARY_DIRS}
                  ${OPENAL_LIBRARY_DIRS}
@@ -110,25 +106,11 @@ LINK_LIBRARIES(${OGRE_LIBRARIES}
                ${OGG_LIBRARIES}
                ${VORBISFILE_LIBRARIES})
 
-ADD_LIBRARY(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${HEADER_FILES})
+ADD_LIBRARY(Plugin_OggSound SHARED ${SOURCE_FILES} ${HEADER_FILES})
+# disable "lib" prefix
+set_target_properties(Plugin_OggSound PROPERTIES PREFIX "")
 
-INSTALL(FILES include/LocklessQueue.h
-              include/OgreOggISound.h
-              include/OgreOggListener.h
-              include/OgreOggSoundCallback.h
-              include/OgreOggSoundFactory.h
-              include/OgreOggSound.h
-              include/OgreOggSoundManager.h
-              include/OgreOggSoundPlugin.h
-              include/OgreOggSoundPrereqs.h
-              include/OgreOggSoundRecord.h
-              include/OgreOggStaticSound.h
-              include/OgreOggStaticWavSound.h
-              include/OgreOggStreamSound.h
-              include/OgreOggStreamWavSound.h
-        DESTINATION include/OgreOggSound)
-
-INSTALL(TARGETS ${PROJECT_NAME} 
-		LIBRARY DESTINATION lib${LIB_SUFFIX}
-		ARCHIVE DESTINATION lib${LIB_SUFFIX} 
-		RUNTIME DESTINATION bin)
+set(CMAKE_INSTALL_PREFIX ${OGRE_PREFIX_DIR} CACHE PATH "plugin must end up in OGRE plugin path" FORCE)
+INSTALL(FILES ${HEADER_FILES} DESTINATION include/OGRE/Plugins/OggSound)
+INSTALL(TARGETS Plugin_OggSound LIBRARY DESTINATION lib/OGRE/ ARCHIVE DESTINATION lib/OGRE/)
+set_property(TARGET Plugin_OggSound PROPERTY INSTALL_RPATH ${OGRE_LIBRARY_DIRS})
