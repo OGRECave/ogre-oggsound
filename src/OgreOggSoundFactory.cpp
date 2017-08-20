@@ -45,10 +45,21 @@ const String& OgreOggSoundFactory::getType(void) const
 	return FACTORY_TYPE_NAME;
 }
 //-----------------------------------------------------------------------
-MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, const NameValuePairList* params)
+#if OGRE_VERSION_MAJOR == 2 && OGRE_VERSION_MINOR == 0
+MovableObject* OgreOggSoundFactory::createInstanceImpl(IdType id, ObjectMemoryManager *objectMemoryManager, const NameValuePairList* params)
+#elif OGRE_VERSION_MAJOR == 2 && OGRE_VERSION_MINOR > 0
+MovableObject* OgreOggSoundFactory::createInstanceImpl(IdType id, ObjectMemoryManager *objectMemoryManager, SceneManager* manager, const NameValuePairList* params)
+#else
+MovableObject* OgreOggSoundFactory::createInstanceImpl(const String& name, const NameValuePairList* params)
+#endif
 {
 	String fileName;
-
+	#if OGRE_VERSION_MAJOR == 2
+	String reName = BLANKSTRING;
+	#else
+	String reName = name;
+	#endif
+	
 	if (params != 0)
 	{
 		bool loop = false;
@@ -99,15 +110,26 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl( const String& name, cons
 			scnMgr = Ogre::Root::getSingletonPtr()->getSceneManager(sManIterator->second);
 		}
 
+		NameValuePairList::const_iterator sNameIterator = params->find("name");
+		if (sNameIterator != params->end())
+		{
+			// Get SceneManager name
+			reName = sManIterator->second;
+		}
+		
 		// when no caption is set
-		if ( !scnMgr || name == "" || fileName == "" )
+		if ( !scnMgr || reName == "" || fileName == "" )
 		{
 			OGRE_EXCEPT(Exception::ERR_INVALIDPARAMS,
 				"'name & fileName & sceneManagerName' parameters required when constructing an OgreOggISound.",
 				"OgreOggSoundFactory::createInstance");
 		}
 
-		return OgreOggSoundManager::getSingletonPtr()->_createSoundImpl(*scnMgr, name, fileName, stream, loop, preBuffer, immediate);
+		#if OGRE_VERSION_MAJOR == 2
+		return OgreOggSoundManager::getSingletonPtr()->_createSoundImpl(scnMgr, reName, id, fileName, stream, loop, preBuffer, immediate);
+		#else
+		return OgreOggSoundManager::getSingletonPtr()->_createSoundImpl(scnMgr, reName, fileName, stream, loop, preBuffer, immediate);
+		#endif
 	}
 	else
 		return OgreOggSoundManager::getSingletonPtr()->_createListener();
