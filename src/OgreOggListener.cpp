@@ -127,7 +127,9 @@ namespace OgreOggSound
 		boost::recursive_mutex::scoped_lock lock(mMutex);
 #	endif
 #endif
+		#if OGRE_VERSION_MAJOR == 2
 		mOrient = q;
+		#endif
 		Ogre::Vector3 vDirection = q.zAxis();
 		Ogre::Vector3 vUp = q.yAxis();
 
