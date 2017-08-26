@@ -46,8 +46,13 @@ namespace OgreOggSound
 	{
 
 	protected:
-		Ogre::MovableObject* createInstanceImpl( const Ogre::String& name, const Ogre::NameValuePairList* params);
-
+		#if OGRE_VERSION_MAJOR == 2 && OGRE_VERSION_MINOR == 0
+			Ogre::MovableObject* createInstanceImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, const Ogre::NameValuePairList* params = 0);
+		#elif OGRE_VERSION_MAJOR == 2 && OGRE_VERSION_MINOR > 0
+			Ogre::MovableObject* createInstanceImpl(Ogre::IdType id, Ogre::ObjectMemoryManager *objectMemoryManager, Ogre::SceneManager* manager, const Ogre::NameValuePairList* params = 0);
+		#else
+			Ogre::MovableObject* createInstanceImpl(const Ogre::String& name, const Ogre::NameValuePairList* params);
+		#endif
 	public:
 		OgreOggSoundFactory() {}
 		~OgreOggSoundFactory() {}

@@ -737,7 +737,7 @@ namespace OgreOggSound
 			parameters this function will create a static/streamed sound.
 			Each sound must have a unique name within the manager.
 			@param scnMgr
-				Reference to creator
+				pointer to creator
 			@param name 
 				Unique name of sound
 			@param file 
@@ -749,7 +749,20 @@ namespace OgreOggSound
 			@param preBuffer 
 				Flag indicating if a source should be attached at creation.
 		 */
-		OgreOggISound* _createSoundImpl(const Ogre::SceneManager& scnMgr, const std::string& name,const std::string& file, bool stream = false, bool loop = false, bool preBuffer=false, bool immediate=false);
+		
+		OgreOggISound* _createSoundImpl(
+			Ogre::SceneManager* scnMgr,
+			const std::string& name,
+			#if OGRE_VERSION_MAJOR == 2
+			Ogre::IdType id,
+			#endif
+			const std::string& file,
+			bool stream    = false,
+			bool loop      = false,
+			bool preBuffer = false,
+			bool immediate = false
+		);
+		
 		/** Implementation of sound loading
 		@param sound
 			sound pointer.

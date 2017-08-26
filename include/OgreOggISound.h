@@ -511,7 +511,7 @@ namespace OgreOggSound
 			This will only be set if the sound was created through the plugin method
 			createMovableobject().
 		*/
-		inline Ogre::SceneManager* getSceneManager() const { return &mScnMan; }   
+		inline Ogre::SceneManager* getSceneManager() const { return mScnMan; }   
 
 		/** Sets a listener object to be notified of events.
 		@remarks
@@ -551,7 +551,12 @@ namespace OgreOggSound
 		@param scnMgr
 			SceneManager which create this sound
 		 */
-		OgreOggISound(const Ogre::String& name, const Ogre::SceneManager& scnMgr);
+		OgreOggISound(
+			const Ogre::String& name, Ogre::SceneManager* scnMgr
+			#if OGRE_VERSION_MAJOR == 2
+			, Ogre::IdType id, Ogre::ObjectMemoryManager *objMemMgr, Ogre::uint8 renderQueueId
+			#endif
+		);
 		/** Superclass destructor.
 		 */
 		virtual ~OgreOggISound();
@@ -595,17 +600,30 @@ namespace OgreOggSound
 		@remarks
 			Overridden from MovableObject.
 		 */
-		virtual void _notifyAttached(Ogre::Node* node, bool isTagPoint=false);
+		virtual void _notifyAttached(
+			Ogre::Node* node
+			#if OGRE_VERSION_MAJOR == 1
+			, bool isTagPoint = false
+			#endif
+		);
+		#if OGRE_VERSION_MAJOR == 1
 		/** Notifys object its been moved
 		@remarks
 			Overridden from MovableObject.
 		 */
 		virtual void _notifyMoved(void);
+		#else
+		/** do nothing but need for derived from MovableObject
+		 */
+		virtual void _updateRenderQueue(Ogre::RenderQueue *queue, Ogre::Camera *camera, const Ogre::Camera *lodCamera);
+		#endif
+		#if OGRE_VERSION_MAJOR == 1 || OGRE_VERSION_MINOR == 0
 		/** Renderable callback
 		@remarks
 			Overridden function from MovableObject.
 		 */
 		virtual void visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables);
+		#endif
 
 		/** Inits source object
 		@remarks
@@ -667,7 +685,7 @@ namespace OgreOggSound
 		/** Sound properties 
 		 */
 		ALuint mSource;					// OpenAL Source
-		Ogre::SceneManager& mScnMan;	// SceneManager reference for plugin registered sounds
+		Ogre::SceneManager* mScnMan;	// SceneManager pointer for plugin registered sounds
 		Ogre::uint8 mPriority;			// Priority assigned to source 
 		Ogre::Vector3 mPosition;		// 3D position
 		Ogre::Vector3 mDirection;		// 3D direction
@@ -690,7 +708,9 @@ namespace OgreOggSound
 		bool mGiveUpSource;				// Flag to indicate whether sound should release its source when stopped
 		bool mStream;					// Stream flag
 		bool mSourceRelative;			// Relative position flag
+		#if OGRE_VERSION_MAJOR == 1
 		bool mLocalTransformDirty;		// Transformation update flag
+		#endif
 		bool mPlayPosChanged;			// Flag indicating playback position has changed
 		bool mSeekable;					// Flag indicating seeking available
 		bool mTemporary;				// Flag indicating sound is temporary

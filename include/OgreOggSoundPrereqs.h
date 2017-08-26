@@ -69,7 +69,7 @@
 #	else
 #		define _OGGSOUND_EXPORT
 #	endif
-#elif OGRE_COMPILER == OGRE_COMPILER_GNUC
+#elif OGRE_COMPILER == OGRE_COMPILER_GNUC || OGRE_COMPILER == OGRE_COMPILER_CLANG
 #   if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
 #		include <al.h>
 #		include <alc.h>

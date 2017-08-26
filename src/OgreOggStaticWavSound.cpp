@@ -39,7 +39,17 @@ namespace OgreOggSound
 {
 
 	/*/////////////////////////////////////////////////////////////////*/
-			OgreOggStaticWavSound::OgreOggStaticWavSound(const Ogre::String& name,const Ogre::SceneManager& scnMgr) : OgreOggISound(name, scnMgr)
+	OgreOggStaticWavSound::OgreOggStaticWavSound(
+		const Ogre::String& name, Ogre::SceneManager* scnMgr
+		#if OGRE_VERSION_MAJOR == 2
+		, Ogre::IdType id, Ogre::ObjectMemoryManager *objMemMgr, Ogre::uint8 renderQueueId
+		#endif
+	) : OgreOggISound(
+			name, scnMgr
+			#if OGRE_VERSION_MAJOR == 2
+			, id, objMemMgr, renderQueueId
+			#endif
+		)
 		,mAudioName("")
 		,mPreviousOffset(0)
 		{
@@ -49,7 +59,7 @@ namespace OgreOggSound
 			mBuffers.bind(new BufferList(1, AL_NONE));
 		}
 	/*/////////////////////////////////////////////////////////////////*/
-			OgreOggStaticWavSound::~OgreOggStaticWavSound()
+	OgreOggStaticWavSound::~OgreOggStaticWavSound()
 	{
 		// Notify listener
 		if ( mSoundListener ) mSoundListener->soundDestroyed(this);

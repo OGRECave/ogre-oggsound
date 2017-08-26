@@ -81,7 +81,12 @@ namespace OgreOggSound
 		/**
 		 * Constructor
 		 */
-		OgreOggStaticWavSound(const Ogre::String& name,const Ogre::SceneManager& scnMgr);
+		OgreOggStaticWavSound(
+			const Ogre::String& name, Ogre::SceneManager* scnMgr
+			#if OGRE_VERSION_MAJOR == 2
+			, Ogre::IdType id, Ogre::ObjectMemoryManager *objMemMgr, Ogre::uint8 renderQueueId
+			#endif
+		);
 		/**
 		 * Destructor
 		 */
