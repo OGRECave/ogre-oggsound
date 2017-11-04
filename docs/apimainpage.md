@@ -1,17 +1,14 @@
-/** 
-  @mainpage API Main Page
-  
-  @section intro Introduction
+# Introduction {#mainpage}
   
   This is the complete API reference for OgreOggSound; contained within are the 
   specifications for each class and the methods on those classes which you can 
   refer to when using the library in your code. 
   
-  @subsection s1 About OgreOggSound...
+# About OgreOggSound
   
   The OgreOggSound library is designed to provide a simple, quick and easy method
   of adding audio to an OGRE based application. Its primarily a wrapper around the 
-  OpenAL audio library, but its design focus is seemless integration with OGRE 
+  OpenAL audio library, but its design focus is seamless integration with OGRE 
   based applications. 
 
   It hides all the mundane setup and updating procedures needed by OpenAL, and 
@@ -22,16 +19,4 @@
 
   So, thanks for checking out the library and I hope it serves as a useful addition
   to your development tool collection.
-
-  @subsection s2 Useful links.
-
-  Website: http://sourceforge.net/projects/ogreoggsound/
-
-  SVN: https://ogreoggsound.sourceforge.net/svnroot/ogreoggsound/trunk
-
-  OpenAL SDK: http://connect.creativelabs.com/openal/Downloads/OpenAL11CoreSDK.zip
-
-  BOOST: http://www.boostpro.com/download
-
-*/
 

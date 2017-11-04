@@ -114,3 +114,20 @@ set(CMAKE_INSTALL_PREFIX ${OGRE_PREFIX_DIR} CACHE PATH "plugin must end up in OG
 INSTALL(FILES ${HEADER_FILES} DESTINATION include/OGRE/Plugins/OggSound)
 INSTALL(TARGETS Plugin_OggSound LIBRARY DESTINATION lib/OGRE/ ARCHIVE DESTINATION lib/OGRE/)
 set_property(TARGET Plugin_OggSound PROPERTY INSTALL_RPATH ${OGRE_LIBRARY_DIRS})
+
+# doxygen stuff
+find_package(Doxygen)
+if (DOXYGEN_FOUND)
+  # prepare doxygen configuration file
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+  add_custom_target( docs
+    COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    COMMENT "Generating documentation with Doxygen."
+    VERBATIM
+  )
+
+  # cleanup $build/api-doc on "make clean"
+  set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES docs)
+endif (DOXYGEN_FOUND)
