@@ -113,8 +113,8 @@ MovableObject* OgreOggSoundFactory::createInstanceImpl(const String& name, const
 		NameValuePairList::const_iterator sNameIterator = params->find("name");
 		if (sNameIterator != params->end())
 		{
-			// Get SceneManager name
-			reName = sManIterator->second;
+			// Get sound name
+			reName = sNameIterator->second;
 		}
 		
 		// when no caption is set
