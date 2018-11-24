@@ -2231,6 +2231,12 @@ namespace OgreOggSound
 		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
+	void OgreOggSoundManager::addSoundToResume(OgreOggISound* sound)
+	{
+		// Add to list to allow resuming
+		mPausedSounds.push_back(sound);
+	}
+	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggSoundManager::_resumeAllPausedSoundsImpl()
 	{
 		if (mPausedSounds.empty()) return;
