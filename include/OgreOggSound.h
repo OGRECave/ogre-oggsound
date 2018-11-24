@@ -41,6 +41,7 @@
 #include "OgreOggStaticWavSound.h"
 #include "OgreOggStreamSound.h"
 #include "OgreOggStreamWavSound.h"
+#include "OgreOggStreamBufferSound.h"
 #include "OgreOggSoundRecord.h"
 #include "OgreOggSoundFactory.h"
 #include "OgreOggSoundManager.h"
