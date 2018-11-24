@@ -240,6 +240,13 @@ namespace OgreOggSound
 		/** Un mutes all sounds.
 		 */
 		inline void unmuteAllSounds() { setMasterVolume(mOrigVolume); }
+		/** Add single sound to list of sounds resumed on resumeAllPausedSounds call.
+		@remarks
+			Do not pause sound or check play/pause state. Only add to list of sounds to resume.
+			@param sound 
+				Sound pointer.
+		 */
+		void addSoundToResume(OgreOggISound* sound);
 		/** Resumes all previously playing sounds.
 		 */
 		void resumeAllPausedSounds();
