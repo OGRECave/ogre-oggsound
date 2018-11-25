@@ -77,9 +77,6 @@ namespace OgreOggSound
 			// Attach new source
 			mSource=src;
 
-			// Load audio data onto source
-			_prebuffer();
-
 			// Init source properties
 			_initSource();
 		}
@@ -116,13 +113,20 @@ namespace OgreOggSound
 		mInitialised = true;
 	}
 	/*/////////////////////////////////////////////////////////////////*/
-	void OgreOggStreamBufferSound::insertData(char* data, size_t dataLen)
+	void OgreOggStreamBufferSound::insertData(char* data, size_t dataLen, bool start)
 	{
+		if (mSource == AL_NONE)
+			if ( !OgreOggSoundManager::getSingleton()._requestSoundSource(this) )
+				return;
+			
 		ALuint buffID;
 		alGenBuffers(1, &buffID);
 		alBufferData(buffID, mFormat, data, dataLen, mFreq);
 		alSourceQueueBuffers(mSource, 1, &buffID);
 		mAlBuffers.push_back(buffID);
+		if (start && mState != SS_PLAYING) {
+			play();
+		}
 	}
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamBufferSound::_pauseImpl()
@@ -184,29 +188,30 @@ namespace OgreOggSound
 	/*/////////////////////////////////////////////////////////////////*/
 	void OgreOggStreamBufferSound::_updateAudioBuffers()
 	{
+		// do nothing when not playing
 		if (!isPlaying())
 			return;
 
-		ALenum state;
-		alGetSourcei(mSource, AL_SOURCE_STATE, &state);
-
-		if (state == AL_STOPPED)
-		{
-			stop();
-
-			// Finished callback
-			if ( mSoundListener ) 
-				mSoundListener->soundFinished(this);
-		}
-
+		// dequeue processed buffers
 		int processed;
 		alGetSourcei(mSource, AL_BUFFERS_PROCESSED, &processed);
 		while(processed--)
 		{
+			//printf("processed %d / %d\n", processed+1, mAlBuffers.size());
 			ALuint buff = mAlBuffers.front();
 			mAlBuffers.pop_front();
 			alSourceUnqueueBuffers(mSource, 1, &buff);
 			alDeleteBuffers(1, &buff);
+		}
+
+		ALenum state;
+		alGetSourcei(mSource, AL_SOURCE_STATE, &state);
+		if (state == AL_STOPPED && mAlBuffers.size() == 0) {
+			// source is in stop state and we don't have more buffers to play ... so stop
+			stop();
+			// Finished callback
+			if ( mSoundListener ) 
+				mSoundListener->soundFinished(this);
 		}
 	}
 }

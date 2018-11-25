@@ -35,8 +35,6 @@
 
 #pragma once
 
-#define NOT_IN_USE throw std::logic_error("not in use");
-
 #include "OgreOggSoundPrereqs.h"
 #include "OgreOggISound.h"
 
@@ -74,7 +72,7 @@ namespace OgreOggSound
 		void setFormat(ALenum format, int freq);
 		/** Insert sound data buffor
 		 */
-		void insertData(char* data, size_t dataLen);
+		void insertData(char* data, size_t dataLen, bool start = true);
 
 	protected:
 
@@ -102,7 +100,7 @@ namespace OgreOggSound
 			@param
 				file path string
 		 */
-		void _openImpl(Ogre::DataStreamPtr& fileStream) { NOT_IN_USE }
+		void _openImpl(Ogre::DataStreamPtr& fileStream) {}
 		/** Stops playing sound.
 		@remarks
 			Stops playing audio immediately and resets playback. 
@@ -132,13 +130,13 @@ namespace OgreOggSound
 			Loads audio data from the stream into the predefined data
 			buffers and queues them onto the source ready for playback.
 		 */
-		void _prebuffer() { NOT_IN_USE }
+		void _prebuffer() {}
 		/** Calculates buffer size and format.
 		@remarks
 			Calculates a block aligned buffer size of 250ms using
 			sounds properties
 		 */
-		bool _queryBufferInfo() { NOT_IN_USE }
+		bool _queryBufferInfo() {}
 		/** Releases buffers and OpenAL objects.
 		@remarks
 			Cleans up this sounds OpenAL objects, including buffers
