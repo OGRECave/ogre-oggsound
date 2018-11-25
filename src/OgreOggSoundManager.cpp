@@ -533,16 +533,41 @@ namespace OgreOggSound
 	{
 		OgreOggISound* sound = 0;
 
-		if		( file.find(".ogg")!=file.npos || file.find(".OGG")!=file.npos )
+		// MUST be unique
+		if ( hasSound(name) )
 		{
-			// MUST be unique
-			if ( hasSound(name) )
-			{
-				Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound with name: "+name+" already exists!";
-				Ogre::LogManager::getSingleton().logMessage(msg);
-				return 0;
-			}
+			Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound with name: "+name+" already exists!";
+			Ogre::LogManager::getSingleton().logMessage(msg);
+			return 0;
+		}
 
+		if		( file == "BUFFER" )
+		{
+			sound = OGRE_NEW_T(OgreOggStreamBufferSound, Ogre::MEMCATEGORY_GENERAL)(
+				name, scnMgr
+				#if OGRE_VERSION_MAJOR == 2
+				, Ogre::Id::generateNewId<Ogre::MovableObject>(), &(scnMgr->_getEntityMemoryManager(Ogre::SCENE_DYNAMIC)), 0
+				#endif
+			);
+
+			// Here we lock the sound mutex directly instead of using a scoped lock and immediately unlock it after modifying the
+			// sound map. The reason for this is that if a scoped lock is used it is possible that update thread will attempt to
+			// lock it before _requestSoundAction() is called which can cause the application to hang forever.
+			#if OGGSOUND_THREADED
+				mSoundMutex.lock();
+			#endif
+
+			// Add to list
+			mSoundMap[name]=sound;
+
+			#if OGGSOUND_THREADED
+				mSoundMutex.unlock();
+			#endif
+
+			return sound;
+		}
+		else if	( file.find(".ogg")!=file.npos || file.find(".OGG")!=file.npos )
+		{
 			if(stream)
 				sound = OGRE_NEW_T(OgreOggStreamSound, Ogre::MEMCATEGORY_GENERAL)(
 					name, scnMgr
@@ -594,14 +619,6 @@ namespace OgreOggSound
 		}
 		else if	( file.find(".wav")!=file.npos || file.find(".WAV")!=file.npos )
 		{
-			// MUST be unique
-			if ( hasSound(name) )
-			{
-				Ogre::String msg="*** OgreOggSoundManager::createSound() - Sound with name: "+name+" already exists!";
-				Ogre::LogManager::getSingleton().logMessage(msg);
-				return 0;
-			}
-
 			if(stream)
 				sound = OGRE_NEW_T(OgreOggStreamWavSound, Ogre::MEMCATEGORY_GENERAL)(
 					name, scnMgr

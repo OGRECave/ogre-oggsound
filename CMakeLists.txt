@@ -18,6 +18,7 @@ SET (HEADER_FILES
     include/OgreOggSoundRecord.h
     include/OgreOggStaticSound.h
     include/OgreOggStaticWavSound.h
+    include/OgreOggStreamBufferSound.h
     include/OgreOggStreamSound.h
     include/OgreOggStreamWavSound.h
 )
@@ -32,6 +33,7 @@ SET (SOURCE_FILES
     src/OgreOggSoundRecord.cpp
     src/OgreOggStaticSound.cpp
     src/OgreOggStaticWavSound.cpp
+    src/OgreOggStreamBufferSound.cpp
     src/OgreOggStreamSound.cpp
     src/OgreOggStreamWavSound.cpp
 )

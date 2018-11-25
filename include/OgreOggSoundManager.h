@@ -185,7 +185,7 @@ namespace OgreOggSound
 			@param name 
 				Unique name of sound
 			@param file 
-				Audio file path string
+				Audio file path string or "BUFFER" for memory buffer sound (@ref OgreBufferStreamSound)
 			@param stream 
 				Flag indicating if the sound sound be streamed.
 			@param loop 
@@ -748,7 +748,7 @@ namespace OgreOggSound
 			@param name 
 				Unique name of sound
 			@param file 
-				Audio file path string
+				Audio file path string or "BUFFER" for memory buffer sound (@ref OgreBufferStreamSound)
 			@param stream 
 				Flag indicating if the sound sound be streamed.
 			@param loop 
