@@ -4,10 +4,10 @@
 * @version v1.26
 *
 * @section LICENSE
-* 
-* This source file is part of OgreOggSound, an OpenAL wrapper library for   
-* use with the Ogre Rendering Engine.										 
-*                                                                           
+*
+* This source file is part of OgreOggSound, an OpenAL wrapper library for
+* use with the Ogre Rendering Engine.
+*
 * Copyright (c) 2013 Ian Stangoe
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,21 +26,20 @@
 * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-* THE SOFTWARE. 
+* THE SOFTWARE.
 *
 * @section DESCRIPTION
-* 
+*
 * Pre-requisites for building lib
 */
-#pragma once 
+#pragma once
 
 #include <OgreVector3.h>
 #include <OgreDataStream.h>
 #include <OgreMovableObject.h>
 #include <OgreLogManager.h>
 
-#   if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #	pragma warning( disable : 4244 )
 
 /**
@@ -49,7 +48,7 @@
  * 1 - Enable EFX suport
  */
 #	ifndef HAVE_EFX
-#		define HAVE_EFX 1
+#		define HAVE_EFX 0
 #	endif
 
 #	include "al.h"
@@ -88,7 +87,7 @@
 #	include "xram.h"
 #	define _OGGSOUND_EXPORT
 #endif
-	
+
 namespace OgreOggSound
 {
 	typedef std::vector<ALuint> BufferList; // A list of the IDs of all OpenAL buffers being used by a sound. This is a vector so that it can be passed around as an array to the various OpenAL functions.
