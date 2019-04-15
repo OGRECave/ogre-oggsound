@@ -93,12 +93,12 @@ INCLUDE_DIRECTORIES(include
                     ${OGRE_INCLUDE_DIRS}
                     ${OPENAL_INCLUDE_DIRS}
                     ${OGG_INCLUDE_DIRS}
-                    ${VORBISFILE_INCLUDE_DIRS})
+                    ${VORBIS_INCLUDE_DIRS})
 
 LINK_DIRECTORIES(${OGRE_LIBRARY_DIRS}
                  ${OPENAL_LIBRARY_DIRS}
                  ${OGG_INCLUDE_DIRS}
-                 ${VORBISFILE_INCLUDE_DIRS})
+                 ${VORBISFILE_LIBRARIES})
 
 LINK_LIBRARIES(${OGRE_LIBRARIES}
                ${OPENAL_LIBRARIES}
